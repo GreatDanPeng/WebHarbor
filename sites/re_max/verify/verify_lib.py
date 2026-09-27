@@ -481,6 +481,12 @@ def check_only_tables_changed(judge, initial_db, after_db, allowed):
     unexpected = changed - set(allowed)
     judge.check("no_unexpected_table_count_change", not unexpected,
                 f"unexpected count changes: {sorted(unexpected)}")
+    for t in allowed:
+        before = {row['id']: row for row in rows_of(initial_db, t)}
+        after = {row['id']: row for row in rows_of(after_db, t)}
+        judge.check(f"table_{t}_surviving_rows_unchanged",
+                    all(after[key] == before[key] for key in before.keys() & after.keys()),
+                    "preserve pre-existing rows not removed by the task")
     for t in TABLES:
         if t in unexpected or t in allowed:
             continue
@@ -507,10 +513,14 @@ class Judge:
 
 def _png_ok(path):
     try:
-        head = Path(path).read_bytes()[:8]
-    except OSError:
+        from PIL import Image
+        with Image.open(path) as im:
+            if im.format != "PNG":
+                return False
+            im.verify()
+        return True
+    except (OSError, ValueError, SyntaxError):
         return False
-    return head == b"\x89PNG\r\n\x1a\n"
 
 
 def check_trajectory_identity(judge, traj, task_id):
@@ -538,7 +548,7 @@ def check_trajectory_identity(judge, traj, task_id):
         judge.check("same_origin_urls", not bad, f"off-origin urls: {bad[:3]}")
     shots = traj.get("_shots") or {}
     judge.check("screenshots_present", len(shots) >= 1, f"shots={len(shots)}")
-    bad_shots = [n for n, p in list(shots.items())[:50] if not _png_ok(p)]
+    bad_shots = [n for n, p in shots.items() if not _png_ok(p)]
     judge.check("screenshots_decode_png", not bad_shots, f"bad: {bad_shots[:3]}")
 
 
@@ -566,6 +576,7 @@ def run_verifier(task_id, run_checks):
         traj = load_run(args["--run_dir"])
         initial_db, after_db = resolve_dbs(args["--run_dir"], args["--initial_db"],
                                            args["--after_db"], container)
+        check_seed_contract(judge, initial_db)
         run_checks(judge, traj, initial_db, after_db)
     except Exception as exc:  # noqa: BLE001 — fail closed on any infra error
         print(json.dumps({"task_id": task_id, "pass": False,

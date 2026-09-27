@@ -72,7 +72,7 @@ def _tiny_png(w=4, h=4):
 
     ihdr = w.to_bytes(4, 'big') + h.to_bytes(4, 'big') + b'\x08\x02\x00\x00\x00'
     return (b'\x89PNG\r\n\x1a\n' + chunk(b'IHDR', ihdr)
-            + zlib.compress(raw) + chunk(b'IEND', b''))
+            + chunk(b'IDAT', zlib.compress(raw)) + chunk(b'IEND', b''))
 
 
 PNG = _tiny_png()
@@ -327,7 +327,7 @@ HONEST_ANSWERS = {
     3: "4867 Painted Sky VW in Colorado Springs gives more square footage per dollar: $156 per square foot, built 2026, with 1 parking space. It is $222 per square foot cheaper than the most expensive of the four, 3437 W 63rd Pl at $378 per square foot.",
     4: "I picked 1003 156th Ave NE Unit 308 at $405,000 with an open house Saturday September 26th 1-3pm, and requested a tour with bellevue.tour@example.com.",
     5: "Wesley Hardin is the Spanish-speaking agent; his office is in Aurora, he has 28 years of experience, one of his hobbies is Sports, and his license number is FA40014061. Across the directory 7 agents have 30 or more years of experience, and the most experienced is Ivy Boland with 50 years.",
-    6: "Scott Eoff is the most experienced Illinois-licensed agent, a Managing Broker with 24 years, with the Chamber of Commerce among his civic activities. Maureen Petrucci is the most experienced Pennsylvania agent with 43 years, and there are 2 Pennsylvania agents.",
+    6: "Scott Eoff is the most experienced Illinois-licensed agent, a Managing Broker with 24 years, with the Chamber of Commerce among his civic activities.",
     7: "REMAX DFW Associates I serves Grapevine; its website is www.yourhometownpro.com, staff speak Hindi and Spanish besides English, and it also serves Flower Mound. 1 of the 5 Hindi-language offices has Dallas in its service areas, and the site's search finds 1 office for Grapevine.",
     8: "15 rentals match. The most recently built is 217 Bay Pine Dr, Madison at $1,850 a month (built 2024); I asked about availability with renter.family@example.com and the site said an agent will contact me.",
     9: "Louisville's cheapest three-bedroom ($1,400, 2110 Burwell Ave) is $600 per month cheaper than Worcester's ($2,000, 53 Ellsworth St Apt 3). 2110 Burwell Ave's description mentions a basement. I scheduled a tour on 2110 Burwell Ave with mover.reloc@example.com and the site confirmed the tour request.",
@@ -335,8 +335,8 @@ HONEST_ANSWERS = {
     11: "The site named the saved search \"Miami, FL\" and 2 favorites remain.",
     12: "The account overview shows buyer type Downsizer and phone (305) 555-0134.",
     13: "The Florida agents' years of experience: Patrick Kavanagh 33, Nathan Berlin 13, Deirdre Hecht 3. Nathan Berlin is the Broker / Owner; his civic activities include Children's Miracle Network, and the site confirmed the message has been sent to him.",
-    14: "Conventional caps run from 2% to 9%, FHA and USDA cap at 6%, and concessions cannot cover the down payment. The first-time buyer article cites a median sales price of $450,000. 5 Naples homes match under $500,000 with 2+ beds and 2+ baths; the cheapest is 315 Saint Andrews Blvd Apt D31 at $220,000, built 1977, $195 per square foot.",
-    15: "The Fed raised the federal funds rate to 3.75% to 4% by a 12-0 vote at its September 15-16, 2026 meeting. The HomeHQ newsletter signup with rate.watcher@example.com was confirmed. 6 Chicago homes match under $500,000 with 3+ beds; the cheapest is $299,900.",
+    14: "Conventional caps run from 2% to 9%, FHA and USDA cap at 6%, and concessions cannot cover the down payment. 5 Naples homes match under $500,000 with 2+ beds and 2+ baths; the cheapest is 315 Saint Andrews Blvd Apt D31 at $220,000, built 1977, $195 per square foot.",
+    15: "The Fed raised the federal funds rate to 3.75% to 4% by a 12-0 vote at its September 15-16, 2026 meeting. The HomeHQ newsletter signup with rate.watcher@example.com was confirmed.",
     16: "37 luxury properties are listed in total. The cheapest Florida luxury home is 5759 SW 42nd St at $2,350,000; the cheapest Washington luxury home is 12290 235th Pl NE at $2,050,000. 1 Miami home matches at $2,000,000+ with 4+ beds, priced $2,350,000; 2 Seattle homes match at $2,000,000+, the most expensive being $2,595,000.",
     17: "Phoenix has the most Arizona listings (20). 3 open-house houses with 2+ baths match there; the cheapest is 22627 N 31st Ave at $589,700, open houses Friday September 25th 4-7pm and Saturday September 26th 10-1pm, $320 per square foot, built 1993.",
     18: "12609 Calistoga Way is $850,000 with 5 bedrooms and 4 bathrooms, $236 per square foot, a $100.50 monthly HOA fee, and an open house Saturday September 26th 11-1am. 2450 Wickersham Ln Apt 1402 is $177 per square foot with a $351 monthly HOA fee. 1914 Alegria Rd is $1,085,000 with an open house Saturday September 26th 11-1pm. I requested a tour of the Calistoga Way home as Pat Rivera and the site confirmed the tour request.",

@@ -4,6 +4,11 @@ Run from sites/re_max/: python3 -m pytest tests/ -q
 """
 import pathlib
 import sys
+import os
+import tempfile
+
+_SCRATCH = tempfile.TemporaryDirectory(prefix="remax-site-tests-")
+os.environ["REMAX_DB_URI"] = "sqlite:///" + str(pathlib.Path(_SCRATCH.name) / "test.db")
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
 

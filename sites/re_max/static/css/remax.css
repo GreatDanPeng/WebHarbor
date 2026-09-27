@@ -432,3 +432,6 @@ img { max-width: 100%; display: block; }
   .hero { height: 480px; }
   .hero-overlay h1 { font-size: 30px; }
 }
+
+/* The search filters share a form; lay out its controls with the toolbar. */
+#filter-form { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
