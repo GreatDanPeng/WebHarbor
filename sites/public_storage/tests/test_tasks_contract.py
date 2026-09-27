@@ -53,7 +53,7 @@ def test_ids_sequential_and_unique():
 
 def test_declared_port_is_assigned_port():
     for row in load_tasks():
-        assert row["web"] == "http://localhost:40126/", row["id"]
+        assert row["web"] == "http://localhost:40094/", row["id"]
         assert row["upstream_url"] == "https://www.publicstorage.com/"
 
 

@@ -251,3 +251,23 @@ def test_reservation_detail_shows_contact_phone(client):
     body = resp.get_data(as_text=True)
     assert "Contact phone" in body
     assert "(206) 555-0143" in body
+
+
+def test_search_update_has_one_location_field(client):
+    from html.parser import HTMLParser
+
+    class Fields(HTMLParser):
+        def __init__(self):
+            super().__init__()
+            self.locations = []
+        def handle_starttag(self, tag, attrs):
+            values = dict(attrs)
+            if tag == 'input' and values.get('name') == 'location':
+                self.locations.append(values)
+
+    fields = Fields()
+    fields.feed(client.get('/self-storage-search/bellevue-wa').get_data(as_text=True))
+    assert len(fields.locations) == 1
+    response = client.get('/self-storage-search?location=Denver', follow_redirects=True)
+    assert response.status_code == 200
+    assert '/denver-co' in response.request.path

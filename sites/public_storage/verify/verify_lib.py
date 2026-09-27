@@ -280,19 +280,33 @@ def contains_any_phrase(answer, phrases):
 
 
 def contains_amount(answer, amount, tolerance=0.011):
-    """$45 / 45 / $45.00 / 45.00 — optional $ and thousands separators."""
+    """Match a currency amount, never digits from a phone, size or reference."""
     text = normalize_text(answer)
-    wanted = float(amount)
-    for m in re.finditer(r"\$?\s*(\d{1,3}(?:,\d{3})*|\d+)(?:\.(\d{1,2}))?", text):
-        whole = m.group(1).replace(",", "")
-        frac = m.group(2) or ""
-        try:
-            value = float(whole + ("." + frac if frac else ""))
-        except ValueError:
-            continue
-        if abs(value - wanted) <= tolerance:
-            return True
-    return False
+    pattern = r"(?:[$]\s*(\d+(?:,\d{3})*(?:\.\d{1,2})?)(?!\d|\.\d)|(?<![\d.])(\d+(?:,\d{3})*(?:\.\d{1,2})?)\s*(?:dollars?|usd)\b)"
+    return any(abs(float((m.group(1) or m.group(2)).replace(',', '')) - float(amount)) <= tolerance
+               for m in re.finditer(pattern, text))
+
+
+def entity_price(answer, entity, amount):
+    """Bind the first stated currency rate after an entity to that entity.
+
+    Sentences, bullet rows, and table rows are supported. This deliberately
+    bounded parser does not claim arbitrary semantic understanding.
+    """
+    text = normalize_text(answer)
+    entity = normalize_text(entity)
+    values = []
+    for match in re.finditer(re.escape(entity), text):
+        tail = text[match.end():]
+        # Do not borrow another location's price from a comparison clause.
+        tail = re.split(r";|\n|(?<!\d)\.(?!\d)|\b(?:versus|vs\.?|whereas)\b", tail, maxsplit=1)[0]
+        price = re.search(r"[$]\s*(\d+(?:,\d{3})*(?:\.\d{1,2})?)", tail)
+        if price:
+            prefix = tail[:price.start()]
+            if re.search(r"\b(?:not|isn't|isnt|incorrect|wrong)\b", prefix):
+                return False
+            values.append(float(price.group(1).replace(',', '')))
+    return bool(values) and all(abs(v-float(amount)) < .011 for v in values)
 
 
 def contains_count(answer, n):
@@ -477,10 +491,14 @@ class Judge:
 
 def _png_ok(path):
     try:
-        head = Path(path).read_bytes()[:8]
-    except OSError:
+        from PIL import Image
+        with Image.open(path) as im:
+            if im.format != "PNG":
+                return False
+            im.verify()
+        return True
+    except (OSError, ValueError, SyntaxError):
         return False
-    return head == b"\x89PNG\r\n\x1a\n"
 
 
 def check_trajectory_identity(judge, traj, task_id):
@@ -508,7 +526,7 @@ def check_trajectory_identity(judge, traj, task_id):
         judge.check("same_origin_urls", not bad, f"off-origin urls: {bad[:3]}")
     shots = traj.get("_shots") or {}
     judge.check("screenshots_present", len(shots) >= 1, f"shots={len(shots)}")
-    bad_shots = [n for n, p in list(shots.items())[:50] if not _png_ok(p)]
+    bad_shots = [n for n, p in shots.items() if not _png_ok(p)]
     judge.check("screenshots_decode_png", not bad_shots, f"bad: {bad_shots[:3]}")
 
 
