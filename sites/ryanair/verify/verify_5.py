@@ -11,8 +11,8 @@ TASK_ID = "Ryanair--5"
 OUT_DATE, IN_DATE = "2026-10-10", "2026-10-18"
 OUT_FLIGHT, IN_FLIGHT = "FR 4329", "FR 1850"   # cheapest plus legs (93.49 / 171.98)
 FLIGHTS_TOTAL = 530.94
-EXTRAS_TOTAL = 78.12    # fast track (BHX+FAO) x2 + Insurance Plus 9 days x2
-TOTAL = 621.24
+EXTRAS_TOTAL = 34.20    # Insurance Plus 9 days x2; Fast Track included
+TOTAL = 576.44
 EMAIL = "ana@example.com"
 
 

@@ -12,8 +12,8 @@ from verify_lib import (Judge, added_bookings, check_only_tables_changed, check_
 TASK_ID = "Ryanair--19"
 OUT_DATE, IN_DATE = "2026-10-20", "2026-10-27"
 FLIGHTS_TOTAL = 396.96
-BAGS_TOTAL = 101.96          # 2 pax x 25.49 x 2 flights
-FAST_TRACK = 16.98           # 8.49 x 2 pax (STN)
+BAGS_TOTAL = 0.0          # 2 pax x 25.49 x 2 flights
+FAST_TRACK = 0.0           # 8.49 x 2 pax (STN)
 INSURANCE = 23.36            # 1.46 x 8 days x 2 pax
 EMAIL = "grace@example.com"
 
@@ -58,7 +58,8 @@ def run_checks(judge, traj, initial_db, after_db):
                   and all(re.fullmatch(r"(\d+)([A-F])", s) for s in seats)
                   and all(7 <= int(re.match(r"(\d+)", s).group(1)) <= 15 for s in seats)
                   and len({re.match(r"(\d+)", s).group(1) for s in seats}) == 1
-                  and abs(ord(seats[0][-1]) - ord(seats[1][-1])) == 1)
+                  and abs(ord(seats[0][-1]) - ord(seats[1][-1])) == 1
+                  and {seats[0][-1], seats[1][-1]} != {"C", "D"})
             judge.check(f"seats_together_front_{label}", ok,
                         f"{label} seats={seats!r}, expected two adjacent seats in rows 7-15")
         expected_seats = round(sum(_seat_price(int(re.match(r"(\d+)", s).group(1)))

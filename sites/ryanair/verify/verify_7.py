@@ -2,10 +2,6 @@
 """Verify Ryanair--7.
 
 I have £25 and a free weekend. From London Stansted, use the cheap flight destinations page with a maximum price filter of £25 and a maximum duration filter of 2 hours to find the cheapest destination, then book that flight one-way on the date shown on its card, for 1 adult, Basic fare, as a guest (email leo@example.com, any valid card and address). Report the destination, its price, and the booking reference.
-
-Note: with the £25 / 120-minute filters the two cheapest cards tie at £10.49 (Paris
-Bevais BVA and Frankfurt Hahn HHN, both non-stop <= 2h). The verifier accepts either
-tied destination; the price and the on-card date must match the booked leg.
 """
 from verify_lib import (Judge, added_bookings, check_only_tables_changed, check_trajectory_identity,
                         check_visited_path, contains_amount, contains_any, contains_phrase,
@@ -49,7 +45,7 @@ def run_checks(judge, traj, initial_db, after_db):
         judge.check("booked_tied_cheapest_destination",
                     out_s is not None and out_s["destination_code"] in TIED,
                     f"destination={out_s and out_s['destination_code']!r}, expected one of {sorted(TIED)}")
-        if out_s:
+        if out_s and out_s["destination_code"] in TIED:
             code = out_s["destination_code"]
             expect_date = TIED[code][1]
             judge.check("booked_card_date",

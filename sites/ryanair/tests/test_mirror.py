@@ -244,11 +244,11 @@ def test_booking_with_seats_bags_extras():
     with app.app_context():
         b = Booking.query.filter_by(booking_ref=ref).first()
         assert b.fare_type == 'plus'
-        assert b.seats_total == round(seat_price(18) * 4, 2)
+        assert b.seats_total == 0  # reserved standard seats included
         # priority x2 pax x2 flights + 20kg x2 flights
-        assert b.bags_total == round(16.0 * 2 * 2 + 25.49 * 1 * 2, 2)
+        assert b.bags_total == 64.0  # cabin upgrade only; first 20kg bag included
         # fast track both airports x2 pax + insurance plus (8 days x2 pax)
-        assert b.extras_total == round(8.49 * 2 + 12.03 * 2 + 1.90 * 8 * 2, 2)
+        assert b.extras_total == 30.40  # insurance; Fast Track included
         assert b.passengers[0].seat_out == free_out[0]
         assert b.passengers[0].cabin_out == 'priority'
 
@@ -458,3 +458,33 @@ def test_seed_idempotence():
         app_mod.seed_benchmark_users()
         after = db.session.query(db.func.count(Booking.id)).scalar()
     assert before == after
+
+
+def test_bundled_allowances_are_not_charged_twice():
+    from app import trip_price_lines, seat_upgrade_price
+    with app.app_context():
+        # Use real schedules to check the complete pricing calculation.
+        schedule = FlightSchedule.query.first()
+        data = {'outboundSchedule': schedule.id, 'dateOut': '2026-10-13',
+                'fare': 'plus', 'adults': 1, 'teens': 0, 'children': 0,
+                'passengers': [{'cabin_out': 'small-bag', 'bag_20kg_out': 1}],
+                'seats': {'out': ['18A']},
+                'extras': {'fast_track': {schedule.route.origin_code: True}}}
+        lines, subtotal, fee, total = trip_price_lines(data)
+        assert dict(lines).get('Bags', 0) == 0
+        assert dict(lines).get('Seats', 0) == 0
+        assert dict(lines).get('Extras', 0) == 0
+        data['passengers'][0]['bag_20kg_out'] = 2
+        assert dict(trip_price_lines(data)[0])['Bags'] == 25.49
+        assert seat_upgrade_price(1, 'plus') == 21.5
+        assert seat_upgrade_price(1, 'flexi_plus') == 0
+        assert seat_upgrade_price(18, 'basic') == 9.5
+
+
+def test_fast_track_persists_each_airport_separately():
+    r = _walk_booking(fare='basic', extras={'fast_track_STN': 'on', 'fast_track_DUB': 'on'},
+                      contact='fasttrack-regression@example.com')
+    assert r.status_code == 200
+    with app.app_context():
+        booking = Booking.query.filter_by(contact_email='fasttrack-regression@example.com').order_by(Booking.id.desc()).first()
+        assert booking.fast_track_out and booking.fast_track_in

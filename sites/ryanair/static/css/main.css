@@ -78,7 +78,7 @@ h1, h2, h3, h4 { color: var(--primary-blue); margin: 0 0 0.6rem; }
   max-width: 1200px; margin: 0 auto; padding: 10px 16px;
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
 }
-.header__logo { display: flex; align-items: center; gap: 8px; }
+.header__logo { display: flex; align-items: center; gap: 8px; background: var(--primary-blue); border-radius: 4px; padding: 6px 10px; }
 .header__harp { height: 44px; width: auto; }
 .header__wordmark { height: 22px; width: auto; }
 .header__links { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }

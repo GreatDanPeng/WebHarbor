@@ -24,13 +24,13 @@ import zlib
 from pathlib import Path
 from typing import Any
 
-from fixtures_data import BASE, SPECS  # noqa: E402  (same directory)
+BASE = "http://localhost:40098"
 
 VERIFY_DIR = Path(__file__).resolve().parents[1]
 SITE_DIR = VERIFY_DIR.parent
 CONTAINER = os.environ.get("WH_CONTAINER", "wh-ry-review")
 CACHE = Path(os.environ.get("RYANAIR_TEST_SEED_DB") or
-             str(Path("/tmp") / "ryanair_verify_tests_seed.db"))
+             str(SITE_DIR / "instance_seed/ryanair.db"))
 TASKS_FILE = SITE_DIR / "tasks.jsonl"
 PASSWORD = "TestPass123!"
 
@@ -182,21 +182,26 @@ EXTRA_URLS = {8: ["/gb/en/myryanair/logout"]}
 
 
 def honest_run(tmp: Path, task_no: int) -> Path:
-    """PASS fixture: honest navigation + the exact sqlite delta + honest answer."""
-    spec = SPECS[str(task_no)]
-    root = tmp / f"honest_{task_no:02d}"
-    root.mkdir(parents=True)
-    b = RunBuilder(root, f"Ryanair--{task_no}")
-    for action, selector, text in INPUT_STEPS.get(task_no, []):
-        b.step("/gb/en", action=action, params={"selector": selector, "text": text},
-               thought=f"typed {text!r} into {selector}")
-    for u in spec["urls"]:
-        b.step(u, action="goto", thought="honest navigation")
-    for path in EXTRA_URLS.get(task_no, []):
-        b.step(path, action="click", thought="clicked the logout link")
-    after = copy_db(root, "after.db")
-    exec_sql(after, spec["sql"])
-    return b.build(spec["answer"], final_path="/gb/en")
+    """Synthetic unit fixture derived from the final browser replay."""
+    spec = json.loads((Path(__file__).parent / 'reviewed_fixtures.json').read_text())[str(task_no)]
+    root = tmp / f'honest_{task_no:02d}'
+    (root / 'screenshots').mkdir(parents=True)
+    (root / 'screenshots/step_000.png').write_bytes(PNG)
+    after = copy_db(root, 'after.db')
+    with sqlite3.connect(after) as con:
+        for table, rows in spec['tables_after'].items():
+            con.execute(f'DELETE FROM "{table}"')
+            for row in rows:
+                columns = ','.join('"'+k+'"' for k in row)
+                placeholders = ','.join('?' for _ in row)
+                con.execute(f'INSERT INTO "{table}" ({columns}) VALUES ({placeholders})', list(row.values()))
+    for step in spec['steps']:
+        step.update(screenshot_before='step_000.png', screenshot_after='step_000.png')
+    trajectory = dict(task_id=f'Ryanair--{task_no}', start_url=spec['start_url'],
+                      final_url=spec['final_url'], final_answer=spec['answer'], steps=spec['steps'],
+                      terminated=True, termination_reason='agent_done')
+    (root / 'trajectory.json').write_text(json.dumps(trajectory))
+    return root
 
 
 def noop_run(tmp: Path, task_no: int) -> Path:
@@ -210,39 +215,20 @@ def noop_run(tmp: Path, task_no: int) -> Path:
 
 
 def shortcut_run(tmp: Path, task_no: int) -> Path:
-    """FAIL fixture: correct answer + correct DB delta, but homepage-only
-    navigation (knowledge-shortcut)."""
-    spec = SPECS[str(task_no)]
-    root = tmp / f"shortcut_{task_no:02d}"
-    root.mkdir(parents=True)
-    b = RunBuilder(root, f"Ryanair--{task_no}")
-    b.step("/gb/en", action="goto", thought="opened the homepage only")
-    after = copy_db(root, "after.db")
-    exec_sql(after, spec["sql"])
-    return b.build(spec["answer"], final_path="/gb/en")
+    root = honest_run(tmp, task_no)
+    p = root / 'trajectory.json'; t = json.loads(p.read_text())
+    t['steps'] = [dict(t['steps'][0], action='goto', url=t['start_url'], url_before=t['start_url'], url_after=t['start_url'])]
+    t['final_url'] = t['start_url']; p.write_text(json.dumps(t))
+    return root
 
 
 def wrong_answer_run(tmp: Path, task_no: int, answer: str) -> Path:
-    """FAIL fixture: honest navigation + DB delta, but a wrong final answer."""
-    spec = SPECS[str(task_no)]
-    root = tmp / f"wrong_{task_no:02d}"
-    root.mkdir(parents=True)
-    b = RunBuilder(root, f"Ryanair--{task_no}")
-    for u in spec["urls"]:
-        b.step(u, action="goto", thought="honest navigation")
-    after = copy_db(root, "after.db")
-    exec_sql(after, spec["sql"])
-    return b.build(answer, final_path="/gb/en")
+    root = honest_run(tmp, task_no)
+    p = root / 'trajectory.json'; t = json.loads(p.read_text()); t['final_answer'] = answer
+    p.write_text(json.dumps(t)); return root
 
 
 def state_mismatch_run(tmp: Path, task_no: int) -> Path:
-    """FAIL fixture: honest navigation + success-claiming answer, but the DB
-    never changed (state-mismatch)."""
-    spec = SPECS[str(task_no)]
-    root = tmp / f"mismatch_{task_no:02d}"
-    root.mkdir(parents=True)
-    b = RunBuilder(root, f"Ryanair--{task_no}")
-    for u in spec["urls"]:
-        b.step(u, action="goto", thought="honest navigation")
-    copy_db(root, "after.db")
-    return b.build(spec["answer"], final_path="/gb/en")
+    root = honest_run(tmp, task_no)
+    shutil.copyfile(acquire_seed(), root / 'after.db')
+    return root

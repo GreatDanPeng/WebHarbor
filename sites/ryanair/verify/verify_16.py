@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Verify Ryanair--16.
 
-I need to be in Dublin by 10am. Book the cheapest one-way morning flight (departing before 10:00) from London Stansted on 5 November for 1 adult on the Basic fare, as a guest (email nina@example.com, any valid card and address). Report the flight number, its departure time, and the total paid.
+I need to arrive in Dublin before 10am on 5 November 2026. Book the cheapest one-way flight from London Stansted that meets that arrival deadline, for 1 adult on the Basic fare, as a guest (email nina@example.com, any valid card and address). Report the booking reference, flight number, departure and arrival times, and total paid.
 """
 from verify_lib import (Judge, added_bookings, check_only_tables_changed, check_trajectory_identity,
                         check_visited_path, contains_amount, contains_phrase, contains_time,
@@ -26,6 +26,7 @@ def run_checks(judge, traj, initial_db, after_db):
     judge.check("answer_flight_number", contains_phrase(answer, OUT_FLIGHT),
                 f"expected {OUT_FLIGHT}")
     judge.check("answer_dep_time", contains_time(answer, DEP), f"expected departure {DEP}")
+    judge.check("answer_arrival_time", contains_time(answer, "07:50"), "Expected arrival in Dublin at 07:50")
     judge.check("answer_total_28_04", contains_amount(answer, TOTAL),
                 f"expected total £{TOTAL:.2f}")
     for name, path in (("visited_seats", "/gb/en/trip/flights/seats"),

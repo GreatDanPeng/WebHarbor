@@ -206,7 +206,7 @@
             {% for f in fare_table %}
             <td class="fare-cell {{ 'fare-cell--selected' if data.fare == f.key }}">
               <div class="fare-price">{{ money(f.total) }}</div>
-              <div class="fare-delta">{{ ('+' ~ money(f.delta) ~ ' per person, on each flight') if f.delta else 'Included' }}</div>
+              <div class="fare-delta">{{ ('+' ~ money(f.delta) ~ ' per person, for the whole trip') if f.delta else 'Included' }}</div>
               <form method="post" action="{{ url_for('flight_select') }}">
       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <input type="hidden" name="action" value="choose_fare">
