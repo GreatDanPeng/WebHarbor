@@ -30,24 +30,8 @@ def run_checks(judge, traj, initial_db, after_db):
                 "required: A3 review verdict")
     judge.check("nav_cooper_verdict", navigated_review_section(traj, "mini", "cooper", "verdict"),
                 "required: MINI Cooper review verdict")
-    judge.check("nav_a3_specs",
-                navigated_specs(traj, "audi", "a3", "sportback-2020",
-                                ["15-tfsi-116-s-line-5dr"])
-                or navigated_specs_any(traj, "audi", "a3", "sportback-2020",
-                                    ["15-tfsi-116-s-line-5dr", "15-tfsi-116-sport-4dr",
-                                     "15-tfsi-150-black-edition-4dr", "15-tfsi-150-black-edition-5dr"])
-                or navigated_specs_any(traj, "audi", "a3", "saloon-2020",
-                                       ["15-tfsi-116-s-line-4dr", "15-tfsi-116-sport-4dr",
-                                        "15-tfsi-150-black-edition-4dr"]),
-                "required: an A3 spec selection")
-    judge.check("nav_cooper_specs",
-                navigated_specs(traj, "mini", "cooper", "hatchback-2024",
-                                ["15-c-classic-3dr-auto"])
-                or navigated_specs_any(traj, "mini", "cooper", "hatchback-2024",
-                                    ["15-c-classic-3dr-auto", "15-c-paul-smith-edition-3dr-auto",
-                                     "15-one-classic-3dr-auto", "20-s-classic-3dr-auto",
-                                     "15-c-exclusive-3dr-auto", "15-c-sport-3dr-auto"]),
-                "required: a MINI Cooper spec selection")
+    judge.check("nav_a3_specs", navigated_specs(traj, "audi", "a3", "sportback-2020", ["15-tfsi-116-s-line-5dr"]), "Read the exact version named in the task")
+    judge.check("nav_cooper_specs", navigated_specs(traj, "mini", "cooper", "hatchback-2024", ["15-c-classic-3dr-auto"]), "Read the exact version named in the task")
     judge.check("answer_a3_practicality", entity_number(answer, "a3", 4),
                 "A3 practicality rating is 4")
     judge.check("answer_cooper_practicality", entity_number(answer, "cooper|mini", 2.2),
