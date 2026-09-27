@@ -12,11 +12,40 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 VERIFY_DIR = HERE.parent
-FIXTURES = Path('/data/zhaoyang-user-projects/websyn/wh-parkers-r2-rereview-evidence/'
-                'verify_results/fixtures')
-SEED = Path('/data/zhaoyang-user-projects/websyn/wh-parkers-r2-wt/sites/parkers/'
-            'instance_seed/parkers.db')
-START = 'http://localhost:40125/'
+import os
+import tempfile
+from PIL import Image
+FIXTURES = Path(tempfile.mkdtemp(prefix='parkers-verifier-tests-'))
+SEED = Path(os.environ.get('PARKERS_TEST_SEED_DB', str(VERIFY_DIR.parent / 'instance_seed/parkers.db')))
+START = 'http://localhost:40097/'
+
+
+def prepare_fixtures():
+    """Synthetic controls: tiny test images and known browser-derived row deltas.
+
+    These are portable verifier unit tests, not independent browser evidence.
+    """
+    specs = json.loads((HERE / 'reviewed_fixtures.json').read_text())
+    for number, spec in specs.items():
+        run = FIXTURES / f'honest_{number}'
+        (run / 'screenshots').mkdir(parents=True)
+        Image.new('RGB', (4, 4), 'white').save(run / 'screenshots/step_000.png')
+        for filename in ('initial.db', 'after.db'):
+            shutil.copyfile(SEED, run / filename)
+        with sqlite3.connect(run / 'after.db') as con:
+            for table, rows in spec['tables_after'].items():
+                con.execute(f'DELETE FROM "{table}"')
+                for row in rows:
+                    columns = ','.join('"'+k+'"' for k in row)
+                    values = ','.join('?' for _ in row)
+                    con.execute(f'INSERT INTO "{table}" ({columns}) VALUES ({values})', list(row.values()))
+        for step in spec['steps']:
+            step.update(screenshot_before='step_000.png', screenshot_after='step_000.png')
+        trajectory = dict(task_id=f'Parkers--{number}', start_url=spec['start_url'],
+                          final_url=spec['final_url'], final_answer=spec['answer'],
+                          steps=spec['steps'], terminated=True, termination_reason='agent_done')
+        (run / 'trajectory.json').write_text(json.dumps(trajectory))
+
 
 
 def run_verifier(task, run_dir):

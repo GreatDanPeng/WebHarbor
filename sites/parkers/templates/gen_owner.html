@@ -1,10 +1,10 @@
 {% extends "base.html" %}
-{% block title %}{{ m.make.name }} {{ g.name }} owner reviews{% endblock %}
+{% block title %}{{ m.make.name }} {{ m.name }} {{ g.name }} owner reviews{% endblock %}
 {% block content %}
 <div class="wrap">
   <div class="breadcrumbs"><a href="/">Home</a> › <a href="/owner-reviews/">Owner reviews</a> › {{ m.make.name }} {{ m.name }}</div>
   <div class="page-heading">
-    <h1>{{ m.make.name }} {{ g.name }} ({{ g.years_label }}) Owner Reviews</h1>
+    <h1>{{ m.make.name }} {{ m.name }} {{ g.name }} Owner Reviews</h1>
     <div class="page-heading__sub">
       {% if m.has_review %}<a href="/{{ m.make.slug }}/{{ m.slug }}/review/">Review</a> ·{% endif %}
       <a href="/{{ m.make.slug }}/{{ m.slug }}/{{ g.slug }}/owner-reviews/">Owner Reviews</a> ·

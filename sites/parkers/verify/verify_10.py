@@ -1,12 +1,7 @@
 #!/usr/bin/env python3
-"""verify_10.py — deterministic verifier for task Parkers--10.
+"""Verify Parkers--10.
 
-Read the Fiesta Hatchback (2017-2023) owner reviews: how many owners, average owner rating, one specific problem an owner mentions; then the expert review's overall rating.
-
-Ground truth below is HARDCODED (frozen against the shipped seed DB); it never
-appears in tasks.jsonl. Navigation gates encode the honest on-site path the
-task text implies; a correct answer without that navigation is a shortcut and
-fails. See verify_lib.py for the shared contract.
+I'm considering a Ford Fiesta Hatchback (2017–2023) but have heard mixed reports about ownership. Compare the owner reviews with Parkers' expert assessment: report the owner-review count and average rating, a specific fault an owner describes, and the expert overall and reliability scores. Explain what the practicality section says about boot space so I can judge whether it suits everyday use. Check the luggage capacity of the Zetec 1.0T EcoBoost 100PS 3d on its specifications page to put that boot-space assessment in context.
 """
 import sys
 from pathlib import Path
@@ -15,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from verify_lib import (  # noqa: E402
     Judge, check_read_only, check_seed_contract, check_trajectory_identity,
-    contains_amount, contains_amount_range, contains_any_phrase, contains_count,
+    contains_amount, contains_amount_range, labeled_range, contains_any_phrase, contains_count,
     contains_phrase, final_answer, navigated_c4s_search, navigated_cartax_gen,
     navigated_cartax_hub, navigated_guide, navigated_insurance,
     navigated_listing_detail, navigated_news, navigated_owner_reviews,
@@ -65,13 +60,6 @@ def run_checks(judge, traj, initial_db, after_db):
                 "required: Zetec spec page (luggage space)")
     judge.check("answer_luggage", contains_count(answer, 292),
                 "the Zetec 1.0T EcoBoost 100PS 3d offers 292 litres")
-    judge.check("nav_fiesta_listings",
-                navigated_c4s_search(traj, make="ford", model="fiesta", sort="price-asc")
-                or navigated_c4s_search(traj, make="ford", model="fiesta")
-                or navigated_c4s_search(traj, make="ford"),
-                "required: Fiesta cars-for-sale search")
-    judge.check("answer_cheapest_fiesta", contains_amount(answer, 3950),
-                "the cheapest Fiesta currently listed is £3,950")
     check_read_only(judge, initial_db, after_db)
 
 

@@ -1,12 +1,7 @@
 #!/usr/bin/env python3
-"""verify_0.py — deterministic verifier for task Parkers--0.
+"""Verify Parkers--0.
 
-Value the Ford Fiesta Zetec 1.0T EcoBoost 100PS 3d on a 2019/19 plate; report private-sale and dealer ranges plus the part-exchange value, the Pro Valuation cost, and the version's official MPG.
-
-Ground truth below is HARDCODED (frozen against the shipped seed DB); it never
-appears in tasks.jsonl. Navigation gates encode the honest on-site path the
-task text implies; a correct answer without that navigation is a shortcut and
-fails. See verify_lib.py for the shared contract.
+A dealer has offered to part-exchange my 2019/19-registered Ford Fiesta Zetec 1.0T EcoBoost 100PS 3-door. Help me assess the offer using Parkers' free valuation for that exact car: report its private-sale and dealer price ranges and its part-exchange value. Tell me what a Pro Valuation would cost if I wanted a more tailored estimate.
 """
 import sys
 from pathlib import Path
@@ -15,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from verify_lib import (  # noqa: E402
     Judge, check_read_only, check_seed_contract, check_trajectory_identity,
-    contains_amount, contains_amount_range, contains_any_phrase, contains_count,
+    contains_amount, contains_amount_range, labeled_range, contains_any_phrase, contains_count,
     contains_phrase, final_answer, navigated_c4s_search, navigated_cartax_gen,
     navigated_cartax_hub, navigated_guide, navigated_insurance,
     navigated_listing_detail, navigated_news, navigated_owner_reviews,
@@ -38,20 +33,14 @@ def run_checks(judge, traj, initial_db, after_db):
                 "required: fiesta hatchback-2017 used-prices (year 2019/19, version "
                 "Zetec 1.0T EcoBoost 100PS 3d) -> select-a-valuation -> free-valuation")
     # ground truth (frozen seed): private 3210-4250, dealer 4520-4790, part-ex 3470-3800
-    judge.check("answer_private_range", contains_amount_range(answer, 3210, 4250),
+    judge.check("answer_private_range", labeled_range(answer, "private", 3210, 4250),
                 "private-sale range must quote £3,210 and £4,250")
-    judge.check("answer_dealer_range", contains_amount_range(answer, 4520, 4790),
+    judge.check("answer_dealer_range", labeled_range(answer, "dealer", 4520, 4790),
                 "dealer range must quote £4,520 and £4,790")
-    judge.check("answer_part_ex", contains_amount_range(answer, 3470, 3800),
+    judge.check("answer_part_ex", labeled_range(answer, "part", 3470, 3800),
                 "part-exchange value must quote £3,470 and £3,800")
-    judge.check("nav_zetec_specs",
-                navigated_specs(traj, "ford", "fiesta", "hatchback-2017",
-                                ["zetec-10t-ecoboost-100ps-3d"]),
-                "required: Zetec 1.0T EcoBoost 100PS 3d spec page (for the MPG)")
     judge.check("answer_pro_cost", contains_count(answer, 6.99),
                 "a Parkers Pro Valuation of the same car costs £6.99")
-    judge.check("answer_mpg", contains_count(answer, 50.4),
-                "the Zetec 1.0T EcoBoost 100PS 3d achieves 50.4 mpg")
     judge.check("nav_valuation_vid", navigated_to_path(traj, "/ford/fiesta/hatchback-2017/zetec-10t-ecoboost-100ps-3d/2392/free-valuation"),
                 "required: free-valuation page for valuation id 2392")
     check_read_only(judge, initial_db, after_db)

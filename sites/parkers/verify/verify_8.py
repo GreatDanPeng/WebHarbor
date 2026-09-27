@@ -1,12 +1,7 @@
 #!/usr/bin/env python3
-"""verify_8.py — deterministic verifier for task Parkers--8.
+"""Verify Parkers--8.
 
-Sign in as alice; find a used automatic SUV under £25,000, 2019 or later, under 40,000 miles, sorted by price; save the cheapest to the shortlist; report car, price and mileage.
-
-Ground truth below is HARDCODED (frozen against the shipped seed DB); it never
-appears in tasks.jsonl. Navigation gates encode the honest on-site path the
-task text implies; a correct answer without that navigation is a shortcut and
-fails. See verify_lib.py for the shared contract.
+Sign in as alice.j@test.com (password TestPass123!). Find a used automatic SUV on Parkers for under £25,000, registered 2019 or later with fewer than 40,000 miles, sort the results by price, save the cheapest one to my shortlist, and report the car, its price and its mileage.
 """
 import sys
 from pathlib import Path
@@ -15,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from verify_lib import (  # noqa: E402
     Judge, check_read_only, check_seed_contract, check_trajectory_identity,
-    contains_amount, contains_amount_range, contains_any_phrase, contains_count,
+    contains_amount, contains_amount_range, labeled_range, contains_any_phrase, contains_count,
     contains_phrase, final_answer, navigated_c4s_search, navigated_cartax_gen,
     navigated_cartax_hub, navigated_guide, navigated_insurance,
     navigated_listing_detail, navigated_news, navigated_owner_reviews,

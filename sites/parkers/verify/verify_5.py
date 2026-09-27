@@ -1,12 +1,7 @@
 #!/usr/bin/env python3
-"""verify_5.py — deterministic verifier for task Parkers--5.
+"""Verify Parkers--5.
 
-Report the lowest insurance group for the current VW Polo and Ford Fiesta, the versions that achieve them, and which car is cheaper to insure.
-
-Ground truth below is HARDCODED (frozen against the shipped seed DB); it never
-appears in tasks.jsonl. Navigation gates encode the honest on-site path the
-task text implies; a correct answer without that navigation is a shortcut and
-fails. See verify_lib.py for the shared contract.
+My daughter has just passed her test and needs a cheap-to-insure first car. Check the insurance groups on Parkers for the current Volkswagen Polo and the current Ford Fiesta and tell me the lowest group number each car offers, which specific versions achieve them, and which car is cheaper to insure; then find the cheapest Polo currently listed for sale on Parkers and report its price.
 """
 import sys
 from pathlib import Path
@@ -15,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from verify_lib import (  # noqa: E402
     Judge, check_read_only, check_seed_contract, check_trajectory_identity,
-    contains_amount, contains_amount_range, contains_any_phrase, contains_count,
+    contains_amount, contains_amount_range, labeled_range, contains_any_phrase, contains_count,
     contains_phrase, final_answer, navigated_c4s_search, navigated_cartax_gen,
     navigated_cartax_hub, navigated_guide, navigated_insurance,
     navigated_listing_detail, navigated_news, navigated_owner_reviews,

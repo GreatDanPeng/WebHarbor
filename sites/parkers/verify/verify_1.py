@@ -1,12 +1,7 @@
 #!/usr/bin/env python3
-"""verify_1.py — deterministic verifier for task Parkers--1.
+"""Verify Parkers--1.
 
-Registration lookup BX73TGH (Vauxhall Corsa): report the exact version, private and dealer ranges; compare the cheapest Corsa listing against the dealer range; report the Corsa Hatchback (2020 onwards) lowest insurance group and owner average rating.
-
-Ground truth below is HARDCODED (frozen against the shipped seed DB); it never
-appears in tasks.jsonl. Navigation gates encode the honest on-site path the
-task text implies; a correct answer without that navigation is a shortcut and
-fails. See verify_lib.py for the shared contract.
+My aunt is selling her Vauxhall Corsa, registration BX73TGH. Help her put the asking prices she sees in context: value her car through Parkers' registration lookup and report the exact version, private-sale range and dealer range. Compare those figures with the cheapest Corsa currently advertised, making clear that the listing may be a different age or version rather than a like-for-like valuation.
 """
 import sys
 from pathlib import Path
@@ -15,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from verify_lib import (  # noqa: E402
     Judge, check_read_only, check_seed_contract, check_trajectory_identity,
-    contains_amount, contains_amount_range, contains_any_phrase, contains_count,
+    contains_amount, contains_amount_range, labeled_range, contains_any_phrase, contains_count,
     contains_phrase, final_answer, navigated_c4s_search, navigated_cartax_gen,
     navigated_cartax_hub, navigated_guide, navigated_insurance,
     navigated_listing_detail, navigated_news, navigated_owner_reviews,
@@ -47,24 +42,14 @@ def run_checks(judge, traj, initial_db, after_db):
                 "required: cars-for-sale search scoped to Vauxhall (Corsa)")
     judge.check("answer_version", contains_phrase(answer, "1.2 design 5dr"),
                 "the exact version must be named: 1.2 Design 5dr")
-    judge.check("answer_private_range", contains_amount_range(answer, 7010, 9290),
+    judge.check("answer_private_range", labeled_range(answer, "private", 7010, 9290),
                 "private range must quote £7,010 and £9,290")
-    judge.check("answer_dealer_range", contains_amount_range(answer, 9880, 10500),
+    judge.check("answer_dealer_range", labeled_range(answer, "dealer", 9880, 10500),
                 "dealer range must quote £9,880 and £10,500")
     judge.check("answer_cheapest_corsa", contains_amount(answer, 5995),
                 "cheapest Corsa listing is £5,995 (2015/15)")
     judge.check("answer_position", contains_phrase(answer, "below"),
                 "£5,995 sits below the £9,880-£10,500 dealer range")
-    judge.check("nav_corsa_insurance",
-                navigated_insurance(traj, "vauxhall", "corsa", "hatchback-2020"),
-                "required: Corsa Hatchback (2020 onwards) insurance-groups page")
-    judge.check("answer_insurance_group", contains_count(answer, 12),
-                "the Corsa Hatchback (2020 onwards) starts in insurance group 12")
-    judge.check("nav_corsa_owner_reviews",
-                navigated_owner_reviews(traj, "vauxhall", "corsa", "hatchback-2020"),
-                "required: Corsa Hatchback (2020 onwards) owner reviews page")
-    judge.check("answer_owner_rating", contains_count(answer, 3.4),
-                "owners give the Corsa Hatchback (2020 onwards) an average of 3.4")
     check_read_only(judge, initial_db, after_db)
 
 

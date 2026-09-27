@@ -1,12 +1,7 @@
 #!/usr/bin/env python3
-"""verify_18.py — deterministic verifier for task Parkers--18.
+"""Verify Parkers--18.
 
-Find the newest Dacia Sandero; value its cheapest version on a 2023/73 plate; report the exact version name and private-sale range.
-
-Ground truth below is HARDCODED (frozen against the shipped seed DB); it never
-appears in tasks.jsonl. Navigation gates encode the honest on-site path the
-task text implies; a correct answer without that navigation is a shortcut and
-fails. See verify_lib.py for the shared contract.
+My granddaughter needs a cheap first car and I've been asked to help her value a trade-in. Find the newest Dacia Sandero on Parkers, get the free valuation for its cheapest version on a 2023/73 plate, and report the exact version name with its private-sale and dealer ranges and part-exchange value; then find the cheapest Sandero currently listed for sale on Parkers and say whether its asking price falls inside or below that private-sale range.
 """
 import sys
 from pathlib import Path
@@ -15,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from verify_lib import (  # noqa: E402
     Judge, check_read_only, check_seed_contract, check_trajectory_identity,
-    contains_amount, contains_amount_range, contains_any_phrase, contains_count,
+    contains_amount, contains_amount_range, labeled_range, contains_any_phrase, contains_count,
     contains_phrase, final_answer, navigated_c4s_search, navigated_cartax_gen,
     navigated_cartax_hub, navigated_guide, navigated_insurance,
     navigated_listing_detail, navigated_news, navigated_owner_reviews,
@@ -37,11 +32,11 @@ def run_checks(judge, traj, initial_db, after_db):
                 "required: Sandero valuation chain for 1.0 SCe Access 5dr 2023/73")
     judge.check("answer_version", contains_phrase(answer, "1.0 sce access 5dr"),
                 "the exact version is the 1.0 SCe Access 5dr")
-    judge.check("answer_private_range", contains_amount_range(answer, 2850, 3770),
+    judge.check("answer_private_range", labeled_range(answer, "private", 2850, 3770),
                 "private-sale range is £2,850 - £3,770")
-    judge.check("answer_dealer_range", contains_amount_range(answer, 4020, 4260),
+    judge.check("answer_dealer_range", labeled_range(answer, "dealer", 4020, 4260),
                 "dealer range is £4,020 - £4,260")
-    judge.check("answer_part_ex", contains_amount_range(answer, 3080, 3380),
+    judge.check("answer_part_ex", labeled_range(answer, "part", 3080, 3380),
                 "part-exchange value is £3,080 - £3,380")
     judge.check("nav_sandero_listings",
                 navigated_c4s_search(traj, make="dacia", model="sandero", sort="price-asc")

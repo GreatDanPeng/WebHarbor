@@ -1,12 +1,7 @@
 #!/usr/bin/env python3
-"""verify_11.py — deterministic verifier for task Parkers--11.
+"""Verify Parkers--11.
 
-Write an owner review for the VW Golf Hatchback (2020 onwards): 3/5, name Jamie Fletcher, bought new in 2023, mention the infotainment system; confirm it appears on the Golf's owner reviews page.
-
-Ground truth below is HARDCODED (frozen against the shipped seed DB); it never
-appears in tasks.jsonl. Navigation gates encode the honest on-site path the
-task text implies; a correct answer without that navigation is a shortcut and
-fails. See verify_lib.py for the shared contract.
+Publish my owner review of the Volkswagen Golf Hatchback (2020 onwards) on Parkers. My name is Jamie Fletcher; I bought it new in 2023 and rate it 3 out of 5. Describe the infotainment system as frustrating to use while driving but say the car is comfortable on longer trips. Confirm the published review shows my name, rating and purchase details correctly.
 """
 import sys
 from pathlib import Path
@@ -15,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from verify_lib import (  # noqa: E402
     Judge, check_read_only, check_seed_contract, check_trajectory_identity,
-    contains_amount, contains_amount_range, contains_any_phrase, contains_count,
+    contains_amount, contains_amount_range, labeled_range, contains_any_phrase, contains_count,
     contains_phrase, final_answer, navigated_c4s_search, navigated_cartax_gen,
     navigated_cartax_hub, navigated_guide, navigated_insurance,
     navigated_listing_detail, navigated_news, navigated_owner_reviews,
@@ -47,22 +42,6 @@ def run_checks(judge, traj, initial_db, after_db):
                 contains_phrase(answer, "jamie fletcher") and contains_count(answer, 3),
                 "the answer must restate the review identity: Jamie Fletcher, "
                 "rated 3 out of 5")
-    judge.check("nav_golf_review", navigated_review(traj, "volkswagen", "golf"),
-                "required: Golf expert review page")
-    judge.check("answer_golf_rating", contains_count(answer, 4),
-                "Parkers' expert review gives the Golf 4 overall")
-    judge.check("answer_golf_con",
-                contains_any_phrase(answer, ["not as engaging to drive as the focus",
-                                             "revised skoda octavia offers better value",
-                                             "simpler suspension on entry-level cars"]),
-                "one con from the Golf review must be quoted")
-    judge.check("nav_golf_listings",
-                navigated_c4s_search(traj, make="volkswagen", model="golf", sort="price-asc")
-                or navigated_c4s_search(traj, make="volkswagen", model="golf")
-                or navigated_c4s_search(traj, make="volkswagen"),
-                "required: Golf cars-for-sale search")
-    judge.check("answer_cheapest_golf", contains_amount(answer, 1995),
-                "the cheapest Golf currently listed is £1,995")
     # DB after-state: exactly one new owner_reviews row with the required fields
     new = added_rows(after_db, initial_db, "owner_reviews", "id")
     judge.check("one_new_owner_review", len(new) == 1,

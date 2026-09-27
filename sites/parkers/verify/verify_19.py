@@ -1,12 +1,7 @@
 #!/usr/bin/env python3
-"""verify_19.py — deterministic verifier for task Parkers--19.
+"""Verify Parkers--19.
 
-Report the price when new of the cheapest and most expensive current Kodiaq versions and the difference; then the dealer range of the cheapest version on the newest year plate.
-
-Ground truth below is HARDCODED (frozen against the shipped seed DB); it never
-appears in tasks.jsonl. Navigation gates encode the honest on-site path the
-task text implies; a correct answer without that navigation is a shortcut and
-fails. See verify_lib.py for the shared contract.
+I'm weighing up trim levels on the current Skoda Kodiaq. Using the Parkers specs pages, report the price when new of the cheapest Kodiaq version listed and of the most expensive one, and the difference between them; then get the free valuation for the cheapest version on the newest year plate and report its dealer price range.
 """
 import sys
 from pathlib import Path
@@ -15,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from verify_lib import (  # noqa: E402
     Judge, check_read_only, check_seed_contract, check_trajectory_identity,
-    contains_amount, contains_amount_range, contains_any_phrase, contains_count,
+    contains_amount, contains_amount_range, labeled_range, contains_any_phrase, contains_count,
     contains_phrase, final_answer, navigated_c4s_search, navigated_cartax_gen,
     navigated_cartax_hub, navigated_guide, navigated_insurance,
     navigated_listing_detail, navigated_news, navigated_owner_reviews,
@@ -52,7 +47,7 @@ def run_checks(judge, traj, initial_db, after_db):
                 "most expensive Kodiaq is £48,990 (1.5 TSI iV 204 Laurin + Klement)")
     judge.check("answer_difference", contains_amount(answer, 9945),
                 "difference is £9,945")
-    judge.check("answer_dealer_range", contains_amount_range(answer, 47340, 50260),
+    judge.check("answer_dealer_range", labeled_range(answer, "dealer", 47340, 50260),
                 "dealer range on 2026/76 is £47,340 - £50,260")
     judge.check("nav_valuation_vid", navigated_to_path(traj, "/skoda/kodiaq/suv-2024/15-tsi-e-tec-se-5dr-dsg/8422/free-valuation"),
                 "required: free-valuation page for valuation id 8422")
