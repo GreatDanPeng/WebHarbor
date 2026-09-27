@@ -613,6 +613,13 @@ FARE_INFO = {
 }
 
 
+def seat_upgrade_price(row, fare):
+    """Apply the reserved-seat entitlement advertised in the fare comparison."""
+    if fare == 'flexi_plus' or (fare in ('regular', 'plus') and row >= 18):
+        return 0.0
+    return seat_price(row)
+
+
 def trip_price_lines(data):
     """Live price breakdown for the seats/bags/extras/payment sidebars."""
     out_sched = db.session.get(FlightSchedule, data.get('outboundSchedule'))
@@ -639,7 +646,7 @@ def trip_price_lines(data):
     for direction in seat_directions:
         for seat in seats.get(direction) or []:
             row = int(re.match(r'(\d+)', seat).group(1))
-            seats_total += seat_price(row)
+            seats_total += seat_upgrade_price(row, fare)
     if seats_total:
         seats_total = round(seats_total, 2)
         lines.append(('Seats', seats_total))
@@ -649,10 +656,11 @@ def trip_price_lines(data):
     bags_total = 0.0
     for p in data.get('passengers', []):
         for direction in bag_directions:
-            if p.get(f'cabin_{direction}') == 'priority':
+            if p.get(f'cabin_{direction}') == 'priority' and fare not in ('regular', 'flexi_plus'):
                 bags_total += PRIORITY_PRICE
             for size in ('10kg', '20kg', '23kg'):
-                bags_total += BAG_PRICES[size] * (p.get(f'bag_{size}_{direction}') or 0)
+                included = int(size == '20kg' and fare in ('plus', 'flexi_plus'))
+                bags_total += BAG_PRICES[size] * max(0, (p.get(f'bag_{size}_{direction}') or 0) - included)
     bags_total = round(bags_total, 2)
     if bags_total:
         lines.append(('Bags', bags_total))
@@ -661,7 +669,7 @@ def trip_price_lines(data):
     extras_total = 0.0
     ft = data.get('extras', {}).get('fast_track', {})
     for code, enabled in ft.items():
-        if enabled and code:
+        if enabled and code and fare not in ('plus', 'flexi_plus'):
             extras_total += fast_track_price(code) * pax
     insurance = data.get('extras', {}).get('insurance')
     if insurance:
@@ -1015,9 +1023,11 @@ def _flight_select_post():
             if not first or not last:
                 valid = False
             passengers.append({'title': title, 'first': first, 'last': last,
-                                'cabin_out': 'small-bag', 'cabin_in': 'small-bag',
+                                'cabin_out': 'priority' if data['fare'] in ('regular', 'flexi_plus') else 'small-bag',
+                                'cabin_in': 'priority' if data.get('inboundSchedule') and data['fare'] in ('regular', 'flexi_plus') else 'small-bag',
                                 'bag_10kg_out': 0, 'bag_10kg_in': 0,
-                                'bag_20kg_out': 0, 'bag_20kg_in': 0,
+                                'bag_20kg_out': int(data['fare'] in ('plus', 'flexi_plus')),
+                                'bag_20kg_in': int(bool(data.get('inboundSchedule')) and data['fare'] in ('plus', 'flexi_plus')),
                                 'bag_23kg_out': 0, 'bag_23kg_in': 0})
         if not valid:
             flash('Please enter names as they appear on passport or travel '
@@ -1027,6 +1037,10 @@ def _flight_select_post():
             return redirect(_select_url(data))
         # infants travel on laps: they do not get their own form row
         data['passengers'] = passengers
+        if data['fare'] in ('plus', 'flexi_plus'):
+            out_sched = db.session.get(FlightSchedule, data['outboundSchedule'])
+            in_sched = db.session.get(FlightSchedule, data.get('inboundSchedule')) if data.get('inboundSchedule') else None
+            data.setdefault('extras', {})['fast_track'] = {code: True for code in fast_track_airports(out_sched, in_sched)}
         save_trip(token, data)
         return redirect(url_for('seats'))
 
@@ -1075,14 +1089,14 @@ def seats():
             for i in range(len(pax)):
                 so = (request.form.get(f'seat_out_{i}') or '').upper()
                 si = (request.form.get(f'seat_in_{i}') or '').upper()
-                if not so or so in occupied_out or so in chosen_out:
+                if not re.fullmatch(r'(?:[1-9]|[12][0-9]|3[0-3])[A-F]', so) or so.startswith('13') or so in occupied_out or so in chosen_out:
                     flash('Please pick a valid, available seat for every '
                           'passenger on the outbound flight.', 'error')
                     return redirect(url_for('seats'))
                 seats['out'].append(so)
                 chosen_out.add(so)
                 if in_sched:
-                    if not si or si in occupied_in or si in chosen_in:
+                    if not re.fullmatch(r'(?:[1-9]|[12][0-9]|3[0-3])[A-F]', si) or si.startswith('13') or si in occupied_in or si in chosen_in:
                         flash('Please pick a valid, available seat for every '
                               'passenger on the return flight.', 'error')
                         return redirect(url_for('seats'))
@@ -1109,7 +1123,7 @@ def seats():
         occupied_out=out_sched.occupied_seats(out_day),
         occupied_in=in_sched.occupied_seats(in_day) if in_sched else set(),
         seat_rows=SEAT_ROWS, seat_letters=SEAT_LETTERS,
-        seat_price=seat_price, seat_band=seat_band,
+        seat_price=lambda row: seat_upgrade_price(row, data['fare']), seat_band=seat_band,
         lines=lines, total=total, card_fee=card_fee, grand=grand,
         countries=_countries())
 
@@ -1310,8 +1324,8 @@ def _materialize_booking(data, email, phone, card_number, card_name, expiry):
         promo_code=data.get('promoCode', ''),
         sms_updates=bool(data.get('smsUpdates')),
         insurance_key=data.get('extras', {}).get('insurance', ''),
-        fast_track_out=any(data.get('extras', {}).get('fast_track', {}).values()),
-        fast_track_in=False,
+        fast_track_out=bool(data.get('extras', {}).get('fast_track', {}).get(out_sched.route.origin_code)),
+        fast_track_in=bool(in_sched and data.get('extras', {}).get('fast_track', {}).get(in_sched.route.origin_code)),
         inflight_credit=data.get('extras', {}).get('inflight_credit') or 0,
         flights_total=flights, seats_total=seats_total,
         bags_total=bags_total, extras_total=extras_total,

@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}Ryanair — Extras{% endblock %}
 {% block content %}
+{% if data.fare in ['plus','flexi_plus'] %}<div class="container"><p>Fast Track at the listed airports is included in your fare.</p></div>{% endif %}
 <div class="trip-header">
   <div class="trip-header__row">
     <div class="trip-header__route">

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Verify Ryanair--10.
 
-Log in as David Kim (david.k@test.com, password TestPass123!), update the mobile number on his account to +44 7700 900456, and report how many payment methods are saved and which card is the default. Then open his upcoming Rome trip, check in online, and report the outbound flight number, its departure time, the seat on his boarding pass, what time boarding closes, and the total paid. Finally find the help centre fee for re-issuing a paper boarding pass at the airport.
+Help David Kim get ready for his upcoming Rome flight. Log in as david.k@test.com (password TestPass123!), open the booking and complete online check-in. Report the outbound flight number and departure time, the seat shown on the boarding pass and when boarding closes. Find the airport fee for re-issuing the pass so David knows the cost if he cannot present it.
 """
 from verify_lib import (Judge, booking_by_ref, check_only_tables_changed, check_seed_rows_preserved,
                         check_signed_in_as, check_trajectory_identity, check_visited_path,
@@ -24,18 +24,8 @@ def run_checks(judge, traj, initial_db, after_db):
     answer = final_answer(traj)
     check_trajectory_identity(judge, traj, TASK_ID)
     check_signed_in_as(judge, traj, EMAIL)
-    check_visited_path(judge, traj, "visited_account", "/gb/en/myryanair/account")
     david = user_by_email(after_db, EMAIL)
-    judge.check("phone_updated", david is not None and david["phone"] == PHONE,
-                f"phone={david and david['phone']!r}, expected {PHONE!r}")
     cards = payment_methods_of(after_db, david["id"])
-    judge.check("one_saved_amex_default",
-                len(cards) == 1 and cards[0]["card_type"] == "American Express"
-                and cards[0]["last4"] == "1005" and cards[0]["is_default"],
-                f"cards={[(c['card_type'], c['last4'], c['is_default']) for c in cards]!r}")
-    judge.check("answer_reports_card_state",
-                contains_count(answer, 1) and contains_any(answer, ["american express", "1005"]),
-                "answer must report 1 saved method, the American Express ending 1005 (default)")
     check_visited_path(judge, traj, "visited_rome_booking", f"/gb/en/booking/{ROME_REF}")
     check_visited_path(judge, traj, "visited_checkin", f"/gb/en/check-in/{ROME_REF}")
     check_visited_path(judge, traj, "visited_boarding_pass", f"/gb/en/boarding-pass/{ROME_REF}")
@@ -53,8 +43,6 @@ def run_checks(judge, traj, initial_db, after_db):
                 contains_phrase(answer, "30 min") or contains_phrase(answer, "30 minutes")
                 or contains_phrase(answer, "20:10"),
                 "answer must state boarding closes 30 minutes before departure (20:10)")
-    judge.check("answer_total_paid", contains_amount(answer, TOTAL),
-                f"expected total paid £{TOTAL:.2f}")
     check_visited_path(judge, traj, "visited_help_checkin", "/gb/en/r/help/check-in")
     judge.check("answer_reissue_fee_20", contains_amount(answer, REISSUE_FEE),
                 f"expected re-issue fee £{REISSUE_FEE:.2f}")

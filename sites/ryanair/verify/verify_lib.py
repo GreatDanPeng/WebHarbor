@@ -218,17 +218,7 @@ def contains_phrase(answer, phrase):
 
 
 def contains_amount(answer, amount, tolerance=0.011):
-    """A money value like 74.40 / 1,064.80 (optionally prefixed with £/$) appears."""
-    wanted = float(amount)
-    cleaned = re.sub(r"(\d),(\d{3})\b", r"\1\2", str(answer))
-    for m in re.finditer(r"[£$]?\s*(\d+(?:[.,]\d+)?)", cleaned):
-        try:
-            value = float(m.group(1).replace(",", "."))
-        except ValueError:
-            continue
-        if abs(value - wanted) <= tolerance:
-            return True
-    return False
+    return monetary_value(answer, amount)
 
 
 def contains_count(answer, count):
@@ -500,6 +490,8 @@ def run_verifier(task_id, run_checks):
     judge = Judge(task_id, no_llm=args.no_llm)
     try:
         run_checks(judge, traj, initial_db, after_db)
+        from state_contract import check
+        check(judge, task_id, initial_db, after_db)
     except Exception as exc:  # noqa: BLE001 — any verifier error fails closed
         fail_closed(task_id, "verifier_error", f"{type(exc).__name__}: {exc}")
     judge.emit()
@@ -522,11 +514,8 @@ def _same_local_origin(url, start_url):
 def _png_decodes(path):
     try:
         from PIL import Image  # available in the agent_demo env
-    except ImportError:  # pragma: no cover - fallback when Pillow is absent
-        data = Path(path).read_bytes()
-        if not data.startswith(b"\x89PNG\r\n\x1a\n") or len(data) < 33 or data[12:16] != b"IHDR":
-            return False
-        return int.from_bytes(data[16:20], "big") > 0 and int.from_bytes(data[20:24], "big") > 0
+    except ImportError:
+        return False  # Pillow is required for trustworthy screenshot validation.
     try:
         with Image.open(path) as image:
             image.load()
@@ -617,3 +606,30 @@ def check_seed_rows_preserved(judge, initial_db, after_db, table, id_col="id",
                 ok = False
     return judge.check(f"preserve_seed_rows_{table}", ok,
                        f"mutable_fields={list(mutable_fields)!r}")
+
+def answer_clauses(answer):
+    return re.split(r"[;\n]|\.(?:\s+|$)", normalize_text(answer))
+
+
+def monetary_value(answer, amount):
+    """Require a monetary assertion, rather than an incidental matching number."""
+    for clause in answer_clauses(answer):
+        if re.search(r"\b(?:not|incorrect|wrong|isn't|wasn't)\b", clause):
+            continue
+        for m in re.finditer(r"(?:£\s*|\bGBP\s*)([0-9][0-9,]*(?:\.[0-9]+)?)|([0-9][0-9,]*(?:\.[0-9]+)?)\s*(?:pounds?|GBP)\b", clause, re.I):
+            if abs(float((m[1] or m[2]).replace(',', '')) - float(amount)) < .011:
+                return True
+    return False
+
+
+def labeled_range(answer, label, low, high):
+    patterns = {'private': r'privat', 'dealer': r'dealer|retail',
+                'part': r'part[- ]?exchange|part[- ]?ex|trade[- ]?in|trading'}
+    for clause in answer_clauses(answer):
+        if not re.search(patterns[label], clause) or re.search(r"\b(?:not|incorrect|wrong|isn't)\b", clause):
+            continue
+        # Currency may be stated once for a range (e.g. £3,210–4,250).
+        values = [float(v.replace(',', '')) for v in re.findall(r'(?<![\w.])\d[\d,]*(?:\.\d+)?', clause)]
+        if any(abs(v-low)<.011 for v in values) and any(abs(v-high)<.011 for v in values) and ('£' in clause or re.search(r'\bgbp|pounds?\b', clause)):
+            return True
+    return False

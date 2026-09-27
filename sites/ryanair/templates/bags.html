@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}Ryanair — Cabin Bags{% endblock %}
 {% block content %}
+<div class="container"><p>{% if data.fare in ['plus','flexi_plus'] %}Your fare includes one 20kg checked bag per passenger on each flight; only additional bags are charged.{% elif data.fare == 'regular' %}Your Regular fare includes Priority and a 10kg overhead locker bag on each flight.{% endif %}</p></div>
 <div class="trip-header">
   <div class="trip-header__row">
     <div class="trip-header__route">

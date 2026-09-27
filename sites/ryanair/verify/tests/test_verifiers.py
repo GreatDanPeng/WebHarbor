@@ -142,7 +142,7 @@ def test_tampered_offsite_url_fails(tmp_path):
 # ---------------------------------------------------------------- tamper: missing screenshot
 def test_tampered_missing_screenshot_fails(tmp_path):
     run = honest_run(tmp_path, 0)
-    (run / "screenshots" / "step_001.png").unlink()
+    (run / "screenshots" / "step_000.png").unlink()
     run_verifier(0, run, expect_pass=False)
 
 

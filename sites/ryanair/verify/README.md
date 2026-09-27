@@ -1,48 +1,46 @@
-# ryanair — reviewer grading contract
+# Ryanair deterministic grading
 
-Deterministic verifier suite for the 21 ryanair tasks, written by the reviewer
-per the review-env skill (Step 6). Ground truth is **hardcoded inside each
-`verify_N.py`** — never in `tasks.jsonl` (the agent reads that file; an answer
-key there would leak).
+The 21 task verifiers are the primary graders. Ground truth lives in
+`verify_N.py`; task instructions and rubrics in `../tasks.jsonl` contain no
+answer field. Each task pursues a complete user goal.
 
-## Layout
+Run through the official entrypoint:
 
-- `verify_lib.py` — shared deterministic utilities: trajectory identity
-  (task_id, `agent_done`, same-origin URLs, decodable screenshots), navigation
-  gates, answer matching (amounts / times / counts / phrases), SQLite
-  before/after snapshot contract (frozen seed schema + rows sha256), fail-closed
-  runner. No LLM call is load-bearing.
-- `verify_0.py` … `verify_20.py` — one verifier per task. Run:
+```bash
+python agent_demo/eval_judge.py --run_dir PATH_TO_RUN --verifier True
+```
 
-  ```bash
-  uv run python sites/ryanair/verify/verify_0.py --run_dir runs/0
-  ```
+Or invoke an individual verifier with `--run_dir DIR`, optionally supplying
+`--initial_db PATH` and `--after_db PATH`. By default snapshots resolve to
+`initial.db` and `after.db` in the run directory. The verifier emits JSON
+`{task_id, pass, reason, evidence}` and exits 0 for pass, 1 for failure.
 
-  Prints `{task_id, pass, reason, evidence[]}` JSON; exit 0 on PASS, 1 on FAIL.
-  DB snapshots resolve from `<run_dir>/initial.db` + `<run_dir>/after.db`, else
-  from the container (`--container`, default `$WH_CONTAINER` or `wh-ry-review`)
-  via `docker cp`.
-- `append_rubrics.py` — adds `verifier_path` + `judge_rubric` to
-  `../tasks.jsonl`. The five contributor keys stay byte-identical (each row is
-  the original line with the two new keys appended); no `answer` key is ever
-  written. Idempotent.
-- `tests/` — `pytest` contract suite (110 tests): honest PASS fixtures per task
-  (frozen from the reviewer's live runs), no-op FAIL, knowledge-shortcut FAIL,
-  wrong-answer FAIL, state-mismatch FAIL, read-only mutation FAIL, and package
-  tampering (task_id / off-site URL / missing screenshot / not-done trajectory /
-  tampered seed) fail-closed. Run:
+The shared contract checks task identity, strict completion, same-origin
+navigation, all referenced PNGs through full decoding, the frozen initial seed,
+final schema, and precise permitted state changes. Read-only tasks preserve every
+row; stateful tasks preserve all unrelated records. Task-specific checks bind
+answers to requested entities and require monetary assertions to include currency.
 
-  ```bash
-  python3 -m pytest sites/ryanair/verify/tests -q
-  ```
+`tests/reviewed_fixtures.json` contains portable synthetic fixtures distilled
+from reviewed browser outcomes. Its tiny images exercise the evidence contract;
+these tests are not browser-completion evidence. The actual browser recordings
+are retained separately in the review dashboard.
 
-  The seed DB is docker-cp'd from the container (override with
-  `RYANAIR_TEST_SEED_DB`).
+Fetch the pinned assets and generate the seed where the site requires it, then
+run site and verifier tests separately:
 
-## Known site defect encoded by the contract
+```bash
+python -m pytest sites/ryanair/tests -q
+python -m pytest sites/ryanair/verify/tests -q
+```
 
-`verify_13.py` pins the **intended** one-way bag pricing (one 20kg bag charged
-once: £25.49, total £45.36). The live site currently double-charges the phantom
-return leg (£50.98 for the bag — more than the £50.00 airport price), which
-contradicts the task's premise; see the review report. The verifier passes once
-that pricing bug is fixed; the pytest PASS fixture encodes the post-fix values.
+Controls cover correct completion, no-op/knowledge shortcuts, wrong answers,
+state mismatches, changed unrelated rows, and malformed or tampered evidence.
+Keep tasks, rubrics, verifiers, and fixtures in sync when changing behavior.
+
+The checkout applies the entitlements advertised by its frozen fare comparison:
+standard reserved seats, included checked/cabin bags, and Fast Track are not
+billed twice. Seat upgrades and insurance remain chargeable. Fast Track persists
+per flight leg. One-way baggage is charged once. These are deterministic mirror
+prices, not live quotations. The upstream help-centre request returned HTTP 403;
+no new commercial facts were inferred from that unavailable page.

@@ -64,7 +64,8 @@ def run_checks(judge, traj, initial_db, after_db):
                     len(in_seats) == 2 and all(re.match(r"(\d+)([A-F])", s) for s in in_seats)
                     and len({re.match(r"(\d+)", s).group(1) for s in in_seats}) == 1
                     and all(int(re.match(r"(\d+)", s).group(1)) >= 18 for s in in_seats)
-                    and abs(ord(in_seats[0][-1]) - ord(in_seats[1][-1])) == 1,
+                    and abs(ord(in_seats[0][-1]) - ord(in_seats[1][-1])) == 1
+                    and {in_seats[0][-1], in_seats[1][-1]} != {"C", "D"},
                     f"return seats={in_seats!r}, expected two adjacent row>=18 seats")
         def _price(seat):
             row = int(re.match(r"(\d+)", seat).group(1))
@@ -72,7 +73,7 @@ def run_checks(judge, traj, initial_db, after_db):
             if row <= 6: return 14.00
             if row <= 15: return round(13.50 - (row - 7) * 0.50, 2)
             if row <= 17: return 14.50
-            return 9.50
+            return 0.0  # standard reserved seat included in Plus
         expected_seats_total = round(sum(_price(s) for s in out_seats + in_seats), 2)
         judge.check("seats_total_matches_selection",
                    abs(b["seats_total"] - expected_seats_total) < 0.011,
