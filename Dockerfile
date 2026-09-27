@@ -326,8 +326,15 @@ RUN cd /opt/WebSyn/re_max && rm -rf instance instance_seed && \
     mkdir -p instance_seed && cp instance/re_max.db instance_seed/re_max.db && \
     rm -rf instance __pycache__
 
+# speedo: deterministic seed from the tracked upstream snapshots + asset gate.
+RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/speedo
+RUN cd /opt/WebSyn/speedo && rm -rf instance instance_seed && \
+    PYTHONHASHSEED=0 python3 seed_data.py && \
+    mkdir -p instance_seed && cp instance/speedo.db instance_seed/speedo.db && \
+    rm -rf instance __pycache__
+
 RUN python3 /opt/check_seed_databases.py /opt/WebSyn
 
-EXPOSE 8101 40000-40096
+EXPOSE 8101 40000-40136
 
 CMD ["/opt/websyn_start.sh"]
