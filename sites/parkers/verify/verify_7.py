@@ -9,7 +9,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from verify_lib import (  # noqa: E402
-    Judge, check_read_only, check_seed_contract, check_trajectory_identity,
+    Judge, entity_number, check_read_only, check_seed_contract, check_trajectory_identity,
     contains_amount, contains_amount_range, labeled_range, contains_any_phrase, contains_count,
     contains_phrase, final_answer, navigated_c4s_search, navigated_cartax_gen,
     navigated_cartax_hub, navigated_guide, navigated_insurance,
@@ -48,18 +48,18 @@ def run_checks(judge, traj, initial_db, after_db):
                                      "15-one-classic-3dr-auto", "20-s-classic-3dr-auto",
                                      "15-c-exclusive-3dr-auto", "15-c-sport-3dr-auto"]),
                 "required: a MINI Cooper spec selection")
-    judge.check("answer_a3_practicality", contains_count(answer, 4),
+    judge.check("answer_a3_practicality", entity_number(answer, "a3", 4),
                 "A3 practicality rating is 4")
-    judge.check("answer_cooper_practicality", contains_count(answer, 2.2),
+    judge.check("answer_cooper_practicality", entity_number(answer, "cooper|mini", 2.2),
                 "MINI Cooper practicality rating is 2.2")
     judge.check("answer_scores_higher", contains_phrase(answer, "a3"),
                 "the A3 scores higher")
     judge.check("answer_by_how_much", contains_count(answer, 1.8),
                 "A3 leads by 1.8")
     # luggage: variant-dependent (A3 Saloon 425 / Sportback 380; Cooper 210 / 160)
-    judge.check("answer_a3_boot", contains_count(answer, 380),
+    judge.check("answer_a3_boot", entity_number(answer, "a3", 380),
                 "the A3 Sportback 1.5 TFSI 116 S Line 5dr offers 380 litres")
-    judge.check("answer_cooper_boot", contains_count(answer, 210),
+    judge.check("answer_cooper_boot", entity_number(answer, "cooper|mini", 210),
                 "the MINI 1.5 C Classic 3dr Auto offers 210 litres")
     judge.check("answer_difference", contains_count(answer, 170),
                 "the luggage difference between the named versions is 170 litres")

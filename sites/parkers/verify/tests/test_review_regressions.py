@@ -54,3 +54,15 @@ def test_mutated_initial_and_final_fixture_rejected(tmp_path):
     for name in ('initial.db', 'after.db'):
         with sqlite3.connect(run / name) as con:con.execute('UPDATE listings SET price=1 WHERE id=1')
     assert not S.run_verifier(0, run)[1]['pass']
+
+
+def test_swapped_boot_capacities_rejected(tmp_path):
+    run = fixture(tmp_path, 3)
+    S.set_answer(run, 'The Kodiaq has 620 litres and the Tucson has 910 litres. The difference is 290 litres, so the Tucson has the bigger boot.')
+    assert not S.run_verifier(3, run)[1]['pass']
+
+
+def test_swapped_valuation_channels_rejected(tmp_path):
+    run = fixture(tmp_path, 0)
+    S.set_answer(run, 'Private-sale range: £4,520–£4,790; dealer range: £3,210–£4,250; part-exchange: £3,470–£3,800. Pro Valuation costs £6.99.')
+    assert not S.run_verifier(0, run)[1]['pass']

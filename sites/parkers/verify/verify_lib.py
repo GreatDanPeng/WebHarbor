@@ -585,7 +585,7 @@ def run_verifier(task_id, run_checks):
     sys.exit(0 if judge.passed else 1)
 
 def answer_clauses(answer):
-    return re.split(r"[;\n]|\.(?:\s+|$)", normalize_text(answer))
+    return [clause for line in str(answer).splitlines() for clause in re.split(r";|,\s+|\.(?:\s+|$)", normalize_text(line))]
 
 
 def monetary_value(answer, amount):
@@ -609,4 +609,18 @@ def labeled_range(answer, label, low, high):
         values = [float(v.replace(',', '')) for v in re.findall(r'(?<![\w.])\d[\d,]*(?:\.\d+)?', clause)]
         if any(abs(v-low)<.011 for v in values) and any(abs(v-high)<.011 for v in values) and ('£' in clause or re.search(r'\bgbp|pounds?\b', clause)):
             return True
+    return False
+
+
+def entity_number(answer, entity, value):
+    """Bind a numeric fact to its named entity within a comparison clause.
+
+    Accept prose, bullets and tables; do not accept swapped entity values.
+    This is a deterministic parser with deliberately bounded coverage.
+    """
+    for line in str(answer).splitlines():
+        for clause in re.split(r';|,\s+|\.\s+|\bversus\b|\bvs\.?\b|\bwhereas\b|\band\s+(?=(?:the\s+)?(?:kodiaq|tucson|audi|a3|mini|cooper))|\|', normalize_text(line)):
+            if re.search(entity, clause) and not re.search(r"\b(?:not|incorrect|wrong|isn't)\b", clause):
+                if contains_count(clause, value):
+                    return True
     return False
