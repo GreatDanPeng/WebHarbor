@@ -19,6 +19,11 @@
   });
   document.querySelectorAll('.filter-menu').forEach(function (menu) {
     menu.addEventListener('click', function (e) { e.stopPropagation(); });
+    menu.addEventListener('change', function (e) {
+      if (e.target.matches('input[type=radio]')) {
+        menu.closest('[data-filter]').classList.remove('open');
+      }
+    });
   });
 
   // Gallery modal

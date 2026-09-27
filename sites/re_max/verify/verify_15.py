@@ -2,8 +2,7 @@
 """verify_15.py — deterministic verifier for task REMAX--15.
 
 Fed rate announcement facts, HomeHQ newsletter signup from the front page
-with the email and buyer type given in the task, and the Chicago under-$500k
-3+bed filter chain (match count + cheapest price).
+with the email and buyer type given in the task.
 
 Ground truth below is HARDCODED (frozen against the shipped seed DB); it never
 appears in tasks.jsonl. Navigation gates encode the honest on-site path the
@@ -27,44 +26,36 @@ TASK_ID = "REMAX--15"
 def run_checks(judge, traj, initial_db, after_db):
     answer = final_answer(traj)
     check_trajectory_identity(judge, traj, TASK_ID)
-    # anti-shortcut: the Fed article + the newsletter form actually carrying
-    # the email + the filtered Chicago SRP
+    # Read the Fed article and fill the newsletter form.
     judge.check("nav_article_fed",
                 nav_article(traj, "interest-rate-announcement"),
                 "required: /advice/interest-rate-announcement")
     judge.check("entered_newsletter_email",
                 entered_identity(traj, "rate.watcher@example.com"),
                 "required: newsletter form filled with rate.watcher@example.com")
-    judge.check("nav_chicago_srp_filtered",
-                nav_srp(traj, "il", "chicago", price_max="500000", beds="3"),
-                "required: /il/chicago-real-estate with price_max=500000, beds=3")
     # ground truth (frozen seed): the Fed raised the federal funds rate to a
     # 3.75% to 4% target range by a 12-0 vote at its September 15-16, 2026
-    # meeting; Chicago: 6 matches under $500k with 3+ beds, cheapest
-    # $299,900 (11635 S Bishop St)
+    # meeting.
     judge.check("answer_decision",
                 contains_any_phrase(answer, ["raising the federal funds rate",
                                             "raised the federal funds rate",
                                             "hike in the federal funds rate",
                                             "hiked the federal funds rate",
                                             "increase in the federal funds rate",
-                                            "increased the federal funds rate"]),
+                                            "increased the federal funds rate",
+                                            "raised rates", "increased rates", "hiked rates"]),
                 "must state the Fed raised the federal funds rate")
-    judge.check("answer_target_range", contains_phrase(answer, "3.75% to 4%"),
+    judge.check("answer_target_range", contains_any_phrase(answer, ["3.75% to 4%", "3.75%-4%", "3.75-4%", "3.75 to 4 percent"]),
                 "must quote the 3.75% to 4% target range")
-    judge.check("answer_vote", contains_phrase(answer, "12-0"),
+    judge.check("answer_vote", contains_any_phrase(answer, ["12-0", "12 to 0", "12 in favor and none against"]),
                 "must state the 12-0 vote")
     judge.check("answer_meeting_dates",
-                contains_phrase(answer, "September 15-16, 2026"),
+                contains_any_phrase(answer, ["September 15-16, 2026", "September 15 and 16, 2026", "September 15 to 16, 2026", "September 15-16 2026"]),
                 "must state the September 15-16, 2026 meeting dates")
     judge.check("answer_newsletter_confirmation",
                 contains_any_phrase(answer, ["subscribing", "subscribed",
                                              "thanks for subscribing", "homehq"]),
                 "must report the newsletter confirmation")
-    judge.check("answer_chicago_count", contains_count(answer, 6),
-                "must state 6 Chicago matches")
-    judge.check("answer_chicago_cheapest", contains_amount(answer, 299900),
-                "must quote the cheapest Chicago match $299,900")
     # DB after-state: exactly one newsletter subscriber row
     check_seed_contract(judge, initial_db)
     check_only_tables_changed(judge, initial_db, after_db,

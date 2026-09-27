@@ -5,11 +5,12 @@
   <div class="page-head"><h1>My Favorite Homes</h1></div>
   {% if favorites %}
   <div class="listing-grid">
-    {% for f in favorites %}{% with l = f.listing %}{% include '_listing_card.html' %}{% endwith %}
-      <form method="post" action="{{ url_for('favorite_remove', fid=f.id) }}" style="margin-top:-16px;">
+    {% for f in favorites %}<div class="favorite-item">{% with l = f.listing %}{% include '_listing_card.html' %}{% endwith %}
+      <form method="post" action="{{ url_for('favorite_remove', fid=f.id) }}" style="margin-top:10px;">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <button class="action-chip" type="submit">REMOVE FROM FAVORITES</button>
       </form>
+    </div>
     {% endfor %}
   </div>
   {% else %}

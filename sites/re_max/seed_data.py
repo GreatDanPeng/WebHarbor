@@ -2,8 +2,7 @@
 """Deterministic build-time seeder for the RE/MAX mirror.
 
 All content rows come from the tracked source_data_*.json snapshots captured
-from https://www.remax.com/ on 2026-09-24 (see scripts_dev/build_source_data.py,
-which normalizes the Playwright captures in scraped_data/). Benchmark users use
+from https://www.remax.com/ on 2026-09-24. Benchmark users use
 a frozen bcrypt hash so the SQLite seed is byte-reproducible on every build
 (PYTHONHASHSEED=0).
 

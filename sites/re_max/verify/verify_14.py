@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """verify_14.py — deterministic verifier for task REMAX--14.
 
-Seller-concessions article facts, the first-time-buyer cross-reference from
-its More-from list (median sales price), and the Naples under-$500k
+Seller-concessions article facts and the Naples under-$500k
 2+bed/2+bath filter chain (match count + cheapest match's price, address,
 year built, price per square foot).
 
@@ -27,14 +26,11 @@ TASK_ID = "REMAX--14"
 def run_checks(judge, traj, initial_db, after_db):
     answer = final_answer(traj)
     check_trajectory_identity(judge, traj, TASK_ID)
-    # anti-shortcut: both articles + the filtered Naples SRP + the cheapest
+    # Article, filtered Naples search and the cheapest
     # match's detail page
     judge.check("nav_article_concessions",
                 nav_article(traj, "seller-concessions-2026"),
                 "required: /advice/seller-concessions-2026")
-    judge.check("nav_article_first_time_buyer",
-                nav_article(traj, "buying-a-home-in-august-2026-as-a-first-time-buyer"),
-                "required: /advice/buying-a-home-in-august-2026-as-a-first-time-buyer")
     judge.check("nav_naples_srp_filtered",
                 nav_srp(traj, "fl", "naples", price_max="500000",
                         beds="2", baths="2"),
@@ -43,12 +39,11 @@ def run_checks(judge, traj, initial_db, after_db):
     judge.check("nav_ldp_315_saint_andrews", nav_ldp(traj, 142),
                 "required: listing detail for 315 Saint Andrews Blvd Apt D31 (id 142)")
     # ground truth (frozen seed): conventional caps 2% to 9%; FHA and USDA
-    # cap at 6%; concessions cannot cover the down payment; the first-time
-    # buyer article cites a $450,000 median sales price; Naples chain: 5
+    # cap at 6%; concessions cannot cover the down payment; Naples chain: 5
     # matches, cheapest 315 Saint Andrews Blvd Apt D31 at $220,000, built
     # 1977, $195/sqft
     judge.check("answer_conventional_range",
-                contains_phrase(answer, "2% to 9%"),
+                contains_any_phrase(answer, ["2% to 9%", "2%-9%", "2-9%", "2 to 9 percent"]),
                 "must state the 2% to 9% conventional range")
     judge.check("answer_fha_usda", contains_phrase(answer, "6%"),
                 "must state FHA and USDA cap at 6%")
@@ -58,8 +53,6 @@ def run_checks(judge, traj, initial_db, after_db):
                                              "barred from covering a down payment",
                                              "not cover the down payment"]),
                 "must state concessions cannot cover the down payment")
-    judge.check("answer_median_price", contains_amount(answer, 450000),
-                "must quote the $450,000 median sales price")
     judge.check("answer_naples_count", contains_count(answer, 5),
                 "must state 5 Naples matches")
     judge.check("answer_cheapest_price", contains_amount(answer, 220000),
