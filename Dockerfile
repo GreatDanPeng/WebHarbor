@@ -326,8 +326,11 @@ RUN cd /opt/WebSyn/re_max && rm -rf instance instance_seed && \
     mkdir -p instance_seed && cp instance/re_max.db instance_seed/re_max.db && \
     rm -rf instance __pycache__
 
+# Parkers ships its frozen seed and inventoried images via the pinned asset archive.
+RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/parkers
+
 RUN python3 /opt/check_seed_databases.py /opt/WebSyn
 
-EXPOSE 8101 40000-40096
+EXPOSE 8101 40000-40097
 
 CMD ["/opt/websyn_start.sh"]
