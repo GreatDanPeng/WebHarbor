@@ -364,7 +364,7 @@
       {
         "action": "click",
         "params": {
-          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/car-specs/'> selector='a[href=\"/car-specs/\"]:visible >> nth=0'>",
+          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/car-specs/'> selector='a[href=\"/car-specs/\"]:visible, a[href=\"/car-specs\"]:visible >> nth=0'>",
           "x": 466.5234375,
           "y": 31.6640625
         },
@@ -406,7 +406,7 @@
       {
         "action": "click",
         "params": {
-          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/skoda/kodiaq/specs/'> selector='a[href=\"/skoda/kodiaq/specs/\"]:visible >> nth=0'>",
+          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/skoda/kodiaq/specs/'> selector='a[href=\"/skoda/kodiaq/specs/\"]:visible, a[href=\"/skoda/kodiaq/specs\"]:visible >> nth=0'>",
           "x": 310.671875,
           "y": 325.6015625
         },
@@ -417,7 +417,7 @@
       {
         "action": "click",
         "params": {
-          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/skoda/kodiaq/suv-2024/specs/'> selector='a[href=\"/skoda/kodiaq/suv-2024/specs/\"]:visible >> nth=0'>",
+          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/skoda/kodiaq/suv-2024/specs/'> selector='a[href=\"/skoda/kodiaq/suv-2024/specs/\"]:visible, a[href=\"/skoda/kodiaq/suv-2024/specs\"]:visible >> nth=0'>",
           "x": 335.625,
           "y": 271.1015625
         },
@@ -428,7 +428,7 @@
       {
         "action": "click",
         "params": {
-          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/skoda/kodiaq/suv-2024/specs/?deriv=15-tsi-e-tec-se-5dr-dsg'> selector='a[href=\"/skoda/kodiaq/suv-2024/specs/?deriv=15-tsi-e-tec-se-5dr-dsg\"]:visible >> nth=0'>",
+          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/skoda/kodiaq/suv-2024/specs/?deriv=15-tsi-e-tec-se-5dr-dsg'> selector='a[href=\"/skoda/kodiaq/suv-2024/specs/?deriv=15-tsi-e-tec-se-5dr-dsg\"]:visible, a[href=\"/skoda/kodiaq/suv-2024/specs/?deriv=15-tsi-e-tec-se-5dr-dsg\"]:visible >> nth=0'>",
           "x": 1040.3984375,
           "y": 355.84375
         },
@@ -439,7 +439,7 @@
       {
         "action": "click",
         "params": {
-          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/car-specs/'> selector='a[href=\"/car-specs/\"]:visible >> nth=0'>",
+          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/car-specs/'> selector='a[href=\"/car-specs/\"]:visible, a[href=\"/car-specs\"]:visible >> nth=0'>",
           "x": 466.5234375,
           "y": 31.6640625
         },
@@ -481,7 +481,7 @@
       {
         "action": "click",
         "params": {
-          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/hyundai/tucson/specs/'> selector='a[href=\"/hyundai/tucson/specs/\"]:visible >> nth=0'>",
+          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/hyundai/tucson/specs/'> selector='a[href=\"/hyundai/tucson/specs/\"]:visible, a[href=\"/hyundai/tucson/specs\"]:visible >> nth=0'>",
           "x": 319.4140625,
           "y": 325.6015625
         },
@@ -492,7 +492,7 @@
       {
         "action": "click",
         "params": {
-          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/hyundai/tucson/suv-2021/specs/'> selector='a[href=\"/hyundai/tucson/suv-2021/specs/\"]:visible >> nth=0'>",
+          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/hyundai/tucson/suv-2021/specs/'> selector='a[href=\"/hyundai/tucson/suv-2021/specs/\"]:visible, a[href=\"/hyundai/tucson/suv-2021/specs\"]:visible >> nth=0'>",
           "x": 335.625,
           "y": 271.1015625
         },
@@ -503,7 +503,7 @@
       {
         "action": "click",
         "params": {
-          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/hyundai/tucson/suv-2021/specs/?deriv=16t-150-advance-5dr'> selector='a[href=\"/hyundai/tucson/suv-2021/specs/?deriv=16t-150-advance-5dr\"]:visible >> nth=0'>",
+          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/hyundai/tucson/suv-2021/specs/?deriv=16t-150-advance-5dr'> selector='a[href=\"/hyundai/tucson/suv-2021/specs/?deriv=16t-150-advance-5dr\"]:visible, a[href=\"/hyundai/tucson/suv-2021/specs/?deriv=16t-150-advance-5dr\"]:visible >> nth=0'>",
           "x": 1028.453125,
           "y": 254.140625
         },
@@ -529,7 +529,7 @@
       {
         "action": "click",
         "params": {
-          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/car-specs/'> selector='a[href=\"/car-specs/\"]:visible >> nth=0'>",
+          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/car-specs/'> selector='a[href=\"/car-specs/\"]:visible, a[href=\"/car-specs\"]:visible >> nth=0'>",
           "x": 466.5234375,
           "y": 31.6640625
         },
@@ -549,7 +549,7 @@
       {
         "action": "click",
         "params": {
-          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/honda/civic/specs/'> selector='a[href=\"/honda/civic/specs/\"]:visible >> nth=0'>",
+          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/honda/civic/specs/'> selector='a[href=\"/honda/civic/specs/\"]:visible, a[href=\"/honda/civic/specs\"]:visible >> nth=0'>",
           "x": 1140.0,
           "y": 448.890625
         },
@@ -560,7 +560,7 @@
       {
         "action": "click",
         "params": {
-          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/honda/civic/saloon-2018/specs/'> selector='a[href=\"/honda/civic/saloon-2018/specs/\"]:visible >> nth=0'>",
+          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/honda/civic/saloon-2018/specs/'> selector='a[href=\"/honda/civic/saloon-2018/specs/\"]:visible, a[href=\"/honda/civic/saloon-2018/specs\"]:visible >> nth=0'>",
           "x": 337.5546875,
           "y": 447.6953125
         },
@@ -571,7 +571,7 @@
       {
         "action": "click",
         "params": {
-          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/honda/civic/saloon-2018/specs/?deriv=se-120ps-16i-dtec-4d'> selector='a[href=\"/honda/civic/saloon-2018/specs/?deriv=se-120ps-16i-dtec-4d\"]:visible >> nth=0'>",
+          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/honda/civic/saloon-2018/specs/?deriv=se-120ps-16i-dtec-4d'> selector='a[href=\"/honda/civic/saloon-2018/specs/?deriv=se-120ps-16i-dtec-4d\"]:visible, a[href=\"/honda/civic/saloon-2018/specs/?deriv=se-120ps-16i-dtec-4d\"]:visible >> nth=0'>",
           "x": 1032.3359375,
           "y": 377.171875
         },
@@ -582,7 +582,7 @@
       {
         "action": "click",
         "params": {
-          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/honda/civic/saloon-2018/specs/?deriv=sr-120ps-16i-dtec-4d'> selector='a[href=\"/honda/civic/saloon-2018/specs/?deriv=sr-120ps-16i-dtec-4d\"]:visible >> nth=0'>",
+          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/honda/civic/saloon-2018/specs/?deriv=sr-120ps-16i-dtec-4d'> selector='a[href=\"/honda/civic/saloon-2018/specs/?deriv=sr-120ps-16i-dtec-4d\"]:visible, a[href=\"/honda/civic/saloon-2018/specs/?deriv=sr-120ps-16i-dtec-4d\"]:visible >> nth=0'>",
           "x": 1032.796875,
           "y": 478.875
         },
@@ -593,7 +593,7 @@
       {
         "action": "click",
         "params": {
-          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/honda/civic/saloon-2018/specs/?deriv=ex-120ps-16i-dtec-4d'> selector='a[href=\"/honda/civic/saloon-2018/specs/?deriv=ex-120ps-16i-dtec-4d\"]:visible >> nth=0'>",
+          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/honda/civic/saloon-2018/specs/?deriv=ex-120ps-16i-dtec-4d'> selector='a[href=\"/honda/civic/saloon-2018/specs/?deriv=ex-120ps-16i-dtec-4d\"]:visible, a[href=\"/honda/civic/saloon-2018/specs/?deriv=ex-120ps-16i-dtec-4d\"]:visible >> nth=0'>",
           "x": 1032.703125,
           "y": 254.140625
         },
@@ -604,7 +604,7 @@
       {
         "action": "click",
         "params": {
-          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/honda/civic/saloon-2018/specs/?deriv=ex-120ps-16i-dtec-auto-4d'> selector='a[href=\"/honda/civic/saloon-2018/specs/?deriv=ex-120ps-16i-dtec-auto-4d\"]:visible >> nth=0'>",
+          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/honda/civic/saloon-2018/specs/?deriv=ex-120ps-16i-dtec-auto-4d'> selector='a[href=\"/honda/civic/saloon-2018/specs/?deriv=ex-120ps-16i-dtec-auto-4d\"]:visible, a[href=\"/honda/civic/saloon-2018/specs/?deriv=ex-120ps-16i-dtec-auto-4d\"]:visible >> nth=0'>",
           "x": 1051.6015625,
           "y": 275.46875
         },
@@ -615,7 +615,7 @@
       {
         "action": "click",
         "params": {
-          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/honda/civic/specs/'> selector='a[href=\"/honda/civic/specs/\"]:visible >> nth=0'>",
+          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/honda/civic/specs/'> selector='a[href=\"/honda/civic/specs/\"]:visible, a[href=\"/honda/civic/specs\"]:visible >> nth=0'>",
           "x": 280.0703125,
           "y": 88.21875
         },
@@ -626,7 +626,7 @@
       {
         "action": "click",
         "params": {
-          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/honda/civic/saloon-2018/insurance-groups/'> selector='a[href=\"/honda/civic/saloon-2018/insurance-groups/\"]:visible >> nth=0'>",
+          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/honda/civic/saloon-2018/insurance-groups/'> selector='a[href=\"/honda/civic/saloon-2018/insurance-groups/\"]:visible, a[href=\"/honda/civic/saloon-2018/insurance-groups\"]:visible >> nth=0'>",
           "x": 336.0234375,
           "y": 492.15625
         },
@@ -652,7 +652,7 @@
       {
         "action": "click",
         "params": {
-          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/car-specs/'> selector='a[href=\"/car-specs/\"]:visible >> nth=0'>",
+          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/car-specs/'> selector='a[href=\"/car-specs/\"]:visible, a[href=\"/car-specs\"]:visible >> nth=0'>",
           "x": 466.5234375,
           "y": 31.6640625
         },
@@ -694,7 +694,7 @@
       {
         "action": "click",
         "params": {
-          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/volkswagen/polo/specs/'> selector='a[href=\"/volkswagen/polo/specs/\"]:visible >> nth=0'>",
+          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/volkswagen/polo/specs/'> selector='a[href=\"/volkswagen/polo/specs/\"]:visible, a[href=\"/volkswagen/polo/specs\"]:visible >> nth=0'>",
           "x": 324.171875,
           "y": 325.6015625
         },
@@ -705,7 +705,7 @@
       {
         "action": "click",
         "params": {
-          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/volkswagen/polo/hatchback-2017/insurance-groups/'> selector='a[href=\"/volkswagen/polo/hatchback-2017/insurance-groups/\"]:visible >> nth=0'>",
+          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/volkswagen/polo/hatchback-2017/insurance-groups/'> selector='a[href=\"/volkswagen/polo/hatchback-2017/insurance-groups/\"]:visible, a[href=\"/volkswagen/polo/hatchback-2017/insurance-groups\"]:visible >> nth=0'>",
           "x": 336.0234375,
           "y": 315.5625
         },
@@ -716,7 +716,7 @@
       {
         "action": "click",
         "params": {
-          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/car-specs/'> selector='a[href=\"/car-specs/\"]:visible >> nth=0'>",
+          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/car-specs/'> selector='a[href=\"/car-specs/\"]:visible, a[href=\"/car-specs\"]:visible >> nth=0'>",
           "x": 466.5234375,
           "y": 31.6640625
         },
@@ -758,7 +758,7 @@
       {
         "action": "click",
         "params": {
-          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/ford/fiesta/specs/'> selector='a[href=\"/ford/fiesta/specs/\"]:visible >> nth=0'>",
+          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/ford/fiesta/specs/'> selector='a[href=\"/ford/fiesta/specs/\"]:visible, a[href=\"/ford/fiesta/specs\"]:visible >> nth=0'>",
           "x": 300.8203125,
           "y": 325.6015625
         },
@@ -769,7 +769,7 @@
       {
         "action": "click",
         "params": {
-          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/ford/fiesta/hatchback-2017/insurance-groups/'> selector='a[href=\"/ford/fiesta/hatchback-2017/insurance-groups/\"]:visible >> nth=0'>",
+          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/ford/fiesta/hatchback-2017/insurance-groups/'> selector='a[href=\"/ford/fiesta/hatchback-2017/insurance-groups/\"]:visible, a[href=\"/ford/fiesta/hatchback-2017/insurance-groups\"]:visible >> nth=0'>",
           "x": 336.0234375,
           "y": 315.5625
         },
@@ -780,7 +780,7 @@
       {
         "action": "click",
         "params": {
-          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/cars-for-sale/'> selector='a[href=\"/cars-for-sale/\"]:visible >> nth=0'>",
+          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/cars-for-sale/'> selector='a[href=\"/cars-for-sale/\"]:visible, a[href=\"/cars-for-sale\"]:visible >> nth=0'>",
           "x": 708.953125,
           "y": 31.6640625
         },
@@ -1970,7 +1970,7 @@
         "params": {
           "selector": "<Locator frame=<Frame name= url='http://localhost:45229/ford/fiesta/review/'> selector='a[href=\"/ford/fiesta/review/\"]:visible, a[href=\"/ford/fiesta/review\"]:visible >> nth=0'>",
           "x": 195.09375,
-          "y": 208.90625
+          "y": 172.421875
         },
         "url_before": "http://localhost:45229/ford/fiesta/hatchback-2017/owner-reviews/",
         "url_after": "http://localhost:45229/ford/fiesta/review/",
@@ -2127,7 +2127,7 @@
       {
         "action": "click",
         "params": {
-          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/car-specs/'> selector='a[href=\"/car-specs/\"]:visible >> nth=0'>",
+          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/car-specs/'> selector='a[href=\"/car-specs/\"]:visible, a[href=\"/car-specs\"]:visible >> nth=0'>",
           "x": 466.5234375,
           "y": 31.6640625
         },
@@ -2169,7 +2169,7 @@
       {
         "action": "click",
         "params": {
-          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/volkswagen/golf/specs/'> selector='a[href=\"/volkswagen/golf/specs/\"]:visible >> nth=0'>",
+          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/volkswagen/golf/specs/'> selector='a[href=\"/volkswagen/golf/specs/\"]:visible, a[href=\"/volkswagen/golf/specs\"]:visible >> nth=0'>",
           "x": 322.9609375,
           "y": 325.6015625
         },
@@ -2180,7 +2180,7 @@
       {
         "action": "click",
         "params": {
-          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/volkswagen/golf/hatchback-2020/owner-reviews/'> selector='a[href=\"/volkswagen/golf/hatchback-2020/owner-reviews/\"]:visible >> nth=0'>",
+          "selector": "<Locator frame=<Frame name= url='http://localhost:45229/volkswagen/golf/hatchback-2020/owner-reviews/'> selector='a[href=\"/volkswagen/golf/hatchback-2020/owner-reviews/\"]:visible, a[href=\"/volkswagen/golf/hatchback-2020/owner-reviews\"]:visible >> nth=0'>",
           "x": 520.5625,
           "y": 492.15625
         },
@@ -2253,7 +2253,7 @@
         "params": {
           "selector": "button:has-text(\"Publish your review\")",
           "x": 286.09375,
-          "y": 732.59375
+          "y": 696.109375
         },
         "url_before": "http://localhost:45229/volkswagen/golf/hatchback-2020/owner-reviews/",
         "url_after": "http://localhost:45229/volkswagen/golf/hatchback-2020/owner-reviews/#reviews",
@@ -2262,7 +2262,7 @@
       {
         "action": "scroll",
         "params": {
-          "delta_y": -250.015625
+          "delta_y": -250.5
         },
         "url_before": "http://localhost:45229/volkswagen/golf/hatchback-2020/owner-reviews/#reviews",
         "url_after": "http://localhost:45229/volkswagen/golf/hatchback-2020/owner-reviews/#reviews",
@@ -4512,7 +4512,7 @@
     "start_url": "http://localhost:45229/"
   },
   "13": {
-    "answer": "The guide\u2019s number-one family SUV is the Renault Scenic E-Tech. It also recommends the Audi Q3 and Skoda Elroq, and says to avoid the Skywell BE11. Parkers rates the Q3 4 out of 5. The cheapest advertised Q3 costs \u00a35,795, and the current Q3 pays \u00a3200 in annual road tax.",
+    "answer": "The family SUV guide ranks the Renault Scenic E-Tech first. Audi Q3 and Skoda Elroq are also recommended, while Skywell BE11 is the model to avoid. The Audi Q3 expert rating is 4 out of 5. The cheapest advertised Q3 costs \u00a35,795, and its annual road tax is \u00a3200.",
     "steps": [
       {
         "action": "load",
@@ -4850,7 +4850,7 @@
     "start_url": "http://localhost:45229/"
   },
   "15": {
-    "answer": "The highest hatchback rating is 4.5, shared by the Honda Civic, Renault 5 E-Tech and Skoda Fabia, among others. Parkers likes the Fabia\u2019s roomy interior and boot. Its practicality score is 4, the current model starts at insurance group 2, and the cheapest version cost \u00a315,720 new.",
+    "answer": "Honda Civic, Renault 5 E-Tech and Skoda Fabia share the highest 4.5 out of 5 rating in the shortlist. The Fabia review praises its roomy interior and boot. Its practicality score is 4 out of 5, the lowest insurance group is 2, and the cheapest advertised Fabia costs \u00a315,720.",
     "steps": [
       {
         "action": "load",
