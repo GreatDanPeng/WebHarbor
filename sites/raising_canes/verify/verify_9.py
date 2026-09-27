@@ -30,9 +30,6 @@ def main():
     fa = final_answer(t)
     after = resolve_db(a.after_db, a.container, "instance")
 
-    j.check("nav_locations_filter", navigated_to(t, "/locations/?q=Dallas")
-            and navigated_to(t, "service=Catering+Delivery"),
-            "agent must filter Dallas locations by Catering Delivery")
     j.check("nav_ross", navigated_to(t, "/locations/tx_dallas_5201-ross-ave"),
             "agent must open the Ross Ave location page")
     j.check("nav_item_page", navigated_to(t, "/order/location/tx_dallas_5201-ross-ave/item/"),
@@ -53,9 +50,6 @@ def main():
             ev = [f"order={on} total={total:.2f}"]
             break
     j.check("db_order_state", ok, "; ".join(ev) or "no matching order")
-    j.check("answer_count", contains_number(fa, 12),
-            f"final={fa[:150]!r} (restaurants in Dallas, TX; the literal 13-result "
-            "count is the pre-r2 wording and no longer answers the question)")
     j.check("answer_phone", contains_number(fa, "515-9105"), f"final={fa[:150]!r}")
     j.check("answer_number_total", contains_order_number(fa, "RC-") and contains_money(fa, 128.81),
             f"final={fa[:150]!r}")

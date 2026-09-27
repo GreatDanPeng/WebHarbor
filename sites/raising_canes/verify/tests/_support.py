@@ -58,7 +58,7 @@ def tiny_png(width: int = 4, height: int = 4) -> bytes:
 
     ihdr = width.to_bytes(4, "big") + height.to_bytes(4, "big") + b"\x08\x02\x00\x00\x00"
     return (b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", ihdr)
-            + zlib.compress(raw) + chunk(b"IEND", b""))
+            + chunk(b"IDAT", zlib.compress(raw)) + chunk(b"IEND", b""))
 
 
 PNG = tiny_png()

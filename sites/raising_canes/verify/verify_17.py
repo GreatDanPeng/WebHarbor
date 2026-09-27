@@ -36,8 +36,7 @@ def main():
             "agent must search Restaurant Manager jobs in Texas")
     j.check("nav_la_marque_job", navigated_to(t, "/careers/744000151697368"),
             "agent must open the La Marque Restaurant Manager job detail")
-    j.check("nav_cashier_job", navigated_to(t, "/careers/P1-1007372-17"),
-            "agent must open the Polaris Parkway Cashier job")
+    j.check("nav_houston_job", navigated_to(t, "/careers/744000151084119"), "visit Houston job")
     j.check("answer_tx_count", contains_number(fa, 6) or "six" in fa.casefold(), f"final={fa[:150]!r}")
     j.check("answer_cities", contains_all(fa, ["San Antonio", "Cedar Park", "Dallas",
                                                "Katy", "Houston", "La Marque"]),
@@ -48,8 +47,7 @@ def main():
             f"final={fa[:200]!r}")
     j.check("answer_la_marque_department", "management" in fa.casefold(),
             f"final={fa[:200]!r}")
-    j.check("answer_reference", contains_number(fa, "1007372") and contains_number(fa, "17"), f"final={fa[:200]!r}")
-    j.check("answer_shift", "late night" in fa.casefold(), f"final={fa[:200]!r}")
+    j.check("answer_houston", contains_all(fa, ["705 Cypress Creek Pkwy", "744000151084119"]), "Houston street and reference")
     j.emit()
 
 if __name__ == "__main__":

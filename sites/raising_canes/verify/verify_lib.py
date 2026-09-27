@@ -249,6 +249,12 @@ class Judge:
         return bool(cond)
 
     def emit(self):
+        try:
+            from state_contract import check
+            args = parse_args()
+            check(self, args, load_run(args.run_dir))
+        except Exception as exc:
+            self.check("evidence_contract", False, f"{type(exc).__name__}: {exc}")
         print(json.dumps({"task_id": self.task_id, "pass": self.ok,
                           "reason": self.reason, "evidence": self.evidence},
                          indent=2))
