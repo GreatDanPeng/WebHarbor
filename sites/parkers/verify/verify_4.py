@@ -32,9 +32,8 @@ def run_checks(judge, traj, initial_db, after_db):
                 "required: Civic SE 120PS 1.6i-DTEC 4d spec selection")
     judge.check("nav_civic_second_diesel",
                 navigated_specs_any(traj, "honda", "civic", "saloon-2018",
-                                    ["ex-120ps-16i-dtec-4d", "sr-120ps-16i-dtec-4d",
-                                     "ex-120ps-16i-dtec-auto-4d"]),
-                "required: a second diesel Civic spec selection")
+                                    ["ex-120ps-16i-dtec-auto-4d"]),
+                "required: the automatic diesel Civic spec selection")
     judge.check("answer_best_diesel", contains_phrase(answer, "se 120ps 1.6i-dtec"),
                 "most economical diesel Civic is the SE 120PS 1.6i-DTEC 4d")
     judge.check("answer_mpg", contains_count(answer, 64.2),
