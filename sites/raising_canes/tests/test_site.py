@@ -9,6 +9,11 @@ import os
 import sys
 
 import pytest
+import tempfile
+
+# Keep route tests away from the developer or browser-review runtime.
+_SCRATCH = tempfile.TemporaryDirectory(prefix="canes-site-tests-")
+os.environ["WEBHARBOR_DATABASE_URI"] = "sqlite:///" + os.path.join(_SCRATCH.name, "test.db")
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SITE = os.path.dirname(HERE)
@@ -16,6 +21,7 @@ sys.path.insert(0, SITE)
 
 spec = importlib.util.spec_from_file_location("rc_app", os.path.join(SITE, "app.py"))
 rc_app = importlib.util.module_from_spec(spec)
+sys.modules[spec.name] = rc_app
 spec.loader.exec_module(rc_app)
 
 app = rc_app.app

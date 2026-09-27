@@ -30,6 +30,9 @@
           <div class="field">
             <label>Payment method</label>
             <select name="payment_method">
+              {% for card in saved_cards %}
+              <option value="{{ card.brand }}">Saved {{ card.brand }} ending {{ card.last4 }}</option>
+              {% endfor %}
               <option value="Visa">Visa</option>
               <option value="Mastercard">Mastercard</option>
               <option value="Discover">Discover</option>

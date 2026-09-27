@@ -35,7 +35,7 @@ from _support import (BASE, RunBuilder, _acquire_seed,  # noqa: E402
                        run_verifier)
 
 CREATED = "2026-09-24 12:00:00"
-STATEFUL = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 18, 19}
+STATEFUL = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18}
 RESEARCH_ONLY = sorted(set(range(20)) - STATEFUL)
 
 # seed ids (from the deterministic seed; stable across rebuilds)
@@ -67,7 +67,7 @@ def _order_sql(order_number, user_id, loc_id, mode, pdate, ptime, cname,
          "tax, total, status, placed_at, points_earned) "
          "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
          (oid, order_number, user_id, loc_id, mode, pdate, ptime, cname, cphone,
-          pay, gcnum, offer, sub, disc, tax, total, status, CREATED, points)),
+          pay, gcnum, offer, sub, disc, tax, total, status, CREATED, int(total))),
     ]
 
 
@@ -85,7 +85,7 @@ def _gear_order_sql(order_number, user_id, sname, sline1, scity, sstate, szip,
         ("INSERT INTO gear_orders (id, order_number, user_id, email, ship_name, "
          "ship_line1, ship_city, ship_state, ship_zip, payment_method, subtotal, "
          "shipping, total, placed_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-         (oid, order_number, user_id, f"u{user_id}@test.com", sname, sline1, scity,
+         (oid, order_number, user_id, {1:"alice.j@test.com",2:"bob.c@test.com",3:"carol.d@test.com",4:"david.k@test.com"}[user_id], sname, sline1, scity,
           sstate, szip, pay, sub, ship, total, CREATED)),
     ]
 
@@ -318,7 +318,7 @@ def honest_run(tmp: Path, index: int):
                                  "Visa", 54.97, 0.0, 54.97)
                  + _gear_item_sql(3, GEAR_CREWNECK, "M", 1, 39.99)
                  + _gear_item_sql(3, GEAR_PLUSH, "Default Title", 1, 9.99, goi=7)
-                 + _gear_item_sql(3, GEAR_BANDANA, "Default Title", 1, 4.99, goi=8))
+                 + _gear_item_sql(3, GEAR_BANDANA, "Large", 1, 4.99, goi=8))
     elif index == 13:
         b.login("carol.d@test.com")
         b.goto("/gear/collection/Headwear")
@@ -378,7 +378,7 @@ def honest_run(tmp: Path, index: int):
         b.goto("/account")
         b.done("Alice's most recent food order was RC-100236 at the Houston Little "
                "York Road restaurant, total $52.71. It has been cancelled; the "
-               "cancellation returned 52 Caniac Club points and her balance "
+               "cancellation removed 52 Caniac Club points and her balance "
                "afterwards is 1223.")
         stmts = [("UPDATE food_orders SET status='Cancelled' WHERE order_number=?",
                   ("RC-100236",)),
@@ -388,12 +388,13 @@ def honest_run(tmp: Path, index: int):
         b.goto("/careers/744000151697368")
         b.goto("/careers/?q=Cashier&state=OH")
         b.goto("/careers/P1-1007372-17")
+        b.goto("/careers/744000151084119")
         b.done("Six Restaurant Manager jobs are currently open in Texas: San "
                "Antonio, Cedar Park, Dallas, Katy, Houston and La Marque. The La "
                "Marque opening is at 3001 FM 1764, reference 744000151697368, "
                "department Management. The Cashier opening on Polaris Parkway in "
                "Columbus, Ohio is reference P1-1007372-17, Cashier - Late Night "
-               "Shift.")
+               "Shift. Houston is at 705 Cypress Creek Pkwy, reference 744000151084119, department Management.")
         stmts = []
     elif index == 18:
         b.login("alice.j@test.com")
@@ -414,25 +415,26 @@ def honest_run(tmp: Path, index: int):
                  + _gear_order_sql("GEAR-4504", ALICE, "Alice Johnson",
                                    "500 St. Louis St", "New Orleans", "LA", "70130",
                                    "Visa", 29.99, 6.95, 36.94)
-                 + _gear_item_sql(3, GEAR_BACKPACK, "Default Title", 1, 29.99))
+                 + _gear_item_sql(3, GEAR_BACKPACK, "Red", 1, 29.99))
     elif index == 19:
-        b.goto("/faq/?q=corporate+phone+number")
-        b.goto("/order/")
-        b.fill("/order/?q=Siegen", "Siegen")
-        b.step("/order/location/la_baton-rouge_6588-siegen-lane/item/3?qty=1", "goto", {})
-        b.step("/order/checkout", "goto", {})
-        b.step("/order/confirmation/RC-100240", "goto", {})
-        b.done("The FAQ lists Restaurant Support Offices in Baton Rouge (headquarters) "
-               "and Plano (Dallas-area office, phone (972) 769-3100). Order RC-100240 "
-               "(Caniac Combo with Large Coke, today 2:00 PM), total $18.28.")
-        stmts = (_order_sql("RC-100240", None, LOC_SIEGEN, "Pickup",
-                            "2026-09-24", "2:00 PM", "R. Okafor", "225-555-0158",
-                            "Pay at Restaurant", 16.89, 0.0, 1.39, 18.28)
-                 + _item_sql(6, ITEM_CANIAC, "1", '["Regular", "Large Coke\\u00ae"]', 16.89))
+        b.goto("/faq/")
+        b.done("Todd Graves founded Raising Cane's in 1996 in Baton Rouge. ONE LOVE means quality chicken finger meals. It is a privately owned company, with no public stock. It is not accepting franchise applications. The support offices are in Baton Rouge and Plano; the Dallas-area number is (972) 769-3100.")
+        stmts = []
     else:
         raise ValueError(index)
 
+    if index == 9:
+        b.done("The Ross Avenue restaurant's phone is (214) 515-9105. Order RC-100240, total $128.81.")
+    elif index == 17:
+        b.done("Six Restaurant Manager roles are open in Texas: San Antonio, Cedar Park, Dallas, Katy, Houston and La Marque. La Marque: 3001 FM 1764, reference 744000151697368, department Management. Houston: 705 Cypress Creek Pkwy, reference 744000151084119, department Management.")
     after = mutate_db(seed, b.root / "after.db", stmts)
+    # The real checkout accrues points on every authenticated food order.
+    con = sqlite3.connect(after)
+    orders = con.execute("SELECT user_id, points_earned FROM food_orders WHERE id > 5").fetchall()
+    for uid, points in orders:
+        if uid is not None:
+            con.execute("UPDATE caniac_cards SET points=points+? WHERE user_id=?", (points, uid))
+    con.commit(); con.close()
     copy_db(seed, b.root / "initial.db")
     return b.root, after
 
@@ -504,18 +506,14 @@ def test_t9_dallas_tx_count_pass(tmp_path):
     assert out["pass"], f"Dallas-TX count answer must PASS: {out}"
 
 
-def test_t9_literal_count_fail(tmp_path):
-    """Pre-r2 reading: reporting the literal 13-result count (without the
-    Dallas, TX count) no longer answers the re-anchored question -> FAIL."""
+def test_t9_missing_phone_fail(tmp_path):
     run_dir, _ = honest_run(tmp_path, 9)
     traj = json.loads((run_dir / "trajectory.json").read_text())
-    traj["final_answer"] = ("The Dallas search with the Catering Delivery filter shows "
-                            "13 restaurants. The Ross Avenue restaurant's phone is "
-                            "(214) 515-9105. Order RC-100240, total $128.81.")
+    traj["final_answer"] = "Order RC-100240 at Ross Avenue, total $128.81."
     (run_dir / "trajectory.json").write_text(json.dumps(traj))
     out = run_verifier(9, run_dir)
-    assert not out["pass"], f"literal 13-count-only answer must FAIL: {out}"
-    assert out["reason"] == "answer_count"
+    assert not out["pass"]
+    assert out["reason"] == "answer_phone"
 
 
 def test_t11_old_slot_fail(tmp_path):

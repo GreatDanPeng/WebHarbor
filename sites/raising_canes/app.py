@@ -30,7 +30,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 app = Flask(__name__, instance_path=os.path.join(BASE_DIR, 'instance'))
 app.config['SECRET_KEY'] = 'webharbor-raising-canes-dev-key'
-app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(BASE_DIR, 'instance', 'raising_canes.db')}"
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("WEBHARBOR_DATABASE_URI") or f"sqlite:///{os.path.join(BASE_DIR, 'instance', 'raising_canes.db')}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['WTF_CSRF_TIME_LIMIT'] = None
 
@@ -1042,7 +1042,7 @@ def gear_checkout():
                                    subtotal=subtotal, shipping=shipping,
                                    total=total, error='Please provide: ' + ', '.join(missing),
                                    form=request.form,
-                                   free_threshold=GEAR_FREE_SHIPPING_THRESHOLD)
+                                   free_threshold=GEAR_FREE_SHIPPING_THRESHOLD, saved_cards=_saved_cards())
         order_number = _next_gear_order_number()
         order = GearOrder(
             order_number=order_number,
@@ -1066,7 +1066,7 @@ def gear_checkout():
         return redirect(url_for('gear_confirmation', order_number=order_number))
     return render_template('gear_checkout.html', lines=lines, subtotal=subtotal,
                            shipping=shipping, total=total, error=None, form={},
-                           free_threshold=GEAR_FREE_SHIPPING_THRESHOLD)
+                           free_threshold=GEAR_FREE_SHIPPING_THRESHOLD, saved_cards=_saved_cards())
 
 
 def _next_gear_order_number():
