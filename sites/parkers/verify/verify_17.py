@@ -1,12 +1,7 @@
 #!/usr/bin/env python3
-"""verify_17.py — deterministic verifier for task Parkers--17.
+"""Verify Parkers--17.
 
-Value the Fiesta 1.0 EcoBoost 100 ST-Line Edition 3dr on 2023/23; then find the cheapest Fiesta listed and say whether its asking price falls inside or below the private-sale range.
-
-Ground truth below is HARDCODED (frozen against the shipped seed DB); it never
-appears in tasks.jsonl. Navigation gates encode the honest on-site path the
-task text implies; a correct answer without that navigation is a shortcut and
-fails. See verify_lib.py for the shared contract.
+Get Parkers' free valuation for the Ford Fiesta 1.0 EcoBoost 100 ST-Line Edition 3dr on a 2023/23 plate. Then find the cheapest Ford Fiesta of any kind currently listed for sale on Parkers and tell me its price and whether that asking price falls inside or below the valuation's private-sale range.
 """
 import sys
 from pathlib import Path
@@ -15,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from verify_lib import (  # noqa: E402
     Judge, check_read_only, check_seed_contract, check_trajectory_identity,
-    contains_amount, contains_amount_range, contains_any_phrase, contains_count,
+    contains_amount, contains_amount_range, labeled_range, contains_any_phrase, contains_count,
     contains_phrase, final_answer, navigated_c4s_search, navigated_cartax_gen,
     navigated_cartax_hub, navigated_guide, navigated_insurance,
     navigated_listing_detail, navigated_news, navigated_owner_reviews,
@@ -40,7 +35,7 @@ def run_checks(judge, traj, initial_db, after_db):
                 navigated_c4s_search(traj, make="ford", model="fiesta", sort="price-asc")
                 or navigated_c4s_search(traj, make="ford", model="fiesta"),
                 "required: Fiesta cars-for-sale search")
-    judge.check("answer_private_range", contains_amount_range(answer, 7160, 9500),
+    judge.check("answer_private_range", labeled_range(answer, "private", 7160, 9500),
                 "private-sale range is £7,160 - £9,500")
     judge.check("answer_cheapest_fiesta", contains_amount(answer, 3950),
                 "cheapest Fiesta listing is £3,950 (2014/14)")

@@ -13,7 +13,6 @@ Deterministic grading contract for the 20 Parkers benchmark tasks
 - `tests/test_verifiers.py` + `tests/_support.py` — adversarial contract
   tests (honest fixtures pass; no-op / shortcut / wrong-answer / mutated-DB /
   state-mismatch / tamper runs all fail).
-- `append_rubrics.py` — appends `verifier_path` + `judge_rubric` to
   `../tasks.jsonl`, keeping the five task-definition keys byte-identical and
   adding no answer key.
 
@@ -101,3 +100,18 @@ the contract has been re-synced to the deepened / re-anchored tasks:
 
 Live replay (real browser against the running review container, DBs fetched
 from the container): T8 (stateful) and T18 (read-only) both PASS.
+
+## Reviewed contract updates
+
+Tasks pursue coherent user outcomes. The primary grader checks the frozen initial
+fixture, every referenced PNG, the required browser-visible facts, and precise
+state deltas. Incidental numbers are not monetary assertions. All previous rows
+and other users must be preserved except the explicitly requested changes.
+
+The tests use portable synthetic fixtures distilled from the final browser
+recordings, stored in `tests/reviewed_fixtures.json`. Their tiny images exercise
+the evidence schema; they are not browser-completion evidence. Install the pinned
+site dependencies and pytest, fetch the site assets (and build a generated seed
+where applicable), then run the site and verifier test directories separately.
+
+Keep `tasks.jsonl`, these verifiers and the regression fixtures in sync.

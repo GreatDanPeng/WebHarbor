@@ -1,12 +1,7 @@
 #!/usr/bin/env python3
-"""verify_13.py — deterministic verifier for task Parkers--13.
+"""Verify Parkers--13.
 
-Open the best family SUVs 2026 guide: report the #1 pick and two further SUVs; then the cheapest Audi Q3 listed for sale.
-
-Ground truth below is HARDCODED (frozen against the shipped seed DB); it never
-appears in tasks.jsonl. Navigation gates encode the honest on-site path the
-task text implies; a correct answer without that navigation is a shortcut and
-fails. See verify_lib.py for the shared contract.
+We're shopping for a family SUV and trust Parkers' rankings. Open the best family SUVs guide for 2026 and tell me which SUV Parkers names as its number one pick, two further SUVs it recommends in the same guide, and the one it says to avoid; then open the review of the Audi Q3 from that guide and report its overall rating; find the cheapest Audi Q3 currently listed for sale on Parkers with its price, and what a current Q3 pays in annual road tax on Parkers' car tax pages.
 """
 import sys
 from pathlib import Path
@@ -15,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from verify_lib import (  # noqa: E402
     Judge, check_read_only, check_seed_contract, check_trajectory_identity,
-    contains_amount, contains_amount_range, contains_any_phrase, contains_count,
+    contains_amount, contains_amount_range, labeled_range, contains_any_phrase, contains_count,
     contains_phrase, final_answer, navigated_c4s_search, navigated_cartax_gen,
     navigated_cartax_hub, navigated_guide, navigated_insurance,
     navigated_listing_detail, navigated_news, navigated_owner_reviews,

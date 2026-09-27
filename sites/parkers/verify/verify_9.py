@@ -1,12 +1,7 @@
 #!/usr/bin/env python3
-"""verify_9.py — deterministic verifier for task Parkers--9.
+"""Verify Parkers--9.
 
-Sign in as bob; remove the most expensive car from the shortlist, report the remaining cars and their combined price; then find and save the cheapest car listed on Parkers.
-
-Ground truth below is HARDCODED (frozen against the shipped seed DB); it never
-appears in tasks.jsonl. Navigation gates encode the honest on-site path the
-task text implies; a correct answer without that navigation is a shortcut and
-fails. See verify_lib.py for the shared contract.
+Sign in as bob.c@test.com (password TestPass123!). I want cheaper options on my shortlist: replace its most expensive car with the cheapest car currently advertised on Parkers. Tell me which car you removed, the other cars you kept and their combined price, and the replacement's price and mileage. Confirm the final shortlist contains all four choices.
 """
 import sys
 from pathlib import Path
@@ -15,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from verify_lib import (  # noqa: E402
     Judge, check_read_only, check_seed_contract, check_trajectory_identity,
-    contains_amount, contains_amount_range, contains_any_phrase, contains_count,
+    contains_amount, contains_amount_range, labeled_range, contains_any_phrase, contains_count,
     contains_phrase, final_answer, navigated_c4s_search, navigated_cartax_gen,
     navigated_cartax_hub, navigated_guide, navigated_insurance,
     navigated_listing_detail, navigated_news, navigated_owner_reviews,
@@ -51,13 +46,8 @@ def run_checks(judge, traj, initial_db, after_db):
                 "cheapest car overall is the Fiat Panda (2004/04) at £1,295")
     judge.check("answer_cheapest_mileage", contains_count(answer, 87000),
                 "the cheapest car has 87,000 miles")
-    judge.check("nav_saved_valuations",
-                navigated_to_path(traj, "/my-parkers/saved-valuations"),
-                "required: saved-valuations page (final counts check)")
     judge.check("answer_shortlist_count", contains_count(answer, 4),
                 "the shortlist now contains 4 cars")
-    judge.check("answer_saved_valuations", contains_count(answer, 1),
-                "the account holds 1 saved valuation")
     # DB after-state: bob's shortlist loses 954 and gains 959; nothing else changes
     before = shortlist_listing_ids(initial_db, "bob.c@test.com")
     after = shortlist_listing_ids(after_db, "bob.c@test.com")

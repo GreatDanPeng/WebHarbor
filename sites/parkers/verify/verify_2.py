@@ -1,12 +1,7 @@
 #!/usr/bin/env python3
-"""verify_2.py — deterministic verifier for task Parkers--2.
+"""Verify Parkers--2.
 
-Value the BMW 318d M Sport (2023/73); report the private-sale range and part-exchange value and which route the mid-points favour; report the 2024/24 private range and the 3 Series reliability score.
-
-Ground truth below is HARDCODED (frozen against the shipped seed DB); it never
-appears in tasks.jsonl. Navigation gates encode the honest on-site path the
-task text implies; a correct answer without that navigation is a shortcut and
-fails. See verify_lib.py for the shared contract.
+I'm deciding whether to sell my BMW 318d M Sport privately or trade it in. Use Parkers' valuation for the 2023/73-plate car to report the private-sale and part-exchange ranges, calculate their midpoints, and explain which route suggests a higher return and by how much.
 """
 import sys
 from pathlib import Path
@@ -15,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from verify_lib import (  # noqa: E402
     Judge, check_read_only, check_seed_contract, check_trajectory_identity,
-    contains_amount, contains_amount_range, contains_any_phrase, contains_count,
+    contains_amount, contains_amount_range, labeled_range, contains_any_phrase, contains_count,
     contains_phrase, final_answer, navigated_c4s_search, navigated_cartax_gen,
     navigated_cartax_hub, navigated_guide, navigated_insurance,
     navigated_listing_detail, navigated_news, navigated_owner_reviews,
@@ -39,7 +34,7 @@ def _route_verdict(answer):
     """
     text = (answer or "").lower()
     for m in _re.finditer(r"earns? more|is better|better route|wins|beats|"
-                          r"higher|more money|more for me", text):
+                          r"higher|more money|more for me|suggests? £?[\d,]+ more", text):
         window = text[max(0, m.start() - 110):m.start()]
         window = window.rsplit(".", 1)[-1]
         priv = dm = None
@@ -63,30 +58,16 @@ def run_checks(judge, traj, initial_db, after_db):
                 navigated_valuation_chain(traj, "bmw", "3-series", "saloon-2019",
                                           "318d-m-sport-4d", "2023/73", deriv_id=70),
                 "required: 3-series saloon-2019 valuation chain for 318d M Sport 4d 2023/73")
-    judge.check("answer_private_range", contains_amount_range(answer, 13540, 17960),
+    judge.check("answer_private_range", labeled_range(answer, "private", 13540, 17960),
                 "private range must quote £13,540 and £17,960")
-    judge.check("answer_part_ex", contains_amount_range(answer, 14650, 16060),
+    judge.check("answer_part_ex", labeled_range(answer, "part", 14650, 16060),
                 "part-exchange value must quote £14,650 and £16,060")
     # The task now names the two routes (private sale vs part-exchange), so the
     # mid-point comparison is unambiguous: private mid 15,750 > part-ex mid 15,355.
     # The verdict direction is checked (the route credited with earning more).
     judge.check("answer_route", _route_verdict(answer) == "private",
                 "the mid-points favour selling privately (not the dealer route)")
-    judge.check("nav_valuation_vids",
-                navigated_to_path(traj, "/bmw/3-series/saloon-2019/318d-m-sport-4d/618/free-valuation")
-                and navigated_to_path(traj, "/bmw/3-series/saloon-2019/318d-m-sport-4d/619/free-valuation"),
-                "required: free-valuation pages for valuation ids 618 (2023/73) "
-                "and 619 (2024/24)")
-    judge.check("nav_valuation_chain_2024",
-                navigated_valuation_chain(traj, "bmw", "3-series", "saloon-2019",
-                                          "318d-m-sport-4d", "2024/24", deriv_id=70),
-                "required: second valuation chain for 318d M Sport 4d 2024/24")
-    judge.check("answer_private_range_2024", contains_amount_range(answer, 16520, 21900),
-                "2024/24 private-sale range must quote £16,520 and £21,900")
-    judge.check("nav_verdict", navigated_review_section(traj, "bmw", "3-series", "verdict"),
-                "required: 3 Series review verdict section (reliability score)")
-    judge.check("answer_reliability", contains_count(answer, 4),
-                "the 3 Series reliability score from the verdict is 4")
+    judge.check("answer_midpoints_and_difference", contains_amount(answer, 15750) and contains_amount(answer, 15355) and contains_amount(answer, 395), "Private midpoint £15,750; part-exchange midpoint £15,355; advantage £395")
     check_read_only(judge, initial_db, after_db)
 
 

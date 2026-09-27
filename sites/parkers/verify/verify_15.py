@@ -1,12 +1,7 @@
 #!/usr/bin/env python3
-"""verify_15.py — deterministic verifier for task Parkers--15.
+"""Verify Parkers--15.
 
-Browse hatchback reviews: report the top rating and at least three models that share it; then open one of their reviews and report one thing it likes about the car.
-
-Ground truth below is HARDCODED (frozen against the shipped seed DB); it never
-appears in tasks.jsonl. Navigation gates encode the honest on-site path the
-task text implies; a correct answer without that navigation is a shortcut and
-fails. See verify_lib.py for the shared contract.
+I want a well-rated family hatchback but don't know where to start. Browse Parkers' hatchback reviews, identify the highest-rated models in that class, and report the top rating they achieve plus at least three model names that share it; then open Parkers' review of the Skoda Fabia, report one thing the review specifically likes about the car and its practicality score from the verdict, the current Fabia's lowest insurance group on Parkers' insurance pages, and the price when new of the cheapest current Fabia version on the specs pages.
 """
 import sys
 from pathlib import Path
@@ -15,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from verify_lib import (  # noqa: E402
     Judge, check_read_only, check_seed_contract, check_trajectory_identity,
-    contains_amount, contains_amount_range, contains_any_phrase, contains_count,
+    contains_amount, contains_amount_range, labeled_range, contains_any_phrase, contains_count,
     contains_phrase, final_answer, navigated_c4s_search, navigated_cartax_gen,
     navigated_cartax_hub, navigated_guide, navigated_insurance,
     navigated_listing_detail, navigated_news, navigated_owner_reviews,

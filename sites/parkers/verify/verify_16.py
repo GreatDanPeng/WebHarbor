@@ -1,12 +1,7 @@
 #!/usr/bin/env python3
-"""verify_16.py — deterministic verifier for task Parkers--16.
+"""Verify Parkers--16.
 
-Use Parkers' search to find the Hyundai Ioniq 5 expert review: report its overall rating, one pro and one con; then the private-sale range of the cheapest Ioniq 5 version on the newest year plate.
-
-Ground truth below is HARDCODED (frozen against the shipped seed DB); it never
-appears in tasks.jsonl. Navigation gates encode the honest on-site path the
-task text implies; a correct answer without that navigation is a shortcut and
-fails. See verify_lib.py for the shared contract.
+Use Parkers' search to find the expert review of the Hyundai Ioniq 5, open it, and report the car's overall rating plus one pro and one con the review lists and its reliability score from the verdict; then get the free valuation for the cheapest Ioniq 5 version on the newest year plate and report its private-sale price range.
 """
 import sys
 from pathlib import Path
@@ -15,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from verify_lib import (  # noqa: E402
     Judge, check_read_only, check_seed_contract, check_trajectory_identity,
-    contains_amount, contains_amount_range, contains_any_phrase, contains_count,
+    contains_amount, contains_amount_range, labeled_range, contains_any_phrase, contains_count,
     contains_phrase, final_answer, navigated_c4s_search, navigated_cartax_gen,
     navigated_cartax_hub, navigated_guide, navigated_insurance,
     navigated_listing_detail, navigated_news, navigated_owner_reviews,
@@ -56,7 +51,7 @@ def run_checks(judge, traj, initial_db, after_db):
                 "required: Ioniq 5 verdict section (reliability score)")
     judge.check("answer_reliability", contains_count(answer, 4.5),
                 "reliability score from the verdict is 4.5")
-    judge.check("answer_private_range", contains_amount_range(answer, 35000, 46400),
+    judge.check("answer_private_range", labeled_range(answer, "private", 35000, 46400),
                 "private-sale range for the cheapest version on 2026/76 is "
                 "£35,000 - £46,400")
     judge.check("nav_valuation_vid", navigated_to_path(traj, "/hyundai/ioniq-5/suv-2021/125kw-advance-63-kwh-5dr-auto/3502/free-valuation"),

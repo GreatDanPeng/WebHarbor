@@ -1,12 +1,7 @@
 #!/usr/bin/env python3
-"""verify_7.py — deterministic verifier for task Parkers--7.
+"""Verify Parkers--7.
 
-Compare Audi A3 vs MINI Cooper practicality ratings in their verdicts; then compare luggage space on the spec pages and report the difference.
-
-Ground truth below is HARDCODED (frozen against the shipped seed DB); it never
-appears in tasks.jsonl. Navigation gates encode the honest on-site path the
-task text implies; a correct answer without that navigation is a shortcut and
-fails. See verify_lib.py for the shared contract.
+We need a compact premium hatchback but regularly carry a pushchair and golf clubs. Compare the practicality ratings Parkers gives the Audi A3 and the MINI Cooper in their review verdicts and tell me which car scores higher and by how much; then compare the luggage space of the Audi A3 Sportback 1.5 TFSI 116 S Line 5dr and the MINI 1.5 C Classic 3dr Auto on the spec pages and report the difference in litres.
 """
 import sys
 from pathlib import Path
@@ -15,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from verify_lib import (  # noqa: E402
     Judge, check_read_only, check_seed_contract, check_trajectory_identity,
-    contains_amount, contains_amount_range, contains_any_phrase, contains_count,
+    contains_amount, contains_amount_range, labeled_range, contains_any_phrase, contains_count,
     contains_phrase, final_answer, navigated_c4s_search, navigated_cartax_gen,
     navigated_cartax_hub, navigated_guide, navigated_insurance,
     navigated_listing_detail, navigated_news, navigated_owner_reviews,

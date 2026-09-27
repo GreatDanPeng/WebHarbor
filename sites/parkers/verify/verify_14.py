@@ -1,12 +1,7 @@
 #!/usr/bin/env python3
-"""verify_14.py — deterministic verifier for task Parkers--14.
+"""Verify Parkers--14.
 
-Using the car tax pages: standard annual petrol rate, what electric cars pay per year, first-year rate for 131-150 g/km; then the Fiesta Zetec 1.0T EcoBoost 100PS annual car tax.
-
-Ground truth below is HARDCODED (frozen against the shipped seed DB); it never
-appears in tasks.jsonl. Navigation gates encode the honest on-site path the
-task text implies; a correct answer without that navigation is a shortcut and
-fails. See verify_lib.py for the shared contract.
+I'm weighing up the road-tax cost of replacing our BMW 320d EfficientDynamics Plus with a petrol car or an EV. Use Parkers' tax pages to compare the BMW's annual tax with a Ford Fiesta Zetec 1.0T EcoBoost 100PS, and explain the current standard annual rate, the first-year petrol rate at 131–150 g/km and how the EV first-year and ongoing rates differ.
 """
 import sys
 from pathlib import Path
@@ -15,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from verify_lib import (  # noqa: E402
     Judge, check_read_only, check_seed_contract, check_trajectory_identity,
-    contains_amount, contains_amount_range, contains_any_phrase, contains_count,
+    contains_amount, contains_amount_range, labeled_range, contains_any_phrase, contains_count,
     contains_phrase, final_answer, navigated_c4s_search, navigated_cartax_gen,
     navigated_cartax_hub, navigated_guide, navigated_insurance,
     navigated_listing_detail, navigated_news, navigated_owner_reviews,
@@ -56,11 +51,6 @@ def run_checks(judge, traj, initial_db, after_db):
                 "required: 3 Series Saloon (2012 - 2019) car-tax page (320d)")
     judge.check("answer_320d_tax", contains_amount(answer, 20),
                 "the BMW 320d EfficientDynamics Plus pays £20 a year")
-    judge.check("nav_bmw_insurance",
-                navigated_insurance(traj, "bmw", "3-series", "saloon-2012"),
-                "required: 3 Series Saloon (2012 - 2019) insurance-groups page")
-    judge.check("answer_320d_group", contains_count(answer, 27),
-                "the 320d EfficientDynamics Plus sits in insurance group 27")
     check_read_only(judge, initial_db, after_db)
 
 

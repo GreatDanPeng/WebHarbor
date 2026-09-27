@@ -320,19 +320,7 @@ def contains_any_phrase(answer, phrases):
 
 
 def contains_amount(answer, amount, tolerance=0.011):
-    """£3,210 / 3,210 / £3210 — optional £ sign and thousands separators."""
-    text = _answer_tokens(answer).replace("£", " ")
-    wanted = float(amount)
-    for m in re.finditer(r"\b(\d{1,3}(?:,\d{3})*|\d+)(?:\.(\d{1,2}))?\b", text):
-        whole = m.group(1).replace(",", "")
-        frac = m.group(2) or ""
-        try:
-            value = float(whole + ("." + frac if frac else ""))
-        except ValueError:
-            continue
-        if abs(value - wanted) <= tolerance:
-            return True
-    return False
+    return monetary_value(answer, amount)
 
 
 def contains_amount_range(answer, low, high):
@@ -509,17 +497,21 @@ class Judge:
 
 def _png_ok(path):
     try:
-        head = Path(path).read_bytes()[:8]
-    except OSError:
+        from PIL import Image
+        with Image.open(path) as image:
+            image.verify()
+        with Image.open(path) as image:
+            image.load()
+            return image.format == 'PNG' and image.width > 0 and image.height > 0
+    except Exception:
         return False
-    return head == b"\x89PNG\r\n\x1a\n"
 
 
 def check_trajectory_identity(judge, traj, task_id):
     judge.check("task_id", traj.get("task_id") == task_id,
                 f"task_id={traj.get('task_id')!r}, expected {task_id!r}")
     judge.check("terminated_agent_done",
-                bool(traj.get("terminated")) and traj.get("termination_reason") == "agent_done",
+                traj.get("terminated") is True and traj.get("termination_reason") == "agent_done",
                 f"terminated={traj.get('terminated')!r} reason={traj.get('termination_reason')!r}")
     answer = final_answer(traj)
     judge.check("final_answer_nonempty", len(answer) >= 10, f"answer len={len(answer)}")
@@ -538,10 +530,18 @@ def check_trajectory_identity(judge, traj, task_id):
             if (q.scheme, q.hostname, q.port or (443 if q.scheme == "https" else 80)) != origin:
                 bad.append(u)
         judge.check("same_origin_urls", not bad, f"off-origin urls: {bad[:3]}")
-    shots = traj.get("_shots") or {}
-    judge.check("screenshots_present", len(shots) >= 1, f"shots={len(shots)}")
-    bad_shots = [n for n, p in list(shots.items())[:50] if not _png_ok(p)]
-    judge.check("screenshots_decode_png", not bad_shots, f"bad: {bad_shots[:3]}")
+    steps = traj.get('steps')
+    judge.check('nonempty_steps', isinstance(steps, list) and bool(steps), 'Recorded actions required')
+    root = Path(traj['_run_dir'])
+    checked = set()
+    for index, step in enumerate(steps or []):
+        for key in ('screenshot_before', 'screenshot_after'):
+            rel = Path(str(step.get(key) or ''))
+            safe = bool(step.get(key)) and not rel.is_absolute() and '..' not in rel.parts
+            path = next((p for p in (root / rel, root / 'screenshots' / rel) if p.is_file()), None) if safe else None
+            ok = path is not None and (path in checked or _png_ok(path))
+            judge.check(f'screenshot_{index}_{key}', ok, 'Safe path and complete PNG decoding required')
+            if ok:checked.add(path)
 
 
 def check_visited_path(judge, traj, name, path):
@@ -568,7 +568,11 @@ def run_verifier(task_id, run_checks):
         traj = load_run(args["--run_dir"])
         initial_db, after_db = resolve_dbs(args["--run_dir"], args["--initial_db"],
                                            args["--after_db"], container)
+        check_seed_contract(judge, initial_db)
+        judge.check("final_schema_preserved", schema_sha(after_db) == SCHEMA_SHA256, "Final DB schema must match the frozen fixture")
         run_checks(judge, traj, initial_db, after_db)
+        from state_contract import check
+        check(judge, task_id, initial_db, after_db)
     except Exception as exc:  # noqa: BLE001 — fail closed on any infra error
         print(json.dumps({"task_id": task_id, "pass": False,
                           "reason": f"infra_error: {type(exc).__name__}: {exc}",
@@ -579,3 +583,30 @@ def run_verifier(task_id, run_checks):
                "evidence": judge.evidence}
     print(json.dumps(verdict))
     sys.exit(0 if judge.passed else 1)
+
+def answer_clauses(answer):
+    return re.split(r"[;\n]|\.(?:\s+|$)", normalize_text(answer))
+
+
+def monetary_value(answer, amount):
+    """Require a monetary assertion, rather than an incidental matching number."""
+    for clause in answer_clauses(answer):
+        if re.search(r"\b(?:not|incorrect|wrong|isn't|wasn't)\b", clause):
+            continue
+        for m in re.finditer(r"(?:£\s*|\bGBP\s*)([0-9][0-9,]*(?:\.[0-9]+)?)|([0-9][0-9,]*(?:\.[0-9]+)?)\s*(?:pounds?|GBP)\b", clause, re.I):
+            if abs(float((m[1] or m[2]).replace(',', '')) - float(amount)) < .011:
+                return True
+    return False
+
+
+def labeled_range(answer, label, low, high):
+    patterns = {'private': r'privat', 'dealer': r'dealer|retail',
+                'part': r'part[- ]?exchange|part[- ]?ex|trade[- ]?in|trading'}
+    for clause in answer_clauses(answer):
+        if not re.search(patterns[label], clause) or re.search(r"\b(?:not|incorrect|wrong|isn't)\b", clause):
+            continue
+        # Currency may be stated once for a range (e.g. £3,210–4,250).
+        values = [float(v.replace(',', '')) for v in re.findall(r'(?<![\w.])\d[\d,]*(?:\.\d+)?', clause)]
+        if any(abs(v-low)<.011 for v in values) and any(abs(v-high)<.011 for v in values) and ('£' in clause or re.search(r'\bgbp|pounds?\b', clause)):
+            return True
+    return False
