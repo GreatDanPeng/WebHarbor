@@ -9,7 +9,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from verify_lib import (  # noqa: E402
-    Judge, check_read_only, check_seed_contract, check_trajectory_identity,
+    Judge, entity_number, check_read_only, check_seed_contract, check_trajectory_identity,
     contains_amount, contains_amount_range, labeled_range, contains_any_phrase, contains_count,
     contains_phrase, final_answer, navigated_c4s_search, navigated_cartax_gen,
     navigated_cartax_hub, navigated_guide, navigated_insurance,
@@ -34,9 +34,9 @@ def run_checks(judge, traj, initial_db, after_db):
                 navigated_specs(traj, "hyundai", "tucson", "suv-2021",
                                 ["16t-150-advance-5dr"]),
                 "required: Tucson 1.6T 150 Advance 5d spec page")
-    judge.check("answer_kodiaq_boot", contains_count(answer, 910),
+    judge.check("answer_kodiaq_boot", entity_number(answer, "kodiaq", 910),
                 "Kodiaq luggage space is 910 litres")
-    judge.check("answer_tucson_boot", contains_count(answer, 620),
+    judge.check("answer_tucson_boot", entity_number(answer, "tucson", 620),
                 "Tucson luggage space is 620 litres")
     judge.check("answer_bigger", contains_phrase(answer, "kodiaq"),
                 "the Kodiaq has the bigger boot")
