@@ -14,7 +14,7 @@ $1 FIRST MONTH RENT, phone 425-296-6313, 24 Hour Access). Facility 81's
 cheapest 5'x5' is $75/mo online, so 12465 Northup Way's costs less.
 """
 from verify_lib import (check_read_only, check_seed_contract, check_trajectory_identity,
-                        contains_amount, contains_count, contains_phrase, final_answer,
+                        contains_amount, entity_price, contains_count, contains_phrase, final_answer,
                         navigated_facility, navigated_zip_search, run_verifier)
 
 TASK_ID = "Public Storage--6"
@@ -40,9 +40,9 @@ def run_checks(judge, traj, initial_db, after_db):
                 contains_count(answer, 744) and contains_count(answer, 698),
                 "both review counts reported (744 and 698)")
     # each facility's cheapest 5x5 online rate
-    judge.check("answer_68_cheapest_5x5", contains_amount(answer, 65),
+    judge.check("answer_68_cheapest_5x5", entity_price(answer, "12465 Northup Way", 65),
                 "12465 Northup Way cheapest 5'x5' online rate $65")
-    judge.check("answer_81_cheapest_5x5", contains_amount(answer, 75),
+    judge.check("answer_81_cheapest_5x5", entity_price(answer, "13640 Bel Red Road", 75),
                 "13640 Bel Red Road cheapest 5'x5' online rate $75")
     # in-store price, promotion, phone at the more-reviewed facility
     judge.check("answer_68_instore", contains_amount(answer, 109),

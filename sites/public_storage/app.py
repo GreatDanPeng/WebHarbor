@@ -21,6 +21,11 @@ import os
 import random
 import re
 import secrets
+import sys
+
+# Seed builders import the app models by module name, including direct startup.
+if __name__ == "__main__":
+    sys.modules["app"] = sys.modules[__name__]
 from datetime import date, datetime, timedelta
 from pathlib import Path
 
@@ -35,7 +40,7 @@ from flask_login import (
 )
 from flask_bcrypt import Bcrypt
 
-BASE_DIR = Path(__file__).parent
+BASE_DIR = Path(__file__).resolve().parent
 INSTANCE = BASE_DIR / "instance"
 INSTANCE.mkdir(exist_ok=True)
 
@@ -1164,4 +1169,4 @@ with app.app_context():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", "40126")))
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", "40094")))

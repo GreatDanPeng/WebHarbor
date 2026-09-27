@@ -314,6 +314,6 @@ RUN cd /opt/WebSyn/public_storage && rm -rf instance instance_seed && \
 
 RUN python3 /opt/check_seed_databases.py /opt/WebSyn
 
-EXPOSE 8101 40000-40126
+EXPOSE 8101 40000-40094
 
 CMD ["/opt/websyn_start.sh"]

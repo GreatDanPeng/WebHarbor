@@ -122,6 +122,8 @@ def build_run(tmp: Path, name: str, traj: RunBuilder) -> Path:
     shots.mkdir()
     (shots / "step_000.png").write_bytes(tiny_png())
     (shots / "step_001.png").write_bytes(tiny_png())
+    copy_db(d / "initial.db")
+    copy_db(d / "after.db")
     (d / "trajectory.json").write_text(json.dumps(traj.traj))
     return d
 
