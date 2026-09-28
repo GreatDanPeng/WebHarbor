@@ -411,9 +411,13 @@
     "soundcloud.tar.gz": {
       "bytes": 135604573,
       "sha256": "25e7c10c204c683e58fb1ab54382308d2379a3d0fae9fc49a33b8284e356222c"
+    },
+    "speedo.tar.gz": {
+      "bytes": 444405382,
+      "sha256": "873c86f65f2fdeb6796c7d7dfac2fb567220b3a78f934ceb2fe57f6cf1f96e05"
     }
   },
-  "managed_tree_sha256": "36fb9bf88c42dc2801edf3fe1662a62b5b0e0ffc7cfabc4fef65f8a29933f4d7",
+  "managed_tree_sha256": "96e85e89db439c197bc7765541ded8e48bc55413512bc7850ac434a6dc87ebed",
   "repo": "ChilleD/WebHarbor",
   "revision": "6cd6db8182c15e2cb19e17c95ca888047ef8607f",
   "version": 1
