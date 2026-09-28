@@ -381,8 +381,13 @@ RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/spothero
 RUN cd /opt/WebSyn/spothero && rm -rf instance instance_seed && \
     PYTHONHASHSEED=0 python3 seed_data.py && rm -rf instance __pycache__
 
+# student_com: validate assets and build the deterministic seed.
+RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/student_com
+RUN cd /opt/WebSyn/student_com && rm -rf instance instance_seed && \
+    PYTHONHASHSEED=0 python3 seed_data.py && rm -rf instance __pycache__
+
 RUN python3 /opt/check_seed_databases.py /opt/WebSyn
 
-EXPOSE 8101 40000-40106
+EXPOSE 8101 40000-40107
 
 CMD ["/opt/websyn_start.sh"]

@@ -380,6 +380,10 @@
       "bytes": 281326465,
       "sha256": "938072c9d5d570316abc1ea6a4c90924a63ab844fcd6d83591bd3a9792f9787c"
     },
+    "student_com.tar.gz": {
+      "bytes": 465181101,
+      "sha256": "632c7fe694803aa5c63d3603b54c5ce365b8774357c910f658725453179db8d0"
+    },
     "target.tar.gz": {
       "bytes": 15776899,
       "sha256": "f12c2bf1ec60344ddd8dda7289e38d2ec9ffc6612b3d459c2a2898a0e9da4ac1"
@@ -429,8 +433,8 @@
       "sha256": "986c51d2fe6c557b3b2c784c4bc198e53065af7da65946a99b782a90fde3b7db"
     }
   },
-  "managed_tree_sha256": "602177d721b2c9dcc09fd87aacf3bf866e384d883b663583c1178390275a5801",
+  "managed_tree_sha256": "0ac6005bc2c10ab09fb245dce140298b12c21f042cb2307078e605f23223d9c0",
   "repo": "ChilleD/WebHarbor",
-  "revision": "242d456094cbfcc9f5df37dd4b11282011bbfc3a",
+  "revision": "4c79d6339df0374c6e0748a4feab829acd6d1398",
   "version": 1
 }
