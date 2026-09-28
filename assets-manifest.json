@@ -403,10 +403,14 @@
     "youtube.tar.gz": {
       "bytes": 40021527,
       "sha256": "986c51d2fe6c557b3b2c784c4bc198e53065af7da65946a99b782a90fde3b7db"
+    },
+    "qatar_airways.tar.gz": {
+      "bytes": 266218569,
+      "sha256": "b4346ac709164667b363c210baf0f3b576eb7c8ac6ed14962454a0d0ea2a9a2c"
     }
   },
-  "managed_tree_sha256": "39475415d915a86e0c4bcf5e1ab7e46a2c6a900a202391f109e38fbe77a58546",
+  "managed_tree_sha256": "9d3e39b3d7cfd208a1c461b2fd0b62a7f598682c97f87340a810e67e09b7f517",
   "repo": "ChilleD/WebHarbor",
-  "revision": "06ad82ba8856e27c216318d15867dda663830320",
+  "revision": "6cd6db8182c15e2cb19e17c95ca888047ef8607f",
   "version": 1
 }
