@@ -26,20 +26,68 @@
       "price_min_cents": 559,
       "price_max_cents": 559,
       "price_text": "$5.59\nSign in to save $5.00\nTHREE Adult Crest Paste 2.4 oz or more, Crest 3DW Deep Stain Remover, Crest, Scope or Crest Mouthwash 473mL or larger AND/OR Oral-B Adult Manual Brush (excludes Crest Cavity, Baking Soda, Tartar, Kids, Oral-B Essentials, Toothbrus",
-      "rating": null,
+      "rating": 4.8,
       "review_count": 211,
-      "description": "",
-      "details": [],
-      "features": [],
+      "description": "Relieve painful sensitivity and remove stains with Crest 3D White Advanced Sensitivity Relief. The Clinically Proven Anti-Sensitivity Ingredient gives you 24/7 Sensitivity Protection* while removing stains to provide you with a white and bright smile. From America's #1 Whitening Brand**. (*with twice daily brushing. **P&G calculation based on U.S. reported sales data for year ending w/o 6/11/2025)",
+      "details": [
+        {
+          "heading": "Details",
+          "text": "Crest 3D White Advanced Sensitivity Relief Toothpaste, Soft Mint, 3.3 OZ\n\n3.3 OZ, 0.257 lbs. Item # 452372\n\nRelieve painful sensitivity and remove stains with Crest 3D White Advanced Sensitivity Relief. The Clinically Proven Anti-Sensitivity Ingredient gives you 24/7 Sensitivity Protection* while removing stains to provide you with a white and bright smile. From America's #1 Whitening Brand**. (*with twice daily brushing. **P&G calculation based on U.S. reported sales data for year ending w/o 6/11/2025)\nRelieve painful sensitivity\n24/7 Sensitivity Protection* (*with twice daily brushing)\nRemoves Stains\nEnamel Safe\nFluoride formula that helps prevent cavities"
+        },
+        {
+          "heading": "Ingredients",
+          "text": "Active ingredients: Potassium nitrate 5%, Sodium fluoride 0.243% (0.14% w/v fluoride ion)Inactive ingredients: water, hydrated silica, glycerin, sorbitol, sodium lauryl sulfate, trisodium phosphate, flavor, cellulose gum, alcohol (0.7%), sodium saccharin, xanthan gum, polysorbate 80, cetylpyridinium chloride, mica, titanium dioxide"
+        },
+        {
+          "heading": "Directions",
+          "text": "12 yrs & older: Apply at least a 1-inch strip of the product onto a soft bristle toothbrush. Brush teeth thoroughly for at least 1 minute twice a day (morning and evening) or as recommended by a dentist. Make sure to brush all sensitive areas of the teeth. Do not swallow. Do not use in children under 12 yrs"
+        },
+        {
+          "heading": "Warnings",
+          "text": "When using this product do not use for sensitivity longer than four weeks unless recommended by a dentist. Stop use and ask a dentist if sensitivity problem lasts or gets worse. Sensitive teeth may indicate a serious problem that may need prompt care. Keep out of reach of children. If more than used for brushing is accidentally swallowed, get medical help or contact a Poison Control Center right away"
+        },
+        {
+          "heading": "Specifications",
+          "text": "Product type\nToothpaste\nQuantity\n1 - 5 oz.\nLife Stage\nAdult"
+        }
+      ],
+      "features": [
+        "Relieve painful sensitivity",
+        "24/7 Sensitivity Protection* (*with twice daily brushing)",
+        "Removes Stains",
+        "Enamel Safe",
+        "Fluoride formula that helps prevent cavities"
+      ],
       "image_paths": [
-        "/static/images/96d8bd427a8eb618048f.jpg"
+        "/static/images/a90283b7a9886d03913b.jpg",
+        "/static/images/8feffd59d567f54fa255.jpg",
+        "/static/images/4a4a6482e72c6c86f8c8.jpg",
+        "/static/images/db55e2de77f56e9e27a6.jpg",
+        "/static/images/5a009d43505607680e73.jpg",
+        "/static/images/16607cbe680e3d490503.jpg",
+        "/static/images/5bc9d1e6f465557bff47.jpg",
+        "/static/images/87dab66318668cc1097a.jpg",
+        "/static/images/51a03ab55ed223362c6a.jpg",
+        "/static/images/27c9d65e435d7829c64d.jpg",
+        "/static/images/1119caa91eb3e627172f.jpg",
+        "/static/images/ef07ebb2e221b7b2093c.jpg",
+        "/static/images/e68e374c99fbc89e4aff.jpg"
       ],
       "source_url": "https://www.cvs.com/shop/crest-3d-white-advanced-sensitivity-relief-toothpaste-soft-mint-3-3-oz-prodid-452372",
       "captured_at": "2026-09-28T16:45:44.261Z",
-      "detail_status": "unavailable",
-      "unavailable_reason": "Source detail page returned Page Not Found.",
+      "detail_status": "captured",
       "variants": [],
-      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care"
+      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care",
+      "detail_capture_history": [
+        {
+          "status": "unavailable",
+          "reason": "Source detail page returned Page Not Found.",
+          "captured_at": "2026-09-28T16:45:44.261Z",
+          "url": "https://www.cvs.com/shop/crest-3d-white-advanced-sensitivity-relief-toothpaste-soft-mint-3-3-oz-prodid-452372"
+        }
+      ],
+      "listing_captured_at": "2026-09-28T16:45:44.261Z",
+      "detail_captured_at": "2026-09-28T18:46:14.255Z"
     },
     {
       "id": "476215",
@@ -79,7 +127,7 @@
       "features": [
         "Soft, rounded bristles: Each bristle is specially designed to be gentle on gums and enamel, yet effective against plaque.",
         "Deep clean between teeth: Oscillation helps drive bristles gently into interdental spaces where plaque often hides.",
-        "Braces  & dental work friendly: The design works around brackets, wires, crowns, implants etc., helping you keep every nook clean.",
+        "Braces & dental work friendly: The design works around brackets, wires, crowns, implants etc., helping you keep every nook clean.",
         "Long lasting value: Two heads in one pack give you up to 6 months’ use when replacing heads every 3 months as recommended."
       ],
       "image_paths": [
@@ -91,7 +139,9 @@
       "detail_status": "captured",
       "unavailable_reason": null,
       "variants": [],
-      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care"
+      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care",
+      "listing_captured_at": "2026-09-28T16:45:44.261Z",
+      "detail_captured_at": "2026-09-28T18:51:07.990Z"
     },
     {
       "id": "478253",
@@ -133,7 +183,9 @@
       "detail_status": "captured",
       "unavailable_reason": null,
       "variants": [],
-      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care"
+      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care",
+      "listing_captured_at": "2026-09-28T16:45:44.261Z",
+      "detail_captured_at": "2026-09-28T18:51:09.377Z"
     },
     {
       "id": "851347",
@@ -145,20 +197,61 @@
       "price_min_cents": 2499,
       "price_max_cents": 2499,
       "price_text": "$24.99\nExtraCare Plus price$19.99",
-      "rating": null,
+      "rating": 3.9,
       "review_count": 43,
-      "description": "",
-      "details": [],
-      "features": [],
+      "description": "Achieve a dazzling smile with Wintermint Whitening Wraps® with Advanced Form Fitting Technology® and a refreshing Wintermint flavor. These no-mess Dry Touch® wraps with an EasyFit® design, provide a comfortable fit, excellent adhesion and easy application for both upper and lower teeth. With the same enamel-safe ingredient used by dentists, these whitening wraps remove years of stains, revealing visibly whiter teeth in just 3 days. Use only once a day for 30 minutes for a long-lasting white smile. Enjoy a fresher smile with the Wintermint Whitening Wraps®. Maintain your brightness by using every 3 months or as needed. Experience confidence and radiance every time you smile with Wintermint Whitening Wraps®.",
+      "details": [
+        {
+          "heading": "Details",
+          "text": "CVS Supreme Whitening Wraps, Wintermint, 10 Treatments\n\n10 Ct, 0.2 lbs. Item # 851347\n\nAchieve a dazzling smile with Wintermint Whitening Wraps® with Advanced Form Fitting Technology® and a refreshing Wintermint flavor. These no-mess Dry Touch® wraps with an EasyFit® design, provide a comfortable fit, excellent adhesion and easy application for both upper and lower teeth. With the same enamel-safe ingredient used by dentists, these whitening wraps remove years of stains, revealing visibly whiter teeth in just 3 days. Use only once a day for 30 minutes for a long-lasting white smile. Enjoy a fresher smile with the Wintermint Whitening Wraps®. Maintain your brightness by using every 3 months or as needed. Experience confidence and radiance every time you smile with Wintermint Whitening Wraps®.\nGet visibly whiter teeth in just 3 days with Wintermint Whitening Wraps®\nSlip-Free Dry Touch® wraps provide excellent adhesion.\nSame enamel-safe ingredient used by dentists\nRemoves years of stains for a brighter, confident smile\nWintermint Whitening Wraps leave your smile refreshed.\nUse once daily for 30 minutes to maintain long-lasting results"
+        },
+        {
+          "heading": "Ingredients",
+          "text": "PVP, Water, PEG-8, Acrylates Copolymer, Flavor, PEG-40 Hydrogenated Castor Oil, Sodium Saccharin, Disodium EDTA, Poloxamer 407, Sodium Hydroxide"
+        },
+        {
+          "heading": "Directions",
+          "text": "Remove product from package and peel strip from backing liner.Place the adhesive side on front of teeth. Applying the lower wrap first.Wear for 30 minutes"
+        },
+        {
+          "heading": "Warnings",
+          "text": "Use as directed by product label. Keep out of reach of children. Avoid contact with eyes. If tooth sensitivity or gum irritation occurs, discontinue use. If needed, consult a dentist."
+        },
+        {
+          "heading": "Specifications",
+          "text": "Color\nClear\nConcern\nTeeth whitening\nForm\nSheets / strips\nProduct type\nTeeth whitening strips\nScent\nUnscented\nGender\nUnisex\nLife Stage\nAdult"
+        }
+      ],
+      "features": [
+        "Get visibly whiter teeth in just 3 days with Wintermint Whitening Wraps®",
+        "Slip-Free Dry Touch® wraps provide excellent adhesion.",
+        "Same enamel-safe ingredient used by dentists",
+        "Removes years of stains for a brighter, confident smile",
+        "Wintermint Whitening Wraps leave your smile refreshed.",
+        "Use once daily for 30 minutes to maintain long-lasting results"
+      ],
       "image_paths": [
-        "/static/images/630cf047e5cbd2c5a179.jpg"
+        "/static/images/d753bf8c5ae12c0e4521.jpg",
+        "/static/images/c43caa45c32ed8b618ff.jpg",
+        "/static/images/395d10303fcbc60926ce.jpg",
+        "/static/images/81491d8428937677dadf.jpg",
+        "/static/images/871a6b7b2ad94afc2f91.jpg"
       ],
       "source_url": "https://www.cvs.com/shop/cvs-supreme-whitening-wraps-wintermint-10-treatments-prodid-851347",
       "captured_at": "2026-09-28T16:45:44.261Z",
-      "detail_status": "unavailable",
-      "unavailable_reason": "Source detail page returned Access Denied; browsing stopped.",
+      "detail_status": "captured",
       "variants": [],
-      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care"
+      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care",
+      "detail_capture_history": [
+        {
+          "status": "unavailable",
+          "reason": "Source detail page returned Access Denied; browsing stopped.",
+          "captured_at": "2026-09-28T16:45:44.261Z",
+          "url": "https://www.cvs.com/shop/cvs-supreme-whitening-wraps-wintermint-10-treatments-prodid-851347"
+        }
+      ],
+      "listing_captured_at": "2026-09-28T16:45:44.261Z",
+      "detail_captured_at": "2026-09-28T18:45:17.193Z"
     },
     {
       "id": "456310",
@@ -170,20 +263,56 @@
       "price_min_cents": 1999,
       "price_max_cents": 1999,
       "price_text": "$19.99",
-      "rating": null,
+      "rating": 4.6,
       "review_count": 78,
-      "description": "",
-      "details": [],
-      "features": [],
+      "description": "The Ordo Sonic Edge is the ultimate first step into sonic brushing, designed for those looking to upgrade from a manual toothbrush without the higher cost of traditional models. Compact, lightweight, and travel-friendly, it delivers clinically superior cleaning at an affordable price, making it easier than ever to switch to sonic technology.",
+      "details": [
+        {
+          "heading": "Details",
+          "text": "Ordo Sonic Edge Rechargeable Toothbrush, Peach Sunrise\n\n1 EACH, 0.47 lbs. Item # 456310\n\nThe Ordo Sonic Edge is the ultimate first step into sonic brushing, designed for those looking to upgrade from a manual toothbrush without the higher cost of traditional models. Compact, lightweight, and travel-friendly, it delivers clinically superior cleaning at an affordable price, making it easier than ever to switch to sonic technology.\n1 brushing mode\nBuilt-in smart 2-minute timer ensures optimal cleaning duration recommended by dentists\n4+ weeks Li-ion battery on one charge\nQuad pacer\nHigh quality bristles\nWaterproof design\nSuitable to use if you have had dental work"
+        },
+        {
+          "heading": "Ingredients",
+          "text": "Your Sonic Edge ToothbrushThe list below refers to the image on page 2.1. Handle2. Power/Mode button3. Brush head travel cap4. Brush head5. USB-A to USB-C cable6. Anti-roll feature7. USB-C charging input8. Charging cover"
+        },
+        {
+          "heading": "Directions",
+          "text": "1. Wet the bristles and apply a pea-sized amount of toothpaste.2. Place the toothbrush bristles at a 45-degree angle to the teeth, pressing justenough to make the bristles reach the gum line.3. Press the power/mode button to switch on the toothbrush and select your desiredmode.4. Remember not to press too hard when brushing, let the vibrating bristles do thework of clearing away plaque and food debris – no need to scrub as you mightwith a manual toothbrush.5. Guide the bristles across and between your teeth, using small back and forthmotions.6. To ensure you thoroughly brush all surfaces of your teeth, split your mouth intofour quadrants: top teeth outer surfaces, top teeth inner surfaces, bottom teethouter surfaces, bottom teeth inner surfaces. Use the inbuilt Quad-Pacer to guideyou between each of the quadrants – every 30 seconds the vibrations will pausebriefly to let you know it’s time to move onto the next quadrant.7. After 2 minutes the toothbrush will automatically switch off, letting you know thatyou’ve brushed your teeth for the dentist recommended time. Of course, you canswitch the toothbrush back on if you’d like to brush for longer.8. If at any time before the end of a 2-minute cycle you want to turn the toothbrushoff, simply press the power/mode button.9. Once you’re done with brushing, spit out any excess toothpaste, but do not rinseyour mouth with water. This allows the ingredients of the toothpaste to betterprotect your teeth.10. Thoroughly rinse the bristles, brush head and handle, ensuring you wash away"
+        },
+        {
+          "heading": "Warnings",
+          "text": "Intended useThe toothbrush is designed exclusively for cleaning teeth, gums and tongue. It isonly intended for private use and is not suitable for commercial purposes. Onlyuse the toothbrush as described in these operating instructions. Any other use isdeemed improper and may result in damage to property or even personal injury. Thetoothbrush is not a child’s toy. Ordoclub Ltd accepts no liability for damage caused byimproper or incorrect use.General warnings• Only use original Ordo accessories or consumables. This includes the brush headand USB cable.• This appliance cannot be serviced or repaired by the user. If the appliance isdamaged, stop using it and contact our customer service team.• Liability and warranty claims are waived in the event of repairs performed by theuser, improper connection of the device or incorrect operation."
+        },
+        {
+          "heading": "Specifications",
+          "text": "Color\nOrange\nProduct type\nToothbrushes\nLife Stage\nAdult"
+        }
+      ],
+      "features": [
+        "1 brushing mode",
+        "Built-in smart 2-minute timer ensures optimal cleaning duration recommended by dentists",
+        "4+ weeks Li-ion battery on one charge",
+        "Quad pacer",
+        "High quality bristles",
+        "Waterproof design",
+        "Suitable to use if you have had dental work"
+      ],
       "image_paths": [
-        "/static/images/9706b76e5d554e8213b2.jpg"
+        "/static/images/289a111bda4ab6f40114.jpg",
+        "/static/images/59aeadb095d1d81e995c.jpg",
+        "/static/images/91f71aba449b7f171bca.jpg",
+        "/static/images/d16f53afe44f498372d1.jpg",
+        "/static/images/10891c3ac526d476dd81.jpg",
+        "/static/images/de542875666d88676202.jpg"
       ],
       "source_url": "https://www.cvs.com/shop/ordo-sonic-edge-rechargeable-toothbrush-peach-sunrise-prodid-456310",
       "captured_at": "2026-09-28T16:45:44.261Z",
-      "detail_status": "listing_only",
+      "detail_status": "captured",
       "unavailable_reason": null,
       "variants": [],
-      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care"
+      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care",
+      "listing_captured_at": "2026-09-28T16:45:44.261Z",
+      "detail_captured_at": "2026-09-28T18:49:37.927Z"
     },
     {
       "id": "481219",
@@ -195,20 +324,55 @@
       "price_min_cents": 999,
       "price_max_cents": 999,
       "price_text": "$9.99\nWas\n$14.99\n$5.00 Off",
-      "rating": null,
+      "rating": 4.6,
       "review_count": 66,
-      "description": "",
-      "details": [],
-      "features": [],
+      "description": "Make brushing fun and accessible with our Squishmallows Sonic Kids Battery Toothbrush, blending beloved characters with the same sonic technology as our rechargeable brushes, but in a more compact form.Expertly engineered to remove more plaque than a manual toothbrush, it helps keep teeth stronger and gums healthier – at a very convenient price.The battery toothbrush is safe to use on braces and orthodontic work, as long the dental work is properly adhered and not compromised. Please ask your dentist for advice if you’re unsure in any way.",
+      "details": [
+        {
+          "heading": "Details",
+          "text": "Ordo Sonic Kids Battery Toothbrush, Squishmallows Daxxon\n\n1 EACH, 0.32 lbs. Item # 481219\n\nMake brushing fun and accessible with our Squishmallows Sonic Kids Battery Toothbrush, blending beloved characters with the same sonic technology as our rechargeable brushes, but in a more compact form.Expertly engineered to remove more plaque than a manual toothbrush, it helps keep teeth stronger and gums healthier – at a very convenient price.The battery toothbrush is safe to use on braces and orthodontic work, as long the dental work is properly adhered and not compromised. Please ask your dentist for advice if you’re unsure in any way.\nAll-Round Brushing Mode: Simplify your routine with a single brushing mode that balances effectiveness and gentleness.\nSonic Technology: Dentist-approved for superior plaque removal1, sonic pulses push toothpaste between teeth as well sweep plaque from the surface, giving you a happy, healthy smile\n60-Day Battery: A single AA battery (included) lasts a whopping 60 days, saving you hassle when it’s time to wind down or wake up.\nSoft Bristles: Gentle on your teeth and gums yet effective at removing nasty plaque.\nReplaceable Brush Head: Many battery toothbrushes don’t have replaceable brush heads – not with Ordo. We’d much prefer to save your parents money, so they can buy you a present instead (it’s also better for the environment).\nErgonomic Handle: Expertly designed for small hands, making your toothbrush easy to hold and control.\nWaterproof IPX6 Design: Protects against splashes, meaning you can concentrate on being best at brushing,"
+        },
+        {
+          "heading": "Ingredients",
+          "text": "Includes:Ordo Sonic Kids Battery Toothbrush2 Ordo Brush Heads1 AA Battery"
+        },
+        {
+          "heading": "Directions",
+          "text": "Wet the bristles and apply a pea-sized amount of fluoride toothpaste. Place the brush head in your mouth before powering on the toothbrush (saves you getting toothpaste everywhere).Gently glide the brush along your teeth and gumline, ensuring you clean all surfaces of your teeth. No need to press too firmly, the sonic pulses do the hard work of sweeping plaque away, helping to fight cavities, tooth decay and gum disease. Brush for two minutes twice daily.When you’re done brushing, spit out any excess toothpaste but don’t rinse your mouth with water – let the ingredients in the toothpaste help make your teeth strong and gums healthy.Rinse your brush head, shake off any excess water and give it a quick dry – keeps it fresh for next time. Store your brush upright.Dentists recommend replacing your brush head every three months, or sooner if bristles become worn or frayed."
+        },
+        {
+          "heading": "Warnings",
+          "text": "Not suitable for children aged 3 or under. Adult supervision required for children under 8 years. This product is not a toy. Do not bite or chew the handle or brush head. Do not use a brush head with damaged or loose parts. Small parts may pose a choking hazard"
+        },
+        {
+          "heading": "Specifications",
+          "text": "Product type\nToothbrushes\nLife Stage\nChild"
+        }
+      ],
+      "features": [
+        "All-Round Brushing Mode: Simplify your routine with a single brushing mode that balances effectiveness and gentleness.",
+        "Sonic Technology: Dentist-approved for superior plaque removal1, sonic pulses push toothpaste between teeth as well sweep plaque from the surface, giving you a happy, healthy smile",
+        "60-Day Battery: A single AA battery (included) lasts a whopping 60 days, saving you hassle when it’s time to wind down or wake up.",
+        "Soft Bristles: Gentle on your teeth and gums yet effective at removing nasty plaque.",
+        "Replaceable Brush Head: Many battery toothbrushes don’t have replaceable brush heads – not with Ordo. We’d much prefer to save your parents money, so they can buy you a present instead (it’s also better for the environment).",
+        "Ergonomic Handle: Expertly designed for small hands, making your toothbrush easy to hold and control.",
+        "Waterproof IPX6 Design: Protects against splashes, meaning you can concentrate on being best at brushing,"
+      ],
       "image_paths": [
-        "/static/images/8512e04c21e66b68a2cd.jpg"
+        "/static/images/70dd08fa4ecb761eab71.jpg",
+        "/static/images/42f26e9c2d2a85b1bf60.jpg",
+        "/static/images/c1d8125075a846a300e9.jpg",
+        "/static/images/db5f11ab637d537779e9.jpg",
+        "/static/images/9da9a25c8e5a38cd0ea7.jpg"
       ],
       "source_url": "https://www.cvs.com/shop/ordo-sonic-kids-battery-toothbrush-squishmallows-daxxon-prodid-481219",
       "captured_at": "2026-09-28T16:45:44.261Z",
-      "detail_status": "listing_only",
+      "detail_status": "captured",
       "unavailable_reason": null,
       "variants": [],
-      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care"
+      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care",
+      "listing_captured_at": "2026-09-28T16:45:44.261Z",
+      "detail_captured_at": "2026-09-28T18:49:49.943Z"
     },
     {
       "id": "481078",
@@ -220,20 +384,53 @@
       "price_min_cents": 299,
       "price_max_cents": 299,
       "price_text": "$2.99\n$3 ExtraBucks Rewards for purchasing 2 Listerine 3 pk pocketpaks strips 24ct, mist 2x140 .26z or sachets 15ct",
-      "rating": null,
+      "rating": 4.7,
       "review_count": 1017,
-      "description": "",
-      "details": [],
-      "features": [],
+      "description": "Refresh your bad breath with Listerine Freshburst PocketPaks Breath Freshener Strips. These orally dissolving mint breath strips dissolve instantly, killing 99% of germs that cause bad breath. Each travel size compact carrying case keeps the strips ready for use, ensuring you can easily slip a pack into your purse, pocket, or bag for daily routines, travel, special occasions, or anytime you need fresh breath. Each bad breath strip has a Freshburst spearmint flavor to leave your mouth feeling clean* and fresh. Ideal for people seeking fresh breath, these pocket-sized strips freshen breath in seconds anytime, anywhere. These breath freshener strips are used as a portable, quick alternative to a fresh breath oral rinse. A handy addition to your travel size toiletries for instant fresh breath while you’re on the go. To use, simply remove 1 strip from the case, place it on your tongue, and let it dissolve. *based on bad breath germs",
+      "details": [
+        {
+          "heading": "Details",
+          "text": "Listerine Freshburst Pocketpaks Breath Strips, 24 CT\n\n24 Ct, 0.046 lbs. Item # 481078\n\nRefresh your bad breath with Listerine Freshburst PocketPaks Breath Freshener Strips. These orally dissolving mint breath strips dissolve instantly, killing 99% of germs that cause bad breath. Each travel size compact carrying case keeps the strips ready for use, ensuring you can easily slip a pack into your purse, pocket, or bag for daily routines, travel, special occasions, or anytime you need fresh breath. Each bad breath strip has a Freshburst spearmint flavor to leave your mouth feeling clean* and fresh. Ideal for people seeking fresh breath, these pocket-sized strips freshen breath in seconds anytime, anywhere. These breath freshener strips are used as a portable, quick alternative to a fresh breath oral rinse. A handy addition to your travel size toiletries for instant fresh breath while you’re on the go. To use, simply remove 1 strip from the case, place it on your tongue, and let it dissolve. *based on bad breath germs\nPack size: Includes 1 pack of 24 strips of Listerine Freshburst PocketPaks bad breath strips; these breath strips dissolve quickly to kill bad breath germs and leave your mouth feeling clean*\nGerm defense: Minty breath freshener strips kill 99% of germs that cause bad breath, leaving you feeling confident with fresh breath in seconds for important meetings, dates, and everyday occasions\nTravel size toiletries: Easily slip these strips into your purse or pocket for instant fresh breath. The perfect addition to goodie bags, wedding favors, and your oral care routine\nSpearmint flavor: These dissolving bad breath strips are alcohol-free and have a minty flavor. A discreet, chew free alternative to mints or gum for quick refreshes\nEasy to use: Remove 1 breath strip from the carrying case, place it on your tongue, and let it dissolve; enjoy a clean* mouth feel and fresh breath in seconds with this convenient oral care solution"
+        },
+        {
+          "heading": "Ingredients",
+          "text": "pullulan, menthol, sucralose, mentha viridis (spearmint) leaf oil, potassium acesulfame, glycerol oleate, polysorbate 80, copper gluconate, carrageenan, methyl salicylate, eucalyptol, thymol, flavor, ceratonia siliqua (carob) gum, glucose, propylene glycol, xanthan gum, green 3, yellow 6."
+        },
+        {
+          "heading": "Directions",
+          "text": "1. Remove this flap 2. Push vial from front Questions? 888-222-0192; Outside US, dial collect 215-273-8755"
+        },
+        {
+          "heading": "Warnings",
+          "text": "The carrying case may present a choking hazard."
+        },
+        {
+          "heading": "Specifications",
+          "text": "Color\nGreen\nConcern\nOral health\nForm\nSheets / strips\nProduct type\nBreath fresheners\nGender\nUnisex\nLife Stage\nAdult"
+        }
+      ],
+      "features": [
+        "Pack size: Includes 1 pack of 24 strips of Listerine Freshburst PocketPaks bad breath strips; these breath strips dissolve quickly to kill bad breath germs and leave your mouth feeling clean*",
+        "Germ defense: Minty breath freshener strips kill 99% of germs that cause bad breath, leaving you feeling confident with fresh breath in seconds for important meetings, dates, and everyday occasions",
+        "Travel size toiletries: Easily slip these strips into your purse or pocket for instant fresh breath. The perfect addition to goodie bags, wedding favors, and your oral care routine",
+        "Spearmint flavor: These dissolving bad breath strips are alcohol-free and have a minty flavor. A discreet, chew free alternative to mints or gum for quick refreshes",
+        "Easy to use: Remove 1 breath strip from the carrying case, place it on your tongue, and let it dissolve; enjoy a clean* mouth feel and fresh breath in seconds with this convenient oral care solution"
+      ],
       "image_paths": [
-        "/static/images/983950d0188caf3c7e0e.jpg"
+        "/static/images/cb17632d157058310d18.jpg",
+        "/static/images/9ed707f8241b119b820a.jpg",
+        "/static/images/878bf474a5f40fabd269.jpg",
+        "/static/images/d59280079af03bbefb03.jpg",
+        "/static/images/f406471b4a05df80f63e.jpg"
       ],
       "source_url": "https://www.cvs.com/shop/listerine-freshburst-pocketpaks-breath-strips-24-ct-prodid-481078",
       "captured_at": "2026-09-28T16:45:44.261Z",
-      "detail_status": "listing_only",
+      "detail_status": "captured",
       "unavailable_reason": null,
       "variants": [],
-      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care"
+      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care",
+      "listing_captured_at": "2026-09-28T16:45:44.261Z",
+      "detail_captured_at": "2026-09-28T18:46:08.724Z"
     },
     {
       "id": "514695",
@@ -247,18 +444,50 @@
       "price_text": "$19.99",
       "rating": null,
       "review_count": 0,
-      "description": "",
-      "details": [],
-      "features": [],
+      "description": "Lumineux (pronounced Loo-ma-no) Whitening Strips are the first on the market that are delicious and clinically proven to whiten teeth as well as the leading brand, without the harm associated with bleaches. And what's more, all Lumineux products are packed with purposeful and uncompromising ingredients that deliver cleaning, freshening and whitening as well as the other guys, without the harm!",
+      "details": [
+        {
+          "heading": "Details",
+          "text": "Lumuniex Whitening Strips, 7 Treatments\n\n7 Ct, 0.125 lbs. Item # 514695\n\nLumineux (pronounced Loo-ma-no) Whitening Strips are the first on the market that are delicious and clinically proven to whiten teeth as well as the leading brand, without the harm associated with bleaches. And what's more, all Lumineux products are packed with purposeful and uncompromising ingredients that deliver cleaning, freshening and whitening as well as the other guys, without the harm!\nSafe and effective: Whitening strips are a safe and effective way to whiten your teeth. They are made with a gentle formula that is non-abrasive and will not damage your teeth\nEasy to use: Whitening strips are easy to use and come with a convenient tray Simply apply the strips to your teeth and wear them for 30 minutes a day for 10-14 days. No brushing or rinsing is required\nFast results: Whitening strips can show results in as little as 1 week. With regular use, you can expect to see a noticeable improvement in the whiteness of your teeth\nLong-lasting results: The results of whitening strips can last for up to 6 months with regular use\nAffordable: Whitening strips are an affordable option for teeth whitening. They are much less expensive than professional teeth whitening treatments"
+        },
+        {
+          "heading": "Ingredients",
+          "text": "Glycerin, Water, Carbomer, Carbomoxythyl cellulose, cocos nucifera (coconut), oil, dead sea salt, salvia, officinalis (sage) oil, citrus limon (lemon) peel oil"
+        },
+        {
+          "heading": "Directions",
+          "text": "Remove Upper and lower strips from backer\nWith both hands, apply upper strip to top teeth\napply lower strip to bottom teeth\nleave on 30 mins\nremove strips"
+        },
+        {
+          "heading": "Warnings",
+          "text": "Keep out of reach of young children under 12.\nDo not swallow strip"
+        },
+        {
+          "heading": "Specifications",
+          "text": "Color\nClear\nConcern\nTeeth whitening\nForm\nSheets / strips\nProduct type\nTeeth whitening strips\nQuantity\n1-10 ct\nLife Stage\nAdult"
+        }
+      ],
+      "features": [
+        "Safe and effective: Whitening strips are a safe and effective way to whiten your teeth. They are made with a gentle formula that is non-abrasive and will not damage your teeth",
+        "Easy to use: Whitening strips are easy to use and come with a convenient tray Simply apply the strips to your teeth and wear them for 30 minutes a day for 10-14 days. No brushing or rinsing is required",
+        "Fast results: Whitening strips can show results in as little as 1 week. With regular use, you can expect to see a noticeable improvement in the whiteness of your teeth",
+        "Long-lasting results: The results of whitening strips can last for up to 6 months with regular use",
+        "Affordable: Whitening strips are an affordable option for teeth whitening. They are much less expensive than professional teeth whitening treatments"
+      ],
       "image_paths": [
-        "/static/images/a918b825ed5386d73330.jpg"
+        "/static/images/d82f81961960394cfcc5.jpg",
+        "/static/images/546c626d1ed7c4a8784f.jpg",
+        "/static/images/552e4431c8cdb676a337.jpg",
+        "/static/images/985c1e3ce73021f9fbac.jpg"
       ],
       "source_url": "https://www.cvs.com/shop/lumuniex-whitening-strips-7-treatments-prodid-514695",
       "captured_at": "2026-09-28T16:45:44.261Z",
-      "detail_status": "listing_only",
+      "detail_status": "captured",
       "unavailable_reason": null,
       "variants": [],
-      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care"
+      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care",
+      "listing_captured_at": "2026-09-28T16:45:44.261Z",
+      "detail_captured_at": "2026-09-28T18:49:53.075Z"
     },
     {
       "id": "455627",
@@ -272,18 +501,51 @@
       "price_text": "$10.49\nSign in to save $5.00\nTHREE Adult Crest Paste 2.4 oz or more, Crest 3DW Deep Stain Remover, Crest, Scope or Crest Mouthwash 473mL or larger AND/OR Oral-B Adult Manual Brush (excludes Crest Cavity, Baking Soda, Tartar, Kids, Oral-B Essentials, Toothbrus",
       "rating": null,
       "review_count": 0,
-      "description": "",
-      "details": [],
-      "features": [],
+      "description": "Battery-Powered Advanced All-in-OneThe Oral-B Pulsar Advanced All-in-One toothbrush provides a complete cleaning experience by both removing plaque and whitening teeth*. You will receive 1 Oral-B Pulsar Advanced All-in-One toothbrush that features soft bristles, which are gentle on your gums and enamel, making it a safe choice for daily use. This toothbrush is also battery powered with a built-in battery, on and off buttons, and a slim handle, offering a convenient and enjoyable brushing experience. Removes Plaque in Hard-to-Reach AreasThe Oral-B Pulsar Advanced All-in-One toothbrush features CrissCross bristles that are tough on plaque, gentle on gums. The CrissCross bristles effectively target plaque in hard-to-reach areas. Bring on superior plaque removal** with the Pulsar Advanced All-in-One.Whiter Teeth* with Sonic Bristle VibrationsAdditionally, this toothbrush provides you with whiter teeth* through its sonic bristle vibrations. Unlike regular manual toothbrushes, Pulsar Advanced All-in-One's sonic bristles vibrate and polish away surface stains.For best results, change your toothbrush every 90 days. A new toothbrush cleans 95% better in hard-to-reach areas than one three months old***. Oral-B is the #1 toothbrush brand most recommended by dentists worldwide.*by removing surface stains **vs. a regular manual toothbrush ***research with a flat trim manual toothbrush",
+      "details": [
+        {
+          "heading": "Details",
+          "text": "Oral-B Pulsar Advanced All-in-One Toothbrush, Soft\n\n1 EACH, 0.13 lbs. Item # 455627\n\nBattery-Powered Advanced All-in-OneThe Oral-B Pulsar Advanced All-in-One toothbrush provides a complete cleaning experience by both removing plaque and whitening teeth*. You will receive 1 Oral-B Pulsar Advanced All-in-One toothbrush that features soft bristles, which are gentle on your gums and enamel, making it a safe choice for daily use. This toothbrush is also battery powered with a built-in battery, on and off buttons, and a slim handle, offering a convenient and enjoyable brushing experience. Removes Plaque in Hard-to-Reach AreasThe Oral-B Pulsar Advanced All-in-One toothbrush features CrissCross bristles that are tough on plaque, gentle on gums. The CrissCross bristles effectively target plaque in hard-to-reach areas. Bring on superior plaque removal** with the Pulsar Advanced All-in-One.Whiter Teeth* with Sonic Bristle VibrationsAdditionally, this toothbrush provides you with whiter teeth* through its sonic bristle vibrations. Unlike regular manual toothbrushes, Pulsar Advanced All-in-One's sonic bristles vibrate and polish away surface stains.For best results, change your toothbrush every 90 days. A new toothbrush cleans 95% better in hard-to-reach areas than one three months old***. Oral-B is the #1 toothbrush brand most recommended by dentists worldwide.*by removing surface stains **vs. a regular manual toothbrush ***research with a flat trim manual toothbrush\nYou will receive (1) Oral-B Pulsar Expert All-in-One Toothbrush\nRemoves plaque in hard-to-reach areas\nBuilt-in battery\nWhiter teeth* with sonic bristle vibrations *by removing surface stains\nSonic bristles vibrate and polish away surface stains"
+        },
+        {
+          "heading": "Directions",
+          "text": "TO REMOVE BATTERY: unscrew lower part of handle to remove the battery cap, bending the metal sheet to flat with plier"
+        },
+        {
+          "heading": "Warnings",
+          "text": "NOT INTENDED FOR CHILDREN 3 YEARS AND UNDER. REPLACE BRUSH EVERY 3 MONTHS. Toothbrushes can be used by children over 3 years and persons with reduced physical, sensory or mental capabilities or lack of experience and knowledge, if they have been given supervision or instruction concerning use of the appliance in a safe way and understand the hazards involved. Cleaning and maintenance shall not be performed by children. Children shall not play with the appliance"
+        },
+        {
+          "heading": "Specifications",
+          "text": "Features\nBattery operated\nForm\nSolid\nProduct type\nToothbrushes\nGender\nUnisex\nLife Stage\nAdult"
+        }
+      ],
+      "features": [
+        "You will receive (1) Oral-B Pulsar Expert All-in-One Toothbrush",
+        "Removes plaque in hard-to-reach areas",
+        "Built-in battery",
+        "Whiter teeth* with sonic bristle vibrations *by removing surface stains",
+        "Sonic bristles vibrate and polish away surface stains"
+      ],
       "image_paths": [
-        "/static/images/69b6c16da9410b0e0a00.jpg"
+        "/static/images/056aa5fc4bceb1cf0549.jpg",
+        "/static/images/1229d9214484fbf74964.jpg",
+        "/static/images/1273cc352b3e90bc4afb.jpg",
+        "/static/images/50d85df15e2f26e116de.jpg",
+        "/static/images/6d3cd0c4926eafe6bdf4.jpg",
+        "/static/images/4cb411327ae01595c1d1.jpg",
+        "/static/images/f9357f4b1a8e94a72c0a.jpg",
+        "/static/images/e410197ea2c2e136e975.jpg",
+        "/static/images/67c7159b1d5b371cd2ef.jpg"
       ],
       "source_url": "https://www.cvs.com/shop/oral-b-pulsar-advanced-all-in-one-toothbrush-soft-prodid-455627",
       "captured_at": "2026-09-28T16:45:44.261Z",
-      "detail_status": "listing_only",
+      "detail_status": "captured",
       "unavailable_reason": null,
       "variants": [],
-      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care"
+      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care",
+      "listing_captured_at": "2026-09-28T16:45:44.261Z",
+      "detail_captured_at": "2026-09-28T18:49:55.852Z"
     },
     {
       "id": "428704",
@@ -295,20 +557,57 @@
       "price_min_cents": 629,
       "price_max_cents": 629,
       "price_text": "$6.29\nSign in to save $5.00\nTHREE Adult Crest Paste 2.4 oz or more, Crest 3DW Deep Stain Remover, Crest, Scope or Crest Mouthwash 473mL or larger AND/OR Oral-B Adult Manual Brush (excludes Crest Cavity, Baking Soda, Tartar, Kids, Oral-B Essentials, Toothbrus",
-      "rating": null,
+      "rating": 4.8,
       "review_count": 52,
-      "description": "",
-      "details": [],
-      "features": [],
+      "description": "Discover the fresh way to protect against teeth sensitivity. Crest Pro-Health Sensitivity Whitening Plus Scope Toohpaste contains both the same clinically proven active ingredient as Sensodyne Extra Whitening* and long lasting Scope technology. So, you can look forward to a refreshing brushing experience every day, with maximum strength sensitivity relief***Sensodyne is a registered trademark of GlaxoSmithKline LLC**Maximum level of FDA Censitivity Active Ingredient",
+      "details": [
+        {
+          "heading": "Details",
+          "text": "Crest Pro-Health Sensitivity Relief Toothpaste, Minty Fresh Scope, 5.1 OZ\n\n5.1 OZ, 0.375 lbs. Item # 428704\n\nDiscover the fresh way to protect against teeth sensitivity. Crest Pro-Health Sensitivity Whitening Plus Scope Toohpaste contains both the same clinically proven active ingredient as Sensodyne Extra Whitening* and long lasting Scope technology. So, you can look forward to a refreshing brushing experience every day, with maximum strength sensitivity relief***Sensodyne is a registered trademark of GlaxoSmithKline LLC**Maximum level of FDA Censitivity Active Ingredient\nProvides the same clinically proven active ingredient as Sensodyne Extra Whitening* *Sensodyne is a registered trademark of GlaxoSmithKline LLC\nMaximum strength** sensitivity relief and the power of Scope **Maximum level of FDA Sensitivity Active ingredient\nSoothes the nerves in your teeth where dentin is exposed\nExperience the freshness of Scope’s long lasting technology\nWhitens teeth by removing surface stains"
+        },
+        {
+          "heading": "Ingredients",
+          "text": "Active ingredient: Potassium nitrate 5%, Sodium fluoride 0.243% (0.14% w/v fluoride ion)Inactive ingredients: water, hydrated silica, glycerin, sorbitol, sodium lauryl sulfate, trisodium phosphate, flavor, cellulose gum, alcohol (0.7%), sodium saccharin, xanthan gum, polysorbate 80, cetylpyridinium chloride, titanium dioxide, blue 1"
+        },
+        {
+          "heading": "Directions",
+          "text": "12 yrs & older: Apply at least a 1-inch strip of the product onto a soft bristle toothbrush. Brush teeth thoroughly for at least 1 minute twice a day (morning and evening) or as recommended by a dentist. Make sure to brush all sensitive areas of the teeth. Do not swallow. Do not use in children under 12 yrs"
+        },
+        {
+          "heading": "Warnings",
+          "text": "When using this product do not use for sensitivity longer than four weeks unless recommended by a dentist. Stop use and ask a dentist if the sensitivity problem persists or worsens. Sensitive teeth may indicate a serious problem that may need prompt care. Keep out of reach of children. If more than used for brushing is accidentally swallowed, get medical help or contact a Poison Control Center right away"
+        },
+        {
+          "heading": "Specifications",
+          "text": "Product type\nToothpaste\nQuantity\n1 - 5 oz.\nLife Stage\nAdult"
+        }
+      ],
+      "features": [
+        "Provides the same clinically proven active ingredient as Sensodyne Extra Whitening* *Sensodyne is a registered trademark of GlaxoSmithKline LLC",
+        "Maximum strength** sensitivity relief and the power of Scope **Maximum level of FDA Sensitivity Active ingredient",
+        "Soothes the nerves in your teeth where dentin is exposed",
+        "Experience the freshness of Scope’s long lasting technology",
+        "Whitens teeth by removing surface stains"
+      ],
       "image_paths": [
-        "/static/images/b4ff9f981b5be67dd2d5.jpg"
+        "/static/images/b0d2ea50b57fc47c4be1.jpg",
+        "/static/images/81b7bcf33d281f39fba3.jpg",
+        "/static/images/3f6bb2f5ce9be40b5a87.jpg",
+        "/static/images/e3c77a17dc499ebab417.jpg",
+        "/static/images/805a9103432dfd7ca7a1.jpg",
+        "/static/images/5ccc02524f108a844025.jpg",
+        "/static/images/485fee7d4de3a1288947.jpg",
+        "/static/images/932cbbbc53662821e426.jpg",
+        "/static/images/bb591e87e56a7034446f.jpg"
       ],
       "source_url": "https://www.cvs.com/shop/crest-pro-health-sensitivity-relief-toothpaste-minty-fresh-scope-5-1-oz-prodid-428704",
       "captured_at": "2026-09-28T16:45:44.261Z",
-      "detail_status": "listing_only",
+      "detail_status": "captured",
       "unavailable_reason": null,
       "variants": [],
-      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care"
+      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care",
+      "listing_captured_at": "2026-09-28T16:45:44.261Z",
+      "detail_captured_at": "2026-09-28T18:50:08.036Z"
     },
     {
       "id": "496783",
@@ -322,18 +621,40 @@
       "price_text": "$14.49",
       "rating": null,
       "review_count": 0,
-      "description": "",
-      "details": [],
-      "features": [],
+      "description": "Gengigel Hyaluronic Acid Mouthrinse (150 ml), Oral Care Solution for Gum Health, Reduces Discomfort, Helps Relieve Gum Recession & Gingivitis, No Alcohol or SLS, Vegan & Kosher",
+      "details": [
+        {
+          "heading": "Details",
+          "text": "Gengigel Hyaluronic Acid Mouthrinse, 5.07 OZ\n\n5.07 OZ, 0.44 lbs. Item # 496783\n\nGengigel Hyaluronic Acid Mouthrinse (150 ml), Oral Care Solution for Gum Health, Reduces Discomfort, Helps Relieve Gum Recession & Gingivitis, No Alcohol or SLS, Vegan & Kosher\nRelieves Mouth-Wide Oral Discomfort: Gengigel Mouthrinse helps alleviate discomfort from mouth ulcers, gum recession, and minor wounds. Formulated with hyaluronic acid, this gum health mouthwash helps reduce discomforts like gingivitis, and periodontitis\nSoothes & Protects: It soothes discomfort, forms a protective barrier over oral tissues, and helps speed up recovery from minor issues, damaged or bleeding gums, food burns, and oral abrasions. Helps maintain good oral health\nSuitable for Daily Use: Gengigel is vegan, kosher, and is a safe option for daily oral care, offering relief from gum problems, and irritation caused by braces, dentures, or aligners. Formulated without SLS, gluten, triclosan, parabens, and lactose\nSimple Application: Rinse for 1-2 minutes at an alternative time to teeth brushing for quick oral relief. Its triple-action formula and easy application make this mouth wash an essential addition to your regular oral hygiene routine and recovery care\nA Trusted Oral Health Companion: Combining science with natural ingredients, Gengigel delivers effective solutions for various oral concerns. Experience advanced oral care that soothes and protects for a healthier mouth"
+        },
+        {
+          "heading": "Specifications",
+          "text": "Concern\nFresh breath\nProduct type\nMouth care\nQuantity\n1 - 5 oz.\nSize\n1 - 5 oz.\nLife Stage\nAdult"
+        }
+      ],
+      "features": [
+        "Relieves Mouth-Wide Oral Discomfort: Gengigel Mouthrinse helps alleviate discomfort from mouth ulcers, gum recession, and minor wounds. Formulated with hyaluronic acid, this gum health mouthwash helps reduce discomforts like gingivitis, and periodontitis",
+        "Soothes & Protects: It soothes discomfort, forms a protective barrier over oral tissues, and helps speed up recovery from minor issues, damaged or bleeding gums, food burns, and oral abrasions. Helps maintain good oral health",
+        "Suitable for Daily Use: Gengigel is vegan, kosher, and is a safe option for daily oral care, offering relief from gum problems, and irritation caused by braces, dentures, or aligners. Formulated without SLS, gluten, triclosan, parabens, and lactose",
+        "Simple Application: Rinse for 1-2 minutes at an alternative time to teeth brushing for quick oral relief. Its triple-action formula and easy application make this mouth wash an essential addition to your regular oral hygiene routine and recovery care",
+        "A Trusted Oral Health Companion: Combining science with natural ingredients, Gengigel delivers effective solutions for various oral concerns. Experience advanced oral care that soothes and protects for a healthier mouth"
+      ],
       "image_paths": [
-        "/static/images/952879785610a794d6f2.jpg"
+        "/static/images/466273003bb6e3cda0ee.jpg",
+        "/static/images/69d19e19b3bac47fce5b.jpg",
+        "/static/images/da8f69285f752004669e.jpg",
+        "/static/images/c56aab75b681294c4a23.jpg",
+        "/static/images/9f408c6e22955c099a6a.jpg",
+        "/static/images/07381b9fff0c5d411d3d.jpg"
       ],
       "source_url": "https://www.cvs.com/shop/gengigel-hyaluronic-acid-mouthrinse-5-07-oz-prodid-496783",
       "captured_at": "2026-09-28T16:45:44.261Z",
-      "detail_status": "listing_only",
+      "detail_status": "captured",
       "unavailable_reason": null,
       "variants": [],
-      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care"
+      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care",
+      "listing_captured_at": "2026-09-28T16:45:44.261Z",
+      "detail_captured_at": "2026-09-28T18:50:11.248Z"
     },
     {
       "id": "459335",
@@ -345,20 +666,54 @@
       "price_min_cents": 2149,
       "price_max_cents": 2149,
       "price_text": "$21.49",
-      "rating": null,
+      "rating": 4.6,
       "review_count": 354,
-      "description": "",
-      "details": [],
-      "features": [],
+      "description": "Sensodyne Pronamel Intensive Enamel Repair Whitening Toothpaste, Arctic Breeze features an advanced enamel care formulation proven to help actively repair and protect tooth enamel while effectively removing stains to help restore teeth to their natural whiteness. Many of the foods and drinks you enjoy contain acids that can wear away the hard enamel coating of your teeth. Developed with potassium nitrate and sodium fluoride, this sensitive toothpaste strengthens and rehardens weakened enamel and provides lasting relief (1) from sensitivity. (1) With twice daily brushing",
+      "details": [
+        {
+          "heading": "Details",
+          "text": "Pronamel Intensive Enamel Repair Whitening Toothpaste, Arctic Breeze, 3 PK\n\n3.4 OZ, 14.004 lbs. Item # 459335\n\nSensodyne Pronamel Intensive Enamel Repair Whitening Toothpaste, Arctic Breeze features an advanced enamel care formulation proven to help actively repair and protect tooth enamel while effectively removing stains to help restore teeth to their natural whiteness. Many of the foods and drinks you enjoy contain acids that can wear away the hard enamel coating of your teeth. Developed with potassium nitrate and sodium fluoride, this sensitive toothpaste strengthens and rehardens weakened enamel and provides lasting relief (1) from sensitivity. (1) With twice daily brushing\nThree 3.4 oz tubes of Sensodyne Pronamel Intensive Enamel Repair Whitening Toothpaste for Sensitive Teeth and Cavity Protection, Arctic Breeze\nFeatures an advanced enamel care formulation proven to help actively repair acid-weakened enamel and protect teeth from future acid erosion\nEnamel protection toothpaste that restores natural whiteness, helps prevent cavities and promotes fresh breath\n24/7 sensitivity protection helps relieve symptoms with twice daily brushing with this enamel toothpaste\nMedicare Advantage OTC (MAOTC) eligible. *OTC benefits and eligible products vary by plan. Check your plan for specific details."
+        },
+        {
+          "heading": "Ingredients",
+          "text": "Active: Potassium nitrate 5% - Antihypersensitivity Sodium fluoride 0.25% (0.15% w/v fluoride ion) - AnticavityInactive: water, sorbitol, hydrated silica, glycerin, PEG-8, sodium lactate, flavor, cocamidopropyl betaine, titanium dioxide, xanthan gum, sodium saccharin, PVM/MA copolymer, sodium hydroxide\nActive Ingredients\nPotassium nitrate 5% - Antihypersensitivity Sodium fluoride 0.25% (0.15% w/v fluoride ion) - Anticavity\nInactive Ingredients\nwater, sorbitol, hydrated silica, glycerin, PEG-8, sodium lactate, flavor, cocamidopropyl betaine, titanium dioxide, xanthan gum, sodium saccharin, PVM/MA copolymer, sodium hydroxide"
+        },
+        {
+          "heading": "Directions",
+          "text": "• adults and children 12 years of age and older: • apply at least a 1-inch strip of the product onto a soft bristle toothbrush. • brush teeth thoroughly for at least 1 minute twice a day (morning and evening), and not more than 3 times a day, or as recommended by a dentist or doctor. Make sure to brush all sensitive areas of the teeth. Minimize swallowing. Spit out after brushing. • children under 12 years of age: Consult a dentist or doctor."
+        },
+        {
+          "heading": "Warnings",
+          "text": "Stop use and ask a dentist if • the problem persists or worsens. Sensitive teeth may indicate a serious problem that may need prompt care by a dentist. • pain/sensitivity still persists after 4 weeks of use. Keep out of reach of children. If more than used for brushing is accidentally swallowed, get medical help or contact a Poison Control Center right away."
+        },
+        {
+          "heading": "Specifications",
+          "text": "Key ingredient\nFluoride\nProduct type\nToothpaste\nQuantity\n1 - 5 oz.\nSize\n1 - 5 oz.\nLife Stage\nAdult"
+        }
+      ],
+      "features": [
+        "Three 3.4 oz tubes of Sensodyne Pronamel Intensive Enamel Repair Whitening Toothpaste for Sensitive Teeth and Cavity Protection, Arctic Breeze",
+        "Features an advanced enamel care formulation proven to help actively repair acid-weakened enamel and protect teeth from future acid erosion",
+        "Enamel protection toothpaste that restores natural whiteness, helps prevent cavities and promotes fresh breath",
+        "24/7 sensitivity protection helps relieve symptoms with twice daily brushing with this enamel toothpaste",
+        "Medicare Advantage OTC (MAOTC) eligible. *OTC benefits and eligible products vary by plan. Check your plan for specific details."
+      ],
       "image_paths": [
-        "/static/images/17ea06f4760139aaf5eb.jpg"
+        "/static/images/ddc8b5e062bbf0df8abd.jpg",
+        "/static/images/fb825da5918d1bf5a392.jpg",
+        "/static/images/3c3f96ddae69070a7212.jpg",
+        "/static/images/d86354e63701d4d131b2.jpg",
+        "/static/images/ca4ff5daf67306fe112a.jpg",
+        "/static/images/723ff1850f34b60bc1f8.jpg"
       ],
       "source_url": "https://www.cvs.com/shop/pronamel-intensive-enamel-repair-whitening-toothpaste-arctic-breeze-3-pk-prodid-459335",
       "captured_at": "2026-09-28T16:45:44.261Z",
-      "detail_status": "listing_only",
+      "detail_status": "captured",
       "unavailable_reason": null,
       "variants": [],
-      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care"
+      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care",
+      "listing_captured_at": "2026-09-28T16:45:44.261Z",
+      "detail_captured_at": "2026-09-28T18:50:21.428Z"
     },
     {
       "id": "447099",
@@ -370,20 +725,54 @@
       "price_min_cents": 1599,
       "price_max_cents": 1599,
       "price_text": "$15.99",
-      "rating": null,
+      "rating": 4.6,
       "review_count": 1160,
-      "description": "",
-      "details": [],
-      "features": [],
+      "description": "Behind the bold formula? A dentist who knows enamel science — and believes in a mineral-powered clean with 3% nHA. It features a form of your teeth’s own natural minerals and transforms them into a non-fluoride elixir. The secret is a high concentration of nano-hydroxyapatite sourced from the best out there, nanoXIM CarePaste. The payoff: a whiter smile and a taste you'll actually love.",
+      "details": [
+        {
+          "heading": "Details",
+          "text": "Cocolab Cocoshine Nano-Hydroxyapatite Whitening Toothpaste, Lychee Breeze, 4 OZ\n\n4 OZ, 0.32 lbs. Item # 447099\n\nBehind the bold formula? A dentist who knows enamel science — and believes in a mineral-powered clean with 3% nHA. It features a form of your teeth’s own natural minerals and transforms them into a non-fluoride elixir. The secret is a high concentration of nano-hydroxyapatite sourced from the best out there, nanoXIM CarePaste. The payoff: a whiter smile and a taste you'll actually love.\nGentle, low-abrasion formula for sensitive smiles.\nContains 19.35% nanoXIM® CarePaste, yielding 3% nano-hydroxyapatite (nHA) — one of the highest concentrations in toothpaste.\nWhitens in 1 week* and removes surface stains without peroxide or bleach.\nPowered by pH-balancing baking soda, microbiome-friendly xylitol, coconut oil, aloe vera, and stain-buffing silica.\nVegan, cruelty-free, and packaged in a tube partly made from recycled ocean-bound plastic."
+        },
+        {
+          "heading": "Ingredients",
+          "text": "water (you know, H₂O), glycerin (natural hydrator), silica (naturally-derived mineral that gently polishes), xylitol* (plant-based sweetener that’s microbiome-friendly), hydroxyapatite (3% — mineral that strengthens, whitens, and reverses sensitivity), cellulose gum (plant-based thickener), cocos nucifera (coconut) oil (microbiome-friendly), aloe barbadensis leaf juice* (naturally soothing), sodium bicarbonate (baking soda, a natural surface stain remover), sodium citrate (salt derivative that reduces sensitivity), potassium chloride (natural mineral salt that reduces sensitivity), stevia rebaudiana extract (natural sugar-free sweetener), sodium lauroyl sarcosinate (naturally-derived cleanser), flavor.*Certified Organic"
+        },
+        {
+          "heading": "Directions",
+          "text": "Put toothpaste onto toothbrush and brush for 2 minutes twice a day."
+        },
+        {
+          "heading": "Warnings",
+          "text": "Keep out of reach of small children."
+        },
+        {
+          "heading": "Specifications",
+          "text": "Benefit\nRepairing\nColor\nPink\nConcern\nOral health\nForm\nPaste\nKey ingredient\nNano-hydroxyapatite (nha)\nProduct type\nToothpaste\nQuantity\nSingle pack\nGender\nUnisex\nSize\n1 - 5 oz.\nLife Stage\nAdult"
+        }
+      ],
+      "features": [
+        "Gentle, low-abrasion formula for sensitive smiles.",
+        "Contains 19.35% nanoXIM® CarePaste, yielding 3% nano-hydroxyapatite (nHA) — one of the highest concentrations in toothpaste.",
+        "Whitens in 1 week* and removes surface stains without peroxide or bleach.",
+        "Powered by pH-balancing baking soda, microbiome-friendly xylitol, coconut oil, aloe vera, and stain-buffing silica.",
+        "Vegan, cruelty-free, and packaged in a tube partly made from recycled ocean-bound plastic."
+      ],
       "image_paths": [
-        "/static/images/aa7efd4d01feb9a6e357.jpg"
+        "/static/images/5dad2f5797e27c95f7db.jpg",
+        "/static/images/d91d3fb30b0b553aeada.jpg",
+        "/static/images/e1e14d305bc207d11424.jpg",
+        "/static/images/987a22dd0248d8bc1112.jpg",
+        "/static/images/9d2b149d7dab1762655d.jpg",
+        "/static/images/389686f15446838f565d.jpg"
       ],
       "source_url": "https://www.cvs.com/shop/cocolab-cocoshine-nano-hydroxyapatite-whitening-toothpaste-lychee-breeze-4-oz-prodid-447099",
       "captured_at": "2026-09-28T16:45:44.261Z",
-      "detail_status": "listing_only",
+      "detail_status": "captured",
       "unavailable_reason": null,
       "variants": [],
-      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care"
+      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care",
+      "listing_captured_at": "2026-09-28T16:45:44.261Z",
+      "detail_captured_at": "2026-09-28T18:50:25.595Z"
     },
     {
       "id": "455078",
@@ -395,20 +784,56 @@
       "price_min_cents": 399,
       "price_max_cents": 399,
       "price_text": "Sale\n$3.99\nWas\n$5.19\nSign in to save $5.00\nSale $3.99\n+ More Deals",
-      "rating": null,
+      "rating": 4.7,
       "review_count": 55,
-      "description": "",
-      "details": [],
-      "features": [],
+      "description": "Brighten your smile with Crest 3D White Stain Eraser Toothpaste in Icy Clean Mint flavor. This Crest toothpaste helps to remove 80% more surface stains* caused by tea, coffee, soda, wine, and other beverages. This formula is gentle on enamel and helps protect against cavities while leaving breath minty fresh. *Vs regular toothpaste. From America's #1 Whitening Brand.* *P&G calculation based on U.S. reported sales data for year ending w/o 6/11/2022.",
+      "details": [
+        {
+          "heading": "Details",
+          "text": "Crest 3D White Stain Eraser Toothpaste, Icy Clean Mint, 3.8 OZ\n\n3.8 OZ, 0.289 lbs. Item # 455078\n\nBrighten your smile with Crest 3D White Stain Eraser Toothpaste in Icy Clean Mint flavor. This Crest toothpaste helps to remove 80% more surface stains* caused by tea, coffee, soda, wine, and other beverages. This formula is gentle on enamel and helps protect against cavities while leaving breath minty fresh. *Vs regular toothpaste. From America's #1 Whitening Brand.* *P&G calculation based on U.S. reported sales data for year ending w/o 6/11/2022.\nYou will receive one (1) 3.8 oz tube of Crest 3D White Stain Eraser Toothpaste in Icy Clean Mint flavor\nRemoves 80% more surface stains* *Vs. regular toothpaste\nWhitens in even hard to reach places\nGet a brighter smile with 3DW unique technology\nUpgrade to Crest 3D White Advanced for 90% more stain removal"
+        },
+        {
+          "heading": "Ingredients",
+          "text": "Active Ingredient: Sodium Fluoride 0.243% (0.15% w/v Fluoride Ion)Inactive Ingredients: Water, Sorbitol, Hydrated Silica, Disodium Pyrophosphate, Sodium Lauryl Sulfate, Flavor, Sodium Hydroxide, Cellulose Gum, Sodium Saccharin, Carbomer, Polysorbate 80, Mica, Titanium Dioxide, Blue 1"
+        },
+        {
+          "heading": "Directions",
+          "text": "Adults and children 2 yrs. & older: brush teeth thoroughly after meals or at least twice a day or use as directed by a dentist. Do not swallow. To minimize swallowing use a pea-sized amount in children under 6. Supervise children’s brushing until good habits are established. Children under 2 yrs.: ask a dentist"
+        },
+        {
+          "heading": "Warnings",
+          "text": "Keep out of reach of children under 6 yrs. of age. If more than used for brushing is accidentally swallowed, get medical help or contact a Poison Control Center right away"
+        },
+        {
+          "heading": "Specifications",
+          "text": "Product type\nToothpaste\nQuantity\n1 - 5 oz.\nLife Stage\nAdult"
+        }
+      ],
+      "features": [
+        "You will receive one (1) 3.8 oz tube of Crest 3D White Stain Eraser Toothpaste in Icy Clean Mint flavor",
+        "Removes 80% more surface stains* *Vs. regular toothpaste",
+        "Whitens in even hard to reach places",
+        "Get a brighter smile with 3DW unique technology",
+        "Upgrade to Crest 3D White Advanced for 90% more stain removal"
+      ],
       "image_paths": [
-        "/static/images/8a3f0cae1706eb82daae.jpg"
+        "/static/images/24ff8c6ad769b1230b82.jpg",
+        "/static/images/ffd8b3cd6df39e4d6c1b.jpg",
+        "/static/images/c65b222643c55c348c78.jpg",
+        "/static/images/e8d5256f19d75b497847.jpg",
+        "/static/images/73e673f12bda0435169e.jpg",
+        "/static/images/51cb49ccc6ddbb65af5f.jpg",
+        "/static/images/980794786fee1b7ce58b.jpg",
+        "/static/images/e83e8bd6ce95e7feebcd.jpg"
       ],
       "source_url": "https://www.cvs.com/shop/crest-3d-white-stain-eraser-toothpaste-icy-clean-mint-3-8-oz-prodid-455078",
       "captured_at": "2026-09-28T16:45:44.261Z",
-      "detail_status": "listing_only",
+      "detail_status": "captured",
       "unavailable_reason": null,
       "variants": [],
-      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care"
+      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care",
+      "listing_captured_at": "2026-09-28T16:45:44.261Z",
+      "detail_captured_at": "2026-09-28T18:50:40.650Z"
     },
     {
       "id": "478894",
@@ -420,20 +845,45 @@
       "price_min_cents": 799,
       "price_max_cents": 799,
       "price_text": "$7.99\n$5 ExtraBucks Rewards for purchasing TheraBreath toothpaste",
-      "rating": null,
+      "rating": 4.9,
       "review_count": 56,
-      "description": "",
-      "details": [],
-      "features": [],
+      "description": "Say hello to gum protection with TheraBreath Healthy Gums Toothpaste, new from the Best-Selling Alcohol-Free Mouthwash Brand in the USA (2). This dentist-formulated toothpaste fights bad breath and reduces gumline plaque for 24 hours (1). Stannous fluoride makes this toothpaste a two-in-one antigingivitis and anticavity sensation that interferes with the harmful effects of plaque buildup and helps protect against cavities. The Clean Mint flavor features a smooth blend of peppermint and spearmint, plus subtle notes of vanilla and green tea to make your whole mouth feel fresh without the harsh burn. Pair it with your favorite TheraBreath Oral Rinse to power up your routine. All TheraBreath products are backed by our 100% guarantee. If you’re not satisfied, contact us within 30 days of purchase for a full refund. (1) In a clinical study with twice daily brushing vs. regular toothpaste. (2) Based on units sold, Circana, L13wks 2/2/25. (3) In laboratory tests.",
+      "details": [
+        {
+          "heading": "Details",
+          "text": "TheraBreath Healthy Gums Toothpaste, Clean Mint, 4 OZ\n\n4 OZ, 0.304 lbs. Item # 478894\n\nSay hello to gum protection with TheraBreath Healthy Gums Toothpaste, new from the Best-Selling Alcohol-Free Mouthwash Brand in the USA (2). This dentist-formulated toothpaste fights bad breath and reduces gumline plaque for 24 hours (1). Stannous fluoride makes this toothpaste a two-in-one antigingivitis and anticavity sensation that interferes with the harmful effects of plaque buildup and helps protect against cavities. The Clean Mint flavor features a smooth blend of peppermint and spearmint, plus subtle notes of vanilla and green tea to make your whole mouth feel fresh without the harsh burn. Pair it with your favorite TheraBreath Oral Rinse to power up your routine. All TheraBreath products are backed by our 100% guarantee. If you’re not satisfied, contact us within 30 days of purchase for a full refund. (1) In a clinical study with twice daily brushing vs. regular toothpaste. (2) Based on units sold, Circana, L13wks 2/2/25. (3) In laboratory tests.\nA 4 oz TheraBreath Healthy Gums Toothpaste; Clean Mint flavor leaves your whole mouth feeling fresh\nLong-lasting for epic freshness; helps fight morning breath and neutralizes the source of bad breath (3)\nReduces gumline plaque for 24 hours to protect against gingivitis (1)\nGently whitens even sensitive teeth while staying kind to enamel with no harsh abrasives\nMade with stannous fluoride for anticavity and antigingivitis protection; helps prevent tooth decay and interferes with the harmful effects of plaque associated with gingivitis\nDentist-formulated, certified vegan, halal, gluten-free, and kosher\nFrom the Best-Selling Alcohol-Free Mouthwash Brand in the USA (2); mix and match with your favorite TheraBreath Oral Rinse to power up your routine"
+        },
+        {
+          "heading": "Specifications",
+          "text": "Color\nWhite\nConcern\nGum health\nForm\nPaste\nProduct type\nToothpaste\nQuantity\n1 - 5 oz.\nScent\nFresh\nLife Stage\nAdult"
+        }
+      ],
+      "features": [
+        "A 4 oz TheraBreath Healthy Gums Toothpaste; Clean Mint flavor leaves your whole mouth feeling fresh",
+        "Long-lasting for epic freshness; helps fight morning breath and neutralizes the source of bad breath (3)",
+        "Reduces gumline plaque for 24 hours to protect against gingivitis (1)",
+        "Gently whitens even sensitive teeth while staying kind to enamel with no harsh abrasives",
+        "Made with stannous fluoride for anticavity and antigingivitis protection; helps prevent tooth decay and interferes with the harmful effects of plaque associated with gingivitis",
+        "Dentist-formulated, certified vegan, halal, gluten-free, and kosher",
+        "From the Best-Selling Alcohol-Free Mouthwash Brand in the USA (2); mix and match with your favorite TheraBreath Oral Rinse to power up your routine"
+      ],
       "image_paths": [
-        "/static/images/51d1a3244f4b3a2f1602.jpg"
+        "/static/images/88d9aba038d523e39d5f.jpg",
+        "/static/images/c0926448d610b9b81e17.jpg",
+        "/static/images/649f7605533c3879bc30.jpg",
+        "/static/images/4097cbc9654b4176540a.jpg",
+        "/static/images/203fcd3f03e53e28f635.jpg",
+        "/static/images/a6a1e616535cf9500bbe.jpg",
+        "/static/images/e449c459cd3a89620de8.jpg"
       ],
       "source_url": "https://www.cvs.com/shop/therabreath-healthy-gums-toothpaste-clean-mint-4-oz-prodid-478894",
       "captured_at": "2026-09-28T16:45:44.261Z",
-      "detail_status": "listing_only",
+      "detail_status": "captured",
       "unavailable_reason": null,
       "variants": [],
-      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care"
+      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care",
+      "listing_captured_at": "2026-09-28T16:45:44.261Z",
+      "detail_captured_at": "2026-09-28T18:50:43.929Z"
     },
     {
       "id": "476375",
@@ -445,20 +895,50 @@
       "price_min_cents": 579,
       "price_max_cents": 579,
       "price_text": "$5.79",
-      "rating": null,
+      "rating": 4.7,
       "review_count": 54,
-      "description": "",
-      "details": [],
-      "features": [],
+      "description": "Formulated without dyes, sugars and alcohol, Pure Protect features a natural, kid-friendly Simply Strawberry flavor that allows kids to experience the teeth-strengthening benefits of fluoride without additives and encourages healthy long-term oral care habits.",
+      "details": [
+        {
+          "heading": "Details",
+          "text": "ACT Kids Anticavity Fluoride Rinse, Simple Strawberry, 16.9 OZ\n\n16.9 OZ, 1.25 lbs. Item # 476375\n\nFormulated without dyes, sugars and alcohol, Pure Protect features a natural, kid-friendly Simply Strawberry flavor that allows kids to experience the teeth-strengthening benefits of fluoride without additives and encourages healthy long-term oral care habits.\nFreshens breath​ without dyes, sugars and alcohol\nACT® Anticavity prevents cavities and strengthens enamel\nEssential ingredients to strengthen and protect teeth\nStrawberry is #1 Kids Mouthwash flavor"
+        },
+        {
+          "heading": "Ingredients",
+          "text": "Active Ingredients: sodium fluoride (0.02% w/v fluoride ion)' '0.05%. Inactive Ingredients: cetylpyridinium chloride, dipotassium glycyrrhizinate, disodium phosphate, flavor, glycerin, poloxamer 407, polysorbate 20, propylene glycol, sodium benzoate, sodium phosphate, sorbitol, stevia rebaudiana leaf/stem extract, water, xylitol."
+        },
+        {
+          "heading": "Directions",
+          "text": "Directions adults and children 6 years of age and older: use once a day after brushing your teeth with a toothpaste, remove cap, hold bottle upright and squeeze. Fill to FILL LINE (10mL), vigorously swish 10 milliliters of rinse between your teeth for 1 minute and then spit out, do not swallow the rinse, do not eat or drink for 30 minutes after rinsing, instruct children under 12 years of age in good rinsing habits (to minimize swallowing), supervise children as necessary until capable of using without supervision, children under 6 years of age: consult a dentist or doctor"
+        },
+        {
+          "heading": "Warnings",
+          "text": "Keep out of reach of children. If more than used for rinsing is accidentally swallowed, get medical help or contact a Poison Control Center right away."
+        },
+        {
+          "heading": "Specifications",
+          "text": "Product type\nMouth washes & rinses\nQuantity\n11 - 20 oz.\nLife Stage\nChild"
+        }
+      ],
+      "features": [
+        "Freshens breath​ without dyes, sugars and alcohol",
+        "ACT® Anticavity prevents cavities and strengthens enamel",
+        "Essential ingredients to strengthen and protect teeth",
+        "Strawberry is #1 Kids Mouthwash flavor"
+      ],
       "image_paths": [
-        "/static/images/614800cb9c9604b6a38b.jpg"
+        "/static/images/660afabf233022825ae9.jpg",
+        "/static/images/c2552d2a11713a66e8ac.jpg",
+        "/static/images/3b1cca4338da922f1d80.jpg"
       ],
       "source_url": "https://www.cvs.com/shop/act-kids-anticavity-fluoride-rinse-simple-strawberry-16-9-oz-prodid-476375",
       "captured_at": "2026-09-28T16:45:44.261Z",
-      "detail_status": "listing_only",
+      "detail_status": "captured",
       "unavailable_reason": null,
       "variants": [],
-      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care"
+      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care",
+      "listing_captured_at": "2026-09-28T16:45:44.261Z",
+      "detail_captured_at": "2026-09-28T18:50:47.012Z"
     },
     {
       "id": "452370",
@@ -470,20 +950,57 @@
       "price_min_cents": 399,
       "price_max_cents": 399,
       "price_text": "Sale\n$3.99\nWas\n$5.19\nSign in to save $5.00\nSale $3.99\n+ More Deals",
-      "rating": null,
+      "rating": 4.7,
       "review_count": 89,
-      "description": "",
-      "details": [],
-      "features": [],
+      "description": "Get your daily Staiin PRevention with with Crest 3D White Stain Eraser Toothpaste. This Crest toothpaste helps to remove 80% more surface stains* caused by tea, coffee, soda, wine, and other beverages. This formula is enamel safe and helps protect against cavities while leaving you a fresh breath. *Vs regular toothpaste. From America's #1 Whitening Brand* *P&G calculation based on U.S. reported sales data for yr ending w/o 6/11/2022",
+      "details": [
+        {
+          "heading": "Details",
+          "text": "Crest 3D White Stain Eraser Toothpaste, Polishing Mint, 3.8 OZ\n\n3.8 OZ, 0.289 lbs. Item # 452370\n\nGet your daily Staiin PRevention with with Crest 3D White Stain Eraser Toothpaste. This Crest toothpaste helps to remove 80% more surface stains* caused by tea, coffee, soda, wine, and other beverages. This formula is enamel safe and helps protect against cavities while leaving you a fresh breath. *Vs regular toothpaste. From America's #1 Whitening Brand* *P&G calculation based on U.S. reported sales data for yr ending w/o 6/11/2022\nDaily Stain Prevention\nRemoves 80% more surface stains* *Vs. regular toothpaste\nWhitens in even hard to reach places\nGet a brighter smile with 3DW unique technology\nUpgrade to Crest 3D White Advanced for WHITER TEETH IN 5 DAYS"
+        },
+        {
+          "heading": "Ingredients",
+          "text": "Active ingredient: Sodium fluoride 0.243% (0.15% w/v fluoride ion)Inactive ingredients: water, sorbitol, hydrated silica, disodium pyrophosphate, sodium lauryl sulfate, flavor, sodium hydroxide, cellulose gum, sodium saccharin, carbomer, polysorbate 80, mica, titanium dioxide, blue 1"
+        },
+        {
+          "heading": "Directions",
+          "text": "Adults and children 2 yrs. & older: brush teeth thoroughly after meals or at least twice a day or use as directed by a dentist. Do not swallow. To minimize swallowing use a pea-sized amount in children under 6 yrs. Supervise children’s brushing until good habits are established. Children under 2 yrs.: ask a dentist"
+        },
+        {
+          "heading": "Warnings",
+          "text": "Keep out of reach of children under 6 yrs. of age. If more than used for brushing is accidentally swallowed, get medical help or contact a Poison Control Center right away"
+        },
+        {
+          "heading": "Specifications",
+          "text": "Product type\nToothpaste\nQuantity\n1 - 5 oz.\nLife Stage\nAdult"
+        }
+      ],
+      "features": [
+        "Daily Stain Prevention",
+        "Removes 80% more surface stains* *Vs. regular toothpaste",
+        "Whitens in even hard to reach places",
+        "Get a brighter smile with 3DW unique technology",
+        "Upgrade to Crest 3D White Advanced for WHITER TEETH IN 5 DAYS"
+      ],
       "image_paths": [
-        "/static/images/f0abcce0d33c64430f4c.jpg"
+        "/static/images/e50c7f6908a759da9859.jpg",
+        "/static/images/c7f7bf51580af91a7ca3.jpg",
+        "/static/images/233262391483d2aaced2.jpg",
+        "/static/images/07d60cc5994a06ba1cbb.jpg",
+        "/static/images/24b85fae92ce9aaeb132.jpg",
+        "/static/images/cf5872646935bcfc9317.jpg",
+        "/static/images/567014dbd989e3bceb5e.jpg",
+        "/static/images/6da91f23c0c9aed81992.jpg",
+        "/static/images/b54087aabfaa1bb5182c.jpg"
       ],
       "source_url": "https://www.cvs.com/shop/crest-3d-white-stain-eraser-toothpaste-polishing-mint-3-8-oz-prodid-452370",
       "captured_at": "2026-09-28T16:45:44.261Z",
-      "detail_status": "listing_only",
+      "detail_status": "captured",
       "unavailable_reason": null,
       "variants": [],
-      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care"
+      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care",
+      "listing_captured_at": "2026-09-28T16:45:44.261Z",
+      "detail_captured_at": "2026-09-28T18:44:24.278Z"
     },
     {
       "id": "478948",
@@ -495,20 +1012,46 @@
       "price_min_cents": 1799,
       "price_max_cents": 1799,
       "price_text": "$17.99",
-      "rating": null,
+      "rating": 4.4,
       "review_count": 619,
-      "description": "",
-      "details": [],
-      "features": [],
+      "description": "TheraBreath Whitening Mouthwash is tough on stains and bad breath but gentle on teeth. This whitening rinse helps remove stains while also forming a protective barrier that prevents future staining. Safe to use every day, TheraBreath Whitening Mouthwash is formulated without peroxide, which is commonly found in many whitening products and can lead to tooth sensitivity and discomfort. Like all TheraBreath mouthwashes, our Whitening Mouthwash is dentist-formulated with powerful breath freshening ingredients. The alcohol-free formula doesn't burn or irritate, and the Dazzling Mint flavor is gentle and refreshing. We’re so confident in the effectiveness of TheraBreath Oral Rinses that we back them up with our 100% guarantee. If you're not satisfied, contact us within 30 days of purchase for a full refund.",
+      "details": [
+        {
+          "heading": "Details",
+          "text": "TheraBreath Whitening Fresh Breath Mouthwash, Dazzling Mint, 33.8 OZ\n\n33.8 OZ, 2.4 lbs. Item # 478948\n\nTheraBreath Whitening Mouthwash is tough on stains and bad breath but gentle on teeth. This whitening rinse helps remove stains while also forming a protective barrier that prevents future staining. Safe to use every day, TheraBreath Whitening Mouthwash is formulated without peroxide, which is commonly found in many whitening products and can lead to tooth sensitivity and discomfort. Like all TheraBreath mouthwashes, our Whitening Mouthwash is dentist-formulated with powerful breath freshening ingredients. The alcohol-free formula doesn't burn or irritate, and the Dazzling Mint flavor is gentle and refreshing. We’re so confident in the effectiveness of TheraBreath Oral Rinses that we back them up with our 100% guarantee. If you're not satisfied, contact us within 30 days of purchase for a full refund.\nWHITENING WITHOUT PEROXIDE: Helps remove stains and prevent future staining, while also freshening bad breath\nDENTIST FORMULATED: Gentle, non-irritating formula with naturally-sourced stain fighting enzymes\nALCOHOL FREE: Non-burning formula made without alcohol that starts working instantly\nRESTORE CONFIDENCE: TheraBreath believes you should define success any way you please. We exist to motivate you to go get it!\nNot tested on animals; this oral rinse is certified vegan, gluten free, halal, kosher; and its packaging is BPA-free\nFor best results, swish TheraBreath Rinse for 1 minute after brushing your teeth with toothpaste then spit out; do not eat or drink for 30 minutes afterwards\nCreated by Dr. Harold Katz in 1993 for his own family; add TheraBreath mouthwashes to your daily oral care routine and swish with confidence"
+        },
+        {
+          "heading": "Specifications",
+          "text": "Concern\nTeeth whitening\nForm\nLiquid\nProduct type\nMouth washes & rinses\nQuantity\n21-40 oz\nLife Stage\nAdult"
+        }
+      ],
+      "features": [
+        "WHITENING WITHOUT PEROXIDE: Helps remove stains and prevent future staining, while also freshening bad breath",
+        "DENTIST FORMULATED: Gentle, non-irritating formula with naturally-sourced stain fighting enzymes",
+        "ALCOHOL FREE: Non-burning formula made without alcohol that starts working instantly",
+        "RESTORE CONFIDENCE: TheraBreath believes you should define success any way you please. We exist to motivate you to go get it!",
+        "Not tested on animals; this oral rinse is certified vegan, gluten free, halal, kosher; and its packaging is BPA-free",
+        "For best results, swish TheraBreath Rinse for 1 minute after brushing your teeth with toothpaste then spit out; do not eat or drink for 30 minutes afterwards",
+        "Created by Dr. Harold Katz in 1993 for his own family; add TheraBreath mouthwashes to your daily oral care routine and swish with confidence"
+      ],
       "image_paths": [
-        "/static/images/2400279db79aa57dcf73.jpg"
+        "/static/images/6803cbf8f7324eeeeaea.jpg",
+        "/static/images/5b1a4609d1d82c923aa4.jpg",
+        "/static/images/dcb0057ca6b1ccf72522.jpg",
+        "/static/images/1daba015f9eec6bab2ef.jpg",
+        "/static/images/5819d8f3c62e78fc92ae.jpg",
+        "/static/images/05fb04dd1cc33159494e.jpg",
+        "/static/images/4b4d092be69c18a1bccb.jpg",
+        "/static/images/9fdf5a44c3dda02ab101.jpg"
       ],
       "source_url": "https://www.cvs.com/shop/therabreath-whitening-fresh-breath-mouthwash-dazzling-mint-33-8-oz-prodid-478948",
       "captured_at": "2026-09-28T16:45:44.261Z",
-      "detail_status": "listing_only",
+      "detail_status": "captured",
       "unavailable_reason": null,
       "variants": [],
-      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care"
+      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care",
+      "listing_captured_at": "2026-09-28T16:45:44.261Z",
+      "detail_captured_at": "2026-09-28T18:50:48.102Z"
     },
     {
       "id": "851367",
@@ -520,20 +1063,50 @@
       "price_min_cents": 779,
       "price_max_cents": 779,
       "price_text": "$7.79",
-      "rating": null,
+      "rating": 4.7,
       "review_count": 41,
-      "description": "",
-      "details": [],
-      "features": [],
+      "description": "CVS Clinical Plus Anticavity Fluoride Toothpaste is formulated with clincally proven ingredients to protect against sensitivity, strengthen enamel, and whiten teeth.",
+      "details": [
+        {
+          "heading": "Details",
+          "text": "CVS Clinical Plus White Toothpaste, Fresh Mint, 3.4 OZ\n\n3.4 OZ, 0.42 lbs. Item # 851367\n\nCVS Clinical Plus Anticavity Fluoride Toothpaste is formulated with clincally proven ingredients to protect against sensitivity, strengthen enamel, and whiten teeth.\nRemoves and prevents future stains.\nFights cavities with fluoride.\nFreshens breath."
+        },
+        {
+          "heading": "Ingredients",
+          "text": "Potassium nitrate 5%, Sodium fluoride 0.25% (0.15% w/v fluoride ion)\nActive Ingredients\nPotassium nitrate 5%, Sodium fluoride 0.25% (0.15% w/v fluoride ion)\nInactive Ingredients\nWater, sorbitol, hydrated silica, glycerin, pentasodium triphosphate, PEG-8, sodium lauryl sulfate, flavor, titanium dioxide, xanthan gum, cocamidopropyl betaine, sodium hydroxide, carrageenan, sodium saccharin"
+        },
+        {
+          "heading": "Directions",
+          "text": "apply at least a 1-inch strip of the product onto a soft bristle toothbrush · brush teeth thoroughly for at least one minute twice a day (morning and evening), and not more than 3 times a day, or as recommended by a dentist or doctor. Make sure to brush all sensitive areas of the teeth. Minimize swallowing. Spit out after brushing."
+        },
+        {
+          "heading": "Warnings",
+          "text": "Stop use and ask a dentist if · the problem persists or worsens. Sensitive teeth may indicate a serious problem that may need prompt care by a dentist. · pain/sensitivity still persists after 4 weeks of use.Keep out of reach of children. If more than used for brushing is accidentally swallowed, get medical help or contact a Poison Control Center right away."
+        },
+        {
+          "heading": "Specifications",
+          "text": "Concern\nTeeth whitening\nForm\nPaste\nProduct type\nToothpaste\nGender\nUnisex\nLife Stage\nAdult"
+        }
+      ],
+      "features": [
+        "Removes and prevents future stains.",
+        "Fights cavities with fluoride.",
+        "Freshens breath."
+      ],
       "image_paths": [
-        "/static/images/1206cb24d8ca923bddee.jpg"
+        "/static/images/0dece6885991bc83ed49.jpg",
+        "/static/images/90a5136d3873a66d0a56.jpg",
+        "/static/images/59e0cb30bea280694d4a.jpg",
+        "/static/images/acca4f6a99d9bc4d77ba.jpg"
       ],
       "source_url": "https://www.cvs.com/shop/cvs-clinical-plus-white-toothpaste-fresh-mint-3-4-oz-prodid-851367",
       "captured_at": "2026-09-28T16:45:44.261Z",
-      "detail_status": "listing_only",
+      "detail_status": "captured",
       "unavailable_reason": null,
       "variants": [],
-      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care"
+      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care",
+      "listing_captured_at": "2026-09-28T16:45:44.261Z",
+      "detail_captured_at": "2026-09-28T18:51:03.204Z"
     },
     {
       "id": "476691",
@@ -545,20 +1118,41 @@
       "price_min_cents": 4999,
       "price_max_cents": 4999,
       "price_text": "$49.99",
-      "rating": null,
+      "rating": 4.4,
       "review_count": 178,
-      "description": "",
-      "details": [],
-      "features": [],
+      "description": "The SleepRight Snore Aid reduces snoring so you and your partner can sleep quietly. This mandibular advancement device gently holds your lower jaw in a neutral position or props it forward to open the airway, which reduces snoring. The ultra-thin design is 50% less bulky than the leading competitor, and allows your jaw to move freely so you can talk, yawn, cough, and drink. This custom-fit mouth guard is made using a low-heat material that provides a comfortable fitting experience - no boiling and no burn.",
+      "details": [
+        {
+          "heading": "Details",
+          "text": "SleepRight Snore-Aid Custom Fit Anti-Snore Mouth Guard, Ultra Thin\n\n1 EACH, 0.15 lbs. Item # 476691\n\nThe SleepRight Snore Aid reduces snoring so you and your partner can sleep quietly. This mandibular advancement device gently holds your lower jaw in a neutral position or props it forward to open the airway, which reduces snoring. The ultra-thin design is 50% less bulky than the leading competitor, and allows your jaw to move freely so you can talk, yawn, cough, and drink. This custom-fit mouth guard is made using a low-heat material that provides a comfortable fitting experience - no boiling and no burn.\nOpens airway to reduce snoring\nPatented mesh wrap technology accommodates any size arch and occlusion\nCustom-fit mouth guard stays securely in place\nComfortable, ultra-thin fit\nLow-heat material provides a comfortable fitting experience\nAllows jaw to move freely so you can talk, cough, and drink\nAvailable by Rx for mild to moderate obstructive sleep apnea\nIncludes storage case"
+        },
+        {
+          "heading": "Specifications",
+          "text": "Color\nWhite\nConcern\nSleeplessness\nFeatures\nAdjustable\nForm\nSolid\nMaterial\nPlastic\nProduct type\nSnoring aids\nQuantity\nSingle pack\nSymptom\nMulti-symptom\nGender\nUnisex\nLife Stage\nAdult"
+        }
+      ],
+      "features": [
+        "Opens airway to reduce snoring",
+        "Patented mesh wrap technology accommodates any size arch and occlusion",
+        "Custom-fit mouth guard stays securely in place",
+        "Comfortable, ultra-thin fit",
+        "Low-heat material provides a comfortable fitting experience",
+        "Allows jaw to move freely so you can talk, cough, and drink",
+        "Available by Rx for mild to moderate obstructive sleep apnea",
+        "Includes storage case"
+      ],
       "image_paths": [
-        "/static/images/4cd6cf2fec34746baab1.jpg"
+        "/static/images/8fb9877d86c444a2e8b3.jpg",
+        "/static/images/9bea770745dc4c36ca24.jpg"
       ],
       "source_url": "https://www.cvs.com/shop/sleepright-snore-aid-custom-fit-anti-snore-mouth-guard-ultra-thin-prodid-476691",
       "captured_at": "2026-09-28T16:45:44.261Z",
-      "detail_status": "listing_only",
+      "detail_status": "captured",
       "unavailable_reason": null,
       "variants": [],
-      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care"
+      "listing_url": "https://www.cvs.com/shop/personal-care/oral-care?icid=shop-pc-category-featured-oral-care",
+      "listing_captured_at": "2026-09-28T16:45:44.261Z",
+      "detail_captured_at": "2026-09-28T18:51:06.225Z"
     },
     {
       "id": "949346",
@@ -570,20 +1164,36 @@
       "price_min_cents": 1299,
       "price_max_cents": 1299,
       "price_text": "$12.99",
-      "rating": null,
+      "rating": 4.7,
       "review_count": 119,
-      "description": "",
-      "details": [],
-      "features": [],
+      "description": "A gentle, sulfate-free detox cleanser that foams to lift buildup and excess oil, while Squalane helps maintain scalp moisture.",
+      "details": [
+        {
+          "heading": "Details",
+          "text": "Carol's Daughter Lisa’s Kitchen Scalp Detox Cleansing Nectar, 8 OZ\n\n8 OZ, 0.5 lbs. Item # 949346\n\nA gentle, sulfate-free detox cleanser that foams to lift buildup and excess oil, while Squalane helps maintain scalp moisture.\nNettle&nbsp;leaf, soursop, lavender & squalane- soothes sensitive scalps\nGentle, sulfate-free formula\nSupports&nbsp;scalp natural moisture balance\nGreat&nbsp;for every wash day"
+        },
+        {
+          "heading": "Specifications",
+          "text": "Benefit\nCleansing\nConcern\nHealthy hair & scalp\nForm\nLiquid\nKey ingredient\nSqualene\nProduct type\nHair treatment\nQuantity\nSingle pack\nGender\nUnisex\nSize\n6 - 10 oz.\nLife Stage\nAdult"
+        }
+      ],
+      "features": [
+        "Nettle&nbsp;leaf, soursop, lavender & squalane- soothes sensitive scalps",
+        "Gentle, sulfate-free formula",
+        "Supports&nbsp;scalp natural moisture balance",
+        "Great&nbsp;for every wash day"
+      ],
       "image_paths": [
-        "/static/images/06b75a132ca6b559ed49.jpg"
+        "/static/images/792e0e90849a635de385.jpg"
       ],
       "source_url": "https://www.cvs.com/shop/carol-s-daughter-lisa-s-kitchen-scalp-detox-cleansing-nectar-8-oz-prodid-949346",
       "captured_at": "2026-09-28T16:47:47.383Z",
-      "detail_status": "listing_only",
+      "detail_status": "captured",
       "unavailable_reason": null,
       "variants": [],
-      "listing_url": "https://www.cvs.com/shop/beauty/hair-care/shampoo-conditioner/shampoo?icid=shop-haircare-shampoo-conditioner-cat-link1-shampoo"
+      "listing_url": "https://www.cvs.com/shop/beauty/hair-care/shampoo-conditioner/shampoo?icid=shop-haircare-shampoo-conditioner-cat-link1-shampoo",
+      "listing_captured_at": "2026-09-28T16:47:47.383Z",
+      "detail_captured_at": "2026-09-28T18:51:29.673Z"
     },
     {
       "id": "814313",
@@ -595,20 +1205,56 @@
       "price_min_cents": 899,
       "price_max_cents": 899,
       "price_text": "$8.99\nSign in to save $3.00\nTWO Aussie Total Core Shampoo and Conditioner, Stylers and Treatment (excludes Ultra tier, trial/travel size).",
-      "rating": null,
+      "rating": 1.0,
       "review_count": 1,
-      "description": "",
-      "details": [],
-      "features": [],
+      "description": "WANT FLAWLESS REFRESHED HAIR IN AN INSTANT? Say no more! This refreshing dry shampoo removes dirt and oil to cleanse hair without leaving excess residue. Enhanced with delightful mint and water lily fragrance, your hair is given a boost of freshness so you can bounce back in no time! Our Instant Refresh formula is talc-free and butane-free, making it perfect for straight, wavy and curly hair in need of a refresh! To experience the magic, simply shake the can then spray 5-6 inches away from your scalp - it'll spray on white so you can see where product has been applied. Next, rub the product into your roots, and watch it disappear as it absorbs oil! Now just brush it out, and style as usual. Now enjoy your clean hair with no white residue!",
+      "details": [
+        {
+          "heading": "Details",
+          "text": "Aussie Instant Refresh Dry Shampoo, Mint & Waterlily, 4.9 OZ\n\n4.9 OZ, 0.425 lbs. Item # 814313\n\nWANT FLAWLESS REFRESHED HAIR IN AN INSTANT? Say no more! This refreshing dry shampoo removes dirt and oil to cleanse hair without leaving excess residue. Enhanced with delightful mint and water lily fragrance, your hair is given a boost of freshness so you can bounce back in no time! Our Instant Refresh formula is talc-free and butane-free, making it perfect for straight, wavy and curly hair in need of a refresh! To experience the magic, simply shake the can then spray 5-6 inches away from your scalp - it'll spray on white so you can see where product has been applied. Next, rub the product into your roots, and watch it disappear as it absorbs oil! Now just brush it out, and style as usual. Now enjoy your clean hair with no white residue!\nINSTANTLY ABSORB OIL with no white residue! Rub it in & watch it work!\nTALC FREE!\nBUTANE FREE!\nMINT & WATERLILY fragrance!\nPERFECT FOR Straight, Wavy and Curly hair!"
+        },
+        {
+          "heading": "Ingredients",
+          "text": "DIMETHYL ETHER, DISILOXANE, TAPIOCA STARCH, DISTEARDIMONIUM HECTORITE, MENTHA PIPERITA (PEPPERMINT) FLOWER/LEAF/STEM OIL, MENTHA ARVENSIS LEAF/STEM OIL, FRAGRANCE, MENTHOL, TRIETHYL CITRATE, POLYMETHYLSILSESQUIOXANE"
+        },
+        {
+          "heading": "Directions",
+          "text": "TO EXPERIENCE THE MAGIC: Shake first. Next, spray 5-6 inches away from scalp, rub into roots, brush out, and style as usual. Enjoy clean hair with no white residue!"
+        },
+        {
+          "heading": "Warnings",
+          "text": "FLAMMABLE. DO NOT USE NEAR FLAME OR WHILE SMOKING. USE ONLY IN VENTILATED AREAS. AVOID SPRAYING IN EYES. USE ONLY AS DIRECTED. INTENTIONAL MISUSE BY DELIBERATELY CONCENTRATING AND INHALING THE CONTENTS CAN BE HARMFUL OR FATAL. AVOID EXCESSIVE INHALATION. CONTENTS UNDER PRESSURE. DO NOT CRUSH, PUNCTURE OR INCINERATE. DO NOT STORE AT TEMPERATURES ABOVE 120°F. KEEP OUT OF REACH OF CHILDREN"
+        },
+        {
+          "heading": "Specifications",
+          "text": "Benefit\nCleansing\nConcern\nHealthy hair & scalp\nForm\nMist & spray\nProduct type\nDry shampoo\nQuantity\nSingle pack\nScent\nHerbal\nGender\nUnisex\nSize\n1 - 5 oz.\nLife Stage\nAdult"
+        }
+      ],
+      "features": [
+        "INSTANTLY ABSORB OIL with no white residue! Rub it in & watch it work!",
+        "TALC FREE!",
+        "BUTANE FREE!",
+        "MINT & WATERLILY fragrance!",
+        "PERFECT FOR Straight, Wavy and Curly hair!"
+      ],
       "image_paths": [
-        "/static/images/9bad32a311c2a010046e.jpg"
+        "/static/images/23dde18b998f37ce1b96.jpg",
+        "/static/images/ae05e39e3b3f5e455654.jpg",
+        "/static/images/bf01a872a2495eb52553.jpg",
+        "/static/images/f6029d2a26d98197f0bb.jpg",
+        "/static/images/117a4ed50f7fbc2210bf.jpg",
+        "/static/images/2098d05c312393e87d13.jpg",
+        "/static/images/3ff1f6859cb45d19c774.jpg",
+        "/static/images/ac3c696488ecbac604a0.jpg"
       ],
       "source_url": "https://www.cvs.com/shop/aussie-instant-refresh-dry-shampoo-mint-waterlily-4-9-oz-prodid-814313",
       "captured_at": "2026-09-28T16:47:47.383Z",
-      "detail_status": "listing_only",
+      "detail_status": "captured",
       "unavailable_reason": null,
       "variants": [],
-      "listing_url": "https://www.cvs.com/shop/beauty/hair-care/shampoo-conditioner/shampoo?icid=shop-haircare-shampoo-conditioner-cat-link1-shampoo"
+      "listing_url": "https://www.cvs.com/shop/beauty/hair-care/shampoo-conditioner/shampoo?icid=shop-haircare-shampoo-conditioner-cat-link1-shampoo",
+      "listing_captured_at": "2026-09-28T16:47:47.383Z",
+      "detail_captured_at": "2026-09-28T18:51:33.117Z"
     },
     {
       "id": "792429",
@@ -620,20 +1266,57 @@
       "price_min_cents": 1499,
       "price_max_cents": 1499,
       "price_text": "$14.99\n$4 ExtraBucks Rewards for purchasing 2 Pantene, Herbal Essences, Aussie, Native or Old Spice hair care products - excludes Aussie kids",
-      "rating": null,
+      "rating": 4.8,
       "review_count": 143,
-      "description": "",
-      "details": [],
-      "features": [],
+      "description": "Trade in your shampoo and conditioner routine for Old Spice: The Spice Alchemist Cardamom & Amber Wood shampoo. Get healthy looking hair with The Spice Alchemist collection. Old Spice: The Spice Alchemist men's shampoo is crafted with cologne-infused scent of Cardamom & Amber Wood with notes of cardamom, lavender, and patchouli. Design a bespoke head-to-toe scent with Old Spice: The Spice Alchemist collection's deodorants, body washes, and shampoos today. Infused with Vitamin E and Biotin, Old Spice's Cardamom & Amber Wood shampoo for men supports healthy and strong* men's hair. Crafted with no phthalates, no parabens, no dyes, no mineral oil. This high-quality shampoo is designed with ingredients designed for your hair so that you don't have to take any trade offs. Designed by the leading experts in male hair care, this hardworking shampoo is specifically designed for men and removes built-up dirt and oil to help guys achieve noticeably lifted hair. Old Spice: The Spice Alchemist collection helps guys achieve healthy-looking and clean hair. With Old Spice Cardamom & Amber Wood shampoo for men, you can achieve fuller looking, head-turning hair starting with just one wash. This men's shampoo was inspired by barbers and crafted for barbershop quality results. Try Old Spice: The Spice Alchemist shampoo for men today and experience the difference...your hair will thank you for it! *Against Breakage **blind consumer testing vs. a $300 cologne",
+      "details": [
+        {
+          "heading": "Details",
+          "text": "Old Spice The Spice Alchemist Shampoo, Cardamom and Amber Wood, 21.9 OZ\n\n21.9 OZ, 1.544 lbs. Item # 792429\n\nTrade in your shampoo and conditioner routine for Old Spice: The Spice Alchemist Cardamom & Amber Wood shampoo. Get healthy looking hair with The Spice Alchemist collection. Old Spice: The Spice Alchemist men's shampoo is crafted with cologne-infused scent of Cardamom & Amber Wood with notes of cardamom, lavender, and patchouli. Design a bespoke head-to-toe scent with Old Spice: The Spice Alchemist collection's deodorants, body washes, and shampoos today. Infused with Vitamin E and Biotin, Old Spice's Cardamom & Amber Wood shampoo for men supports healthy and strong* men's hair. Crafted with no phthalates, no parabens, no dyes, no mineral oil. This high-quality shampoo is designed with ingredients designed for your hair so that you don't have to take any trade offs. Designed by the leading experts in male hair care, this hardworking shampoo is specifically designed for men and removes built-up dirt and oil to help guys achieve noticeably lifted hair. Old Spice: The Spice Alchemist collection helps guys achieve healthy-looking and clean hair. With Old Spice Cardamom & Amber Wood shampoo for men, you can achieve fuller looking, head-turning hair starting with just one wash. This men's shampoo was inspired by barbers and crafted for barbershop quality results. Try Old Spice: The Spice Alchemist shampoo for men today and experience the difference...your hair will thank you for it! *Against Breakage **blind consumer testing vs. a $300 cologne\nSIGNATURE SCENT: Cologne-infused scent of Cardamom & Amber Wood. Crafted with notes of Cardamom, Lavender, and Patchouli for compliments\nSUPERIOR SCENT EXPERIENCE: Elevate your daily routine with The Spice Alchemist Collection, offering a luxurious experience with scents preferred over a $300 cologne.**\nHEALTHY LOOKING HAIR: The Spice Alchemist shampoo for men helps you get healthier, fuller, softer, & more moisturized looking hair.\nVITAMIN E & BIOTIN: Old Spice's shampoo is blended Vitamin E & Biotin and support healthy looking hair & strength against breakage.\nNO TRADE OFFS: No phthalates, no parabens, no dyes, no mineral oil. No trade offs."
+        },
+        {
+          "heading": "Ingredients",
+          "text": "WATER, SODIUM LAURYL SULFATE, COCAMIDOPROPYL BETAINE, GLYCOL DISTEARATE, SODIUM CHLORIDE, FRAGRANCE, SODIUM CITRATE, SODIUM XYLENESULFONATE, DIMETHICONOL, DIMETHICONE, SODIUM BENZOATE, GUAR HYDROXYPROPYLTRIMONIUM CHLORIDE, TEADODECYLBENZENESULFONATE, CITRIC ACID, TETRASODIUM EDTA, TRIDECETH-10, HYDROCHLORIC ACID, TOCOPHERYL ACETATE, BIOTIN, BENZYL ALCOHOL, METHYLCHLOROISOTHIAZOLINONE, METHYLISOTHIAZOLINONE"
+        },
+        {
+          "heading": "Directions",
+          "text": "For healthy looking and clean hair: wet hair, lather, rinse, and enjoy the attention. Repeat if you're going multiple days between washes for a refreshing clean. Use more for longer or thicker hair\nSee packaging."
+        },
+        {
+          "heading": "Warnings",
+          "text": "See packaging\n."
+        },
+        {
+          "heading": "Specifications",
+          "text": "Benefit\nMoisturizing\nForm\nLiquid\nProduct type\nShampoo\nQuantity\n1-10 ct\nScent\nFresh\nGender\nMen\nSize\n20 - 30 oz.\nLife Stage\nAdult"
+        }
+      ],
+      "features": [
+        "SIGNATURE SCENT: Cologne-infused scent of Cardamom & Amber Wood. Crafted with notes of Cardamom, Lavender, and Patchouli for compliments",
+        "SUPERIOR SCENT EXPERIENCE: Elevate your daily routine with The Spice Alchemist Collection, offering a luxurious experience with scents preferred over a $300 cologne.**",
+        "HEALTHY LOOKING HAIR: The Spice Alchemist shampoo for men helps you get healthier, fuller, softer, & more moisturized looking hair.",
+        "VITAMIN E & BIOTIN: Old Spice's shampoo is blended Vitamin E & Biotin and support healthy looking hair & strength against breakage.",
+        "NO TRADE OFFS: No phthalates, no parabens, no dyes, no mineral oil. No trade offs."
+      ],
       "image_paths": [
-        "/static/images/6ddbd39b15ed25a3df2b.jpg"
+        "/static/images/2237a334f7a70074bddf.jpg",
+        "/static/images/47d22a35a95f8bc789a9.jpg",
+        "/static/images/ab5b4320a25c4ce4d9bc.jpg",
+        "/static/images/d1d0d95bd971a83390ea.jpg",
+        "/static/images/e56b2e75367c806998ec.jpg",
+        "/static/images/b74b93ec6a55da9d6c51.jpg",
+        "/static/images/5ccc903e181d695c7a25.jpg",
+        "/static/images/58c06c15164682b97481.jpg",
+        "/static/images/9b1f90876bae052aa090.jpg"
       ],
       "source_url": "https://www.cvs.com/shop/old-spice-the-spice-alchemist-shampoo-cardamom-and-amber-wood-21-9-oz-prodid-792429",
       "captured_at": "2026-09-28T16:47:47.383Z",
-      "detail_status": "listing_only",
+      "detail_status": "captured",
       "unavailable_reason": null,
       "variants": [],
-      "listing_url": "https://www.cvs.com/shop/beauty/hair-care/shampoo-conditioner/shampoo?icid=shop-haircare-shampoo-conditioner-cat-link1-shampoo"
+      "listing_url": "https://www.cvs.com/shop/beauty/hair-care/shampoo-conditioner/shampoo?icid=shop-haircare-shampoo-conditioner-cat-link1-shampoo",
+      "listing_captured_at": "2026-09-28T16:47:47.383Z",
+      "detail_captured_at": "2026-09-28T18:51:36.092Z"
     },
     {
       "id": "723038",

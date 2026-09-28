@@ -667,8 +667,16 @@ def stores():
     selected_services = request.args.getlist("service")
     all_stores = Store.query.order_by(Store.city, Store.address).all()
     services = sorted({service for store in all_stores for service in store.services})
-    matches = [store for store in all_stores if (not query_text or query_text.casefold() in
-               f"{store.address} {store.city} {store.state} {store.postal_code}".casefold())
+    search_terms = re.findall(r"[^\W_]+", query_text.casefold())
+
+    def matches_address(store):
+        if not query_text:
+            return True
+        address = f"{store.address} {store.city} {store.state} {store.postal_code}".casefold()
+        normalized = " ".join(re.findall(r"[^\W_]+", address))
+        return bool(search_terms) and all(term in normalized for term in search_terms)
+
+    matches = [store for store in all_stores if matches_address(store)
                and all(service in store.services for service in selected_services)]
     return render_template("stores.html", stores=matches, total=len(matches), query=query_text,
                            selected_services=selected_services, services=services)

@@ -158,13 +158,14 @@ class CVSAppTests(unittest.TestCase):
     def test_snapshot_counts_and_missing_facts_remain_missing(self):
         with self.app.app_context():
             self.assertEqual(self.site.Product.query.count(), 40)
-            self.assertEqual(self.site.Product.query.filter_by(detail_status="captured").count(), 2)
+            self.assertEqual(self.site.Product.query.filter_by(detail_status="captured").count(), 23)
+            self.assertEqual(self.site.Product.query.filter_by(detail_status="listing_only").count(), 17)
             self.assertEqual(self.site.Store.query.count(), 25)
             self.assertEqual(self.site.Page.query.count(), 4)
             self.assertEqual(self.site.Category.query.count(), 2)
             self.assertEqual(self.site.User.query.count(), 4)
             self.assertEqual(self.site.Variant.query.count(), 0)
-            self.assertEqual(self.site.Product.query.filter(self.site.Product.rating.is_not(None)).count(), 0)
+            self.assertEqual(self.site.Product.query.filter(self.site.Product.rating.is_not(None)).count(), 18)
             for product in self.site.Product.query.filter(self.site.Product.detail_status != "captured"):
                 self.assertEqual(product.description, "")
                 self.assertEqual(product.details, [])
@@ -224,7 +225,7 @@ class CVSAppTests(unittest.TestCase):
                          ["Details", "Ingredients", "Directions", "Warnings", "Specifications"])
         for fact in ("Replacement toothbrush heads", "Life Stage\nChild", "Not suitable for children under 3 years."):
             self.assertIn(fact, text)
-        for product_id in ("452372", "851347", "481078"):
+        for product_id in ("7201029", "7200293", "1015021"):
             response, context = self.rendered(f"/shop/product/{product_id}")
             self.assertEqual(context["detail_sections"], [])
             self.assertIn("A full description is unavailable", response.get_data(as_text=True))
@@ -264,6 +265,55 @@ class CVSAppTests(unittest.TestCase):
             count = str(product.review_count)
             self.assertTrue(count in text or f"{product.review_count:,}" in text)
         self.assertNotIn("out of 5", text)
+
+    def test_explicit_product_ratings_render_and_filter_correctly(self):
+        for product_id, rating, reviews in (("452370", 4.7, 89), ("456310", 4.6, 78),
+                                            ("814313", 1.0, 1), ("478894", 4.9, 56)):
+            with self.subTest(product=product_id):
+                response = self.client.get(f"/shop/product/{product_id}")
+                text = response.get_data(as_text=True)
+                self.assertIn(f"{rating} out of 5", text)
+                self.assertIn(f"{reviews} reviews", text)
+        _, context = self.rendered("/shop/category/oral-care?rating=4.8")
+        self.assertEqual({product.id for product in context["products"]}, {"428704", "452372", "478894"})
+        for product_id in ("455627", "476215", "478253", "496783", "514695"):
+            text = self.client.get(f"/shop/product/{product_id}").get_data(as_text=True)
+            self.assertIn("0 reviews", text)
+            self.assertNotIn("out of 5", text)
+
+    def test_rating_sort_keeps_unrated_products_after_observed_ratings(self):
+        products = []
+        for page in range(1, 5):
+            _, context = self.rendered(f"/search?sort=rating&page={page}")
+            products.extend(context["products"])
+        self.assertEqual(len({product.id for product in products}), 40)
+        self.assertEqual(products[0].id, "478894")
+        self.assertEqual(products[17].id, "814313")
+        ratings = [product.rating for product in products[:18]]
+        self.assertEqual(ratings, sorted(ratings, reverse=True))
+        self.assertTrue(all(product.rating is None for product in products[18:]))
+
+    def test_r3_detail_provenance_preserves_price_times_and_previous_failures(self):
+        provenance = json.loads((SITE / "provenance.json").read_text())
+        captures = {entry["id"]: entry for entry in provenance["sources"]
+                    if entry.get("capture_round") == "r3" and entry["kind"] == "product_detail"}
+        self.assertEqual(len(captures), 23)
+        records = {product["id"]: product for product in self.source["products"]}
+        for product_id, capture in captures.items():
+            record = records[product_id]
+            self.assertEqual(record["detail_captured_at"], capture["captured_at"])
+            self.assertEqual(record["listing_captured_at"], record["captured_at"])
+            for key in ("raw_ax_sha256", "raw_dom_sha256", "record_sha256"):
+                self.assertRegex(capture[key], r"^[0-9a-f]{64}$")
+        for product_id in ("452372", "851347"):
+            self.assertEqual(records[product_id]["detail_status"], "captured")
+            history = records[product_id]["detail_capture_history"]
+            self.assertTrue(any(entry["status"] == "unavailable" and entry["reason"] for entry in history))
+        blocked = next(entry for entry in provenance["sources"]
+                       if entry.get("capture_round") == "r3" and entry["id"] == "723038")
+        self.assertEqual(blocked["kind"], "product_detail_attempt")
+        self.assertEqual(blocked["status"], "excluded")
+        self.assertEqual(records["723038"]["detail_status"], "listing_only")
 
     def test_canonical_and_original_source_routes_render(self):
         with self.app.app_context():
