@@ -336,8 +336,13 @@ RUN cd /opt/WebSyn/ryanair && rm -rf instance instance_seed && \
     mkdir -p instance_seed && cp instance/ryanair.db instance_seed/ryanair.db && \
     rm -rf instance __pycache__
 
+# Chess.com's seed is rebuilt deterministically from the tracked source snapshot
+# (see .build-generated-seed); its real upstream imagery ships via the asset bundle.
+RUN cd /opt/WebSyn/chess_com && rm -rf instance instance_seed && \
+    PYTHONHASHSEED=0 python3 seed_data.py && rm -rf instance __pycache__
+
 RUN python3 /opt/check_seed_databases.py /opt/WebSyn
 
-EXPOSE 8101 40000-40098
+EXPOSE 8101 40000-40099
 
 CMD ["/opt/websyn_start.sh"]
