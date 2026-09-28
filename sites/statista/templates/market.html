@@ -28,7 +28,7 @@
     <a class="card" href="/{{ s.url_kind }}/{{ s.id }}/{{ s.slug }}/">
       {% if s.has_thumb %}<span class="card__img"><img src="/static/images/stat_{{ s.id }}_thumb.png" alt="{{ s.title }}" loading="lazy"></span>{% endif %}
       <div class="card__body">
-        <span class="card__meta">{{ s.last_update }} | {{ s.region }}</span>
+            <span class="card__meta">{{ s.region }}</span>
         <span class="card__title">{{ s.title|truncate(84) }}</span>
         {% if s.summary %}<span class="card__snippet">{{ s.summary|striptags|snippetize(140, "…") }}</span>{% endif %}
       </div>

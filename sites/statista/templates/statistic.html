@@ -87,6 +87,26 @@
           </tr>
           {% endfor %}
         </table>
+      {% elif stat.premium %}
+        <div class="paywallBox">
+          {% if stat.has_thumb %}
+          <img src="/static/images/stat_{{ stat.id }}_thumb.png" alt="Statistic preview: {{ stat.title }}">
+          {% elif stat.has_hero %}
+          <img src="/static/images/stat_{{ stat.id }}_hero.png" alt="Statistic preview: {{ stat.title }}">
+          {% endif %}
+          <h3>You need a paid <b>Statista Account</b> to see the exact figures</h3>
+          <p>A Starter Account or higher is required to see the exact figures for this premium statistic.</p>
+          {% if current_user.is_authenticated and current_user.can_view_premium %}
+          <p>This offline mirror does not include the premium data table for this statistic.</p>
+          {% elif current_user.is_authenticated %}
+          <p><b>Your {{ current_user.account_type }} Account does not include premium statistics.</b>
+          Upgrade to a Starter Account or higher to see the exact figures.</p>
+          <a class="btn btn--primary" href="/pricing/">Upgrade your plan</a>
+          {% else %}
+          <a class="btn btn--primary" href="/login">Log in</a>
+          <a class="btn btn--ghost" href="/register">Register now</a>
+          {% endif %}
+        </div>
       {% elif visible %}
         <div class="noDataBox">
           {% if stat.has_thumb %}
@@ -98,29 +118,6 @@
           <p>This is a free statistic — no Statista Account is required. The chart
           data table has not been published for this page; the key figures are
           given in the summary and description below.</p>
-        </div>
-      {% else %}
-        <div class="paywallBox">
-          {% if stat.has_thumb %}
-          <img src="/static/images/stat_{{ stat.id }}_thumb.png" alt="Statistic preview: {{ stat.title }}">
-          {% elif stat.has_hero %}
-          <img src="/static/images/stat_{{ stat.id }}_hero.png" alt="Statistic preview: {{ stat.title }}">
-          {% endif %}
-          <h3>You need a <b>Statista Account</b> for unlimited access</h3>
-          <p>Get the best statistics and reports on over 170 industries with a Statista account.</p>
-          {% if current_user.is_authenticated and not current_user.can_view_premium %}
-          <p><b>Your {{ current_user.account_type }} Account does not include premium statistics.</b>
-          Upgrade to a Starter Account or higher to see the exact figures.</p>
-          <a class="btn btn--primary" href="/pricing/">Upgrade your plan</a>
-          {% elif current_user.is_authenticated %}
-          <p><b>Premium statistic.</b> The exact figures for this statistic are reserved for
-          {{ current_user.account_type }} Account holders with premium data access. See the
-          related free statistics for comparable public figures.</p>
-          <a class="btn btn--ghost" href="/serp?q={{ stat.breadcrumb[0]|urlencode if stat.breadcrumb else 'statistics' }}">Related free statistics</a>
-          {% else %}
-          <a class="btn btn--primary" href="/login">Log in</a>
-          <a class="btn btn--ghost" href="/register">Register now</a>
-          {% endif %}
         </div>
       {% endif %}
     </div>

@@ -27,28 +27,21 @@
       {% if item.premium %}<span class="card__tag card__tag--premium">Premium Statistic</span>
       {% elif item.content_type == 'forecast' %}<span class="card__tag card__tag--forecast">Market Insights</span>
       {% else %}<span class="card__tag">Statistic</span>{% endif %}
-      <span>{{ item.last_update }}</span>
-      <span>{{ item.region }}</span>
-      {% if item.survey_period %}<span>{{ item.survey_period }}</span>{% endif %}
     {% elif kind == 'topic' %}
       <span class="card__tag">Topic</span>
       {% if item.published_date %}<span>{{ item.published_date }}</span>{% endif %}
     {% elif kind == 'report' %}
       <span class="card__tag card__tag--premium">Premium Report</span>
-      <span>{{ item.details.get('Released', '') }}</span>
-      <span>{{ item.details.get('Pages', '') }}</span>
-      <span>{{ item.price }}</span>
     {% else %}
       <span class="card__tag card__tag--forecast">Market Insights</span>
       <span>{{ item.region }}</span>
-      {% if item.revenue_2026 %}<span>Revenue 2026: US${{ item.revenue_2026 }}</span>{% endif %}
     {% endif %}
   </div>
   {% if kind == 'statistic' %}
     <a class="serpResult__title" href="/{{ item.url_kind }}/{{ item.id }}/{{ item.slug }}/">{{ item.title }}</a>
     <p class="serpResult__snippet">{{ (item.summary or item.description)|striptags|snippetize }}</p>
   {% elif kind == 'topic' %}
-    <a class="serpResult__title" href="/topics/{{ item.id }}/{{ item.slug }}/">{{ item.name }} - statistics &amp; facts</a>
+    <a class="serpResult__title" href="/topics/{{ item.id }}/{{ item.slug }}/">{% if item.name.lower().endswith('statistics & facts') %}{{ item.name }}{% else %}{{ item.name }} - statistics &amp; facts{% endif %}</a>
     <p class="serpResult__snippet">{{ item.description|striptags|snippetize }}</p>
   {% elif kind == 'report' %}
     <a class="serpResult__title" href="/study/{{ item.id }}/{{ item.slug }}/">{{ item.title }}</a>

@@ -441,6 +441,16 @@ class DownloadEvent(db.Model):
     created_at = db.Column(db.DateTime, default=MIRROR_NOW)
 
 
+class Inquiry(db.Model):
+    """Contact-form submission. Not seeded; a successful POST is the only write."""
+    __tablename__ = "inquiries"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    email = db.Column(db.String(200), nullable=False)
+    message = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=MIRROR_NOW)
+
+
 @login_manager.user_loader
 def load_user(user_id):
     return db.session.get(User, int(user_id))
@@ -771,27 +781,6 @@ def _citation(stat, fmt):
 # ---------------------------------------------------------------------------
 # Market Insights page content (market definitions / analyst opinions)
 # ---------------------------------------------------------------------------
-# The 2026-09-26 outlook harvest recorded the section navigation labels
-# ("Users / Global Comparison / Methodology / ...") as the analyst opinion
-# and no market definitions at all. The real "Market definition" and
-# "Analyst Opinion" text, captured from the same live pages, lives in this
-# tracked content file keyed by the seeder's market identity
-# (segment|category_slug|slug|region) so the frozen seed database bytes
-# stay untouched (review finding #3).
-OUTLOOK_CONTENT_FILE = os.path.join(BASE_DIR, "source_data",
-                                    "outlook_market_content.json")
-
-
-def _load_outlook_content():
-    try:
-        with open(OUTLOOK_CONTENT_FILE, encoding="utf-8") as fh:
-            return json.load(fh)
-    except (OSError, ValueError):
-        return {}
-
-
-OUTLOOK_CONTENT = _load_outlook_content()
-
 _OUTLOOK_ALLOWED_TAGS = {"p", "strong", "b", "br", "ul", "li", "em", "i"}
 
 
@@ -816,12 +805,6 @@ def _sanitize_captured_html(text):
         else:
             out.append(str(escape(part)))
     return "".join(out)
-
-
-def _outlook_content_for(market):
-    key = (f"{market.segment}|{market.category_slug}|{market.slug}|"
-           f"{market.region}")
-    return OUTLOOK_CONTENT.get(key) or {}
 
 
 # ---------------------------------------------------------------------------
@@ -1122,13 +1105,12 @@ def outlook_market(market_path):
             slug=market.category_slug, category_slug="").first()
         if parent is None:
             parent = OutlookMarket.query.filter_by(slug=market.category_slug).first()
-    content = _outlook_content_for(market)
     return render_template("outlook_market.html", market=market,
                            siblings=siblings, children=children, parent=parent,
                            definition_html=_sanitize_captured_html(
-                               content.get("definition")),
+                               market.definition),
                            analyst_opinion_html=_sanitize_captured_html(
-                               content.get("analyst_opinion")))
+                               market.analyst_opinion))
 
 
 @app.route("/pricing/")
@@ -1162,6 +1144,9 @@ def contact():
         elif "@" not in email or "." not in email:
             flash("Please enter a valid email address.", "error")
         else:
+            db.session.add(Inquiry(name=name, email=email, message=message,
+                                   created_at=MIRROR_NOW))
+            db.session.commit()
             sent = True
     return render_template("contact.html", sent=sent)
 
@@ -1209,11 +1194,14 @@ def login():
         user = User.query.filter_by(email=ident).first()
         if user is None:
             user = User.query.filter_by(username=ident).first()
-        if user is None or not user.check_password(password):
-            flash("Email address or username is required", "error")
-            flash("Enter a valid email address or username", "error")
-            flash("Password is required", "error")
-            flash("Invalid credentials. Please check your email/username and password.", "error")
+        if not ident or not password or user is None or not user.check_password(password):
+            if not ident:
+                flash("Email address or username is required", "error")
+                flash("Enter a valid email address or username", "error")
+            if not password:
+                flash("Password is required", "error")
+            if ident and password:
+                flash("Invalid credentials. Please check your email/username and password.", "error")
             return render_template("login.html")
         login_user(user)
         flash(f"Welcome back, {user.display_name}!", "success")

@@ -56,15 +56,16 @@ DEFAULT_CONTAINER = os.environ.get("WH_CONTAINER", "wh-statista-review")
 # Review container wh-statista-review, image webharbor:statista-review,
 # seed built from the committed tree via the app bootstrap (PYTHONHASHSEED=0),
 # md5 d630296967f55a225f98ad788bf26665, byte-reproducible across rebuilds.
-TABLES = ("download_events", "favorites", "industries", "outlook_markets",
+TABLES = ("download_events", "favorites", "industries", "inquiries", "outlook_markets",
           "reports", "statistics", "topics", "users")
 SEED_COUNTS = {"download_events": 12, "favorites": 15, "industries": 22,
-               "outlook_markets": 155, "reports": 11, "statistics": 459,
-               "topics": 10, "users": 4}
-# sha256 over sqlite_master (type, name, tbl_name, sql) of instance_seed/statista.db.
-SCHEMA_SHA256 = "1dbeea0501daafc99a4e6f86588acd241add6787d5d750371b603927cfb2d00f"
+               "inquiries": 0, "outlook_markets": 155, "reports": 11,
+               "statistics": 459, "topics": 10, "users": 4}
+# sha256 over sqlite_master (type, name, tbl_name, sql) of instance_seed/statista.db
+# after the reviewer seed rebuild (regional chart recovery + inquiries table).
+SCHEMA_SHA256 = "e3571669825df78e1748d07ee5e3f66184ad0f9d0d277a3e85693dcaa9c139a8"
 # sha256 over every seed row (table-canonical, ORDER BY all columns).
-SEED_ROWS_SHA256 = "f3ff956c7aa604b87c1890809dae2e28802f8dd06acb5da1acba4a3ec8f0958d"
+SEED_ROWS_SHA256 = "3c51c0f27279fa9ec79dee96a42dcc2d3904dd5a973751dfc6ce1e8c0a899e71"
 SEED_USERS = {  # email -> (id, display); identity columns never change
     "alice.j@test.com": (1, "Alice Johnson"),
     "bob.c@test.com": (2, "Bob Chen"),
@@ -139,30 +140,13 @@ def same_origin_port(traj):
 
 
 def decode_png(path):
-    """Return (ok, detail) for a PNG file: signature, chunk CRCs, IEND presence."""
     try:
-        data = Path(path).read_bytes()
-    except OSError as e:
-        return False, f"unreadable: {e}"
-    if len(data) < 8 or data[:8] != b"\x89PNG\r\n\x1a\n":
-        return False, "missing PNG signature"
-    pos, seen_iend, chunks = 8, False, 0
-    while pos + 8 <= len(data):
-        length = int.from_bytes(data[pos:pos + 4], "big")
-        ctype = data[pos + 4:pos + 8]
-        if pos + 12 + length > len(data):
-            return False, f"truncated chunk {ctype!r}"
-        crc = int.from_bytes(data[pos + 8 + length:pos + 12 + length], "big")
-        if zlib.crc32(data[pos + 4:pos + 8 + length]) != crc:
-            return False, f"chunk {ctype!r} CRC mismatch"
-        if ctype == b"IEND":
-            seen_iend = True
-            break
-        pos += 12 + length
-        chunks += 1
-    if not seen_iend:
-        return False, "missing IEND chunk"
-    return True, f"ok ({chunks} chunks, {len(data)} bytes)"
+        from PIL import Image
+        with Image.open(path) as image:
+            image.load()
+            return image.format == "PNG" and image.width > 0 and image.height > 0, "decoded PNG"
+    except (OSError, ValueError) as exc:
+        return False, str(exc)
 
 
 def screenshots_ok(traj):
@@ -234,7 +218,16 @@ def check_visited_path(judge, traj, name, pattern):
 def check_answer_phrase(judge, answer, name, phrase, case_sensitive=False):
     hay = answer if case_sensitive else answer.casefold()
     needle = phrase if case_sensitive else phrase.casefold()
-    judge.check(name, needle in hay, f"answer must mention {phrase!r}")
+    hit = needle in hay
+    import datetime
+    for fmt in ("%b %d, %Y", "%B %d, %Y", "%d/%m/%Y", "%Y-%m-%d"):
+        try:
+            date = datetime.datetime.strptime(phrase, fmt)
+        except ValueError:
+            continue
+        variants = [date.strftime(f) for f in ("%b %d, %Y", "%B %d, %Y", "%d %B %Y", "%Y-%m-%d", "%d/%m/%Y")]
+        hit = hit or any(v.casefold() in hay or v.replace(" 0", " ").casefold() in hay for v in variants)
+    judge.check(name, hit, f"answer must mention {phrase!r} or an equivalent date")
 
 
 def _norm_num(s):
@@ -242,26 +235,163 @@ def _norm_num(s):
     return s.lower()
 
 
-def check_answer_number(judge, answer, name, value, label=None):
-    """The answer must contain the number (comma-formatted or plain)."""
-    target = _norm_num(value)
-    tokens = re.findall(NUM_TOKEN_RX, answer)
-    found = any(_norm_num(tok) == target for tok in tokens)
-    label_suffix = f" ({label})" if label else ""
-    judge.check(name, found,
-                f"answer must contain the number {value}{label_suffix}; "
-                f"found tokens={tokens[:14]}")
+def _number_pattern(value):
+    """Standalone number. ``3.2`` does not match ``13.2``, ``3.22``, or ``32.38``,
+    and ``3`` does not match ``67.3`` or ``2025``. Thousands commas are optional."""
+    canon = _norm_num(value)
+    if "." in canon:
+        whole, frac = canon.split(".", 1)
+    else:
+        whole, frac = canon, None
+    if not whole or not re.fullmatch(r"\d+", whole):
+        raise ValueError(f"not a number: {value!r}")
+    groups = []
+    rest = whole
+    while rest:
+        groups.append(rest[-3:])
+        rest = rest[:-3]
+    groups.reverse()
+    body = groups[0] + "".join(f",?{part}" for part in groups[1:])
+    if frac is not None:
+        if not re.fullmatch(r"\d+", frac):
+            raise ValueError(f"not a number: {value!r}")
+        body += r"\." + frac
+    # A sentence-final period is not another decimal place. ``3.2.`` still
+    # matches 3.2; ``3.22`` and ``3.2.5`` do not.
+    return re.compile(rf"(?<![\d.]){body}(?!\d)(?!\.\d)")
+
+
+def _term_pattern(label):
+    return re.compile(rf"(?<![A-Za-z0-9]){re.escape(label)}(?![A-Za-z0-9])", re.I)
+
+
+def _spans(text, labels):
+    found = []
+    for label in labels or []:
+        if not label:
+            continue
+        for match in _term_pattern(label).finditer(text):
+            found.append((match.start(), match.end()))
+    return found
+
+
+def _gap(left, right):
+    a0, a1 = left
+    b0, b1 = right
+    if a1 <= b0:
+        return b0 - a1
+    if b1 <= a0:
+        return a0 - b1
+    return 0
+
+
+def _nearest_is_subject(origin, subjects, competitors, window):
+    anchors = [(span, True) for span in subjects] + [(span, False) for span in competitors]
+    if not anchors:
+        return False
+    distances = [(_gap(origin, span), is_subject) for span, is_subject in anchors]
+    best = min(dist for dist, _ in distances)
+    if best > window:
+        return False
+    return all(is_subject for dist, is_subject in distances if dist == best)
+
+
+def _assertions(text):
+    return re.split(r";|\n|(?<!\d)\.(?=\s|$)|(?<=\d)\.(?=\s+[A-Z])", text)
+
+
+def _affirmed(text, start):
+    prefix = text[:start]
+    return not re.search(r"\b(?:not|never|incorrect|wrong|isn't|isnt)\b(?:\W+\w+){0,3}\W*$", prefix, re.I)
+
+
+def number_bound(text, value, groups, window=220):
+    pattern = _number_pattern(value)
+    for segment in _assertions(text):
+        for match in pattern.finditer(segment):
+            origin = (match.start(), match.end())
+            if _affirmed(segment, match.start()) and all(
+                _nearest_is_subject(origin, _spans(segment, subjects), _spans(segment, competitors), window)
+                for subjects, competitors in groups):
+                return True
+    return False
+
+
+def phrase_bound(text, phrase, groups, window=220):
+    for segment in _assertions(text):
+        for match in _term_pattern(phrase).finditer(segment):
+            origin = (match.start(), match.end())
+            if _affirmed(segment, match.start()) and all(
+                _nearest_is_subject(origin, _spans(segment, subjects), _spans(segment, competitors), window)
+                for subjects, competitors in groups):
+                return True
+    return False
+
+
+def context_window(text, anchor, must, must_not, window=80):
+    for match in re.finditer(re.escape(anchor), text, re.I):
+        segment = text[max(0, match.start() - window):match.end() + window]
+        if all(_term_pattern(term).search(segment) for term in must) and all(
+                not _term_pattern(term).search(segment) for term in must_not):
+            return True
+    return False
+
+
+def check_answer_number(judge, answer, name, value, label=None, subjects=None,
+                        competitors=None, groups=None, window=220):
+    """Standalone number. When subjects/groups are set, the number must be
+    nearer those subjects than the competing subjects."""
+    if groups is None and subjects:
+        groups = [(list(subjects), list(competitors or []))]
+    if groups:
+        found = number_bound(answer, value, groups, window=window)
+        detail = f"answer must bind {value} to {groups}"
+    else:
+        found = bool(_number_pattern(value).search(answer))
+        detail = f"answer must contain the standalone number {value}"
+    if label:
+        detail += f" ({label})"
+    judge.check(name, found, detail)
 
 
 def check_answer_any(judge, answer, name, variants, label=""):
-    hay = answer.casefold()
-    hit = any(_norm_num(v) in hay or str(v).casefold() in hay for v in variants)
+    """Phrase variants use word boundaries. Numeric variants must be standalone
+    tokens, so ``3`` does not match ``67.3`` or ``2025``."""
+    hit = False
+    for variant in variants:
+        text = str(variant)
+        if re.fullmatch(r"[0-9][0-9,]*(?:\.[0-9]+)?", text):
+            hit = bool(_number_pattern(text).search(answer))
+        else:
+            hit = bool(_term_pattern(text).search(answer))
+        if hit:
+            break
     judge.check(name, hit, f"answer must mention one of {variants} {label}")
+
+
+def check_bound_number(judge, answer, name, value, groups, window=220):
+    judge.check(name, number_bound(answer, value, groups, window=window),
+                f"answer must bind {value} to {groups}")
+
+
+def check_bound_any_number(judge, answer, name, values, groups, window=220):
+    found = any(number_bound(answer, value, groups, window=window) for value in values)
+    judge.check(name, found, f"answer must bind one of {values} to {groups}")
+
+
+def check_bound_phrase(judge, answer, name, phrase, groups, window=220):
+    judge.check(name, phrase_bound(answer, phrase, groups, window=window),
+                f"answer must bind {phrase!r} to {groups}")
+
+
+def check_context_window(judge, answer, name, anchor, must, must_not, window=80):
+    judge.check(name, context_window(answer, anchor, must, must_not, window=window),
+                f"near {anchor!r} need {must} and not {must_not}")
 
 
 # ---------------------------------------------------------------- navigation
 def visited_path(traj, pattern):
-    rx = re.compile(pattern)
+    rx = re.compile(pattern, re.I)
     return any(rx.search(u) for u in trajectory_urls(traj))
 
 
@@ -369,6 +499,7 @@ def check_read_only(judge, initial_db, after_db):
                 "initial_db schema digest must match the frozen seed")
     judge.check("initial_is_seed_rows", rows_digest(initial_db) == SEED_ROWS_SHA256,
                 "initial_db row digest must match the frozen seed")
+    judge.check("after_schema_unchanged", schema_digest(after_db) == schema_digest(initial_db))
     judge.check("after_rows_unchanged", rows_digest(after_db) == SEED_ROWS_SHA256,
                 "read-only task: after_db rows must equal the seed rows")
 
@@ -376,6 +507,9 @@ def check_read_only(judge, initial_db, after_db):
 def check_only_tables_changed(judge, initial_db, after_db, allowed):
     """Every table outside `allowed` must be row-identical; allowed tables are
     checked by the task verifier with exact deltas."""
+    judge.check("initial_is_seed_schema", schema_digest(initial_db) == SCHEMA_SHA256)
+    judge.check("initial_is_seed_rows", rows_digest(initial_db) == SEED_ROWS_SHA256)
+    judge.check("after_schema_unchanged", schema_digest(after_db) == schema_digest(initial_db))
     for t in TABLES:
         if t in allowed:
             continue
@@ -452,6 +586,167 @@ def check_download_added(judge, initial_db, after_db, user_id, stat_id=None,
     judge.check("download_created_at",
                 str(row["created_at"]).split(".")[0] == "2026-09-26 12:00:00",
                 f"created_at={row['created_at']!r}")
+
+
+def _row_user_id(initial_db, email):
+    row = initial_db.execute("SELECT id FROM users WHERE email = ?", (email,)).fetchone()
+    return None if row is None else row["id"]
+
+
+def check_account_delta(judge, initial_db, after_db, spec):
+    """Stateful account contract.
+
+    ``require_new_user`` pins a new Basic account (email + username).
+    ``allow_new_user`` accepts either that new account or an existing seed
+    user. Favorite and download rows must belong to the acting user.
+    ``fav_del`` is a list of (user_id, stat_id, report_id). ``fav_add`` is a
+    list of (stat_id, report_id) for the acting user. ``download`` is
+    {stat_id, report_id, fmt}.
+    """
+    email = spec.get("email")
+    username = spec.get("username")
+    require_new = spec.get("require_new_user", False)
+    allow_new = spec.get("allow_new_user", False) or require_new
+    fav_add = spec.get("fav_add")
+    fav_del = spec.get("fav_del")
+    download = spec.get("download")
+    allowed = set()
+    if allow_new:
+        allowed.add("users")
+    if fav_add is not None or fav_del is not None:
+        allowed.add("favorites")
+    if download is not None:
+        allowed.add("download_events")
+    check_only_tables_changed(judge, initial_db, after_db, allowed)
+
+    added, removed, changed = table_diff(initial_db, after_db, "users")
+    judge.check("users_no_removal", not removed, f"removed={list(removed)[:3]}")
+    judge.check("users_no_mutation", not changed, f"changed={list(changed)[:3]}")
+    actor_id = None
+    if require_new:
+        judge.check("users_one_added", len(added) == 1, f"added={len(added)}")
+    elif not allow_new:
+        judge.check("users_unchanged", len(added) == 0, f"added={len(added)}")
+    else:
+        judge.check("users_at_most_one_added", len(added) <= 1, f"added={len(added)}")
+    if len(added) == 1:
+        row = next(iter(added.values()))
+        pw = row["password_hash"]
+        if isinstance(pw, bytes):
+            pw = pw.decode("utf-8", "replace")
+        if email:
+            judge.check("new_user_email", row["email"] == email, f"email={row['email']!r}")
+        else:
+            judge.check("new_user_email_present", bool(row["email"]), "email empty")
+        if username:
+            judge.check("new_user_username", row["username"] == username,
+                        f"username={row['username']!r}")
+        judge.check("new_user_account_type", row["account_type"] == "Basic",
+                    f"account_type={row['account_type']!r}")
+        created = str(row["created_at"]).split(".")[0]
+        judge.check("new_user_created_at", created == "2026-09-26 12:00:00",
+                    f"created_at={row['created_at']!r}")
+        judge.check("new_user_bcrypt_format", bool(BCRYPT_RX.match(pw or "")),
+                    f"password_hash format={str(pw)[:12]!r}…")
+        judge.check("new_user_display_present", bool(str(row["display_name"] or "").strip()),
+                    "display name empty")
+        actor_id = row["id"]
+    elif email and not require_new:
+        actor_id = _row_user_id(initial_db, email)
+        judge.check("actor_exists", actor_id is not None, f"email={email}")
+
+    if fav_add is not None or fav_del is not None:
+        f_added, f_removed, f_changed = table_diff(initial_db, after_db, "favorites")
+        judge.check("favorites_no_mutation", not f_changed, f"changed={list(f_changed)[:3]}")
+        norm = lambda rows: {(r["user_id"], r["stat_id"], r["report_id"]) for r in rows.values()}
+        if fav_del is not None:
+            judge.check("favorites_removed_exact", norm(f_removed) == set(map(tuple, fav_del)),
+                        f"removed={norm(f_removed)} expected={set(map(tuple, fav_del))}")
+        else:
+            judge.check("favorites_no_removal", not f_removed, f"removed={norm(f_removed)}")
+        if fav_add is not None:
+            if actor_id is None and len(f_added) == 1 and not require_new and not email:
+                only = next(iter(f_added.values()))
+                actor_id = only["user_id"]
+                judge.check("actor_is_seed_user",
+                            _row_user_id_exists(initial_db, actor_id),
+                            f"user_id={actor_id}")
+            expected = {(actor_id, stat_id, report_id) for stat_id, report_id in fav_add}
+            judge.check("favorites_added_exact", norm(f_added) == expected,
+                        f"added={norm(f_added)} expected={expected}")
+        else:
+            judge.check("favorites_no_addition", not f_added, f"added={norm(f_added)}")
+
+    if download is not None:
+        if actor_id is None:
+            d_added, _, _ = table_diff(initial_db, after_db, "download_events")
+            if len(d_added) == 1 and not require_new and not email:
+                actor_id = next(iter(d_added.values()))["user_id"]
+        check_download_added(
+            judge, initial_db, after_db,
+            user_id=actor_id,
+            stat_id=download.get("stat_id"),
+            report_id=download.get("report_id"),
+            fmt=download.get("fmt"))
+
+
+def _row_user_id_exists(initial_db, user_id):
+    row = initial_db.execute("SELECT id FROM users WHERE id = ?", (user_id,)).fetchone()
+    return row is not None
+
+
+def check_inquiry(judge, initial_db, after_db, name, email, needles):
+    check_only_tables_changed(judge, initial_db, after_db, {"inquiries"})
+    added, removed, changed = table_diff(initial_db, after_db, "inquiries")
+    judge.check("inquiries_no_removal", not removed, f"removed={list(removed)[:2]}")
+    judge.check("inquiries_no_mutation", not changed, f"changed={list(changed)[:2]}")
+    judge.check("inquiries_one_added", len(added) == 1, f"added={len(added)}")
+    if len(added) != 1:
+        return
+    row = next(iter(added.values()))
+    judge.check("inquiry_name", row["name"] == name, f"name={row['name']!r}")
+    judge.check("inquiry_email", str(row["email"]).casefold() == email.casefold(),
+                f"email={row['email']!r}")
+    message = str(row["message"] or "").casefold()
+    for needle in needles:
+        judge.check(f"inquiry_message_{needle}", needle.casefold() in message,
+                    f"message must mention {needle!r}")
+    judge.check("inquiry_created_at",
+                str(row["created_at"]).split(".")[0] == "2026-09-26 12:00:00",
+                f"created_at={row['created_at']!r}")
+
+
+def apply_spec(judge, traj, initial_db, after_db, spec, task_id):
+    answer = final_answer(traj)
+    check_trajectory_identity(judge, traj, task_id)
+    for name, pattern in spec.get("gates") or []:
+        check_visited_path(judge, traj, name, pattern)
+    for check in spec.get("answers") or []:
+        kind = check[0]
+        if kind == "phrase":
+            check_answer_phrase(judge, answer, check[1], check[2])
+        elif kind == "any_phrase":
+            check_answer_any(judge, answer, check[1], check[2])
+        elif kind == "bound":
+            check_bound_number(judge, answer, check[1], check[2], check[3])
+        elif kind == "bound_any":
+            check_bound_any_number(judge, answer, check[1], check[2], check[3])
+        elif kind == "bound_phrase":
+            check_bound_phrase(judge, answer, check[1], check[2], check[3])
+        elif kind == "window":
+            anchor, must, must_not = check[2], check[3], check[4]
+            window = check[5] if len(check) > 5 else 80
+            check_context_window(judge, answer, check[1], anchor, must, must_not, window)
+        else:
+            judge.check(f"known_check_{kind}", False, f"unknown answer check {kind}")
+    state = spec.get("state")
+    if state is None:
+        check_read_only(judge, initial_db, after_db)
+    elif state.get("inquiry"):
+        info = state["inquiry"]
+        check_inquiry(judge, initial_db, after_db, info["name"], info["email"], info["needles"])
+    else:
+        check_account_delta(judge, initial_db, after_db, state)
 
 
 # ---------------------------------------------------------------- runner

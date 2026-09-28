@@ -19,11 +19,6 @@
       <div class="card__body">
         <span class="card__meta">Market Insights | {{ m.region }}</span>
         <span class="card__title">{{ m.name }}</span>
-        {% if m.revenue_2026 %}
-        <span class="card__snippet">Revenue 2026: US${{ m.revenue_2026 }}</span>
-        {% elif m.highlights %}
-        <span class="card__snippet">{{ m.highlights[0]|striptags|truncate(110) }}</span>
-        {% endif %}
       </div>
     </a>
     {% endfor %}

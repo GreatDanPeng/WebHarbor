@@ -28,8 +28,10 @@ from fixtures_data import BASE, SPECS, MUTATIONS, WRONG_ANSWERS  # noqa: E402
 VERIFY_DIR = Path(__file__).resolve().parents[1]
 SITE_DIR = VERIFY_DIR.parent
 CONTAINER = os.environ.get("WH_CONTAINER", "wh-statista-review")
+_LOCAL_SEED = SITE_DIR / "instance_seed" / "statista.db"
 CACHE = Path(os.environ.get("STATISTA_TEST_SEED_DB")
-             or str(Path("/tmp") / "statista_verify_tests_seed.db"))
+             or (str(_LOCAL_SEED) if _LOCAL_SEED.is_file()
+                 else str(Path("/tmp") / "statista_verify_tests_seed.db")))
 TASKS_FILE = SITE_DIR / "tasks.jsonl"
 
 

@@ -319,3 +319,10 @@ p { margin: 0 0 12px; }
   .hero { margin-left: -14px; margin-right: -14px; }
 }
 .barValue { font-size: 11px; font-weight: 600; fill: #0f2741; font-family: "Open Sans", Helvetica, Arial, sans-serif; }
+
+/* Wide multi-period data tables scroll inside their chart, including on mobile. */
+.statLayout > * { min-width: 0; }
+.statChartBox { max-width: 100%; overflow-x: auto; }
+@media (max-width: 1000px) {
+  .statLayout { grid-template-columns: minmax(0, 1fr); }
+}
