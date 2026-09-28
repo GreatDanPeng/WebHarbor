@@ -336,14 +336,40 @@ RUN cd /opt/WebSyn/ryanair && rm -rf instance instance_seed && \
     mkdir -p instance_seed && cp instance/ryanair.db instance_seed/ryanair.db && \
     rm -rf instance __pycache__
 
-
-# spothero: validate source assets and build the deterministic seed.
-RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/spothero
-RUN cd /opt/WebSyn/spothero && rm -rf instance instance_seed && \
+# Chess.com's seed is rebuilt deterministically from the tracked source snapshot
+# (see .build-generated-seed); its real upstream imagery ships via the asset bundle.
+RUN cd /opt/WebSyn/chess_com && rm -rf instance instance_seed && \
     PYTHONHASHSEED=0 python3 seed_data.py && rm -rf instance __pycache__
+
+# Porsche rebuilds its deterministic, version-marked SQLite seed from tracked source data.
+RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/porsche
+RUN cd /opt/WebSyn/porsche && rm -rf instance instance_seed && \
+    PYTHONHASHSEED=0 python3 seed_data.py && \
+    rm -rf instance __pycache__
+
+# qatar_airways: deterministic seed from tracked source snapshots + asset gate.
+RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/qatar_airways
+RUN cd /opt/WebSyn/qatar_airways && rm -rf instance instance_seed && \
+    PYTHONHASHSEED=0 python3 seed_data.py && \
+    mkdir -p instance_seed && cp instance/qatar_airways.db instance_seed/qatar_airways.db && \
+    rm -rf instance __pycache__
+
+# soundcloud: validate source assets and build the deterministic seed.
+RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/soundcloud
+RUN cd /opt/WebSyn/soundcloud && rm -rf instance instance_seed && \
+    PYTHONHASHSEED=0 python3 seed_data.py && rm -rf instance __pycache__
+
+# speedo: deterministic seed from the tracked upstream snapshots + asset gate.
+RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/speedo
+RUN cd /opt/WebSyn/speedo && rm -rf instance instance_seed && \
+    PYTHONHASHSEED=0 python3 seed_data.py && \
+    mkdir -p instance_seed && cp instance/speedo.db instance_seed/speedo.db && \
+    rm -rf instance __pycache__
+
+RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/spothero
 
 RUN python3 /opt/check_seed_databases.py /opt/WebSyn
 
-EXPOSE 8101 40000-40140
+EXPOSE 8101 40000-40106
 
 CMD ["/opt/websyn_start.sh"]
