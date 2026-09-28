@@ -372,6 +372,10 @@
       "bytes": 444405382,
       "sha256": "873c86f65f2fdeb6796c7d7dfac2fb567220b3a78f934ceb2fe57f6cf1f96e05"
     },
+    "spothero.tar.gz": {
+      "bytes": 96456978,
+      "sha256": "229f8a83624962fb57d9cf74535d5a5daf4f146fc251883884c647797d3ac3e5"
+    },
     "stubhub.tar.gz": {
       "bytes": 281326465,
       "sha256": "938072c9d5d570316abc1ea6a4c90924a63ab844fcd6d83591bd3a9792f9787c"
@@ -425,7 +429,7 @@
       "sha256": "986c51d2fe6c557b3b2c784c4bc198e53065af7da65946a99b782a90fde3b7db"
     }
   },
-  "managed_tree_sha256": "01236835f836ee5b6bd021414720e4a5ead45fe71e15a99643a741c8ae5a1ac3",
+  "managed_tree_sha256": "602177d721b2c9dcc09fd87aacf3bf866e384d883b663583c1178390275a5801",
   "repo": "ChilleD/WebHarbor",
   "revision": "242d456094cbfcc9f5df37dd4b11282011bbfc3a",
   "version": 1
