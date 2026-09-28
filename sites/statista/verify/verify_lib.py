@@ -65,7 +65,7 @@ SEED_COUNTS = {"download_events": 12, "favorites": 15, "industries": 22,
 # after the reviewer seed rebuild (regional chart recovery + inquiries table).
 SCHEMA_SHA256 = "e3571669825df78e1748d07ee5e3f66184ad0f9d0d277a3e85693dcaa9c139a8"
 # sha256 over every seed row (table-canonical, ORDER BY all columns).
-SEED_ROWS_SHA256 = "aa83591b6022508eadb1d656cbd4f783f115e10ec450d77d5e17ffef7a3a5952"
+SEED_ROWS_SHA256 = "3c51c0f27279fa9ec79dee96a42dcc2d3904dd5a973751dfc6ce1e8c0a899e71"
 SEED_USERS = {  # email -> (id, display); identity columns never change
     "alice.j@test.com": (1, "Alice Johnson"),
     "bob.c@test.com": (2, "Bob Chen"),
@@ -140,30 +140,13 @@ def same_origin_port(traj):
 
 
 def decode_png(path):
-    """Return (ok, detail) for a PNG file: signature, chunk CRCs, IEND presence."""
     try:
-        data = Path(path).read_bytes()
-    except OSError as e:
-        return False, f"unreadable: {e}"
-    if len(data) < 8 or data[:8] != b"\x89PNG\r\n\x1a\n":
-        return False, "missing PNG signature"
-    pos, seen_iend, chunks = 8, False, 0
-    while pos + 8 <= len(data):
-        length = int.from_bytes(data[pos:pos + 4], "big")
-        ctype = data[pos + 4:pos + 8]
-        if pos + 12 + length > len(data):
-            return False, f"truncated chunk {ctype!r}"
-        crc = int.from_bytes(data[pos + 8 + length:pos + 12 + length], "big")
-        if zlib.crc32(data[pos + 4:pos + 8 + length]) != crc:
-            return False, f"chunk {ctype!r} CRC mismatch"
-        if ctype == b"IEND":
-            seen_iend = True
-            break
-        pos += 12 + length
-        chunks += 1
-    if not seen_iend:
-        return False, "missing IEND chunk"
-    return True, f"ok ({chunks} chunks, {len(data)} bytes)"
+        from PIL import Image
+        with Image.open(path) as image:
+            image.load()
+            return image.format == "PNG" and image.width > 0 and image.height > 0, "decoded PNG"
+    except (OSError, ValueError) as exc:
+        return False, str(exc)
 
 
 def screenshots_ok(traj):
@@ -235,7 +218,16 @@ def check_visited_path(judge, traj, name, pattern):
 def check_answer_phrase(judge, answer, name, phrase, case_sensitive=False):
     hay = answer if case_sensitive else answer.casefold()
     needle = phrase if case_sensitive else phrase.casefold()
-    judge.check(name, needle in hay, f"answer must mention {phrase!r}")
+    hit = needle in hay
+    import datetime
+    for fmt in ("%b %d, %Y", "%B %d, %Y", "%d/%m/%Y", "%Y-%m-%d"):
+        try:
+            date = datetime.datetime.strptime(phrase, fmt)
+        except ValueError:
+            continue
+        variants = [date.strftime(f) for f in ("%b %d, %Y", "%B %d, %Y", "%d %B %Y", "%Y-%m-%d", "%d/%m/%Y")]
+        hit = hit or any(v.casefold() in hay or v.replace(" 0", " ").casefold() in hay for v in variants)
+    judge.check(name, hit, f"answer must mention {phrase!r} or an equivalent date")
 
 
 def _norm_num(s):
@@ -304,29 +296,35 @@ def _nearest_is_subject(origin, subjects, competitors, window):
     return all(is_subject for dist, is_subject in distances if dist == best)
 
 
-def number_bound(text, value, groups, window=220):
-    """``value`` occurs as its own token and, for every (subjects, competitors)
-    group, the nearest anchor of that occurrence is one of ``subjects``.
+def _assertions(text):
+    return re.split(r";|\n|(?<!\d)\.(?=\s|$)|(?<=\d)\.(?=\s+[A-Z])", text)
 
-    A swapped sentence ("2025 was 3.2 and 2031 is 4.13") fails the 2025/4.13
-    group because 4.13's nearest year is 2031.
-    """
+
+def _affirmed(text, start):
+    prefix = text[:start]
+    return not re.search(r"\b(?:not|never|incorrect|wrong|isn't|isnt)\b(?:\W+\w+){0,3}\W*$", prefix, re.I)
+
+
+def number_bound(text, value, groups, window=220):
     pattern = _number_pattern(value)
-    for match in pattern.finditer(text):
-        origin = (match.start(), match.end())
-        if all(_nearest_is_subject(origin, _spans(text, subjects), _spans(text, competitors), window)
-               for subjects, competitors in groups):
-            return True
+    for segment in _assertions(text):
+        for match in pattern.finditer(segment):
+            origin = (match.start(), match.end())
+            if _affirmed(segment, match.start()) and all(
+                _nearest_is_subject(origin, _spans(segment, subjects), _spans(segment, competitors), window)
+                for subjects, competitors in groups):
+                return True
     return False
 
 
 def phrase_bound(text, phrase, groups, window=220):
-    pattern = _term_pattern(phrase)
-    for match in pattern.finditer(text):
-        origin = (match.start(), match.end())
-        if all(_nearest_is_subject(origin, _spans(text, subjects), _spans(text, competitors), window)
-               for subjects, competitors in groups):
-            return True
+    for segment in _assertions(text):
+        for match in _term_pattern(phrase).finditer(segment):
+            origin = (match.start(), match.end())
+            if _affirmed(segment, match.start()) and all(
+                _nearest_is_subject(origin, _spans(segment, subjects), _spans(segment, competitors), window)
+                for subjects, competitors in groups):
+                return True
     return False
 
 
@@ -501,6 +499,7 @@ def check_read_only(judge, initial_db, after_db):
                 "initial_db schema digest must match the frozen seed")
     judge.check("initial_is_seed_rows", rows_digest(initial_db) == SEED_ROWS_SHA256,
                 "initial_db row digest must match the frozen seed")
+    judge.check("after_schema_unchanged", schema_digest(after_db) == schema_digest(initial_db))
     judge.check("after_rows_unchanged", rows_digest(after_db) == SEED_ROWS_SHA256,
                 "read-only task: after_db rows must equal the seed rows")
 
@@ -508,6 +507,9 @@ def check_read_only(judge, initial_db, after_db):
 def check_only_tables_changed(judge, initial_db, after_db, allowed):
     """Every table outside `allowed` must be row-identical; allowed tables are
     checked by the task verifier with exact deltas."""
+    judge.check("initial_is_seed_schema", schema_digest(initial_db) == SCHEMA_SHA256)
+    judge.check("initial_is_seed_rows", rows_digest(initial_db) == SEED_ROWS_SHA256)
+    judge.check("after_schema_unchanged", schema_digest(after_db) == schema_digest(initial_db))
     for t in TABLES:
         if t in allowed:
             continue

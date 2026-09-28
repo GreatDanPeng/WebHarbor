@@ -519,6 +519,7 @@ def seed_database():
     # ---- outlook markets ---------------------------------------------------
     # Two source families: mob_*.json (mobility, captured first) and
     # seg_<segment>__<path>.json (the other eight segments).
+    outlook_content = _read_json(SOURCE / "outlook_market_content.json")
     outlook_files = sorted(SOURCE.glob("mob_*.json")) + sorted(SOURCE.glob("seg_*.json"))
     for path in outlook_files:
         rec = _read_json(path)
@@ -538,6 +539,7 @@ def seed_database():
             category_slug, slug = "", parts[-2]
         category_name = category_slug.replace("-", " ").title() if category_slug else ""
         parent = category_slug
+        content = outlook_content.get(f"{segment}|{category_slug}|{slug}|{region}", {})
         key_regions = rec.get("key_regions") or []
         key_regions = [r for r in key_regions if r not in ("Currency",)
                        and not r.startswith("USD") and not r.startswith("(")][:5]
@@ -556,8 +558,8 @@ def seed_database():
                 revchg=rec.get("revenue_change_2026") or "",
                 hl=json.dumps(rec.get("highlights") or []),
                 kr=json.dumps(key_regions),
-                definition=(rec.get("definition") or "").strip(),
-                ao=(rec.get("analyst_opinion") or "").strip(),
+                definition=(content.get("definition") or rec.get("definition") or "").strip(),
+                ao=(content.get("analyst_opinion") or rec.get("analyst_opinion") or "").strip(),
                 ins=json.dumps(rec.get("in_scope") or []),
                 outs=json.dumps(rec.get("out_scope") or []),
                 parent=parent))

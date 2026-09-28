@@ -36,7 +36,7 @@
     {
       "path": "source_data/outlook_market_content.json",
       "classification": "captured-upstream-content",
-      "scope": "Market Insights (outlook) market pages, second capture pass: the real 'Market definition' accordion HTML and the 'Analyst Opinion' section HTML (with its stated date) for all 155 markets, read from the same public outlook URLs on 2026-09-26 via the embedded page payload. Rendered by app.py at request time (whitelist-sanitized) so the frozen seed database bytes stay untouched; the first harvest pass had recorded the section navigation labels as the analyst opinion and no definitions."
+      "scope": "Market Insights (outlook) market pages, second capture pass: the real 'Market definition' accordion HTML and the 'Analyst Opinion' section HTML (with its stated date) for all 155 markets, read from the same public outlook URLs on 2026-09-26 via the embedded page payload. Loaded into the seed database at build time; runtime pages read the persisted market definition and analyst opinion."
     },
     {
       "path": "source_data/industries.json",
@@ -57,6 +57,11 @@
       "path": "static/icons/logo.svg, logo_plus.svg",
       "classification": "upstream-brand-mark",
       "scope": "The Statista wordmark and Statista+ mark extracted from the upstream pages, used only to keep the mirror visually faithful."
+    },
+    {
+      "path": "templates/_logo.svg",
+      "classification": "captured-upstream-media",
+      "scope": "Official inline Statista wordmark captured from https://www.statista.com/ on 2026-09-28. Original path geometry preserved; accessibility and currentColor attributes adapted for header/footer. Replaces malformed hand-copied lettering."
     }
   ]
 }

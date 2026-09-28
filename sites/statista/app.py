@@ -781,27 +781,6 @@ def _citation(stat, fmt):
 # ---------------------------------------------------------------------------
 # Market Insights page content (market definitions / analyst opinions)
 # ---------------------------------------------------------------------------
-# The 2026-09-26 outlook harvest recorded the section navigation labels
-# ("Users / Global Comparison / Methodology / ...") as the analyst opinion
-# and no market definitions at all. The real "Market definition" and
-# "Analyst Opinion" text, captured from the same live pages, lives in this
-# tracked content file keyed by the seeder's market identity
-# (segment|category_slug|slug|region) so the frozen seed database bytes
-# stay untouched (review finding #3).
-OUTLOOK_CONTENT_FILE = os.path.join(BASE_DIR, "source_data",
-                                    "outlook_market_content.json")
-
-
-def _load_outlook_content():
-    try:
-        with open(OUTLOOK_CONTENT_FILE, encoding="utf-8") as fh:
-            return json.load(fh)
-    except (OSError, ValueError):
-        return {}
-
-
-OUTLOOK_CONTENT = _load_outlook_content()
-
 _OUTLOOK_ALLOWED_TAGS = {"p", "strong", "b", "br", "ul", "li", "em", "i"}
 
 
@@ -826,12 +805,6 @@ def _sanitize_captured_html(text):
         else:
             out.append(str(escape(part)))
     return "".join(out)
-
-
-def _outlook_content_for(market):
-    key = (f"{market.segment}|{market.category_slug}|{market.slug}|"
-           f"{market.region}")
-    return OUTLOOK_CONTENT.get(key) or {}
 
 
 # ---------------------------------------------------------------------------
@@ -1132,13 +1105,12 @@ def outlook_market(market_path):
             slug=market.category_slug, category_slug="").first()
         if parent is None:
             parent = OutlookMarket.query.filter_by(slug=market.category_slug).first()
-    content = _outlook_content_for(market)
     return render_template("outlook_market.html", market=market,
                            siblings=siblings, children=children, parent=parent,
                            definition_html=_sanitize_captured_html(
-                               content.get("definition")),
+                               market.definition),
                            analyst_opinion_html=_sanitize_captured_html(
-                               content.get("analyst_opinion")))
+                               market.analyst_opinion))
 
 
 @app.route("/pricing/")
