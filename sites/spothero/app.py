@@ -894,6 +894,12 @@ def purchase_hourly():
     if facility.airport_code:
         kind = 'airport'
     start, end = parse_window(request.values.get('starts'), request.values.get('ends'))
+    if kind == 'monthly' and facility.monthly_ok:
+        # A monthly reservation covers one calendar month, including year rollover.
+        from calendar import monthrange
+        month = start.month % 12 + 1
+        year = start.year + (start.month == 12)
+        end = start.replace(year=year, month=month, day=min(start.day, monthrange(year, month)[1]))
     event_id = request.values.get('event', type=int)
     event = Event.query.get(event_id) if event_id else None
     if event:

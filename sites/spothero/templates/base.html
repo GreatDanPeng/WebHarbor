@@ -12,7 +12,7 @@
 <header class="site-header">
   <div class="container inner">
     <a class="logo" href="{{ url_for('home') }}" aria-label="Home" data-testid="Header-logo">
-      <svg class="logo-mark" viewBox="0 0 1024 1024" fill="#002d5b" aria-hidden="true"><use href="{{ url_for('static', filename='icons/spothero-logo.svg') }}#none"></use></svg>
+      <img class="logo-mark" src="{{ url_for('static', filename='icons/spothero-logo.svg') }}" width="32" height="32" alt="">
       <span>SpotHero</span>
     </a>
     <nav class="main-nav" aria-label="Main navigation">

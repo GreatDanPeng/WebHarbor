@@ -33,6 +33,9 @@ def main(judge, traj, initial_db, after_db):
     check_answer_number(judge, answer, "south_loop_rating", '4.8')
     check_answer_phrase(judge, answer, "booked_facility", 'South Loop Garage')
     check_answer_number(judge, answer, "total", '17.81')
+    from comparison_checks import entity_numbers
+    entity_numbers(judge, answer, "michigan_rating", [r"225 N(?:orth)? Michigan"], [r"318 S(?:outh)? Federal"], [3.4])
+    entity_numbers(judge, answer, "federal_rating", [r"318 S(?:outh)? Federal"], [r"225 N(?:orth)? Michigan"], [4.8])
     check_reservations_delta(judge, initial_db, after_db, answer,
                              expect_added={'facility_id': 2175, 'kind': 'hourly', 'total': 17.81, 'email': 'jury.duty@example.com', 'starts': '2026-10-03T12:00', 'ends': '2026-10-03T18:00', 'promo': '', 'user_id': None, 'status': 'upcoming'},
                              expect_updated=None)

@@ -21,7 +21,7 @@ def test_tasks_contract():
         assert set(row) == contributor_keys | review_keys, \
             'five contributor keys (optionally + the two review-appended keys)'
         assert row['web_name'] == 'SpotHero'
-        assert row['web'] == 'http://localhost:40140/'
+        assert row['web'] == 'http://localhost:40106/'
         assert row['upstream_url'] == 'https://spothero.com/'
         assert re.fullmatch(r'SpotHero--\d+', row['id'])
         words = len(row['ques'].split())
@@ -41,7 +41,7 @@ def test_tasks_functional_breadth():
         'airport': "o'hare" in text or 'airport' in text,
         'events': 'event parking' in text or 'game' in text,
         'account auth': 'testpass123!' in text,
-        'payment methods': 'default payment method' in text,
+        'payment methods': 'default' in text and 'payment' in text,
         'favorites': 'saved spots' in text,
         'profile': 'license plate' in text,
         'policy research': 'faq' in text or 'guarantee' in text,

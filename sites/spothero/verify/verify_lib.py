@@ -62,7 +62,7 @@ SEED_COUNTS = {"airports": 15, "cities": 15, "contact_messages": 0,
                "faqs": 72, "favorites": 9, "payment_methods": 6,
                "promo_codes": 1, "reservations": 8, "reviews": 4248,
                "stadiums": 120, "static_pages": 16, "users": 4}
-SEED_MD5 = "482fb61de5ce11dab0955c90c68c1ebc"
+SEED_MD5 = "5164e94e6790d8cf8245e8c524ee765f"
 # sha256 over sqlite_master (type, name, tbl_name, sql) of instance_seed/spothero.db.
 SCHEMA_SHA256 = "18c5a3323fe4aff1588fd5e4da12c22661341f384ac453359eb74d645278db77"
 # sha256 over every seed row (table-canonical, ORDER BY all columns).
@@ -145,30 +145,13 @@ def same_origin_port(traj):
 
 
 def decode_png(path):
-    """Return (ok, detail) for a PNG file: signature, chunk CRCs, IEND presence."""
     try:
-        data = Path(path).read_bytes()
-    except OSError as e:
-        return False, f"unreadable: {e}"
-    if len(data) < 8 or data[:8] != b"\x89PNG\r\n\x1a\n":
-        return False, "missing PNG signature"
-    pos, seen_iend, chunks = 8, False, 0
-    while pos + 8 <= len(data):
-        length = int.from_bytes(data[pos:pos + 4], "big")
-        ctype = data[pos + 4:pos + 8]
-        if pos + 12 + length > len(data):
-            return False, f"truncated chunk {ctype!r}"
-        crc = int.from_bytes(data[pos + 8 + length:pos + 12 + length], "big")
-        if zlib.crc32(data[pos + 4:pos + 8 + length]) != crc:
-            return False, f"chunk {ctype!r} CRC mismatch"
-        if ctype == b"IEND":
-            seen_iend = True
-            break
-        pos += 12 + length
-        chunks += 1
-    if not seen_iend:
-        return False, "missing IEND chunk"
-    return True, f"ok ({chunks} chunks, {len(data)} bytes)"
+        from PIL import Image
+        with Image.open(path) as im:
+            im.load()
+            return im.format == "PNG" and im.width > 0 and im.height > 0, "decoded PNG"
+    except (OSError, ValueError, ImportError) as exc:
+        return False, str(exc)
 
 
 def screenshots_ok(traj):
@@ -248,7 +231,7 @@ def check_answer_phrase(judge, answer, name, phrase, case_sensitive=False):
 
 
 def _num_tokens(answer):
-    return re.findall(NUM_TOKEN_RX, answer)
+    return re.findall(r"(?<![\w.])[0-9]+(?:,[0-9]{3})*(?:\.[0-9]+)?(?!\w|\.\d)", answer)
 
 
 def _fnum(tok):
@@ -395,6 +378,8 @@ def check_seed_contract(judge, initial_db):
 def check_only_tables_changed(judge, initial_db, after_db, allowed):
     """Every table outside `allowed` must be row-identical; allowed tables are
     checked by the task verifier with exact deltas."""
+    check_seed_contract(judge, initial_db)
+    judge.check("after_schema_unchanged", schema_digest(after_db) == schema_digest(initial_db))
     for t in TABLES:
         if t in allowed:
             continue
@@ -503,6 +488,7 @@ def check_any_new_reservation(judge, initial_db, after_db, answer,
     if ends is not None:
         judge.check("new_res_ends", str(row["ends"]).startswith(ends),
                     f"ends={row['ends']!r}")
+    judge.check("new_res_status", row["status"] == "upcoming")
     judge.check("new_res_guest", row["user_id"] is None,
                 f"user_id={row['user_id']!r}")
     return row["code"]
@@ -526,6 +512,8 @@ def check_payment_methods_delta(judge, initial_db, after_db,
     for key, want in added_spec.items():
         judge.check(f"pm_new_{key}", row[key] == want,
                     f"{key}={row[key]!r} expected {want!r}")
+    judge.check("pm_removal_owner", len(removed) == 1 and all(r["user_id"] == added_spec["user_id"] for r in removed.values()))
+    judge.check("pm_preserves_other_users", all(b["user_id"] == added_spec["user_id"] and a["is_default"] == 0 for b, a in changed.values()))
     # exactly two changed rows: the old default loses default, the removed one is gone
     judge.check("pm_changed_only_default_flags",
                 all(set(c for c in b if b[c] != a[c]) <= {"is_default"}
