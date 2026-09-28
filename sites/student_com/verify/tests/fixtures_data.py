@@ -141,6 +141,8 @@ WRONG_ANSWERS = {
     20: 'The Retreat at Tampa is $900, rated 4.5, Key things to know: Urban, Social, Lively.',
 }
 
+
+
 # Current browser regression fixtures (synthetic unit-test reconstructions, not new browser evidence).
 SPECS = {0: {'answer': 'The Rive Atlanta — 0.7 miles from the Georgia Tech campus — offers amenities including a Gym and '
                'a Swimming Pool (also Games Room, Cinema Room, Rooftop Terrace, Wifi, Pet Friendly). Saved to '
@@ -198,8 +200,8 @@ SPECS = {0: {'answer': 'The Rive Atlanta — 0.7 miles from the Georgia Tech cam
              "'Bob', 'Chen', '(404) 555-0187', 'bob.c@test.com', 'Are rooms still available for the fall "
              "semester?', 0, '2026-09-26 00:00:00.000000');",
              'INSERT INTO "property_views" ("id", "user_id", "session_key", "property_slug", "viewed_at") VALUES '
-             "(13, NULL, 'c587e9111aa121a6da1aa539d6522484', 'littlefield-hall-kutkl0', '2026-09-28 "
-             "23:18:47.626919');"],
+             "(13, NULL, 'c8abacc64120b3aad0cac8156cb82c48', 'littlefield-hall-kutkl0', '2026-09-28 "
+             "23:32:13.877057');"],
      'steps': [('load', '/'),
                ('fill', '/'),
                ('click', '/us/tx/austin/u/the-university-of-texas-at-austin'),
@@ -415,8 +417,8 @@ SPECS = {0: {'answer': 'The Rive Atlanta — 0.7 miles from the Georgia Tech cam
               "'Alice', 'Johnson', '(404) 555-0187', 'alice.j@test.com', 'Which rooms are currently available, "
               "and when could I move in?', 0, '2026-09-26 00:00:00.000000');",
               'INSERT INTO "property_views" ("id", "user_id", "session_key", "property_slug", "viewed_at") VALUES '
-              "(13, 1, '2410fda39dd5e8abefcda1c51baee174', 'villas-on-rio-8639e0', '2026-09-28 "
-              "23:16:00.270397');"],
+              "(13, 1, 'faaacb36e8dbd454a91dcac2f26d750f', 'villas-on-rio-8639e0', '2026-09-28 "
+              "23:32:29.847505');"],
       'steps': [('load', '/'),
                 ('click', '/'),
                 ('fill', '/'),
@@ -618,7 +620,7 @@ SPECS = {0: {'answer': 'The Rive Atlanta — 0.7 miles from the Georgia Tech cam
               "'Alice', 'Johnson', '(404) 555-0187', 'alice.j@test.com', 'Following up: is a studio with a "
               "private bathroom still available for the fall semester?', 0, '2026-09-26 00:00:00.000000');",
               'INSERT INTO "property_views" ("id", "user_id", "session_key", "property_slug", "viewed_at") VALUES '
-              "(13, 1, 'd3332bb11e4e304a56bba2b0dc813321', 'moontower-69d81c', '2026-09-28 23:17:11.297318');"],
+              "(13, 1, 'c6141b3db9dacbb5503296cd71724ade', 'moontower-69d81c', '2026-09-28 23:32:42.676694');"],
       'steps': [('load', '/'),
                 ('click', '/'),
                 ('fill', '/'),
