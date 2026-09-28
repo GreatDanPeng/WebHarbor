@@ -107,7 +107,7 @@ def main():
             'the DB deltas are identical because the seeds differ only in performers.image_file',
             'and performers.node_id).',
             '"""',
-            'BASE = "http://localhost:40139"',
+            'BASE = "http://localhost:40105"',
             'SPECS = ' + json.dumps(specs, indent=1, ensure_ascii=False)]
     OUT.write_text("\n".join(body) + "\n")
     print(f"\nwrote {OUT} ({OUT.stat().st_size} bytes)")

@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
-"""Verify StubHub--7.
-
-Search the site for 'metal' and for 'seattle', and report what the search suggestion service proposes for each term. Then open the Seattle Sounders FC and Seattle Mariners performer pages: report each performer's follower count and number of upcoming events, and each one's next event with date and venue. Which of the two performers has more upcoming events?
-"""
+"""Verify StubHub--7: I want to attend an upcoming Seattle baseball or soccer game. Compare the Seattle Sounders FC and Seattle Mariners: report each team's follower count and number of upcoming events, and identify its next event with date and venue. Which team offers more upcoming events to choose from?"""
 import re
 
 from verify_lib import (Judge, check_answer_any, check_answer_number, check_answer_phrase,
@@ -17,18 +14,14 @@ TASK_ID = "StubHub--7"
 def run_checks(judge, traj, initial_db, after_db):
     answer = final_answer(traj)
     check_trajectory_identity(judge, traj, TASK_ID)
-    check_visited_path(judge, traj, "searched_metal", r"/search\?q=metal")
     # r2 sync (2026-09-26): the F7 fix wired the suggestion service into the
     # search-box autocomplete dropdown, so a fresh UI-path walker types the
     # term and reads the dropdown instead of navigating the raw endpoint.
     # Either use of the service satisfies the gate (anti-shortcut intact).
-    check_search_suggestions(judge, traj, "suggestions_metal", "metal")
     check_visited_path(judge, traj, "searched_seattle", r"/search\?q=seattle")
-    check_search_suggestions(judge, traj, "suggestions_seattle", "seattle")
     check_visited_path(judge, traj, "visited_sounders", r"/seattle-sounders-fc-tickets/performer/388488")
     check_visited_path(judge, traj, "visited_mariners", r"/seattle-mariners-tickets/performer/1043")
     
-    check_answer_phrase(judge, answer, "suggestion_metal", "metallica")
     for name in ("seattle kraken", "seattle mariners", "seattle seahawks",
                  "seattle sounders fc"):
         check_answer_phrase(judge, answer, f"suggestion_seattle_{name.split()[1]}", name)

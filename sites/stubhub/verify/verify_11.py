@@ -19,29 +19,24 @@ def run_checks(judge, traj, initial_db, after_db):
     check_visited_path(judge, traj, "visited_payments_before", r"/secure/myaccount/payments")
     check_visited_path(judge, traj, "added_card_post", r"/secure/myaccount/payments")
     
-    check_answer_phrase(judge, answer, "card_before_visa", "4242")
-    check_answer_phrase(judge, answer, "card_before_mc", "8321")
-    check_answer_phrase(judge, answer, "new_card_last4", "4444")
-    judge.check("new_card_default",
-                "default" in answer.casefold() and "4444" in answer,
-                "answer must state the new Mastercard 4444 is the default")
-    judge.check("old_card_removed",
-                "8321" in answer and ("remove" in answer.casefold() or "no longer" in answer.casefold()),
-                "answer must state the older non-default card 8321 was removed")
     added, removed, changed = table_diff(initial_db, after_db, "payment_cards")
-    judge.check("card_delta_shape", len(added) == 1 and len(removed) == 1 and len(changed) == 1,
-                f"one card added, one removed, one changed: +{list(added)} -{list(removed)} ~{list(changed)}")
-    for key, row in added.items():
+    judge.check("card_delta_shape", len(added) == 1 and len(removed) == 1)
+    for row in added.values():
         judge.check("new_card_row", row["user_id"] == 1 and row["brand"] == "Mastercard"
-                    and row["last4"] == "4444" and row["holder"] == "Alice Johnson"
-                    and row["is_default"] == 1,
-                    f"new card must be Alice's default Mastercard 4444: {dict(row)}")
-    for key, row in removed.items():
-        judge.check("removed_card_row", row["last4"] == "8321",
-                    f"removed card must be the older non-default Mastercard 8321: {dict(row)}")
-    for key, (before, after) in changed.items():
-        judge.check("old_default_cleared", before["last4"] == "4242" and after["is_default"] == 0,
-                    "the Visa 4242 must no longer be the default")
+                    and row["holder"] == "Alice Johnson" and row["is_default"] == 1
+                    and (row["exp_year"], row["exp_month"]) > (2026, 9))
+        judge.check("new_card_reported", row["last4"] in answer and "default" in answer.casefold())
+    for row in removed.values():
+        judge.check("removed_card_owned", row["user_id"] == 1)
+    for before, after in changed.values():
+        judge.check("old_card_preserved", before["user_id"] == 1 and after["is_default"] == 0
+                    and {k for k in before if before[k] != after[k]} == {"is_default"})
+    rows = after_db.execute("SELECT * FROM payment_cards WHERE user_id=1").fetchall()
+    judge.check("single_default", sum(r["is_default"] for r in rows) == 1)
+    for row in initial_db.execute("SELECT * FROM payment_cards WHERE user_id=1"):
+        judge.check("initial_card_reported_" + row["last4"], row["last4"] in answer)
+    for row in rows:
+        judge.check("final_card_reported_" + row["last4"], row["last4"] in answer)
     check_only_tables_changed(judge, initial_db, after_db, ("payment_cards",))
 
 

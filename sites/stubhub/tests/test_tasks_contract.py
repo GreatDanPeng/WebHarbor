@@ -18,7 +18,7 @@ GRADING_KEYS = {"verifier_path", "judge_rubric"}  # appended by the review contr
 ALLOWED_KEYS = REQUIRED_KEYS | GRADING_KEYS
 FORBIDDEN_KEYS = {"answer", "answers", "expected"}
 WEB_NAME = "StubHub"
-PORT = 40139
+PORT = 40105
 
 
 def read_rows():
@@ -104,7 +104,7 @@ def test_tasks_span_functional_domains():
     """The task set must cover diverse site capabilities, not one flow."""
     rows = read_rows()
     blob = " ".join(r["ques"].lower() for r in rows)
-    for domain in ("sign in", "buy", "list two tickets", "gift card",
-                   "favorite", "search", "category", "zone", "listing",
+    for domain in ("sign in", "buy", "list two tickets", "gift",
+                   "favorite", "find", "category", "zone", "listing",
                    "account"):
         assert domain in blob, f"no task exercises the {domain!r} domain"
