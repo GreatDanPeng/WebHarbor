@@ -233,6 +233,10 @@ table.data tr:nth-child(even) td { background: #fbfbfc; }
 .actions-bar { display: flex; gap: 10px; flex-wrap: wrap; margin: 16px 0; }
 
 @media (max-width: 900px) {
+  .header-top-inner { flex-direction: column; align-items: stretch; gap: 8px; }
+  .header-top-links { display: flex; flex-wrap: wrap; gap: 8px 16px; }
+  .header-top-links a { margin-left: 0; white-space: nowrap; }
+
   .widget-grid, .two-col, .dest-section, .footer-grid { grid-template-columns: minmax(0, 1fr); }
   .main-nav { display: none; }
   /* wide tables (tier benefits, dashboard trips, itinerary, activities)
