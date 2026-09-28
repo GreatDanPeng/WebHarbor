@@ -9,7 +9,7 @@
 
   {% if rows %}
   <div class="card" style="margin-top:24px;padding:8px 16px;overflow-x:auto">
-    <table class="table" data-testid="enquiries-table">
+    <table class="table" style="min-width:760px" data-testid="enquiries-table">
       <thead>
         <tr>
           <th>Inquiry ID</th>
@@ -22,9 +22,9 @@
         {% for row in rows %}
         <tr>
           <td><strong>{{ row.enquiry.reference }}</strong></td>
-          <td>
+          <td style="min-width:240px">
             {% if row.prop %}
-            <a href="/us/{{ row.prop.state_slug }}/{{ row.prop.city_slug }}/p/{{ row.prop.slug }}" style="display:flex;gap:10px;align-items:center">
+            <a href="/us/{{ row.prop.state_slug }}/{{ row.prop.city_slug }}/p/{{ row.prop.slug }}" style="display:flex;gap:10px;align-items:center;overflow-wrap:anywhere">
               {% if row.prop.primary_image %}<img src="{{ row.prop.primary_image }}" alt="Image of {{ row.prop.name }}">{% endif %}
               <span>{{ row.prop.name }}</span>
             </a>
@@ -37,7 +37,7 @@
       </tbody>
     </table>
   </div>
-  <p class="small muted" style="margin-top:12px">You have seen your {{ rows|length }} most recent inquiries. Older inquiries will be automatically removed from this list but you should have received an email with the details of each inquiry you submitted for your reference.</p>
+  <p class="small muted" style="margin-top:12px">All {{ rows|length }} inquiries are shown newest first. Previous inquiries remain available here for reference.</p>
   {% else %}
   <div class="empty-state">
     <p style="font-weight:600">Let's get your search started!</p>

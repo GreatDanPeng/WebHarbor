@@ -28,6 +28,7 @@
       <strong>{{ j.title }}</strong>
       <div class="co">{{ j.company }}</div>
       <div class="loc">{{ j.location }}</div>
+      <div class="small muted">Posted {{ j.posted_at }}</div>
     </div>
     <span class="type-chip">{{ j.type or j.raw_type }}</span>
     <a class="btn" href="{{ j.url }}" target="_blank" rel="noopener">View Job</a>

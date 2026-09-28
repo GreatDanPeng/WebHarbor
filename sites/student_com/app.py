@@ -488,7 +488,7 @@ def university_srp(state, city, uni):
     types = [LABEL_TO_TYPE[t] for t in ptype.split(",") if t in LABEL_TO_TYPE] if ptype else []
 
     props = srp_query(u, sort, min_price, max_price, types)
-    total_upstream = u.total_properties or len(props)
+    total_upstream = len(props)
 
     offset = request.args.get("offset", type=int)
     if offset is not None and request.args.get("format") == "json":

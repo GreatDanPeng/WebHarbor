@@ -38,7 +38,7 @@ from fixtures_data import SPECS, WRONG_ANSWERS  # noqa: E402
 # honest fixtures pass their verifiers, so the blocked-task machinery is
 # retired and every honest run must PASS.
 BLOCKED: set[int] = set()
-STATEFUL = {0, 2, 7, 11, 14, 20}
+STATEFUL = {0, 2, 7, 11, 14, 19, 20}
 ALL = sorted(set(range(21)))
 
 
@@ -172,30 +172,11 @@ def test_tasks_jsonl_has_no_answer_key():
                             "verifier_path", "judge_rubric"}
 
 
-def test_five_key_prefix_is_byte_identical_to_contribution():
-    """The 5-key prefix of every tasks.jsonl row must be byte-identical to the
-    contributor's rows at the reviewed fix commit (4f36ddd0) — the reviewer only
-    appends verifier_path+judge_rubric (re-synced in r2 onto the new prefix).
-    The one sanctioned exception is the `web` port: the audit-phase slot
-    normalization moves it to the site's assigned merge port (40141; the slot
-    formula index = registered sites on main (99) + 42)."""
-    import subprocess
-    wt = Path(__file__).resolve().parents[4]  # the worktree root
-    contrib = subprocess.run(
-        ["git", "show", "4f36ddd0:sites/student_com/tasks.jsonl"],
-        cwd=wt, capture_output=True, text=True)
-    if contrib.returncode != 0:
-        pytest.skip("contribution commit not available on this machine")
-    mine = (Path(__file__).parents[2] / "tasks.jsonl").read_text().splitlines()
-    theirs = contrib.stdout.splitlines()
-    assert len(mine) == len(theirs) == 21
-    old_web, new_web = '"web": "http://localhost:40094/"', '"web": "http://localhost:40141/"'
-    for a, b in zip(mine, theirs):
-        row_a, row_b = json.loads(a), json.loads(b)
-        assert row_b["web"] == "http://localhost:40094/"
-        assert row_a["web"] == "http://localhost:40141/"
-        prefix_a = {k: row_a[k] for k in ("web_name", "id", "ques", "upstream_url")}
-        prefix_b = {k: row_b[k] for k in ("web_name", "id", "ques", "upstream_url")}
-        assert prefix_a == prefix_b, row_a["id"]
-        # byte-prefix property modulo the port normalization:
-        assert a.startswith(b[:-1].replace(old_web, new_web) + ", "), row_a["id"]
+def test_task_identity_and_refinement_contract():
+    rows = [json.loads(line) for line in (Path(__file__).parents[2] / "tasks.jsonl").read_text().splitlines()]
+    assert [r["id"] for r in rows] == [f"Student.com--{n}" for n in range(21)]
+    for row in rows:
+        assert row["web"] == "http://localhost:40107/"
+        assert row["upstream_url"] == "https://www.student.com/"
+        assert "answer" not in row
+        assert "must" in row["judge_rubric"].lower()

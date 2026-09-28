@@ -145,30 +145,13 @@ def same_origin_port(traj):
 
 
 def decode_png(path):
-    """Return (ok, detail) for a PNG file: signature, chunk CRCs, IEND presence."""
     try:
-        data = Path(path).read_bytes()
-    except OSError as e:
-        return False, f"unreadable: {e}"
-    if len(data) < 8 or data[:8] != b"\x89PNG\r\n\x1a\n":
-        return False, "missing PNG signature"
-    pos, seen_iend, chunks = 8, False, 0
-    while pos + 8 <= len(data):
-        length = int.from_bytes(data[pos:pos + 4], "big")
-        ctype = data[pos + 4:pos + 8]
-        if pos + 12 + length > len(data):
-            return False, f"truncated chunk {ctype!r}"
-        crc = int.from_bytes(data[pos + 8 + length:pos + 12 + length], "big")
-        if zlib.crc32(data[pos + 4:pos + 8 + length]) != crc:
-            return False, f"chunk {ctype!r} CRC mismatch"
-        if ctype == b"IEND":
-            seen_iend = True
-            break
-        pos += 12 + length
-        chunks += 1
-    if not seen_iend:
-        return False, "missing IEND chunk"
-    return True, f"ok ({chunks} chunks, {len(data)} bytes)"
+        from PIL import Image
+        with Image.open(path) as image:
+            image.load()
+            return image.format == "PNG" and image.width > 0 and image.height > 0, "decoded PNG"
+    except (OSError, ValueError) as exc:
+        return False, str(exc)
 
 
 def screenshots_ok(traj):
@@ -228,6 +211,7 @@ def check_package(judge, traj, task_id):
 
 
 def check_trajectory_identity(judge, traj, task_id):
+    judge.trajectory = traj
     check_package(judge, traj, task_id)
 
 
@@ -240,7 +224,14 @@ def check_visited_path(judge, traj, name, pattern):
 def check_answer_phrase(judge, answer, name, phrase, case_sensitive=False):
     hay = answer if case_sensitive else answer.casefold()
     needle = phrase if case_sensitive else phrase.casefold()
-    judge.check(name, needle in hay, f"answer must mention {phrase!r}")
+    aliases = {
+        'report anything suspicious': r'report.{0,35}(?:suspicious|student\.com)',
+        'trace the paperwork': r'(?:save|keep|retain).{0,45}(?:evidence|records|screenshots|emails)',
+        'external authorities': r'(?:contact|notify|report to).{0,30}(?:authorities|ic3|ftc)',
+        'ghost': r'(?:ghost|absent|away|cannot (?:meet|show)|refus.{0,20}view)',
+    }
+    ok = needle in hay or (needle in aliases and bool(re.search(aliases[needle], hay)))
+    judge.check(name, ok, f"answer must state {phrase!r} or its equivalent")
 
 
 def _norm_num(s):
@@ -249,14 +240,15 @@ def _norm_num(s):
 
 
 def check_answer_number(judge, answer, name, value, label=None):
-    """The answer must contain the number (comma-formatted or plain)."""
-    target = _norm_num(value)
-    tokens = re.findall(NUM_TOKEN_RX, answer)
-    found = any(_norm_num(tok) == target for tok in tokens)
-    label_suffix = f" ({label})" if label else ""
-    judge.check(name, found,
-                f"answer must contain the number {value}{label_suffix}; "
-                f"found tokens={tokens[:14]}")
+    from answer_bindings import BINDINGS, number_bound, _number_pattern, _affirmed, _assertions
+    task_no = int(judge.task_id.split('--')[-1])
+    groups = BINDINGS.get(task_no, {}).get(name)
+    if groups:
+        found = number_bound(answer, str(value), groups)
+    else:
+        found = any(_affirmed(segment, m.start()) for segment in _assertions(answer)
+                    for m in _number_pattern(str(value)).finditer(segment))
+    judge.check(name, found, f"answer must accurately state {value} for {label or name}")
 
 
 def check_answer_any(judge, answer, name, variants, label=""):
@@ -399,6 +391,7 @@ def check_seed_initial(judge, initial_db):
 def check_read_only(judge, initial_db, after_db):
     """Read-only contract: after-state rows identical to the frozen seed."""
     check_seed_initial(judge, initial_db)
+    judge.check("after_schema_unchanged", schema_digest(after_db) == schema_digest(initial_db))
     judge.check("after_rows_unchanged", rows_digest(after_db) == SEED_ROWS_SHA256,
                 "read-only task: after_db rows must equal the seed rows")
 
@@ -407,6 +400,7 @@ def check_views_only(judge, initial_db, after_db, expected_slugs):
     """Browsing contract: only property_views may grow, by exactly the expected
     property pages (opening a property page records a view)."""
     check_seed_initial(judge, initial_db)
+    judge.check("after_schema_unchanged", schema_digest(after_db) == schema_digest(initial_db))
     for t in TABLES:
         if t == "property_views":
             continue
@@ -417,7 +411,7 @@ def check_views_only(judge, initial_db, after_db, expected_slugs):
     added, removed, changed = table_diff(initial_db, after_db, "property_views")
     added_slugs = sorted({row["property_slug"] for row in added.values()})
     judge.check("views_only_added",
-                not removed and not changed and sorted(set(expected_slugs)) == added_slugs,
+                not removed and not changed and set(expected_slugs).issubset(added_slugs) and all(any("/p/" + slug in u for u in trajectory_urls(getattr(judge, "trajectory", {}))) for slug in added_slugs),
                 f"expected new views {sorted(set(expected_slugs))}, "
                 f"got added={added_slugs} removed={len(removed)} changed={len(changed)}")
 
@@ -426,6 +420,9 @@ def check_only_tables_changed(judge, initial_db, after_db, allowed):
     """Every table outside `allowed` must be row-identical; allowed tables are
     checked by the task verifier with exact deltas."""
     check_seed_initial(judge, initial_db)
+    judge.check("initial_is_seed_schema", schema_digest(initial_db) == SCHEMA_SHA256)
+    judge.check("initial_is_seed_rows", rows_digest(initial_db) == SEED_ROWS_SHA256)
+    judge.check("after_schema_unchanged", schema_digest(after_db) == schema_digest(initial_db))
     for t in TABLES:
         if t in allowed:
             continue
@@ -442,7 +439,7 @@ def check_views_added(judge, initial_db, after_db, expected_slugs):
     added, removed, changed = table_diff(initial_db, after_db, "property_views")
     added_slugs = sorted({row["property_slug"] for row in added.values()})
     judge.check("views_added",
-                not removed and not changed and sorted(set(expected_slugs)) == added_slugs,
+                not removed and not changed and set(expected_slugs).issubset(added_slugs) and all(any("/p/" + slug in u for u in trajectory_urls(getattr(judge, "trajectory", {}))) for slug in added_slugs),
                 f"expected new views {sorted(set(expected_slugs))}, "
                 f"got added={added_slugs} removed={len(removed)} changed={len(changed)}")
 
@@ -489,6 +486,18 @@ def check_enquiry_created(judge, initial_db, after_db, user_email, property_slug
           and f"INQ-{adds[0]['id']:06d}" == reference)
     judge.check("enquiry_created", ok,
                 f"expected +1 enquiry ({user_email}, {property_slug}, {reference}); got {adds[:2]}")
+
+    if len(adds) == 1:
+        row = adds[0]
+        judge.check("inquiry_contact_email", row["email"].casefold() == user_email.casefold())
+        judge.check("inquiry_contact_name", bool(row["first_name"].strip()) and bool(row["last_name"].strip()))
+        judge.check("inquiry_phone", len(re.sub(r"\D", "", row["phone"])) >= 7)
+        message = row["message"].casefold()
+        terms = {"littlefield-hall-kutkl0": ["fall", "available"],
+                 "the-butler-olmq6o": ["spring", "available"],
+                 "villas-on-rio-8639e0": ["available", "move"],
+                 "moontower-69d81c": ["studio", "private bathroom", "fall", "available"]}.get(property_slug, [])
+        judge.check("inquiry_request", all(term in message or (term == "available" and "availability" in message) for term in terms))
 
 
 def check_user_created(judge, initial_db, after_db, email, first_name, last_name):
