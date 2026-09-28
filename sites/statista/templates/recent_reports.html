@@ -11,7 +11,7 @@
     <a class="card" href="/study/{{ r.id }}/{{ r.slug }}/">
       {% if r.has_cover %}<span class="card__img" style="aspect-ratio:712/400;"><img src="/static/images/report_{{ r.id }}_cover.png" alt="{{ r.title }}" loading="lazy"></span>{% endif %}
       <div class="card__body">
-        <span class="card__meta">Premium Report | {{ r.details.get('Released', '') }} | {{ r.details.get('Pages', '') }}</span>
+        <span class="card__meta"><span class="card__tag card__tag--premium">Premium Report</span></span>
         <span class="card__title">{{ r.title|truncate(80) }}</span>
         <span class="card__snippet">{{ r.description|striptags|truncate(140) }}</span>
       </div>

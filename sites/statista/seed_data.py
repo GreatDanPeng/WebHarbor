@@ -105,11 +105,116 @@ def _series_valid(series):
     return True
 
 
+def _recovered_category_points(rec):
+    """Recover a bar chart when harvested categories append a copy of the
+    value list after the labels (and sometimes a leading axis title).
+
+    ``_clean_categories`` treats every extra head row as an axis title and
+    drops it, which throws away the region names on statistic 256626 and
+    leaves an empty chart. This pass strips a trailing value copy first,
+    then one leading axis title, and returns points only when the remaining
+    labels line up with the values.
+    """
+    raw = []
+    for cat in rec.get("chart_categories") or []:
+        if not cat:
+            continue
+        low = cat.lower().strip()
+        if any(low.startswith(junk) for junk in JUNK_CAT_LINES):
+            continue
+        raw.append(cat.strip())
+    values = [str(v).strip() for v in (rec.get("chart_values") or []) if str(v).strip()]
+    if len(values) < 2:
+        return None
+    if len(raw) >= len(values) and raw[-len(values):] == values:
+        raw = raw[:-len(values)]
+    if len(raw) == len(values) + 1 and not re.fullmatch(r"[-\d.,%\s]+", raw[0] or ""):
+        raw = raw[1:]
+    if len(raw) != len(values):
+        return None
+    if any(re.fullmatch(r"[-\d.,%\s]+", cat or "") for cat in raw):
+        return None
+    points = []
+    for cat, value in zip(raw, values):
+        try:
+            points.append([cat, float(str(value).replace(",", "").rstrip("%"))])
+        except (TypeError, ValueError):
+            return None
+    return points if len(points) >= 2 else None
+
+
+def _dummy_axis_values(values):
+    """500 / 1000 / 1500-style placeholders, not a real chart."""
+    nums = []
+    for value in values or []:
+        try:
+            nums.append(float(str(value).replace(",", "")))
+        except (TypeError, ValueError):
+            return False
+    return len(nums) >= 2 and all(n >= 500 and n % 500 == 0 for n in nums)
+
+
+def _table_has_unmasked_numbers(table):
+    for row in table[1:]:
+        for cell in row[1:]:
+            text = str(cell or "")
+            if not text or text == "-" or "*" in text:
+                continue
+            if re.search(r"\d", text):
+                return True
+    return False
+
+
+def _table_outranks_categories(rec, categories):
+    """Prefer a published data table over a dummy category chart whose labels
+    are a different widget (statistic 439576 stored Windows / Macintosh /
+    Chrome OS instead of the country conversion-rate table).
+
+    Real charts are left alone: YouTube Shorts' 1.5 / 2.0 billion usage
+    series must not be replaced by the unrelated ranking table on that page.
+    """
+    table = rec.get("table") or []
+    values = rec.get("chart_values") or []
+    if len(table) < 3 or not categories or not _dummy_axis_values(values):
+        return False
+    if not _table_has_unmasked_numbers(table):
+        return False
+    labels = set()
+    for row in table[1:]:
+        if row and row[0]:
+            labels.add(str(row[0]).strip().casefold())
+    if any(str(c).strip().casefold() in labels for c in categories):
+        return False
+    return (len(table) - 1) > len(categories)
+
+
+def _points_from_table(table):
+    tvals = []
+    for row in table[1:]:
+        for cell in row[1:]:
+            if cell and cell not in ("-", "") and not str(cell).startswith("*"):
+                tvals.append(cell)
+    if len(tvals) < 3:
+        return None
+    pts = []
+    for row in table[1:]:
+        if len(row) == 2:
+            try:
+                pts.append([row[0], float(str(row[1]).replace(",", ""))])
+            except (TypeError, ValueError):
+                continue
+    return pts, table, "bar" if pts else "line"
+
+
 def _norm_points(rec):
     """Normalize chart data into [[x, y], ...] plus optional table rows."""
     series = rec.get("series") or []
     cv = rec.get("chart_values") or []
     cc = _clean_categories(rec.get("chart_categories") or [], cv)
+    if _table_outranks_categories(rec, cc):
+        from_table = _points_from_table(rec.get("table") or [])
+        if from_table:
+            return from_table
     # categories must be labels, not numbers: drop numeric-looking entries
     # (harvested blocks sometimes append the value list to the category list)
     cc_labels = [c for c in cc
@@ -170,6 +275,9 @@ def _norm_points(rec):
                 continue
         if len(pts) >= 2:
             return pts, [], "bar"
+    recovered = _recovered_category_points(rec)
+    if recovered:
+        return recovered, [], "bar"
     table = rec.get("table") or []
     tvals = []
     for row in table[1:]:
@@ -328,7 +436,9 @@ def seed_database():
             if m and int(m.group(1)) in stat_meta and int(m.group(1)) not in picks \
                     and int(m.group(1)) not in recs:
                 recs.append(int(m.group(1)))
-        # report on the topic: match a harvested report by name
+        # report on the topic: match a harvested report by name, or by an
+        # exact title match against the topic name when the harvest omitted
+        # the sidebar module (TikTok, Video gaming worldwide).
         report_id = None
         rep_line = " ".join(rec.get("report") or [])
         if rep_line:
@@ -336,6 +446,12 @@ def seed_database():
                 if rrec.get("title") and rrec["title"].lower() in rep_line.lower():
                     report_id = rid
                     break
+        if report_id is None:
+            topic_name = (rec.get("title") or "").split(" - ")[0].strip().casefold()
+            matches = [rid for rid, rrec in report_recs().items()
+                       if (rrec.get("title") or "").strip().casefold() == topic_name]
+            if len(matches) == 1:
+                report_id = matches[0]
         db.session.execute(db.text(
             "INSERT INTO topics (id, slug, name, description, published_by,"
             " published_date, editor_picks_json, recommended_json, key_insights_json,"
@@ -477,6 +593,7 @@ LABEL_OVERRIDE = {
     501853: "Total prize pool in million U.S. dollars",
     517940: "Prize pool in million U.S. dollars",
     578364: "Audience in millions",
+    439576: "Conversion rate",
     267233: "Capacity in gigawatts",
     1394199: "Capacity in gigawatts",
     1044012: "Number of users in millions",

@@ -441,6 +441,16 @@ class DownloadEvent(db.Model):
     created_at = db.Column(db.DateTime, default=MIRROR_NOW)
 
 
+class Inquiry(db.Model):
+    """Contact-form submission. Not seeded; a successful POST is the only write."""
+    __tablename__ = "inquiries"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    email = db.Column(db.String(200), nullable=False)
+    message = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=MIRROR_NOW)
+
+
 @login_manager.user_loader
 def load_user(user_id):
     return db.session.get(User, int(user_id))
@@ -1162,6 +1172,9 @@ def contact():
         elif "@" not in email or "." not in email:
             flash("Please enter a valid email address.", "error")
         else:
+            db.session.add(Inquiry(name=name, email=email, message=message,
+                                   created_at=MIRROR_NOW))
+            db.session.commit()
             sent = True
     return render_template("contact.html", sent=sent)
 
@@ -1209,11 +1222,14 @@ def login():
         user = User.query.filter_by(email=ident).first()
         if user is None:
             user = User.query.filter_by(username=ident).first()
-        if user is None or not user.check_password(password):
-            flash("Email address or username is required", "error")
-            flash("Enter a valid email address or username", "error")
-            flash("Password is required", "error")
-            flash("Invalid credentials. Please check your email/username and password.", "error")
+        if not ident or not password or user is None or not user.check_password(password):
+            if not ident:
+                flash("Email address or username is required", "error")
+                flash("Enter a valid email address or username", "error")
+            if not password:
+                flash("Password is required", "error")
+            if ident and password:
+                flash("Invalid credentials. Please check your email/username and password.", "error")
             return render_template("login.html")
         login_user(user)
         flash(f"Welcome back, {user.display_name}!", "success")
