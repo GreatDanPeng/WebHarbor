@@ -404,6 +404,14 @@
       "bytes": 40021527,
       "sha256": "986c51d2fe6c557b3b2c784c4bc198e53065af7da65946a99b782a90fde3b7db"
     },
+    "qatar_airways.tar.gz": {
+      "bytes": 266218569,
+      "sha256": "b4346ac709164667b363c210baf0f3b576eb7c8ac6ed14962454a0d0ea2a9a2c"
+    },
+    "soundcloud.tar.gz": {
+      "bytes": 135604573,
+      "sha256": "25e7c10c204c683e58fb1ab54382308d2379a3d0fae9fc49a33b8284e356222c"
+    },
     "speedo.tar.gz": {
       "bytes": 444405382,
       "sha256": "873c86f65f2fdeb6796c7d7dfac2fb567220b3a78f934ceb2fe57f6cf1f96e05"
