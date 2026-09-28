@@ -358,3 +358,16 @@ def test_images_are_real_files(client):
         data = response.get_data()
         assert len(data) > 10_000, f"{rel} suspiciously small"
         assert data[:3] == b"\xff\xd8\xff" or data[:8] == b"\x89PNG\r\n\x1a\n" or data[:4] == b"RIFF"
+
+
+def test_filtered_count_matches_browsable_catalogue(client):
+    html = client.get('/us/fl/orlando/u/university-of-central-florida?max_price=800&type=Apartment').get_data(as_text=True)
+    assert 'Showing 5 out of 5 results' in html
+    assert 'out of 177' not in html
+
+
+def test_job_dates_visible_for_tied_newest_openings(client):
+    html = client.get('/us/tx/austin/internships?type=part-time').get_data(as_text=True)
+    assert html.count('Posted 2026-08-18') == 2
+    assert 'Operations Associate (Part-Time)' in html
+    assert 'Sales Associate (Part-Time)' in html
