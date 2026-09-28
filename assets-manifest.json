@@ -372,6 +372,10 @@
       "bytes": 444405382,
       "sha256": "873c86f65f2fdeb6796c7d7dfac2fb567220b3a78f934ceb2fe57f6cf1f96e05"
     },
+    "stubhub.tar.gz": {
+      "bytes": 281326465,
+      "sha256": "938072c9d5d570316abc1ea6a4c90924a63ab844fcd6d83591bd3a9792f9787c"
+    },
     "target.tar.gz": {
       "bytes": 15776899,
       "sha256": "f12c2bf1ec60344ddd8dda7289e38d2ec9ffc6612b3d459c2a2898a0e9da4ac1"
@@ -421,7 +425,7 @@
       "sha256": "986c51d2fe6c557b3b2c784c4bc198e53065af7da65946a99b782a90fde3b7db"
     }
   },
-  "managed_tree_sha256": "2b71c335543619c906e82ee48b10903bb99a21bf682db9a6428d0054ba374b42",
+  "managed_tree_sha256": "01236835f836ee5b6bd021414720e4a5ead45fe71e15a99643a741c8ae5a1ac3",
   "repo": "ChilleD/WebHarbor",
   "revision": "242d456094cbfcc9f5df37dd4b11282011bbfc3a",
   "version": 1
