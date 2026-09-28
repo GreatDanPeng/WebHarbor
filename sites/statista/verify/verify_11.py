@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify Statista--11."""
+"""Verify Statista--11 against the reviewed task and saved browser state."""
 from task_specs import SPECS
 from verify_lib import apply_spec, run_verifier
 

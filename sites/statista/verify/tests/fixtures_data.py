@@ -454,3 +454,291 @@ MUTATIONS = {
         "'2026-09-26 12:00:00')",
     ],
 }
+
+# Current browser regression fixtures (synthetic unit-test reconstructions, not new browser evidence).
+SPECS = {0: {'answer': 'The worldwide inflation rate for 2025 is 4.13%. The forecast for 2031 is 3.2%. Saved the '
+               'statistic to Bob’s favorites.',
+     'urls': ['http://localhost:46095/',
+              'http://localhost:46095/login',
+              'http://localhost:46095/account',
+              'http://localhost:46095/serp?q=global+inflation+rate+compared+to+previous+year',
+              'http://localhost:46095/statistics/256598/global-inflation-rate-compared-to-previous-year/',
+              'http://localhost:46095/statistics/256598/global-inflation-rate-compared-to-previous-year/?chart=table',
+              'http://localhost:46095/account/favorites']},
+ 1: {'answer': 'The top network is Facebook* with 3070 million monthly active users. I downloaded the statistic '
+               'as a PNG. The file is listed in the account download history.',
+     'urls': ['http://localhost:46095/',
+              'http://localhost:46095/login',
+              'http://localhost:46095/account',
+              'http://localhost:46095/serp?q=global+social+networks+ranked+by+number+of+users',
+              'http://localhost:46095/statistics/272014/global-social-networks-ranked-by-number-of-users/',
+              'http://localhost:46095/statistics/272014/global-social-networks-ranked-by-number-of-users/?chart=table',
+              'http://localhost:46095/account/downloads']},
+ 2: {'answer': 'The top economy is the United States with 32.38 trillion. Germany has 5.45 trillion. The United '
+               'States is larger by 26.93 trillion. I saved the statistic to favorites.',
+     'urls': ['http://localhost:46095/',
+              'http://localhost:46095/login',
+              'http://localhost:46095/account',
+              'http://localhost:46095/serp?q=nominal+GDP',
+              'http://localhost:46095/statistics/268173/countries-with-the-largest-gross-domestic-product-gdp/',
+              'http://localhost:46095/statistics/268173/countries-with-the-largest-gross-domestic-product-gdp/?chart=table',
+              'http://localhost:46095/account/favorites']},
+ 3: {'answer': 'China leads with 2258.02 gigawatts. I added the statistic to favorites.',
+     'urls': ['http://localhost:46095/',
+              'http://localhost:46095/login',
+              'http://localhost:46095/account',
+              'http://localhost:46095/serp?q=renewable+energy+capacity+worldwide+by+country',
+              'http://localhost:46095/statistics/267233/renewable-energy-capacity-worldwide-by-country/',
+              'http://localhost:46095/statistics/267233/renewable-energy-capacity-worldwide-by-country/?chart=table',
+              'http://localhost:46095/account/favorites']},
+ 4: {'answer': 'The cheapest plan that includes premium statistics is the Starter Account at 199 USD per month. '
+               'The Personal Account costs 649 USD per month. The Professional Account costs 2388 USD per year. '
+               'Report previews are a Personal feature. The Professional Account includes full reports and API '
+               'access. The free Basic Account includes free statistics. The account type is Basic. Member since '
+               'September 26, 2026. The starting favorites count is 0. The starting downloads count is 0.',
+     'urls': ['http://localhost:46095/',
+              'http://localhost:46095/pricing/',
+              'http://localhost:46095/register',
+              'http://localhost:46095/account']},
+ 5: {'answer': 'The Consumer Trends report has 37 pages, was released in 2025, and costs 595 USD. Its first '
+               'chapters are Consumer sentiment, Consumer spending and cautious optimism, and How tariffs are '
+               'shaping consumption. The video gaming report has 62 pages, was released in 2026, and costs 495 '
+               "USD. The format is PPTX and PDF. The video gaming report's first chapter is Overview. The video "
+               'gaming report is longer than the other report. The pricier report costs 100 USD more.',
+     'urls': ['http://localhost:46095/',
+              'http://localhost:46095/serp?q=consumer+trends+2026',
+              'http://localhost:46095/study/206237/consumer-trends-2026/',
+              'http://localhost:46095/serp?q=video+gaming+worldwide',
+              'http://localhost:46095/study/123559/video-gaming-worldwide/']},
+ 6: {'answer': 'Worldwide ride-hailing 2026 revenue is 188.60 billion. Ride-hailing market volume by 2030 is '
+               '229.98 billion. Ride-hailing users by 2030 number 2.34 billion. Ride-hailing average revenue per '
+               'user is 96.95. China generates the most ride-hailing revenue at 66 billion in 2026. Car rentals '
+               '2026 revenue is 112.00 billion. Car rentals market volume by 2030 is 135.75 billion. Car rentals '
+               'users by 2030 number 776.96 million. Car rentals average revenue per user is $168.53. '
+               'Ride-hailing has the higher revenue in 2026. That comparison uses the projected sales figure '
+               'only. Car rentals have the higher average revenue per user. The United States generates the most '
+               'car rental revenue at $34 billion in 2026.',
+     'urls': ['http://localhost:46095/',
+              'http://localhost:46095/outlook/',
+              'http://localhost:46095/outlook/mobility-markets/',
+              'http://localhost:46095/outlook/mmo/shared-mobility/ride-hailing/worldwide/',
+              'http://localhost:46095/outlook/mmo/shared-mobility/car-rentals/worldwide/']},
+ 7: {'answer': 'The most recent year 2025 shows 38.11 billion metric tons. I saved the statistic to favorites and '
+               'it appears in the new account.',
+     'urls': ['http://localhost:46095/',
+              'http://localhost:46095/register',
+              'http://localhost:46095/account',
+              'http://localhost:46095/serp?q=global+co2+emissions',
+              'http://localhost:46095/statistics/276629/global-co2-emissions/',
+              'http://localhost:46095/statistics/276629/global-co2-emissions/?chart=table',
+              'http://localhost:46095/account/favorites']},
+ 8: {'answer': 'Counter-Strike 18.97 exactly here. Dota 16.47 exactly here. Fortnite 12.91 exactly here. Rocket '
+               '8.5 exactly here. Legends 5.28 exactly here. Apex 5.0 exactly here. The chart ranks 10 games. The '
+               'survey period is 01/01/2025 to 31/12/2025. The region is Worldwide. The value label is Total '
+               'prize pool in million U.S. dollars. The top prize pool is bigger by 2.5 million. APA citation: '
+               'Statista Research Department. (2026). Leading eSports games worldwide in 2025, by cumulative '
+               'tournament prize pool (in million U.S. dollars). Statista. '
+               'https://www.statista.com/statistics/501853/leading-esports-games-worldwide-total-prize-pool/',
+     'urls': ['http://localhost:46095/',
+              'http://localhost:46095/serp?q=leading+esports+games+worldwide+total+prize+pool',
+              'http://localhost:46095/statistics/501853/leading-esports-games-worldwide-total-prize-pool/',
+              'http://localhost:46095/statistics/501853/leading-esports-games-worldwide-total-prize-pool/?chart=table',
+              'http://localhost:46095/statistics/501853/leading-esports-games-worldwide-total-prize-pool/?citation=APA']},
+ 9: {'answer': 'Inflation APA: Statista Research Department. (2026). Average inflation rate worldwide from 1980 '
+               'to 2031. Statista. '
+               'https://www.statista.com/statistics/256598/global-inflation-rate-compared-to-previous-year/\n'
+               'Inflation MLA: Statista Research Department. "Average inflation rate worldwide from 1980 to '
+               '2031." Statista, Aug 13, 2026, '
+               'https://www.statista.com/statistics/256598/global-inflation-rate-compared-to-previous-year/.\n'
+               'CO2 APA: Statista Research Department. (April 2026). Annual global emissions of carbon dioxide '
+               '1940-2025. Statista. https://www.statista.com/statistics/276629/global-co2-emissions/\n'
+               'The inflation statistic covers Worldwide, survey period January 1, 1980 to December 31, 2031.',
+     'urls': ['http://localhost:46095/',
+              'http://localhost:46095/serp?q=global+inflation+rate+compared+to+previous+year',
+              'http://localhost:46095/statistics/256598/global-inflation-rate-compared-to-previous-year/',
+              'http://localhost:46095/statistics/256598/global-inflation-rate-compared-to-previous-year/?citation=APA',
+              'http://localhost:46095/statistics/256598/global-inflation-rate-compared-to-previous-year/?citation=MLA&chart=line',
+              'http://localhost:46095/serp?q=global+co2+emissions',
+              'http://localhost:46095/statistics/276629/global-co2-emissions/',
+              'http://localhost:46095/statistics/276629/global-co2-emissions/?citation=APA']},
+ 10: {'answer': 'Key insights: global users 1.99bn and a brand value of 75.67bn USD. The average video duration '
+                'is 42.7 seconds and the average engagement rate is 3.67 percent. The country with the most users '
+                'is Indonesia. The most popular content creator is Khabane Lame. The report on the topic is '
+                'titled TikTok. The topic page was published by Lionel Sujay Vailshery on Jun 10, 2026. The '
+                "editor's pick was last updated Jun 12, 2026. Its survey period is 01/04/2026 to 30/04/2026. Its "
+                'region is Worldwide. Its value label is Share of population.',
+      'urls': ['http://localhost:46095/',
+               'http://localhost:46095/serp?q=TikTok',
+               'http://localhost:46095/serp?q=TikTok&content_type=Topics',
+               'http://localhost:46095/topics/6077/tiktok/',
+               'http://localhost:46095/statistics/1299829/tiktok-penetration-worldwide-by-country/']},
+ 11: {'answer': "Alice's account type is Personal. Her most recent download is Market size of AI worldwide "
+                '2020-2032 in PNG format. The download before that was the most popular social networks statistic '
+                'in XLS format. Her download history lists 3 downloads. Her favorites page listed 5 statistics '
+                'before the removal. After the removal the favorites count is 4. The value label is Market size '
+                'of AI in billion U.S. dollars. I removed the statistic.',
+      'urls': ['http://localhost:46095/',
+               'http://localhost:46095/login',
+               'http://localhost:46095/account',
+               'http://localhost:46095/account/downloads',
+               'http://localhost:46095/account/favorites',
+               'http://localhost:46095/forecasts/1474143/global-ai-market-size/',
+               'http://localhost:46095/forecasts/1474143/global-ai-market-size/?chart=line']},
+ 12: {'answer': 'India has 480.55 million. The United States has 181.75 million. Brazil has 147.0 million. '
+                "Indonesia has 107.6 million. Japan has 63.2 million. India's audience is larger by 298.8 million "
+                'than the United States. The chart compares 20 countries. Above 60 million: 6 countries. The '
+                'update date is Oct 21, 2025. The survey period is 01/01/2025 to 31/12/2025. The region is '
+                'Worldwide. The value label is Audience in millions. APA citation: Statista Research Department. '
+                '(2025). Leading countries based on Instagram audience size as of October 2025 (in millions). '
+                'Statista. https://www.statista.com/statistics/578364/countries-with-most-instagram-users/',
+      'urls': ['http://localhost:46095/',
+               'http://localhost:46095/serp?q=countries+with+most+instagram+users',
+               'http://localhost:46095/statistics/578364/countries-with-most-instagram-users/',
+               'http://localhost:46095/statistics/578364/countries-with-most-instagram-users/?chart=table',
+               'http://localhost:46095/statistics/578364/countries-with-most-instagram-users/?citation=APA']},
+ 13: {'answer': 'The report has 295 pages and costs 1995 USD. It was released in September 2025. The first table '
+                'of contents entry is Description. I saved the report to favorites.',
+      'urls': ['http://localhost:46095/',
+               'http://localhost:46095/login',
+               'http://localhost:46095/account',
+               'http://localhost:46095/serp?q=artificial+intelligence',
+               'http://localhost:46095/serp?q=artificial%20intelligence&content_type=Reports',
+               'http://localhost:46095/study/50485/in-depth-report-artificial-intelligence/',
+               'http://localhost:46095/account/favorites']},
+ 14: {'answer': 'Sub-Saharan 12.48 exactly here. European 2.46 exactly here. 5.07 times separates the two rates. '
+                'The regional survey period is 01/01/2025 to 31/12/2025. The regional page was updated Apr 15, '
+                '2026. The value label is Inflation rate compared with the previous year. 4.13 is 2025 exactly '
+                'here. 3.2 is 2031 exactly here. The worldwide survey period is 01/01/1980 to 31/12/2031. '
+                'Compared with the regional statistic, the worldwide average was updated more recently.',
+      'urls': ['http://localhost:46095/',
+               'http://localhost:46095/serp?q=inflation+rate+in+selected+global+regions',
+               'http://localhost:46095/statistics/256626/inflation-rate-in-selected-global-regions/',
+               'http://localhost:46095/statistics/256626/inflation-rate-in-selected-global-regions/?chart=table',
+               'http://localhost:46095/serp?q=global+inflation+rate+compared+to+previous+year',
+               'http://localhost:46095/statistics/256598/global-inflation-rate-compared-to-previous-year/',
+               'http://localhost:46095/statistics/256598/global-inflation-rate-compared-to-previous-year/?chart=table']},
+ 15: {'answer': 'Consumer Trends 2026 has 37 pages, release year 2025, price $595 USD. Its first chapters are '
+                'Consumer sentiment, Consumer spending and cautious optimism, and How tariffs are shaping '
+                'consumption. Downloaded as PDF; Carol now has 6 downloads.',
+      'urls': ['http://localhost:46095/',
+               'http://localhost:46095/login',
+               'http://localhost:46095/account',
+               'http://localhost:46095/serp?q=consumer+trends+2026',
+               'http://localhost:46095/study/206237/consumer-trends-2026/',
+               'http://localhost:46095/account/downloads']},
+ 16: {'answer': 'Jul 21 Brent 91.47 exactly here. Jul 21 WTI 84.91 exactly here. Jul 21 OPEC 88.5 exactly here. '
+                'Jul 14 Brent 85.21 exactly here. Jul 14 WTI 79.34 exactly here. Jul 14 OPEC 86.16 exactly here. '
+                'Brent 6.26 exactly here. WTI 5.57 exactly here. OPEC 2.34 exactly here. Apr 28 Brent 104.53 '
+                'exactly here. Apr 28 OPEC 109.74 exactly here. Apr 28 WTI 99.93 exactly here. The survey period '
+                'is January 6, 2020 to July 21, 2026. The update date is July 2026.',
+      'urls': ['http://localhost:46095/',
+               'http://localhost:46095/serp?q=weekly+crude+oil+prices',
+               'http://localhost:46095/statistics/326017/weekly-crude-oil-prices/',
+               'http://localhost:46095/statistics/326017/weekly-crude-oil-prices/?chart=table']},
+ 17: {'answer': 'The U.S. had 324 million internet users and 254 million social media users in October 2025: 70 '
+                'million more internet users. Survey period January 1, 2025 to December 31, 2025; updated March '
+                '18, 2026. Facebook leads globally with 3,070 million users; WhatsApp has 3,000 million users and '
+                'Instagram also has 3,000 million users, tied for second. Both trail Facebook by 70 million. The '
+                'global statistic has survey period January 1, 2025 to December 31, 2025 and was updated March '
+                '11, 2026. These platform totals cover Worldwide and cannot be treated as U.S. audiences.',
+      'urls': ['http://localhost:46095/',
+               'http://localhost:46095/markets/',
+               'http://localhost:46095/markets/424/internet/',
+               'http://localhost:46095/statistics/1044012/us-digital-audience/',
+               'http://localhost:46095/serp?q=global+social+networks+ranked+by+number+of+users',
+               'http://localhost:46095/statistics/272014/global-social-networks-ranked-by-number-of-users/',
+               'http://localhost:46095/statistics/272014/global-social-networks-ranked-by-number-of-users/?chart=table']},
+ 18: {'answer': 'Pinterest grew 67.3 percent. TikTok grew 20.0 percent. Reddit grew 17.2 percent. X/Twitter '
+                'shrank 20.1 percent. Snapchat had the smallest positive growth at 0.06 percent. The chart '
+                'compares 9 platforms. The three fastest in the table are Pinterest, then TikTok, then Reddit. '
+                'The update date is Jun 22, 2026. The survey period is 01/04/2026 to 30/04/2026. The region is '
+                'Worldwide. The value label is Growth. APA citation: Statista Research Department. (2026). '
+                'Year-on-year audience growth of selected social media platforms worldwide as of April 2026. '
+                'Statista. https://www.statista.com/statistics/1294062/social-media-year-on-year-growth/',
+      'urls': ['http://localhost:46095/',
+               'http://localhost:46095/serp?q=social+media+year+on+year+growth',
+               'http://localhost:46095/statistics/1294062/social-media-year-on-year-growth/',
+               'http://localhost:46095/statistics/1294062/social-media-year-on-year-growth/?chart=table',
+               'http://localhost:46095/statistics/1294062/social-media-year-on-year-growth/?citation=APA']},
+ 19: {'answer': 'You need a paid Statista Account. A Starter Account or higher is required to see the exact '
+                'figures. The retail e-commerce page shows the update December 2025 and the region Worldwide. The '
+                'Starter, Personal, and Professional accounts include premium statistics. The free Basic Account '
+                'includes free statistics and does not include premium statistics. The cheapest paid plan is the '
+                "Starter Account at 199 USD per month. The conversion statistic for Switzerland in Q2 '26 is 2.4 "
+                'percent. The conversion statistic was updated Aug 6, 2026.',
+      'urls': ['http://localhost:46095/',
+               'http://localhost:46095/serp?q=worldwide+retail+e+commerce+sales',
+               'http://localhost:46095/statistics/379046/worldwide-retail-e-commerce-sales/',
+               'http://localhost:46095/pricing/',
+               'http://localhost:46095/serp?q=online+shopper+conversion+rate+worldwide',
+               'http://localhost:46095/statistics/439576/online-shopper-conversion-rate-worldwide/',
+               'http://localhost:46095/statistics/439576/online-shopper-conversion-rate-worldwide/?chart=table']},
+ 20: {'answer': "617.62 is the global market. 63 is the generative market. I saved the editor's pick to "
+                'favorites.',
+      'urls': ['http://localhost:46095/',
+               'http://localhost:46095/login',
+               'http://localhost:46095/account',
+               'http://localhost:46095/serp?q=artificial+intelligence+worldwide',
+               'http://localhost:46095/serp?q=artificial%20intelligence%20worldwide&content_type=Topics',
+               'http://localhost:46095/topics/3104/artificial-intelligence-ai-worldwide/',
+               'http://localhost:46095/forecasts/1474143/global-ai-market-size/',
+               'http://localhost:46095/forecasts/1474143/global-ai-market-size/?chart=line',
+               'http://localhost:46095/account/favorites']},
+ 21: {'answer': 'The video gaming report costs $495 USD, has 62 pages, was released in 2026, and starts with '
+                'Overview. Inquiry sent as Dana White, dana.white@example.com, about volume licensing. The site '
+                'confirms that the message was sent.',
+      'urls': ['http://localhost:46095/',
+               'http://localhost:46095/serp?q=video+gaming+worldwide',
+               'http://localhost:46095/study/123559/video-gaming-worldwide/',
+               'http://localhost:46095/contact/']},
+ 22: {'answer': 'Inflation was updated Aug 13, 2026. Inflation covers Worldwide. Carbon dioxide was updated April '
+                '2026. Carbon dioxide covers Worldwide. Inflation was refreshed more recently.',
+      'urls': ['http://localhost:46095/',
+               'http://localhost:46095/recent/statistics/',
+               'http://localhost:46095/serp?q=global+inflation+rate+compared+to+previous+year',
+               'http://localhost:46095/statistics/256598/global-inflation-rate-compared-to-previous-year/',
+               'http://localhost:46095/serp?q=global+co2+emissions',
+               'http://localhost:46095/statistics/276629/global-co2-emissions/']}}
+MUTATIONS = {0: ['INSERT INTO "favorites" ("id", "user_id", "stat_id", "report_id", "created_at") VALUES (16, 2, 256598, '
+     "NULL, '2026-09-26 12:00:00.000000');"],
+ 1: ['INSERT INTO "download_events" ("id", "user_id", "stat_id", "report_id", "fmt", "created_at") VALUES (13, 2, '
+     "272014, NULL, 'png', '2026-09-26 12:00:00.000000');"],
+ 2: ['INSERT INTO "favorites" ("id", "user_id", "stat_id", "report_id", "created_at") VALUES (16, 2, 268173, '
+     "NULL, '2026-09-26 12:00:00.000000');"],
+ 3: ['INSERT INTO "favorites" ("id", "user_id", "stat_id", "report_id", "created_at") VALUES (16, 2, 267233, '
+     "NULL, '2026-09-26 12:00:00.000000');"],
+ 4: ['INSERT INTO "users" ("id", "email", "username", "display_name", "password_hash", "account_type", "company", '
+     '"created_at") VALUES (5, \'frank.miller@test.com\', \'frank_m\', \'Frank_M\', '
+     "X'243262243132244f6c42656f564f7a67563733495a2e70547a475455653854707431377448583772594737543155324d3834355935424d61484a382e', "
+     "'Basic', '', '2026-09-26 12:00:00.000000');"],
+ 5: [],
+ 6: [],
+ 7: ['INSERT INTO "users" ("id", "email", "username", "display_name", "password_hash", "account_type", "company", '
+     '"created_at") VALUES (5, \'casey.r@test.com\', \'casey_r\', \'Casey_R\', '
+     "X'24326224313224446c6953487a43733347447458366e726a6f31524f4f3547764b32616a6a4b327556477768786a616f66743474664464374d456175', "
+     "'Basic', '', '2026-09-26 12:00:00.000000');",
+     'INSERT INTO "favorites" ("id", "user_id", "stat_id", "report_id", "created_at") VALUES (16, 5, 276629, '
+     "NULL, '2026-09-26 12:00:00.000000');"],
+ 8: [],
+ 9: [],
+ 10: [],
+ 11: ['DELETE FROM "favorites" WHERE "id"=3;'],
+ 12: [],
+ 13: ['INSERT INTO "favorites" ("id", "user_id", "stat_id", "report_id", "created_at") VALUES (16, 3, NULL, '
+      "50485, '2026-09-26 12:00:00.000000');"],
+ 14: [],
+ 15: ['INSERT INTO "download_events" ("id", "user_id", "stat_id", "report_id", "fmt", "created_at") VALUES (13, '
+      "3, NULL, 206237, 'pdf', '2026-09-26 12:00:00.000000');"],
+ 16: [],
+ 17: [],
+ 18: [],
+ 19: [],
+ 20: ['INSERT INTO "favorites" ("id", "user_id", "stat_id", "report_id", "created_at") VALUES (16, 4, 1474143, '
+      "NULL, '2026-09-26 12:00:00.000000');"],
+ 21: ['INSERT INTO "inquiries" ("id", "name", "email", "message", "created_at") VALUES (1, \'Dana White\', '
+      "'dana.white@example.com', 'Please advise on volume licensing for the Video gaming worldwide report for our "
+      "team.', '2026-09-26 12:00:00.000000');"],
+ 22: []}
+
+# Only tasks with a saved-state change belong in the state-mismatch test set.
+MUTATIONS = {n: sql for n, sql in MUTATIONS.items() if sql}

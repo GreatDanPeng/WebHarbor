@@ -1,44 +1,25 @@
-# Statista deterministic grading (review track)
+# Statista task verification
 
-All 23 tasks in `../tasks.jsonl` have a rubric and a deterministic verifier.
-Ground truth lives only in `task_specs.py` (imported by `verify_0.py` …
-`verify_22.py`). `tasks.jsonl` keeps the task wording and adds
-`verifier_path` plus a rules-only `judge_rubric`. There is no answer key.
-`append_rubrics.py` refuses to run so a generator cannot copy figures back
-into the agent-facing file.
-
-- `verify_lib.py` validates task id, completion, loopback origin and port,
-  decodable screenshots, and the SQLite seed contract. Schema digest
-  `e3571669…`, rows digest `aa83591b…`. A host md5 is not the contract.
-  Numbers match as standalone tokens and must sit nearer their subject than
-  a competing subject, so a swapped year, country, or market fails.
-- Stateful tasks allow a new Basic account or, where the task names one, a
-  specific seed account. Favorites, downloads, and the contact inquiry are
-  exact row deltas. Read-only tasks require row-identical snapshots.
-- `tests/` covers honest fixtures plus no-op, wrong-answer, swapped-subject,
-  substring-number, homepage-only shortcut, state-mismatch, wrong-delta,
-  alternate-account, and package-tampering cases.
-
-The seed DB is `instance_seed/statista.db` when that file is present;
-`STATISTA_TEST_SEED_DB` overrides it.
+Run the primary deterministic grader from the repository root:
 
 ```bash
-python3 -m pytest sites/statista/tests sites/statista/verify/tests -q
+python agent_demo/eval_judge.py --run_dir /path/to/task-run --verifier True
 ```
 
-The deterministic grader is primary. The optional LLM judge was not run
-for this review.
+Each run supplies trajectory.json, referenced screenshots, initial.db and after.db.
+The verifier checks task identity, completed execution, local origin, decoded image
+evidence, relevant page visits, requested answer facts and saved-state deltas.
+The initial schema and rows are pinned to the reviewed build-generated seed.
+Account actions preserve unrelated records. Natural wording and common numeric/date
+formats are supported; matching remains deterministic and is not a general semantic judge.
+Ground truth belongs in the verifiers and test fixtures, never in tasks.jsonl.
 
-Task notes:
-- Task 13's first table-of-contents entry is the heading "Description".
-  The harvested in-depth report reproduces that upstream anonymous view.
-- Task 12 asks how many audiences are above 60 million (six countries).
-  Four of those are also above 100 million; the verifier grades the
-  threshold the question asks for.
-- Task 18 does not grade a "more than 15 percent" count. LinkedIn at 15.2
-  would make that count four, and the question does not ask it.
-- Task 21 persists the contact form. A thank-you sentence with no inquiry
-  row fails.
-- Statistic 256626's region chart is recovered from the harvested labels.
-  Statistic 439576 stores the country conversion table rather than the
-  dummy operating-system series on that page.
+Tests:
+
+```bash
+python -m pytest sites/statista/tests sites/statista/verify/tests -q
+```
+
+Build the seed with the site's Dockerfile procedure before running tests. The test
+fixtures reconstruct browser-checked outcomes synthetically; they are separate from
+real trajectories. No secondary LLM judgment is needed for these checks.

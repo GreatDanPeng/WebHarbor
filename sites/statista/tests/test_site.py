@@ -236,3 +236,17 @@ def test_seed_idempotent_byte_identity(tmp_path):
     sys.modules.pop("seed_data", None)
     h2 = hashlib.md5(open(scratch, "rb").read()).hexdigest()
     assert h1 == h2
+
+
+def test_outlook_serves_persisted_content_without_source_reads(client, monkeypatch):
+    import builtins
+    original = builtins.open
+    def guarded(file, *args, **kwargs):
+        if 'source_data' in str(file):
+            raise AssertionError('runtime must not read source snapshots')
+        return original(file, *args, **kwargs)
+    monkeypatch.setattr(builtins, 'open', guarded)
+    r = client.get('/outlook/mmo/shared-mobility/ride-hailing/worldwide/')
+    assert r.status_code == 200
+    assert b'Market definition' in r.data
+    assert b'Analyst Opinion' in r.data
