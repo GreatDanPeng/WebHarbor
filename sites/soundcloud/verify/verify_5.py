@@ -15,6 +15,8 @@ PLAYLIST_TITLE = "Heavy Bag Rounds"
 
 
 def run_checks(judge, traj, initial_db, after_db):
+    from state_review import check_existing_state
+    check_existing_state(judge, initial_db, after_db, TASK_ID)
     answer = final_answer(traj)
     check_trajectory_identity(judge, traj, TASK_ID)
     check_visited_path(judge, traj, "visited_signin", r"/signin")

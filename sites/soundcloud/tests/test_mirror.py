@@ -356,7 +356,7 @@ def test_tasks_jsonl_schema_and_no_leaks():
     # T19: the deep legs that push both step columns >=15 must stay in the
     # text, and no ground-truth token may appear.
     t19 = by_id["SoundCloud--19"]
-    for leg in ("Popular-tab", "UK Indie", "profile", "#1"):
+    for leg in ("Popular", "UK Indie", "follower", "uploaded"):
         assert leg in t19, leg
     for leaked in ("Lacy", "steevlacy", "oh yeah", "nothing", "Buttons",
                    "doom", "show you me", "Guilty", "Heaney", "377,394",

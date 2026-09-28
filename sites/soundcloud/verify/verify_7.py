@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
-"""Verify SoundCloud--7.
-
-Sign in as David (david.k@test.com / TestPass123!). He's a producer who wants his music distributed to streaming platforms. On the plans page, report the monthly prices of Go and Go+ and how many free-trial days each offers. Then switch him to the yearly Next Pro plan, paying with card 4242 4242 4242 4242, and report the yearly price and the renewal date from the confirmation page. Finally, upload a track titled 'Night Shift Demo', genre Rock, 4 minutes 12 seconds, and report its page's URL.
-"""
+"""Verify SoundCloud--7: Help David prepare his producer account for a new release. Sign in as david.k@test.com (password TestPass123!), subscribe to yearly Next Pro with card 4242 4242 4242 4242, and upload 'Night Shift Demo', genre Rock, lasting 4 minutes 12 seconds. Report the subscription price and renewal date, and the uploaded track's page URL."""
 from verify_lib import (Judge, check_answer_phrase,
                         check_only_tables_changed, check_trajectory_identity,
                         check_visited_path, final_answer, run_verifier, table_diff)
@@ -21,6 +18,8 @@ UPLOAD_PATH = "/david_k/night-shift-demo"
 
 
 def run_checks(judge, traj, initial_db, after_db):
+    from state_review import check_existing_state
+    check_existing_state(judge, initial_db, after_db, TASK_ID)
     answer = final_answer(traj)
     check_trajectory_identity(judge, traj, TASK_ID)
     check_visited_path(judge, traj, "visited_signin", r"/signin")
@@ -30,16 +29,6 @@ def run_checks(judge, traj, initial_db, after_db):
     check_visited_path(judge, traj, "visited_new_track_page", UPLOAD_PATH)
 
     # plans-page comparison facts
-    judge.check("go_monthly_price", "$4.99" in answer,
-                "answer must report Go's $4.99 monthly price")
-    judge.check("goplus_monthly_price", "$11.99" in answer,
-                "answer must report Go+'s $11.99 monthly price")
-    judge.check("go_trial_days",
-                ("7-day" in answer) or ("7 day" in answer) or ("seven-day" in answer.casefold()),
-                "answer must report Go's 7 free-trial days")
-    judge.check("goplus_trial_days",
-                ("30-day" in answer) or ("30 day" in answer) or ("thirty-day" in answer.casefold()),
-                "answer must report Go+'s 30 free-trial days")
     # yearly Next Pro checkout facts
     judge.check("yearly_price", ("$99" in answer) or ("99.00" in answer),
                 "answer must report the $99.00 yearly price")

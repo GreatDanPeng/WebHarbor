@@ -24,7 +24,11 @@ MOST_LIKED = ("On 2nite", "SILVA BUMPA", "Sheffield", 54552)
 
 
 def run_checks(judge, traj, initial_db, after_db):
+    from state_review import check_existing_state
+    check_existing_state(judge, initial_db, after_db, TASK_ID)
     answer = final_answer(traj)
+    from answer_review import bind_tracks
+    bind_tracks(judge, answer, [('Good Girl', 1294858, '3:01', 'Cloonee'), ('Kolter - Hey Everybody (Radio Edit)', 938222, '2:36', 'Kolter'), ('On 2nite', 2399647, '2:38', 'SILVA BUMPA'), ('Prospa - Masterplan', 1077255, '3:47', 'CircoLoco Records'), ('Sun is Shining (Lovelee Dae)', 460800, '2:54', 'Tommy Phillips')])
     check_trajectory_identity(judge, traj, TASK_ID)
     check_visited_path(judge, traj, "visited_uk_dance_chart", r"/music-charts-uk/sets/dance")
     for rank, title, artist, plays, dur, likes, path in TOP5:

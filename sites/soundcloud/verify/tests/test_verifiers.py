@@ -127,7 +127,7 @@ def test_noop_fail(tmp_path, task_no):
     run = noop_run(tmp_path, task_no)
     verdict = run_verifier(task_no, run, expect_pass=False)
     assert any(f in verdict["reason"] for f in
-               ("nonempty_answer", "visited_", "answer", "missing", "terminated"))
+               ("nonempty_answer", "visited_", "answer", "missing", "terminated", "bound_track"))
 
 
 # ---------------------------------------------------------------- shortcut FAIL
@@ -388,4 +388,4 @@ def test_t19_partial_new_facts_fails(tmp_path):
     (run / "initial.db").write_bytes(acquire_seed().read_bytes())
     (run / "after.db").write_bytes(acquire_seed().read_bytes())
     verdict = run_verifier(19, run, expect_pass=False)
-    assert "visited_indie1" in verdict["reason"] or "indie1" in verdict["reason"]
+    assert "label" in verdict["reason"]

@@ -26,7 +26,11 @@ UK1_LIKES = "41.6K"
 
 
 def run_checks(judge, traj, initial_db, after_db):
+    from state_review import check_existing_state
+    check_existing_state(judge, initial_db, after_db, TASK_ID)
     answer = final_answer(traj)
+    from answer_review import bind_tracks
+    bind_tracks(judge, answer, [('Is Dat Right?', 969416, None, 'Nardo Wick'), ('Backwards', 280716, None, 'Quavo'), ('Cowgirl', 1453008, None, 'Shaboozey'), ('Good Girl', 1294858, None, 'Cloonee'), ('Kolter - Hey Everybody (Radio Edit)', 938222, None, 'Kolter'), ('On 2nite', 2399647, None, 'SILVA BUMPA')])
     check_trajectory_identity(judge, traj, TASK_ID)
     check_visited_path(judge, traj, "visited_us_chart", r"/music-charts-us/sets/all-music-genres")
     check_visited_path(judge, traj, "visited_uk_chart", r"/music-charts-uk/sets/all-music-genres")

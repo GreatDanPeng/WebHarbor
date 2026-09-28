@@ -25,7 +25,11 @@ MOST_LIKED = ("Backwards", "Quavo", 205010)      # title, artist, exact follower
 
 
 def run_checks(judge, traj, initial_db, after_db):
+    from state_review import check_existing_state
+    check_existing_state(judge, initial_db, after_db, TASK_ID)
     answer = final_answer(traj)
+    from answer_review import bind_tracks
+    bind_tracks(judge, answer, [('Backwards', 280716, '3:11', 'Quavo'), ('Something I Need', 176445, '2:25', 'Offset'), ('Bass Persuades', 137891, '3:22', 'Miley Cyrus'), ('Different Religion (feat. Model/Actriz)', 62218, '3:43', 'Miley Cyrus'), ('Last Thing You Need (from GTAVI: The Album)', 222932, '3:16', 'Atlantic Records')])
     check_trajectory_identity(judge, traj, TASK_ID)
     check_visited_path(judge, traj, "visited_top50", r"/music-charts-us/sets/all-music-genres")
     check_visited_path(judge, traj, "visited_new_hot", r"/music-charts-us/sets/new-hot")
