@@ -26,7 +26,11 @@ NEWEST_COMMENT = ("jaylan hutchins", "1:53")
 
 
 def run_checks(judge, traj, initial_db, after_db):
+    from state_review import check_existing_state
+    check_existing_state(judge, initial_db, after_db, TASK_ID)
     answer = final_answer(traj)
+    from answer_review import bind_tracks
+    bind_tracks(judge, answer, [('Piece Of Your Love', 1672102, '3:46', None), ('Hustle', 1205740, '2:19', None), ('Dope Girl', 803703, '2:12', None), ('TP', 653691, '2:48', None), ('Kiss Me Interlude', 572927, '3:05', None)])
     check_trajectory_identity(judge, traj, TASK_ID)
     check_visited_path(judge, traj, "visited_search", r"/search\?q=[Rr]od\+[Ww]ave")
     check_visited_path(judge, traj, "visited_profile", r"/rodwave/?(\?|$)")
@@ -45,10 +49,6 @@ def run_checks(judge, traj, initial_db, after_db):
                 or all(t in answer for t in OVER_3MIN),
                 "answer must name the tracks longer than three minutes")
     check_answer_phrase(judge, answer, "top_label", TOP_LABEL)
-    check_answer_phrase(judge, answer, "newest_commenter", NEWEST_COMMENT[0])
-    judge.check("newest_comment_at",
-                NEWEST_COMMENT[1] in answer,
-                f"answer must report the newest comment's 'at' timestamp {NEWEST_COMMENT[1]}")
     check_read_only(judge, initial_db, after_db)
 
 

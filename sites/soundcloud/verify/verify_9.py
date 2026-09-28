@@ -28,7 +28,11 @@ TEXAS_TRACK = "12 Steps"
 
 
 def run_checks(judge, traj, initial_db, after_db):
+    from state_review import check_existing_state
+    check_existing_state(judge, initial_db, after_db, TASK_ID)
     answer = final_answer(traj)
+    from answer_review import bind_tracks
+    bind_tracks(judge, answer, [('Joseph', 66992, '4:09', 'Falling In Reverse'), ('Benny Boy (prod badlilcoup)', 49855, '2:08', 'Pink Boy'), ('oh yeah?', 211561, '0:30', 'Steve Lacy'), ("It Doesn't Matter", 295495, '3:45', 'The Living Tombstone'), ('12 Steps', 218454, '3:11', 'Dexter and The Moonrocks')])
     check_trajectory_identity(judge, traj, TASK_ID)
     check_visited_path(judge, traj, "visited_rock_chart", r"/music-charts-us/sets/rock")
     for rank, title, artist, plays, dur, tpath, apath, city in TOP5:

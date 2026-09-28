@@ -29,7 +29,11 @@ CROSSOVER = ("Dead Fresh", 6, 1)          # US Hip Hop #6, UK Hip Hop #1
 
 
 def run_checks(judge, traj, initial_db, after_db):
+    from state_review import check_existing_state
+    check_existing_state(judge, initial_db, after_db, TASK_ID)
     answer = final_answer(traj)
+    from answer_review import bind_tracks
+    bind_tracks(judge, answer, [('Mrs. Trendsetter', 4045615, None, None), ('Dead Fresh', 2468395, None, None), ('What She Like', 1468903, None, None), ('Guaranteed', 1410635, None, None)])
     check_trajectory_identity(judge, traj, TASK_ID)
     check_visited_path(judge, traj, "visited_us_chart", r"/music-charts-us/sets/all-music-genres")
     check_visited_path(judge, traj, "visited_t9_track", r"/lil-baby-4pf/dead-fresh")
