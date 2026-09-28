@@ -19,20 +19,27 @@ TOTAL = 12.74
 
 
 def run_checks(judge, traj, initial_db, after_db):
+    from verify_lib import check_order_recipient
+    check_order_recipient(judge, initial_db, after_db, 'Casey Morgan', '2 Windmill Lane', 'Leeds', 'LS6 1QR')
+    from state_review import check_existing_state
+    check_existing_state(judge, initial_db, after_db, TASK_ID)
     answer = final_answer(traj)
     check_trajectory_identity(judge, traj, TASK_ID)
     check_visited_path(judge, traj, "visited_pdp", r"/products/adult-silicone-cap-purple")
     check_visited_path(judge, traj, "visited_checkout", r"/checkout")
     check_visited_path(judge, traj, "visited_confirmation", r"/order/confirmation/SP100008")
     check_answer_phrase(judge, answer, "order_number", "SP100008")
-    check_answer_number(judge, answer, "total", "12.74", "order total")
+    orders = after_db.execute("SELECT shipping_method, shipping, total FROM orders WHERE id NOT IN (SELECT id FROM orders WHERE id < 8)").fetchall()
+    chosen = tuple(orders[0]) if len(orders) == 1 else ("", -1, -1)
+    judge.check("eligible_delivery", chosen in [("Standard Delivery", 5.99, 12.74), ("Express Delivery", 8.99, 15.74)])
+    check_answer_number(judge, answer, "total", chosen[2], "order total")
 
     check_only_tables_changed(judge, initial_db, after_db,
                               allowed={"orders", "order_items"})
     check_new_order(judge, initial_db, after_db,
                     email="casey.morgan@example.com", subtotal=UNIT_PRICE,
-                    discount=0.0, discount_code="", shipping_method="Standard Delivery",
-                    shipping=SHIPPING, total=TOTAL, card_last4="4242",
+                    discount=0.0, discount_code="", shipping_method=chosen[0],
+                    shipping=chosen[1], total=chosen[2], card_last4="4242",
                     items=[(PRODUCT_NAME, "One Size", 1, UNIT_PRICE)])
 
 

@@ -23,7 +23,7 @@
     <p class="account-sub">Saved cards for faster checkout.</p>
     {% for c in cards %}
     <div class="address-card">
-      <strong>{{ c.brand }}</strong> ending in {{ c.last4 }} &middot; exp {{ '%02d' % c.exp_month }}/{{ c.exp_year }}
+      <strong>{{ c.label }} — {{ c.brand }}</strong> ending in {{ c.last4 }} &middot; exp {{ '%02d' % c.exp_month }}/{{ c.exp_year }}
       {% if c.is_default %}<span class="default-tag">Default</span>{% endif %}
       <form method="post" style="margin-top:10px;">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">

@@ -1053,6 +1053,8 @@ def checkout():
         method = request.form.get('shipping_method', 'standard')
         card_number = re.sub(r'\D', '', request.form.get('card_number', ''))
         errors = []
+        if method not in {m[0] for m in SHIPPING_METHODS}:
+            errors.append('Choose a valid delivery method.')
         if not re.match(r'^[^@\s]+@[^@\s]+\.[^@\s]+$', email):
             errors.append('Enter a valid email address.')
         if not first or not last:
@@ -1368,9 +1370,9 @@ def _swimsuit_recommendations(answers):
         style_map = {
             'One-Piece': ('Swimsuit', 'Kneeskin'),
             'Two-Piece': ('Bikini', 'Tankini', 'Two Piece'),
-            'Fastskin Ignite': ('Fastskin',),
-            'Fastskin Valor': ('Fastskin',),
-            'Fastskin Intent': ('Fastskin',),
+            'Fastskin Ignite': ('Ignite',),
+            'Fastskin Valor': ('Valor',),
+            'Fastskin Intent': ('Intent',),
             'Jammers': ('Jammer',),
             'Briefs': ('Brief',),
             'Swim Shorts': ('Shorts',),

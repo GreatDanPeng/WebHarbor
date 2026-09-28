@@ -23,6 +23,10 @@ TOTAL = 20.62
 
 
 def run_checks(judge, traj, initial_db, after_db):
+    from verify_lib import check_order_recipient
+    check_order_recipient(judge, initial_db, after_db, 'Hannah Cole', '44 Bramble Road', 'Exeter', 'EX2 5TA')
+    from state_review import check_existing_state
+    check_existing_state(judge, initial_db, after_db, TASK_ID)
     answer = final_answer(traj)
     check_trajectory_identity(judge, traj, TASK_ID)
     check_visited_path(judge, traj, "visited_size_guide", r"/pages/size-guides")
@@ -37,7 +41,7 @@ def run_checks(judge, traj, initial_db, after_db):
     check_only_tables_changed(judge, initial_db, after_db,
                               allowed={"orders", "order_items"})
     check_new_order(judge, initial_db, after_db,
-                    email="hannah.cole@example.com", subtotal=UNIT_PRICE,
+                    email=None, subtotal=UNIT_PRICE,
                     discount=0.0, discount_code="", shipping_method="Standard Delivery",
                     shipping=SHIPPING, total=TOTAL, card_last4="7890",
                     items=[(PRODUCT_NAME, BAND, 1, UNIT_PRICE)])

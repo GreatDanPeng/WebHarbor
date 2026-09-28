@@ -25,6 +25,10 @@ TOTAL = 18.74
 
 
 def run_checks(judge, traj, initial_db, after_db):
+    from verify_lib import check_order_recipient
+    check_order_recipient(judge, initial_db, after_db, 'Alex Novak', '118 Sefton Park Road', 'Liverpool', 'L17 1BQ')
+    from state_review import check_existing_state
+    check_existing_state(judge, initial_db, after_db, TASK_ID)
     answer = final_answer(traj)
     check_trajectory_identity(judge, traj, TASK_ID)
     check_visited_path(judge, traj, "visited_cap_pdp",
@@ -42,7 +46,7 @@ def run_checks(judge, traj, initial_db, after_db):
     judge.check("one_signup", len(a) == 1 and len(r) == 0,
                 f"added={list(a.values())!r}")
     check_new_order(judge, initial_db, after_db,
-                    email="alex.novak@example.com", subtotal=UNIT_PRICE,
+                    email=None, subtotal=UNIT_PRICE,
                     discount=DISCOUNT, discount_code=CODE,
                     shipping_method="Standard Delivery", shipping=SHIPPING,
                     total=TOTAL, card_last4="4242",
