@@ -27,6 +27,8 @@ def run_checks(judge, traj, initial_db, after_db):
     check_answer_number(judge, answer, "last_getin", 90)
     for opp in ("Vegas Golden Knights", "Detroit Red Wings", "Utah Mammoth"):
         check_answer_phrase(judge, answer, f"next_three_{opp.split()[0].lower()}", opp)
+    from ticket_comparisons import check_endpoints
+    check_endpoints(judge, traj, initial_db)
     check_read_only(judge, initial_db, after_db)
 
 

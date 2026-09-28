@@ -16,30 +16,12 @@ def run_checks(judge, traj, initial_db, after_db):
     answer = final_answer(traj)
     check_trajectory_identity(judge, traj, TASK_ID)
     check_visited_path(judge, traj, "visited_cardinals_event", r"/seattle-seahawks-seattle-tickets-11-8-2026/event/160436506")
-    check_visited_path(judge, traj, "visited_listing", r"/event/160436506/listing/225")
     check_visited_path(judge, traj, "checkout_review", r"/secure/checkout/review")
     check_visited_path(judge, traj, "checkout_payment", r"/secure/checkout/payment")
-    check_visited_path(judge, traj, "checkout_confirm", r"/secure/checkout/confirm")
-    check_visited_path(judge, traj, "checkout_confirmation", r"/secure/checkout/confirmation/41801303")
-    
-    check_answer_number(judge, answer, "order_reference", 41801303)
-    check_answer_number(judge, answer, "delivery_fee_ups", "14.95")
-    check_answer_number(judge, answer, "processing_fee", "2.95")
-    check_answer_number(judge, answer, "final_total", "405.90")
-    check_table_deltas(judge, initial_db, after_db, {
-        "orders": {"added": [(9,)]},
-        "listings": {"changed": {(225,): {"is_sold": (0, 1)}}},
-        "notifications": {"added_count": 1},
-    })
-    row = after_db.execute("SELECT * FROM orders WHERE order_number='41801303'").fetchone()
-    judge.check("order_row_exact",
-                row is not None and row["user_id"] == 2 and row["event_id"] == 134
-                and row["listing_id"] == 225 and row["quantity"] == 2
-                and row["delivery_method"] == "ups" and row["delivery_fee"] == 14.95
-                and row["processing_fee"] == 2.95 and row["total"] == 405.9
-                and row["status"] == "Confirmed",
-                f"order row must match the frozen delta: {dict(row) if row else None}")
-    check_only_tables_changed(judge, initial_db, after_db, ("orders", "listings", "notifications"))
+    check_visited_path(judge, traj, "checkout_confirmation", r"/secure/checkout/confirmation/")
+    from purchase_checks import purchase
+    purchase(judge, traj, initial_db, after_db, 3)
+
 
 
 if __name__ == "__main__":

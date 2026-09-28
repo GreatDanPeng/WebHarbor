@@ -177,7 +177,7 @@ def _load_all():
     listings = {}
     listing_dir = SOURCE / "listings"
     if listing_dir.exists():
-        for f in listing_dir.glob("*.json"):
+        for f in sorted(listing_dir.glob("*.json")):
             listings[int(f.stem)] = json.loads(f.read_text())
     return events, performers, venues, taxonomy, listings
 

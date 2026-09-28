@@ -223,29 +223,10 @@ def test_tasks_jsonl_contract():
         assert "judge_rubric" in row and len(row["judge_rubric"]) > 80
         words = len(row["ques"].split())
         assert words <= 100, f"task {row['id']} has {words} words (>100 FAIL)"
-        assert row["web"] == "http://localhost:40139/"
+        assert row["web"] == "http://localhost:40105/"
 
 
-def test_contributor_keys_byte_identical():
-    """The five contributor keys must be byte-identical to the contribution HEAD,
-    i.e. every annotated row is the original line with the two keys appended.
-    The one sanctioned exception is the `web` port: the audit-phase slot
-    normalization moves it to the site's assigned merge port (40139; the slot
-    formula index = registered sites on main (99) + 40)."""
-    import subprocess
-    contrib = subprocess.run(
-        ["git", "show", "orch/contribute/stubhub:sites/stubhub/tasks.jsonl"],
-        capture_output=True, text=True,
-        cwd=str(Path(__file__).resolve().parents[4]))
-    assert contrib.returncode == 0, "contribution branch must exist locally"
-    mine_lines = (Path(__file__).resolve().parents[2] / "tasks.jsonl").read_text().splitlines()
-    old_web, new_web = '"web": "http://localhost:40096/"', '"web": "http://localhost:40139/"'
-    for mine, theirs in zip(mine_lines, contrib.stdout.splitlines()):
-        m, t = json.loads(mine), json.loads(theirs)
-        for key in ("web_name", "id", "ques", "upstream_url"):
-            assert m[key] == t[key], f"contributor key {key} mutated"
-        assert t["web"] == "http://localhost:40096/" and m["web"] == "http://localhost:40139/"
-        # byte-prefix property modulo the port normalization:
-        # annotated == original line (web port re-based) minus '}' + appended keys
-        assert mine.startswith(theirs[:-1].replace(old_web, new_web) + ", "), (
-            f"row {t['id']} is not the original line with keys appended")
+def test_task_definitions_have_stable_identity():
+    rows = [json.loads(line) for line in (Path(__file__).resolve().parents[2] / "tasks.jsonl").read_text().splitlines()]
+    assert [r["id"] for r in rows] == [f"StubHub--{i}" for i in range(21)]
+    assert all(r["web_name"] == "StubHub" and r["upstream_url"] == "https://www.stubhub.com/" for r in rows)

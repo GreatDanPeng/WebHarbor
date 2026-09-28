@@ -891,7 +891,7 @@ def checkout_payment():
                 flash("Enter a valid card number.", "error")
             elif not exp_month or not 1 <= exp_month <= 12:
                 flash("Enter a valid expiry month.", "error")
-            elif not exp_year or exp_year < MIRROR_NOW.year:
+            elif not exp_year or (exp_year, exp_month) < (MIRROR_NOW.year, MIRROR_NOW.month):
                 flash("Enter a valid expiry year.", "error")
             elif not re.fullmatch(r"\d{3}", cvv):
                 flash("Enter a valid 3-digit security code.", "error")
@@ -964,7 +964,8 @@ def checkout_confirm():
                       processing_fee=fees["processing_fee"], total=fees["total"],
                       status="Confirmed", placed_at=MIRROR_NOW,
                       card_last4=card_label)
-        listing.is_sold = True
+        listing.quantity -= co["quantity"]
+        listing.is_sold = listing.quantity == 0
         db.session.add(order)
         db.session.add(Notification(user_id=current_user.id,
                                     body=f"Order confirmed: {evt.name} on {fmt_date_full(evt.local_starts_at)}.",
@@ -1162,7 +1163,7 @@ def account_payments():
         cvv = request.form.get("cvv", "").strip()
         if len(number) < 13 or len(number) > 19 or not number.isdigit():
             flash("Enter a valid card number.", "error")
-        elif not exp_month or not 1 <= exp_month <= 12 or not exp_year or exp_year < MIRROR_NOW.year:
+        elif not exp_month or not 1 <= exp_month <= 12 or not exp_year or (exp_year, exp_month) < (MIRROR_NOW.year, MIRROR_NOW.month):
             flash("Enter a valid expiry date.", "error")
         elif not re.fullmatch(r"\d{3}", cvv):
             flash("Enter a valid 3-digit security code.", "error")

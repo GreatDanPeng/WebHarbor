@@ -32,11 +32,15 @@ def run_checks(judge, traj, initial_db, after_db):
     check_answer_phrase(judge, answer, "venue_name", "Sphere")
     check_answer_phrase(judge, answer, "venue_city", "Las Vegas")
     judge.check("per_night_computed",
-                bool(re.search(r"56[89](?:\.\d+)?", answer)),
-                "answer must compute the pass's implied cost per night (~$568-569)")
+                bool(re.search(r"(?<![\d.])568\.50?(?![\d.])", answer)),
+                "answer must compute the pass's implied cost per night ($568.50)")
     judge.check("pass_vs_singles_verdict",
                 "pass" in answer.casefold() and re.search(r"cheaper", answer.casefold()),
                 "answer must state the two-day pass is the cheaper way to see both shows")
+    from comparison_checks import entity_numbers
+    labels = [r"two[- ]day pass|two[- ]night pass", r"Oct(?:ober)?[ .]*1(?:st)? single", r"Oct(?:ober)?[ .]*3(?:rd)? single"]
+    for i, values in enumerate([(29, 1137, 310), (26, 749, 407), (10, 1124, 110)]):
+        entity_numbers(judge, answer, "event_values_"+str(i), [labels[i]], labels[:i]+labels[i+1:], values)
     check_read_only(judge, initial_db, after_db)
 
 
