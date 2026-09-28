@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
-"""Verify SourceForge--0.
-
-I'm choosing a free file archiver for Windows. Search the open source directory for "file compression", sort by Most Popular, and compare the top two results against 7-Zip. For each of the three projects report the weekly download count, registered date, and license from the project page, plus the average rating and total review count from its Reviews page. Finally, which of the three was updated most recently?
-"""
+"""Verify SourceForge--0: I am checking how useful SourceForge's search results are for finding a Windows file archiver. Compare the two most popular results for 'file compression' with 7-Zip: report each project's purpose, license, weekly downloads, registration date, and review rating and count. Explain which results actually fit the archiving requirement and which project was updated most recently."""
 from verify_lib import (check_answer_number, check_answer_phrase, check_read_only,
                         check_only_tables_changed, check_trajectory_identity,
                         check_visited_path, final_answer, run_verifier,
@@ -42,6 +39,10 @@ def run_checks(judge, traj, initial_db, after_db):
     check_answer_number(judge, answer, "sz_rating", '4.8', '7-Zip rating')
     check_answer_number(judge, answer, "sz_reviews", 831, '7-Zip review count')
     check_answer_phrase(judge, answer, "sz_updated_more_recent", '2026-09-04')
+    from comparison_checks import entity_numbers
+    labels = [r"MinGW(?: - Minimalist GNU for Windows)?", r"AutoClicker", r"7-Zip"]
+    for i, values in enumerate([(3600000, 4.6, 171), (768800, 4.9, 221), (23587, 4.8, 831)]):
+        entity_numbers(judge, answer, "project_values_"+str(i), [labels[i]], labels[:i]+labels[i+1:], values)
     check_read_only(judge, initial_db, after_db)
 
 
