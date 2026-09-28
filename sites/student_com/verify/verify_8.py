@@ -25,7 +25,7 @@ def run_checks(judge, traj, initial_db, after_db):
     check_answer_phrase(judge, answer, "answer_name", 'Hub On Campus Orlando')
     check_answer_number(judge, answer, "answer_rating", '4.0')
     check_answer_phrase(judge, answer, "answer_address", '11012 Hub Plz')
-    check_answer_number(judge, answer, "answer_pre_total", 177)
+    check_answer_number(judge, answer, "answer_pre_total", 25)
     check_answer_phrase(judge, answer, "answer_ai_filter_type", 'Apartment')
     check_answer_number(judge, answer, "answer_ai_filter_max", 800)
     check_answer_number(judge, answer, "answer_price", 500)

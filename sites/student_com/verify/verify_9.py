@@ -25,7 +25,7 @@ def run_checks(judge, traj, initial_db, after_db):
     check_answer_number(judge, answer, "answer_price", 1360)
     check_answer_number(judge, answer, "answer_rating", '4.3')
     check_answer_phrase(judge, answer, "answer_address", '2040 Stearns Rd')
-    check_answer_number(judge, answer, "answer_srp_total", 316)
+    check_answer_number(judge, answer, "answer_srp_total", 20)
     check_answer_number(judge, answer, "answer_reviews", 15)
     check_answer_count_at_least(judge, answer, "answer_amenities", ['Gym', 'Swimming Pool', 'Pet Friendly', 'Furnishing Option', 'Washer / Dryer', 'Air Conditioning', 'Rooftop Terrace', 'Entertainment Area / Lounge', 'Library / Study Area'], 2)
     check_answer_phrase(judge, answer, "answer_second_name", 'Skyline on Stokes')

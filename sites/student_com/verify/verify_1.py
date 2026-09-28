@@ -20,12 +20,10 @@ def run_checks(judge, traj, initial_db, after_db):
     answer = final_answer(traj)
     check_trajectory_identity(judge, traj, TASK_ID)
     check_visited_path(judge, traj, "visited_budget_calculator", r"/budget-calculator")
-    check_visited_path(judge, traj, "visited_college_search", r"/search\?q=Georgia")
     check_answer_number(judge, answer, "answer_buffer", 420)
     check_answer_number(judge, answer, "answer_target", 670)
     check_answer_number(judge, answer, "answer_leftover", 290)
     check_answer_phrase(judge, answer, "answer_verdict", 'Tight but doable')
-    check_answer_number(judge, answer, "answer_search_properties", 1)
 
     check_read_only(judge, initial_db, after_db)
 

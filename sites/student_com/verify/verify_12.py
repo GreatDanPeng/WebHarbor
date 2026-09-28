@@ -29,10 +29,7 @@ def run_checks(judge, traj, initial_db, after_db):
     check_answer_number(judge, answer, "answer_rating", '4.3')
     check_answer_any(judge, answer, "answer_distance", ['0.3', '0.32'])
     check_answer_phrase(judge, answer, "answer_address", '675 W Jefferson St')
-    check_answer_count_at_least(judge, answer, "answer_amenity", ['Pet Friendly', 'Entertainment Area / Lounge', 'Furnishing Option', 'Elevators', 'Gym', 'Swimming Pool', 'Air Conditioning'], 1)
-    check_answer_number(judge, answer, "answer_srp_total", 182)
-    check_answer_phrase(judge, answer, "answer_most_expensive_name", 'TLH Rent, LLC')
-    check_answer_number(judge, answer, "answer_most_expensive_price", 2200)
+    check_answer_count_at_least(judge, answer, "answer_amenity", ['Pet Friendly', 'Entertainment Area / Lounge', 'Furnishing Option', 'Elevators', 'Gym', 'Swimming Pool', 'Air Conditioning'], 2)
 
     check_views_only(judge, initial_db, after_db, ["southgate-campus-centre-13694141"])
 

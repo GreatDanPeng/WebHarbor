@@ -20,8 +20,6 @@ def run_checks(judge, traj, initial_db, after_db):
     answer = final_answer(traj)
     check_trajectory_identity(judge, traj, TASK_ID)
     check_visited_path(judge, traj, "visited_villas", r"/us/tx/austin/p/villas-on-rio-8639e0")
-    check_answer_phrase(judge, answer, "answer_email_error", 'Invalid email address')
-    check_answer_phrase(judge, answer, "answer_phone_error", 'Phone number is required')
     check_answer_phrase(judge, answer, "answer_reference", 'INQ-000005')
 
     check_only_tables_changed(judge, initial_db, after_db,

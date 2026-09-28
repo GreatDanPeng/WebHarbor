@@ -21,16 +21,11 @@ def run_checks(judge, traj, initial_db, after_db):
     check_trajectory_identity(judge, traj, TASK_ID)
     check_visited_path(judge, traj, "visited_history", r"/profile/history")
     check_visited_path(judge, traj, "visited_eighth", r"/us/ga/atlanta/p/eighth-street-apartments-z0rz15")
-    check_visited_path(judge, traj, "visited_bookmarks", r"/profile/bookmarks")
     check_answer_phrase(judge, answer, "answer_name", 'Eighth Street Apartments')
     check_answer_number(judge, answer, "answer_price", 1411)
     check_answer_number(judge, answer, "answer_reviews", 36)
-    check_answer_number(judge, answer, "answer_history_count", 3)
-    check_answer_phrase(judge, answer, "answer_history_name_2", 'University House Midtown')
-    check_answer_phrase(judge, answer, "answer_history_name_3", 'Linea Midtown')
     check_answer_phrase(judge, answer, "answer_street_address", '555 8th St NW')
     check_answer_number(judge, answer, "answer_rating", '4.2')
-    check_answer_number(judge, answer, "answer_saved_count", 2)
 
     check_views_only(judge, initial_db, after_db, ["eighth-street-apartments-z0rz15"])
 

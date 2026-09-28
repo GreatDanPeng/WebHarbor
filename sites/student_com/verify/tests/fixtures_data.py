@@ -7,7 +7,7 @@ site writes for that walk; WRONG_ANSWERS: plausible-but-wrong answers for
 the adversarial negative tests. No LLM.
 """
 
-BASE = "http://localhost:40141"
+BASE = "http://localhost:40107"
 
 SPECS = {
     0: dict(

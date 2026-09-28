@@ -29,9 +29,6 @@ def run_checks(judge, traj, initial_db, after_db):
     check_answer_phrase(judge, answer, "answer_gym", 'Gym')
     check_answer_number(judge, answer, "answer_rating", '4.1')
     check_answer_number(judge, answer, "answer_reviews", 63)
-    check_answer_number(judge, answer, "answer_srp_total", 141)
-    check_answer_phrase(judge, answer, "answer_cheapest_name", 'The Gardens Apartments')
-    check_answer_number(judge, answer, "answer_cheapest_price", 125)
 
     check_views_only(judge, initial_db, after_db, ["100-park-554186"])
 

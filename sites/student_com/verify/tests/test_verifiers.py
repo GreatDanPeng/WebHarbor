@@ -177,7 +177,7 @@ def test_five_key_prefix_is_byte_identical_to_contribution():
     contributor's rows at the reviewed fix commit (4f36ddd0) — the reviewer only
     appends verifier_path+judge_rubric (re-synced in r2 onto the new prefix).
     The one sanctioned exception is the `web` port: the audit-phase slot
-    normalization moves it to the site's assigned merge port (40141; the slot
+    normalization moves it to the site's assigned merge port (40107; the slot
     formula index = registered sites on main (99) + 42)."""
     import subprocess
     wt = Path(__file__).resolve().parents[4]  # the worktree root
@@ -189,11 +189,11 @@ def test_five_key_prefix_is_byte_identical_to_contribution():
     mine = (Path(__file__).parents[2] / "tasks.jsonl").read_text().splitlines()
     theirs = contrib.stdout.splitlines()
     assert len(mine) == len(theirs) == 21
-    old_web, new_web = '"web": "http://localhost:40094/"', '"web": "http://localhost:40141/"'
+    old_web, new_web = '"web": "http://localhost:40094/"', '"web": "http://localhost:40107/"'
     for a, b in zip(mine, theirs):
         row_a, row_b = json.loads(a), json.loads(b)
         assert row_b["web"] == "http://localhost:40094/"
-        assert row_a["web"] == "http://localhost:40141/"
+        assert row_a["web"] == "http://localhost:40107/"
         prefix_a = {k: row_a[k] for k in ("web_name", "id", "ques", "upstream_url")}
         prefix_b = {k: row_b[k] for k in ("web_name", "id", "ques", "upstream_url")}
         assert prefix_a == prefix_b, row_a["id"]

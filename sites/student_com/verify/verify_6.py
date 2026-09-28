@@ -24,18 +24,15 @@ def run_checks(judge, traj, initial_db, after_db):
     check_answer_phrase(judge, answer, "answer_visa", 'F-1 visa')
     check_answer_number(judge, answer, "answer_range_low", 1000)
     check_answer_number(judge, answer, "answer_range_high", 1600)
-    check_answer_number(judge, answer, "answer_properties", 30)
-    check_answer_phrase(judge, answer, "answer_popular_college", 'The University of Texas at Austin')
-    check_answer_number(judge, answer, "answer_budget_low", 1500)
-    check_answer_number(judge, answer, "answer_budget_high", 2500)
-    check_answer_phrase(judge, answer, "answer_museum", 'Blanton Museum of Art')
-    check_answer_phrase(judge, answer, "answer_capitol", 'Texas State Capitol')
-    check_answer_number(judge, answer, "answer_srp_total", 592)
     check_answer_phrase(judge, answer, "answer_top_rated_name", 'Carothers Residence Hall')
     check_answer_number(judge, answer, "answer_top_rated_price", 1560)
     check_answer_number(judge, answer, "answer_top_rated_rating", '4.7')
 
-    check_read_only(judge, initial_db, after_db)
+    check_answer_number(judge, answer, "budget_low", 1500)
+    check_answer_number(judge, answer, "budget_high", 2500)
+    check_answer_count_at_least(judge, answer, "amenities", ['Library / Study Area', 'Air Conditioning', 'Rooftop Terrace'], 2)
+    check_visited_path(judge, traj, "property_details", r"/p/carothers-residence-hall")
+    check_views_only(judge, initial_db, after_db, [r[0] for r in initial_db.execute("SELECT slug FROM properties WHERE name='Carothers Residence Hall'")])
 
 
 if __name__ == "__main__":

@@ -33,6 +33,10 @@ def run_checks(judge, traj, initial_db, after_db):
     check_answer_phrase(judge, answer, "answer_cheapest_name", 'College House Nueces')
     check_answer_number(judge, answer, "answer_cheapest_price", 532)
 
+    check_visited_path(judge, traj, "city_guide", r"/us/tx/austin(?:$|[?#])")
+    check_answer_number(judge, answer, "range_low", 1000)
+    check_answer_number(judge, answer, "range_high", 1600)
+    check_answer_any(judge, answer, "safety_conclusion", ['not safe', 'does not make', 'still suspicious', 'still unsafe'])
     check_read_only(judge, initial_db, after_db)
 
 

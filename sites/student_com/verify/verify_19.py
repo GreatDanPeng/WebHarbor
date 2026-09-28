@@ -20,19 +20,15 @@ def run_checks(judge, traj, initial_db, after_db):
     answer = final_answer(traj)
     check_trajectory_identity(judge, traj, TASK_ID)
     check_visited_path(judge, traj, "visited_inquiries", r"/profile/inquiries")
-    check_visited_path(judge, traj, "visited_bookmarks", r"/profile/bookmarks")
-    check_visited_path(judge, traj, "visited_history", r"/profile/history")
     check_answer_phrase(judge, answer, "answer_reference", 'INQ-000001')
     check_answer_phrase(judge, answer, "answer_property", 'Moontower')
     check_answer_any(judge, answer, "answer_date", ['September 20, 2026', 'September 20', '2026-09-20'])
     check_answer_phrase(judge, answer, "answer_message", 'studio with a private bathroom')
-    check_answer_number(judge, answer, "answer_saved_count", 3)
-    check_answer_phrase(judge, answer, "answer_other_reference", 'INQ-000002')
-    check_answer_phrase(judge, answer, "answer_other_property", 'Villas on Rio')
-    check_answer_phrase(judge, answer, "answer_saved_name_3", 'International House')
-    check_answer_number(judge, answer, "answer_viewed_count", 4)
 
-    check_read_only(judge, initial_db, after_db)
+    check_answer_phrase(judge, answer, "new_reference", 'INQ-000005')
+    check_only_tables_changed(judge, initial_db, after_db, {"enquiries", "property_views"})
+    check_enquiry_created(judge, initial_db, after_db, "alice.j@test.com", "moontower-69d81c", "INQ-000005")
+    check_views_added(judge, initial_db, after_db, ["moontower-69d81c"])
 
 
 if __name__ == "__main__":

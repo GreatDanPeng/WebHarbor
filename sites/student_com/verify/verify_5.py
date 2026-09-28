@@ -19,20 +19,14 @@ TASK_ID = "Student.com--5"
 def run_checks(judge, traj, initial_db, after_db):
     answer = final_answer(traj)
     check_trajectory_identity(judge, traj, TASK_ID)
-    check_visited_path(judge, traj, "visited_gainesville_jobs", r"/us/fl/gainesville/internships")
-    check_visited_path(judge, traj, "visited_jobs_parttime_filter", r"/us/fl/gainesville/internships\?type=part-time")
-    check_visited_path(judge, traj, "visited_jobs_home", r"/jobs")
-    check_visited_path(judge, traj, "visited_gainesville_city", r"/us/fl/gainesville")
-    check_answer_number(judge, answer, "answer_total", 5)
-    check_answer_phrase(judge, answer, "answer_newest_title", 'Medical Assistant')
-    check_answer_phrase(judge, answer, "answer_newest_company", 'Theoriamedical')
-    check_answer_number(judge, answer, "answer_parttime", 1)
-    check_answer_number(judge, answer, "answer_fellowship", 3)
-    check_answer_phrase(judge, answer, "answer_filtered_title", 'Part-Time Assistant Manager - Level 2')
-    check_answer_phrase(judge, answer, "answer_filtered_company", 'Boxlunch')
-    check_answer_phrase(judge, answer, "answer_austin_newest", 'Operations Associate (Part-Time) - Domain Austin')
-    check_answer_phrase(judge, answer, "answer_austin_company", 'Aloyoga')
-    check_answer_number(judge, answer, "answer_gainesville_properties", 15)
+    for city, region in [('gainesville','fl'),('austin','tx')]:
+        check_visited_path(judge, traj, city+'_jobs', rf'/us/{region}/{city}/internships\?type=part-time')
+    for label, value in [('gainesville_count',1),('austin_count',15)]:
+        check_answer_number(judge, answer, label, value)
+    for value in ['Part-Time Assistant Manager - Level 2','Boxlunch','Gainesville','Operations Associate (Part-Time) - Domain Austin','Sales Associate (Part-Time) - Domain Austin','Aloyoga','The Domain']:
+        check_answer_phrase(judge, answer, value, value)
+    check_answer_any(judge, answer, "gainesville_date", ['2018-01-03','January 3, 2018','3 January 2018'])
+    check_answer_any(judge, answer, "austin_date", ['2026-08-18','August 18, 2026','18 August 2026'])
 
     check_read_only(judge, initial_db, after_db)
 
