@@ -395,6 +395,10 @@
     "youtube.tar.gz": {
       "bytes": 40021527,
       "sha256": "986c51d2fe6c557b3b2c784c4bc198e53065af7da65946a99b782a90fde3b7db"
+    },
+    "the_weather_network.tar.gz": {
+      "bytes": 185312645,
+      "sha256": "271f83282277eae372f927b327ddf8eb21a919a1ae2d330ee7309db480b75bdc"
     }
   },
   "managed_tree_sha256": "f62e99366499afe9aaa0f03dd304f5e38874a6b1f731eba4684ee7a1042c7c5a",
