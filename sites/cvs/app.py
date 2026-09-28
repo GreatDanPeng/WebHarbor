@@ -503,6 +503,22 @@ def adopt_guest_cart(user):
     db.session.commit()
 
 
+def save_pending_favorite(user):
+    product_id = session.get("pending_favorite")
+    if not product_id:
+        return None
+    product = db.session.get(Product, product_id)
+    if product is None:
+        session.pop("pending_favorite", None)
+        return None
+    if Favorite.query.filter_by(user_id=user.id, product_id=product.id).first() is None:
+        db.session.add(Favorite(user_id=user.id, product_id=product.id))
+        db.session.commit()
+    session.pop("pending_favorite", None)
+    flash("Saved to favorites.", "success")
+    return product.path
+
+
 @app.route("/account-login/look-up", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -510,7 +526,8 @@ def login():
         if user and check_password_hash(user.password_hash, request.form.get("password", "")):
             adopt_guest_cart(user)
             login_user(user)
-            return redirect(local_next(request.form.get("next") or request.args.get("next"), url_for("account")))
+            favorite_path = save_pending_favorite(user)
+            return redirect(favorite_path or local_next(request.form.get("next") or request.args.get("next"), url_for("account")))
         flash("Email or password was not recognized. Use a local demo account.", "error")
     return render_template("login.html")
 
@@ -533,8 +550,9 @@ def register():
             db.session.commit()
             adopt_guest_cart(user)
             login_user(user)
+            favorite_path = save_pending_favorite(user)
             flash("Your local demo account is ready.", "success")
-            return redirect(url_for("account"))
+            return redirect(favorite_path or url_for("account"))
         except ValueError as error:
             flash(str(error), "error")
         except IntegrityError:
@@ -608,9 +626,12 @@ def favorites():
 
 
 @app.post("/account/favorites/<product_id>")
-@login_required
 def favorite_toggle(product_id):
-    db.get_or_404(Product, product_id)
+    product = db.get_or_404(Product, product_id)
+    if not current_user.is_authenticated:
+        session["pending_favorite"] = product.id
+        flash("Sign in to save this product to favorites.", "info")
+        return redirect(url_for("login", next=product.path))
     favorite = Favorite.query.filter_by(user_id=current_user.id, product_id=product_id).first()
     if favorite:
         db.session.delete(favorite)

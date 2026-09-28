@@ -458,11 +458,99 @@ class CVSAppTests(unittest.TestCase):
         self.assertEqual(self.post(f"/account/addresses/{address_id}/delete").status_code, 302)
         self.assertEqual(self.count(self.site.Address), 0)
 
-    def test_favorites_require_login_and_cannot_remove_another_users_item(self):
-        response = self.post("/account/favorites/478253")
+    def test_guest_favorite_survives_failed_login_and_saves_idempotently(self):
+        with self.app.app_context():
+            product_path = self.site.db.session.get(self.site.Product, "478253").path
+        response = self.post("/account/favorites/478253", {"next": "https://example.test/"})
         self.assertEqual(response.status_code, 302)
-        self.assertIn("/account-login/look-up", response.location)
+        self.assertEqual(parse_qs(urlsplit(response.location).query)["next"], [product_path])
+        login_page = self.client.get(response.location)
+        self.assertEqual(login_page.status_code, 200)
+        next_values = [field["value"] for field in HTMLFields(login_page.get_data(as_text=True)).inputs
+                       if field.get("name") == "next"]
+        self.assertEqual(next_values, [product_path])
+        for password in ("wrong-password", "still-wrong"):
+            response = self.post("/account-login/look-up", {
+                "email": "alice.j@test.com", "password": password, "next": next_values[0],
+            })
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(self.count(self.site.Favorite), 0)
+            with self.client.session_transaction() as state:
+                self.assertEqual(state["pending_favorite"], "478253")
+        response = self.login(next=next_values[0])
+        self.assertEqual(response.location, product_path)
+        landing = self.client.get(response.location)
+        self.assertEqual(landing.status_code, 200)
+        self.assertIn("Remove from favorites", landing.get_data(as_text=True))
+        _, context = self.rendered("/account/favorites")
+        self.assertEqual([product.id for product in context["products"]], ["478253"])
+        with self.client.session_transaction() as state:
+            self.assertNotIn("pending_favorite", state)
+        self.login()
+        self.assertEqual(self.count(self.site.Favorite), 1)
+        self.post("/logout")
+        for _ in range(2):
+            self.assertEqual(self.post("/account/favorites/478253").status_code, 302)
+        self.assertEqual(self.login().location, product_path)
+        self.assertEqual(self.count(self.site.Favorite), 1)
+
+    def test_guest_favorite_is_saved_after_registration(self):
+        with self.app.app_context():
+            product_path = self.site.db.session.get(self.site.Product, "481078").path
+        self.post("/account/favorites/481078")
+        fields = {"first_name": "Favorite", "last_name": "Customer", "email": "favorite@example.test",
+                  "password": "LocalTest123!"}
+        self.assertEqual(self.post("/account-registration/look-up", {**fields, "password": "short"}).status_code, 200)
         self.assertEqual(self.count(self.site.Favorite), 0)
+        self.assertEqual(self.count(self.site.User), 4)
+        with self.client.session_transaction() as state:
+            self.assertEqual(state["pending_favorite"], "481078")
+        response = self.post("/account-registration/look-up", fields)
+        self.assertEqual(response.location, product_path)
+        landing = self.client.get(response.location)
+        self.assertEqual(landing.status_code, 200)
+        self.assertIn("Remove from favorites", landing.get_data(as_text=True))
+        with self.app.app_context():
+            favorite = self.site.Favorite.query.one()
+            user = self.site.User.query.filter_by(email=fields["email"]).one()
+            self.assertEqual((favorite.user_id, favorite.product_id), (user.id, "481078"))
+        with self.client.session_transaction() as state:
+            self.assertNotIn("pending_favorite", state)
+        _, context = self.rendered("/account/favorites")
+        self.assertEqual([product.id for product in context["products"]], ["481078"])
+
+    def test_pending_favorites_require_valid_product_csrf_and_own_session(self):
+        for token in (None, "invalid-token", self.token(self.app.test_client())):
+            fields = {} if token is None else {"csrf_token": token}
+            self.assertEqual(self.client.post("/account/favorites/478253", data=fields).status_code, 400)
+            with self.client.session_transaction() as state:
+                self.assertNotIn("pending_favorite", state)
+        self.assertEqual(self.post("/account/favorites/not-real").status_code, 404)
+        with self.client.session_transaction() as state:
+            self.assertNotIn("pending_favorite", state)
+        self.post("/account/favorites/481078")
+        self.post("/account/favorites/478253")
+        self.assertEqual(self.client.post("/account/favorites/481078", data={"csrf_token": "invalid"}).status_code, 400)
+        self.assertEqual(self.post("/account/favorites/not-real").status_code, 404)
+        self.assertEqual(self.client.post("/account-login/look-up", data={
+            "email": "alice.j@test.com", "password": "TestPass123!",
+        }).status_code, 400)
+        self.assertEqual(self.count(self.site.Favorite), 0)
+        with self.client.session_transaction() as state:
+            self.assertEqual(state["pending_favorite"], "478253")
+        other = self.app.test_client()
+        self.login(other, email="bob.c@test.com")
+        self.assertEqual(self.count(self.site.Favorite), 0)
+        response = self.login()
+        self.assertEqual(self.client.get(response.location).status_code, 200)
+        _, context = self.rendered("/account/favorites", other)
+        self.assertEqual(context["products"], [])
+        with self.app.app_context():
+            favorite = self.site.Favorite.query.one()
+            alice = self.site.User.query.filter_by(email="alice.j@test.com").one()
+            self.assertEqual((favorite.user_id, favorite.product_id), (alice.id, "478253"))
+
+    def test_authenticated_favorites_cannot_remove_another_users_item(self):
         self.login()
         self.assertEqual(self.post("/account/favorites/478253", {"user_id": "2", "next": "https://example.test/"}).location, "/account/favorites")
         other = self.app.test_client()
