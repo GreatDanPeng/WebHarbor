@@ -1,4 +1,4 @@
-"""Synthetic regression fixtures, separate from browser evidence."""
+"""Synthetic fixtures kept separate from real browser recordings."""
 BASE = 'http://localhost:40103/'
 SPECS = {0: {'urls': ['/pages/swimsuit-quiz',
               '/pages/swimsuit-quiz?step=1',
@@ -272,8 +272,9 @@ SPECS = {0: {'urls': ['/pages/swimsuit-quiz',
       'sql': ['INSERT INTO "contact_messages" ("id", "case_ref", "user_id", "first_name", "last_name", '
               '"email", "category", "subcategory", "order_number", "address_line", "postcode", "message", '
               '"submitted_on", "status") VALUES (1, \'CAS100001\', NULL, \'Kit\', \'Owner\', '
-              "'kit.owner@example.com', 'Product Enquiry', 'Goggles', '', '', '', 'Which goggles suit a "
-              "chlorinated pool best?', '2026-09-26', 'Open')"]},
+              "'kit.owner@example.com', 'Product Enquiry', 'Goggles', '', '', '', 'Is this rinsing and "
+              "air-drying care routine suitable for goggles used daily in a chlorinated pool?', "
+              "'2026-09-26', 'Open')"]},
  13: {'urls': ['/',
                '/search?q=Biofuse+2.0+Goggles',
                '/products/biofuse-2-0-goggles-black-800233214501',

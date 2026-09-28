@@ -36,7 +36,11 @@ def run_checks(judge, traj, initial_db, after_db):
         judge.check("user_row", row["email"] == EMAIL and row["name"] == NAME,
                     f"row={dict(row)}")
     import bcrypt
-    judge.check("new_password", len(added) == 1 and bcrypt.checkpw(b"SwimFast2026!", next(iter(added.values()))["password_hash"].encode()))
+    try:
+        password_ok = len(added) == 1 and bcrypt.checkpw(b"SwimFast2026!", next(iter(added.values()))["password_hash"].encode())
+    except ValueError:
+        password_ok = False
+    judge.check("new_password", password_ok)
     a, r, _ = table_diff(initial_db, after_db, "wishlist_items")
     judge.check("one_wishlist_row",
                 len(a) == 1 and len(r) == 0
