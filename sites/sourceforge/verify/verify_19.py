@@ -5,6 +5,8 @@ from verify_lib import (check_answer_number, check_answer_phrase, check_read_onl
                         check_visited_path, final_answer, run_verifier,
                         table_diff, check_answer_any)
 
+import re
+
 TASK_ID = "SourceForge--19"
 
 
@@ -28,7 +30,7 @@ def run_checks(judge, traj, initial_db, after_db):
     check_answer_phrase(judge, answer, "vendor_3", 'NinjaOne')
     check_answer_number(judge, answer, "ninjaone_ratings", '6,035', 'NinjaOne ratings count')
     check_answer_number(judge, answer, "gcp_ratings", '61,049', 'Google Cloud Platform ratings count')
-    check_answer_phrase(judge, answer, "vendors_offer", 'list your product in the Business Software directory')
+    judge.check("vendors_offer", bool(re.search(r"\blist(?:ing)?\b[^.\n]{0,100}business software directory", answer, re.I)), "explain the offer to list business software in the directory")
     check_read_only(judge, initial_db, after_db)
 
 
