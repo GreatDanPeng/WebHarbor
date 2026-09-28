@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}{{ city.display_name }} Parking from ${{ city.rates[0].low if city.rates else 6 }} | Book Now on SpotHero{% endblock %}
+{% block title %}{{ city.display_name }} Parking from ${{ city.json_field('rates')[0].low if city.json_field('rates') else 6 }} | Book Now on SpotHero{% endblock %}
 {% block content %}
 <div class="container section-tight">
   <div class="hero-strip">

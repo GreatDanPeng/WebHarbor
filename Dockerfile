@@ -366,7 +366,10 @@ RUN cd /opt/WebSyn/speedo && rm -rf instance instance_seed && \
     mkdir -p instance_seed && cp instance/speedo.db instance_seed/speedo.db && \
     rm -rf instance __pycache__
 
+# spothero: validate source assets and build the deterministic seed.
 RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/spothero
+RUN cd /opt/WebSyn/spothero && rm -rf instance instance_seed && \
+    PYTHONHASHSEED=0 python3 seed_data.py && rm -rf instance __pycache__
 
 RUN python3 /opt/check_seed_databases.py /opt/WebSyn
 

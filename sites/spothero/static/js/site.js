@@ -47,11 +47,17 @@
       debounceTimer = setTimeout(function () {
         fetch('/api/suggest?q=' + encodeURIComponent(q))
           .then(function (r) { return r.json(); })
-          .then(function (d) { render(d.results || []); })
+          .then(function (d) { if (document.activeElement === input && input.value.trim() === q) render(d.results || []); })
           .catch(function () {});
       }, 220);
     });
-    input.addEventListener('blur', function () { setTimeout(close, 180); });
+    input.addEventListener('keydown', function (ev) {
+      if (ev.key === 'Escape' || ev.key === 'Tab') {
+        clearTimeout(debounceTimer);
+        close();
+      }
+    });
+    input.addEventListener('blur', function () { clearTimeout(debounceTimer); setTimeout(close, 180); });
   });
 
   // Close any open suggest box the instant the press starts outside it, so the

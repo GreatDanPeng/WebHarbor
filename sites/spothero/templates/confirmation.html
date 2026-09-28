@@ -37,7 +37,7 @@
                 {% if step.illustration %}
                 <img src="{{ url_for('static', filename='images/' ~ step.illustration) }}" alt="">
                 {% endif %}
-                <div>{{ step.text }}</div>
+                <div>{{ step.text|striptags }}</div>
               </div>
               {% endfor %}
             </div>

@@ -172,7 +172,7 @@ def test_tasks_jsonl_contract():
         assert row["verifier_path"] == f"sites/spothero/verify/verify_{i}.py"
         assert (sup.SITE_DIR.parent.parent / row["verifier_path"]).is_file()
         assert len(row["judge_rubric"]) > 80
-        assert row["web"] == "http://localhost:40140/"
+        assert row["web"] == "http://localhost:40106/"
         assert row["upstream_url"] == "https://spothero.com/"
 
 

@@ -47,7 +47,7 @@
           <div class="accordion-panel">
             <ul>
               {% for r in facility.json_field('restrictions') %}
-              <li>{{ r }}</li>
+              <li>{{ r|striptags }}</li>
               {% endfor %}
               {% if facility.always_open %}<li>This facility is open 24/7.</li>
               {% else %}
@@ -80,9 +80,9 @@
               {% for step in facility.json_field('redemption') %}
               <div class="redeem-step">
                 {% if step.illustration %}
-                <img src="{{ url_for('static', filename='images/' ~ step.illustration) }}" alt="{{ step.text[:40] }}">
+                <img src="{{ url_for('static', filename='images/' ~ step.illustration) }}" alt="{{ (step.text|striptags)[:40] }}">
                 {% endif %}
-                <div>{{ step.text }}</div>
+                <div>{{ step.text|striptags }}</div>
               </div>
               {% endfor %}
             </div>
@@ -233,7 +233,7 @@
           <div class="amount">${{ '%.2f' % f.daily_rate }}</div>
           <div class="note">Starting at</div>
           <div class="spot-actions">
-            <a class="btn btn-primary btn-sm" href="{{ url_for('purchase_hourly', facility=f.id, starts=start.strftime('%Y-%m-%dT%H:%M'), ends=end.strftime('%Y-%m-%dT%H:%M')) }}">Book Now</a>
+            <a class="btn btn-primary btn-sm" href="{{ url_for('purchase_hourly', facility=f.id, starts=start.strftime('%Y-%m-%dT%H:%M'), ends=end.strftime('%Y-%m-%dT%H:%M'), kind=kind) }}">Book Now</a>
           </div>
         </div>
       </div>

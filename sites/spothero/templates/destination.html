@@ -54,14 +54,14 @@
   </section>
   {% endif %}
 
-  {% if dest.rates %}
+  {% if dest.json_field('rates') %}
   <section class="section-tight">
     <h2>Parking Rates Near {{ dest.title }}</h2>
     <div class="table-wrap">
     <table class="data-table">
       <thead><tr><th>Parking Type</th><th>SpotHero Average Rental Price</th></tr></thead>
       <tbody>
-        {% for r in dest.rates %}
+        {% for r in dest.json_field('rates') %}
         <tr><td>{{ r.label }}</td><td>${{ r.low }} - ${{ r.high }}</td></tr>
         {% endfor %}
       </tbody>
@@ -70,10 +70,10 @@
   </section>
   {% endif %}
 
-  {% if dest.partner_heading or dest.partner_paras %}
+  {% if dest.partner_heading or dest.json_field('partner_paras') %}
   <section class="section-tight">
     <h2>{{ dest.partner_heading or 'Proud Partner' }}</h2>
-    {% for p in dest.partner_paras %}<p class="muted">{{ p }}</p>{% endfor %}
+    {% for p in dest.json_field('partner_paras') %}<p class="muted">{{ p }}</p>{% endfor %}
   </section>
   {% endif %}
 
