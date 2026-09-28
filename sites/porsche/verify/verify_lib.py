@@ -297,7 +297,7 @@ def _answer_tokens(answer):
 def contains_phrase(answer, phrase):
     text = _answer_tokens(answer)
     needle = normalize_text(phrase)
-    for match in re.finditer(r"(?<!\w)"+re.escape(needle)+r"(?!\w)", text):
+    for match in re.finditer(r"(?<!\w)"+re.escape(needle)+(r"s?(?!\w)" if needle[-1:].isalpha() else r"(?!\w)"), text):
         prefix = text[max(0, match.start()-60):match.start()]
         suffix = text[match.end():match.end()+30]
         if re.search(r"\b(?:not|wrong|incorrect|isn't|rather than)\s*$", prefix):
