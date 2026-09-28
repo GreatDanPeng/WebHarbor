@@ -356,6 +356,10 @@
       "bytes": 5301076,
       "sha256": "2d6a65fd37ac819e05890357b74cf463f61f3172e398356748fdbff3adc026d2"
     },
+    "trip_com.tar.gz": {
+      "bytes": 89417016,
+      "sha256": "ba763bbf5dc05edc0de1cb10e0fbeb6c33fdf0f68818f2dc24d562ae3d0abbe2"
+    },
     "uniqlo.tar.gz": {
       "bytes": 131544567,
       "sha256": "0e81fd745d3dc2955b113ab428ed1cb689a5677c652a25ebc206263b402e7c00"
