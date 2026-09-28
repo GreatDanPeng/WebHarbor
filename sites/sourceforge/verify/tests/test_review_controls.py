@@ -25,3 +25,9 @@ def test_natural_vendor_listing_description_accepted(tmp_path):
     run=honest_run(tmp_path,19)
     answer(run,lambda a:a.replace('list your product in the Business Software directory',"a listing in SourceForge's Business Software directory"))
     run_verifier(19,run,True)
+
+
+def test_games_missing_operating_system_rejected(tmp_path):
+    run=honest_run(tmp_path,9)
+    answer(run,lambda a:a.replace('Linux','Windows'))
+    run_verifier(9,run,False)

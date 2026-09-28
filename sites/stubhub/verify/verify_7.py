@@ -22,9 +22,6 @@ def run_checks(judge, traj, initial_db, after_db):
     check_visited_path(judge, traj, "visited_sounders", r"/seattle-sounders-fc-tickets/performer/388488")
     check_visited_path(judge, traj, "visited_mariners", r"/seattle-mariners-tickets/performer/1043")
     
-    for name in ("seattle kraken", "seattle mariners", "seattle seahawks",
-                 "seattle sounders fc"):
-        check_answer_phrase(judge, answer, f"suggestion_seattle_{name.split()[1]}", name)
     check_answer_number(judge, answer, "sounders_followers", "56,600")
     check_answer_number(judge, answer, "sounders_events", 5)
     check_answer_phrase(judge, answer, "sounders_next_event", "Minnesota United")

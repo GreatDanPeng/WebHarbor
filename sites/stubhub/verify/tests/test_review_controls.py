@@ -40,3 +40,9 @@ def test_explore_missing_venue_rejected(tmp_path):
     run=honest_run(tmp_path,18)
     answer(run,lambda a:a.replace('Sony Hall','Unknown Hall'))
     run_verifier(18,run,False)
+
+
+def test_team_comparison_without_suggestion_errand_accepted(tmp_path):
+    run=honest_run(tmp_path,7)
+    answer(run,lambda a:a[a.index('Seattle Sounders FC:'):])
+    run_verifier(7,run,True)

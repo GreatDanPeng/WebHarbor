@@ -35,6 +35,9 @@ def run_checks(judge, traj, initial_db, after_db):
     check_answer_number(judge, answer, "second_week", '9,044', 'Neko Void weekly downloads')
     check_answer_number(judge, answer, "second_rating", '4.5', 'Neko Void rating')
     check_answer_number(judge, answer, "second_reviews", 4, 'Neko Void review count')
+    check_answer_phrase(judge, answer, "neko_os", "Linux")
+    check_answer_phrase(judge, answer, "dosbox_purpose", "emulat")
+    check_answer_phrase(judge, answer, "neko_purpose", "distribution")
     check_read_only(judge, initial_db, after_db)
 
 
