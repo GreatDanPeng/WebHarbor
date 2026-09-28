@@ -24,7 +24,7 @@
   var step = 0;
   var streak = 0;
   var busy = false;
-  var rated = new URLSearchParams(window.location.search).get("mode") === "rated";
+  var rated = window.location.pathname.endsWith("/rated") || new URLSearchParams(window.location.search).get("mode") === "rated";
   var loggedIn = document.body.dataset.loggedIn === "1";
 
   function loadPuzzle() {
@@ -172,7 +172,7 @@
     fetch("/callback/puzzles/solve", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ puzzle_id: puzzle.id, solved: solved }),
+      body: JSON.stringify({ puzzle_id: puzzle.id, solved: solved, moves: solved ? puzzle.moves : [] }),
     });
   }
 

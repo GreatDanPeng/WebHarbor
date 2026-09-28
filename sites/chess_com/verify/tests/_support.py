@@ -24,7 +24,7 @@ from typing import Any
 VERIFY_DIR = Path(__file__).resolve().parents[1]
 SITE_DIR = VERIFY_DIR.parent
 SEED_DB = SITE_DIR / "instance_seed" / "chess_com.db"
-BASE = "http://localhost:40072"
+BASE = "http://localhost:40099"
 PASSWORD = "TestPass123!"
 
 # ------------------------------------------------------------------ tiny valid PNG
