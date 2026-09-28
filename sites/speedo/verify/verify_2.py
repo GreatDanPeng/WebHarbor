@@ -25,6 +25,10 @@ TOTAL = 52.10
 
 
 def run_checks(judge, traj, initial_db, after_db):
+    from verify_lib import check_order_recipient
+    check_order_recipient(judge, initial_db, after_db, 'Alice Johnson', '12 Marina Way', 'Brighton', 'BN1 1AA', 'Flat 3')
+    from state_review import check_existing_state
+    check_existing_state(judge, initial_db, after_db, TASK_ID)
     answer = final_answer(traj)
     check_trajectory_identity(judge, traj, TASK_ID)
     check_visited_path(judge, traj, "visited_login", r"/login")

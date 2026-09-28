@@ -144,30 +144,14 @@ def same_origin_port(traj):
 
 
 def decode_png(path):
-    """Return (ok, detail) for a PNG file: signature, chunk CRCs, IEND presence."""
+    """Decode the entire pixel stream, not merely its PNG chunk wrappers."""
     try:
-        data = Path(path).read_bytes()
-    except OSError as e:
-        return False, f"unreadable: {e}"
-    if len(data) < 8 or data[:8] != b"\x89PNG\r\n\x1a\n":
-        return False, "missing PNG signature"
-    pos, seen_iend, chunks = 8, False, 0
-    while pos + 8 <= len(data):
-        length = int.from_bytes(data[pos:pos + 4], "big")
-        ctype = data[pos + 4:pos + 8]
-        if pos + 12 + length > len(data):
-            return False, f"truncated chunk {ctype!r}"
-        crc = int.from_bytes(data[pos + 8 + length:pos + 12 + length], "big")
-        if zlib.crc32(data[pos + 4:pos + 8 + length]) != crc:
-            return False, f"chunk {ctype!r} CRC mismatch"
-        if ctype == b"IEND":
-            seen_iend = True
-            break
-        pos += 12 + length
-        chunks += 1
-    if not seen_iend:
-        return False, "missing IEND chunk"
-    return True, f"ok ({chunks} chunks, {len(data)} bytes)"
+        from PIL import Image
+        with Image.open(path) as im:
+            im.load()
+            return im.format == "PNG" and im.width > 0 and im.height > 0, "decoded PNG"
+    except (OSError, ValueError, ImportError) as exc:
+        return False, str(exc)
 
 
 def screenshots_ok(traj):
@@ -241,31 +225,39 @@ def check_not_visited_path(judge, traj, name, pattern):
     judge.check(name, not hit, f"path ~{pattern} must NOT appear in the trajectory")
 
 
+def _affirmative(text, match):
+    prefix = re.split(r"[;.!?\n]|\b(?:but|however)\b", text[:match.start()], flags=re.I)[-1]
+    return not re.search(r"\b(?:not|never|isn't|isnt)\b(?:\W+\w+){0,3}\W*$", prefix, re.I)
+
+
 def check_answer_phrase(judge, answer, name, phrase, case_sensitive=False):
     hay = answer if case_sensitive else answer.casefold()
     needle = phrase if case_sensitive else phrase.casefold()
-    judge.check(name, needle in hay, f"answer must mention {phrase!r}")
+    judge.check(name, any(_affirmative(hay, m) for m in re.finditer(re.escape(needle), hay)), f"answer must mention {phrase!r}")
 
 
 def _norm_num(s):
-    s = re.sub(r"[,\s]", "", str(s)).strip(".,")
-    return s.lower()
+    from decimal import Decimal, InvalidOperation
+    value = re.sub(r"[,\s]", "", str(s)).strip(".,")
+    try:
+        return Decimal(value)
+    except InvalidOperation:
+        return value.casefold()
 
 
 def check_answer_number(judge, answer, name, value, label=None):
-    """The answer must contain the number (comma-formatted or plain)."""
     target = _norm_num(value)
-    tokens = re.findall(NUM_TOKEN_RX, answer)
-    found = any(_norm_num(tok) == target for tok in tokens)
-    label_suffix = f" ({label})" if label else ""
-    judge.check(name, found,
-                f"answer must contain the number {value}{label_suffix}; "
-                f"found tokens={tokens[:14]}")
+    words = {0:"zero",1:"one",2:"two",3:"three",4:"four",5:"five",6:"six",7:"seven",8:"eight",9:"nine",10:"ten"}
+    if target in words:
+        answer = re.sub(r"\b"+words[target]+r"\b", str(target), answer, flags=re.I)
+    found = any(_norm_num(m.group()) == target and _affirmative(answer, m)
+                for m in re.finditer(r"(?<![\w.])[0-9]+(?:,[0-9]{3})*(?:\.[0-9]+)?(?!\w|\.\d)", answer))
+    judge.check(name, found, f"answer must affirm {value} ({label or name})")
 
 
 def check_answer_any(judge, answer, name, variants, label=""):
     hay = answer.casefold()
-    hit = any(_norm_num(v) in hay or str(v).casefold() in hay for v in variants)
+    hit = any(str(_norm_num(v)) in hay or str(v).casefold() in hay for v in variants)
     judge.check(name, hit, f"answer must mention one of {variants} {label}")
 
 
@@ -379,6 +371,7 @@ def check_read_only(judge, initial_db, after_db):
                 "initial_db schema digest must match the frozen seed")
     judge.check("initial_is_seed_rows", rows_digest(initial_db) == SEED_ROWS_SHA256,
                 "initial_db row digest must match the frozen seed")
+    judge.check("after_schema_unchanged", schema_digest(after_db) == schema_digest(initial_db))
     judge.check("after_rows_unchanged", rows_digest(after_db) == SEED_ROWS_SHA256,
                 "read-only task: after_db rows must equal the seed rows")
 
@@ -386,6 +379,9 @@ def check_read_only(judge, initial_db, after_db):
 def check_only_tables_changed(judge, initial_db, after_db, allowed):
     """Every table outside `allowed` must be row-identical; allowed tables are
     checked by the task verifier with exact deltas."""
+    judge.check("initial_is_seed_schema", schema_digest(initial_db) == SCHEMA_SHA256)
+    judge.check("initial_is_seed_rows", rows_digest(initial_db) == SEED_ROWS_SHA256)
+    judge.check("after_schema_unchanged", schema_digest(after_db) == schema_digest(initial_db))
     for t in TABLES:
         if t in allowed:
             continue
@@ -401,7 +397,8 @@ def check_new_order(judge, initial_db, after_db, *, email, subtotal, discount,
     """Exactly one new order row with the frozen values + its order_items;
     the buyer's cart (if logged-in) cleared. `items` = list of
     (product_name, size, qty, unit_price) tuples."""
-    added, removed, _ = table_diff(initial_db, after_db, "orders")
+    added, removed, changed = table_diff(initial_db, after_db, "orders")
+    judge.check("existing_orders_preserved", not changed)
     judge.check("one_order_added", len(added) == 1 and len(removed) == 0,
                 f"added={list(added.values())!r} removed={list(removed.values())!r}")
     if not added:
@@ -409,7 +406,10 @@ def check_new_order(judge, initial_db, after_db, *, email, subtotal, discount,
     row = list(added.values())[0]
     judge.check("order_number", row["order_number"] == "SP100008",
                 f"order_number={row['order_number']!r}")
-    judge.check("order_email", row["email"] == email, f"email={row['email']!r}")
+    judge.check("order_email", (row["email"] == email if email else bool(re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", row["email"]))), f"email={row['email']!r}")
+    owner = initial_db.execute("SELECT id FROM users WHERE email = ?", (email,)).fetchone() if email else None
+    judge.check("order_owner", row["user_id"] == (owner[0] if owner else None))
+    judge.check("order_status", row["status"] == "Processing")
     judge.check("order_subtotal", abs(row["subtotal"] - subtotal) < 0.005,
                 f"subtotal={row['subtotal']} expected {subtotal}")
     judge.check("order_discount", abs(row["discount"] - discount) < 0.005,
@@ -425,7 +425,12 @@ def check_new_order(judge, initial_db, after_db, *, email, subtotal, discount,
     if card_last4 is not None:
         judge.check("order_card_last4", row["card_last4"] == card_last4,
                     f"card_last4={row['card_last4']!r}")
-    a, r, _ = table_diff(initial_db, after_db, "order_items")
+    a, r, c = table_diff(initial_db, after_db, "order_items")
+    judge.check("existing_items_preserved", not c)
+    judge.check("items_belong_to_order", all(x["order_id"] == row["id"] for x in a.values()))
+    for x in a.values():
+        product = initial_db.execute("SELECT name, slug FROM products WHERE id = ?", (x["product_id"],)).fetchone()
+        judge.check("item_product_identity", product is not None and tuple(product) == (x["product_name"], x["product_slug"]))
     judge.check("order_items_added", len(a) == len(items) and len(r) == 0,
                 f"added={[(e['product_name'], e['size']) for e in a.values()]!r}")
     got = sorted((e["product_name"], e["size"], e["qty"], e["unit_price"])
@@ -462,3 +467,13 @@ def run_verifier(task_id, verify_module_main, argv=None):
     result = judge.verdict
     print(json.dumps(result, indent=1))
     return 0 if result["pass"] else 1
+
+
+def check_order_recipient(judge, initial_db, after_db, name, line1, city, postcode, line2=""):
+    a, _, _ = table_diff(initial_db, after_db, "orders")
+    judge.check("one_order_for_recipient", len(a) == 1)
+    if len(a) == 1:
+        row = next(iter(a.values()))
+        expected = dict(ship_name=name, ship_line1=line1, ship_line2=line2, ship_city=city,
+                        ship_postcode=postcode, ship_country="United Kingdom")
+        judge.check("delivery_address", all(row[k].casefold().strip() == v.casefold().strip() for k, v in expected.items()))

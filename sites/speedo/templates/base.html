@@ -33,7 +33,7 @@
       <nav class="header-actions" aria-label="Account menu">
         <a href="{{ url_for('login') if not current_user.is_authenticated else url_for('account') }}" class="header-action">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="4" stroke="#0B1A1E" stroke-width="2"/><path d="M4 20c1.5-3.5 4.5-5 8-5s6.5 1.5 8 5" stroke="#0B1A1E" stroke-width="2"/></svg>
-          <span>Sign in</span>
+          <span>{{ "My Account" if current_user.is_authenticated else "Sign in" }}</span>
         </a>
         <a href="{{ url_for('wishlist') }}" class="header-action">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 20s-7-4.6-9-9c-1.2-2.7.6-6 3.8-6C8.6 5 10.4 6.4 12 8c1.6-1.6 3.4-3 5.2-3 3.2 0 5 3.3 3.8 6-2 4.4-9 9-9 9z" stroke="#0B1A1E" stroke-width="1.6"/></svg>

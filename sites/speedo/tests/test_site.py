@@ -108,7 +108,7 @@ def test_swimsuit_quiz_flow(client):
     assert r.status_code == 302
     r = client.post("/pages/swimsuit-quiz", data={"step": "1", "value": "Racing"})
     assert r.status_code == 302
-    r = client.post("/pages/swimsuit-quiz", data={"step": "2", "value": "Fastskin Valor"})
+    r = client.post("/pages/swimsuit-quiz", data={"step": "2", "value": "Fastskin Ignite"})
     assert r.status_code == 302
     body = get(client, "/pages/swimsuit-quiz/results")
     assert "Fastskin" in body
@@ -246,7 +246,7 @@ def test_tasks_jsonl_contract():
     for row in rows:
         assert required <= set(row), f"missing keys {required - set(row)}"
         assert set(row) <= (required | grading), f"unexpected keys {set(row) - required - grading}"
-        assert row["web"] == "http://localhost:40094/"
+        assert row["web"] == "http://localhost:40103/"
         assert len(row["ques"].split()) <= 100
         assert "answer" not in row
         assert row["id"].startswith("Speedo--")

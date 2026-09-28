@@ -35,16 +35,10 @@ PASSWORD = "TestPass123!"
 
 
 def acquire_seed() -> Path:
-    if CACHE.is_file():
-        return CACHE
-    CACHE.parent.mkdir(parents=True, exist_ok=True)
-    r = subprocess.run(["docker", "cp", f"{CONTAINER}:/opt/WebSyn/speedo/"
-                       f"instance_seed/speedo.db", str(CACHE)],
-                       capture_output=True, text=True)
-    if r.returncode != 0:
-        raise RuntimeError(f"cannot acquire the seed DB (docker cp failed): {r.stderr[:200]}")
-    return CACHE
-
+    seed = SITE_DIR / "instance_seed/speedo.db"
+    if not seed.is_file():
+        raise RuntimeError("Build the site seed before running verifier tests")
+    return seed
 
 def task_ques(task_id: str) -> str:
     for line in TASKS_FILE.read_text(encoding="utf-8").splitlines():
