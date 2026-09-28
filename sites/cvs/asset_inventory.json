@@ -1,0 +1,495 @@
+{
+  "schema_version": 1,
+  "asset_count": 54,
+  "site": "cvs",
+  "upstream_url": "https://www.cvs.com/",
+  "captured_at": "2026-09-28",
+  "assets": [
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/85008132903.jpg?im=Resize=(205,205)",
+      "path": "static/images/06b75a132ca6b559ed49.jpg",
+      "sha256": "544fd409b5908111a4ca284c394ad3415ec0139d9c885164fc72fdd1f1488834",
+      "bytes": 4471,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/5042814675.jpg?im=Resize=(205,205)",
+      "path": "static/images/1206cb24d8ca923bddee.jpg",
+      "sha256": "86f8fc53d44528202208b0d58b9afae9ca194cd6f1a85b26365c6be30ee96efe",
+      "bytes": 4932,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/31015835892.jpg?im=Resize=(205,205)",
+      "path": "static/images/17ea06f4760139aaf5eb.jpg",
+      "sha256": "14b5555350259712f1665460e0f846f97ee75e03b084385fd616343dd0f913e2",
+      "bytes": 10087,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/content/dam/enterprise/cvsretail/homepage/hp00001/2026/wk36/hero-glp-desktop.png",
+      "path": "static/images/23d9661a9e0e612562b5.png",
+      "sha256": "983cc178f6628861035d6fd5656e8a8cc039581655b7028f50aae080de28e467",
+      "bytes": 127910,
+      "format": "PNG",
+      "width": 1176,
+      "height": 816
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/69702913394.jpg?im=Resize=(205,205)",
+      "path": "static/images/2400279db79aa57dcf73.jpg",
+      "sha256": "a73b974337fff096cdc21c7572e6aa69ee10f591b24d84dceece1e74566d7e4f",
+      "bytes": 8432,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/60308408851.jpg?im=Resize=(205,205)",
+      "path": "static/images/29699237c5eabac48746.jpg",
+      "sha256": "38086086850bb2c70f49580045f99a33119b5f6414dca1390674dc8693dfd06c",
+      "bytes": 7168,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/72894700032_3.jpg?im=Resize=(600,600),aspect=ignore",
+      "path": "static/images/2a60eb129eae34e07760.jpg",
+      "sha256": "9cbf9390a7eab93ee92ed3b7a32c44746c5d68b0e1e171779bed221c6bb773e1",
+      "bytes": 70869,
+      "format": "JPEG",
+      "width": 600,
+      "height": 600
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/603084491513.jpg?im=Resize=(205,205)",
+      "path": "static/images/305ebe629576522af049.jpg",
+      "sha256": "2e6a3fb9afe942bc24c126e2e392610ed6c56402c809376bef6ab29dc8508645",
+      "bytes": 5860,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/603084491704.jpg?im=Resize=(205,205)",
+      "path": "static/images/327c10350c8e914b74e3.jpg",
+      "sha256": "88d59762143c116471bea43d82609606f44c810027c26c7f6b34b9335d850935",
+      "bytes": 6127,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/2279691811.jpg?im=Resize=(205,205)",
+      "path": "static/images/35174561278f00e68cfb.jpg",
+      "sha256": "519a7cd3c1571137d1f7b2373d59840c3ad72c9c085a5dd82a4a7031b0f21b2f",
+      "bytes": 6545,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/506064067348_2.jpg?im=Resize=(600,600),aspect=ignore",
+      "path": "static/images/3936d7062166d8bfab29.jpg",
+      "sha256": "549518c9c3d802ec5b4d324d37a4afcacbb5cbaed2a0cfe9592fe2db1b23dfe0",
+      "bytes": 20957,
+      "format": "JPEG",
+      "width": 600,
+      "height": 600
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/5280068215.jpg?im=Resize=(205,205)",
+      "path": "static/images/488fe850c1ef06bdb065.jpg",
+      "sha256": "d74a7916ab2647725923ca08d9ed90af039001944af19bce251f63cbf4b9594a",
+      "bytes": 6172,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/603084491414.jpg?im=Resize=(205,205)",
+      "path": "static/images/4932eb2cc954d9c5ce31.jpg",
+      "sha256": "1cee0dea31698fb547bb81b68ce464acb68a255f07c9f7ea0ff9a4a5eea512b8",
+      "bytes": 5848,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/69212103551.jpg?im=Resize=(205,205)",
+      "path": "static/images/4cd6cf2fec34746baab1.jpg",
+      "sha256": "cb8080670d873bb3b08080a09498ebf7bcbe3ee83db81a1df722c3c05ac1a89a",
+      "bytes": 12887,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/content/dam/enterprise/cvsretail/homepage/hp00002/2025/wk51/tabs-1-3-cvs-storefront.jpg",
+      "path": "static/images/4d1b5610da4f58068f2f.jpg",
+      "sha256": "696334ff3324ba436394eeb1c790b4f7fa7884ea9e4fcf6dff857fe629565399",
+      "bytes": 48493,
+      "format": "JPEG",
+      "width": 580,
+      "height": 360
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/506064067348.jpg?im=Resize=(600,600),aspect=ignore",
+      "path": "static/images/4eb01ce0a878529b2703.jpg",
+      "sha256": "70e97a3a2cf10ca8958c541ea23f0be2890b6508477aa8e1f7da4b0cf12f11e5",
+      "bytes": 28571,
+      "format": "JPEG",
+      "width": 600,
+      "height": 600
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/69702999622.jpg?im=Resize=(205,205)",
+      "path": "static/images/51d1a3244f4b3a2f1602.jpg",
+      "sha256": "393c905fd805e6a2bea6c9ec4dbb33327d06aafc0f3ab9e606a76750587b33c0",
+      "bytes": 5305,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/content/dam/enterprise/cvsretail/homepage/hp00002/2025/v1/sept4/cvs-bag.jpg",
+      "path": "static/images/59525266954819f82f67.jpg",
+      "sha256": "f877f3f9fb91a963d4212aa23b786deb0ebf8057012c3d3d22a11193172c2dd4",
+      "bytes": 8265,
+      "format": "JPEG",
+      "width": 580,
+      "height": 360
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/4116709150.jpg?im=Resize=(205,205)",
+      "path": "static/images/614800cb9c9604b6a38b.jpg",
+      "sha256": "843e28d172bf9f8f98b0d4404033d80172c9fd234e1eb13ddb1771bcf45b7c14",
+      "bytes": 6179,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/5042814666.jpg?im=Resize=(205,205)",
+      "path": "static/images/630cf047e5cbd2c5a179.jpg",
+      "sha256": "0a971e64019e440e2827634b3e854daf9a9a7bc00d71386e977275748661b4ce",
+      "bytes": 8161,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/7940053238.jpg?im=Resize=(205,205)",
+      "path": "static/images/6580a9c0ce9ae8be3c2a.jpg",
+      "sha256": "1edcb3145f6773b1575b5ec7c9727b2b367143733c079b0c3e114c90d0edaa2a",
+      "bytes": 4594,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/30041011168.jpg?im=Resize=(205,205)",
+      "path": "static/images/69b6c16da9410b0e0a00.jpg",
+      "sha256": "6c6cece44665e63d6e5480f2f7fd7a64b1eea4b9cbf3b1a2671aa80e7ce2bb07",
+      "bytes": 8312,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/7124968065.jpg?im=Resize=(205,205)",
+      "path": "static/images/6b91cb708408e1f66f28.jpg",
+      "sha256": "3899b8ba111f84a4129435e06e9eeed6b560925b16aeb3fc2da5566be0b9288c",
+      "bytes": 6539,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/1204406795.jpg?im=Resize=(205,205)",
+      "path": "static/images/6ddbd39b15ed25a3df2b.jpg",
+      "sha256": "363c3f28e94445371af7f3167b18f0eba0228e1f3d4025b2721acc6efd31d8c2",
+      "bytes": 6549,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/72894700032.jpg?im=Resize=(600,600),aspect=ignore",
+      "path": "static/images/82eaa6e0b2099de6713c.jpg",
+      "sha256": "bb749abe851cc776d23fb1416ca67f5176cf2d7115404c487ed825132cc3b405",
+      "bytes": 63299,
+      "format": "JPEG",
+      "width": 600,
+      "height": 600
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/506064067242.jpg?im=Resize=(205,205)",
+      "path": "static/images/8512e04c21e66b68a2cd.jpg",
+      "sha256": "2c95302db4a2213ece7707ef614523e6035374738856c1876f6bb6246edc7bb7",
+      "bytes": 7833,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/3077210316.jpg?im=Resize=(205,205)",
+      "path": "static/images/8a3f0cae1706eb82daae.jpg",
+      "sha256": "e07d218337e59755ec26fdc4fe56987f357e1c27a748c136260d035d6ea8c833",
+      "bytes": 8897,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/84624103322.jpg?im=Resize=(205,205)",
+      "path": "static/images/952879785610a794d6f2.jpg",
+      "sha256": "28087c361f78425a4cc9fe61c5c22ff4de35e7d62497723c1f0b6f8e5d21f30c",
+      "bytes": 7121,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/3077222901.jpg?im=Resize=(205,205)",
+      "path": "static/images/96d8bd427a8eb618048f.jpg",
+      "sha256": "abc74a1238e21af24943f66c989ac73fd3f1989a53ae4e4fd6a4d8c6967375b5",
+      "bytes": 5989,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/506064067319.jpg?im=Resize=(205,205)",
+      "path": "static/images/9706b76e5d554e8213b2.jpg",
+      "sha256": "a184c789f2f95c1d8032b242cdde5d5bdcd2bd7555a729e634285bafd118d65f",
+      "bytes": 6153,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/1254743610.jpg?im=Resize=(205,205)",
+      "path": "static/images/983950d0188caf3c7e0e.jpg",
+      "sha256": "09f88fb67703358add610fd5e9d2932348c6d5d7d596e264c908f4b8b1643662",
+      "bytes": 7293,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/38151919445.jpg?im=Resize=(205,205)",
+      "path": "static/images/9bad32a311c2a010046e.jpg",
+      "sha256": "38b3172b92419f058ea4907d88ea835b15ad36d2c0d0c38ed65004621b7a1a58",
+      "bytes": 3540,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/85241200779.jpg?im=Resize=(205,205)",
+      "path": "static/images/a918b825ed5386d73330.jpg",
+      "sha256": "85ca392ba8784d47460d07815867fae5abf0fcbafd7f234716bcefe366fb57ac",
+      "bytes": 9175,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/content/dam/enterprise/cvsretail/homepage/hp00001/2026/wk40/hero-small-card-short-pharmacist-patient.jpg",
+      "path": "static/images/a974e1f670c51443c2b3.jpg",
+      "sha256": "b8da7a8eef72af4959dd13f5bc5ebdef1031879f974b0a28060299caf9b3cbaf",
+      "bytes": 33592,
+      "format": "JPEG",
+      "width": 516,
+      "height": 328
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/85006374449.jpg?im=Resize=(205,205)",
+      "path": "static/images/aa7efd4d01feb9a6e357.jpg",
+      "sha256": "6507fa0a55f465aa5161eea6075d281b1fdd4734815327364f7791815127f65b",
+      "bytes": 3717,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/5280068187.jpg?im=Resize=(205,205)",
+      "path": "static/images/abc8f2dd6a0830a07d3d.jpg",
+      "sha256": "162cf185d002d8429d5170c5c2a5ab3b52bc346fc511fecc7404db060419444e",
+      "bytes": 6089,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/content/dam/enterprise/cvsretail/homepage/hp00001/2026/wk40/hero-main-overlap-bandages.png",
+      "path": "static/images/acdbad8690e957615a48.png",
+      "sha256": "d08b378684c0a716af985720b6a5dd38344879195da850b80908538fe355086e",
+      "bytes": 281285,
+      "format": "PNG",
+      "width": 1240,
+      "height": 1072
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/7124927857.jpg?im=Resize=(205,205)",
+      "path": "static/images/b0255e9cec1dc997ba9c.jpg",
+      "sha256": "8a5d2d97bd82e540c2d78d388a5a20c3eaf6552f1fafc0bd8ef4b8d54f47faec",
+      "bytes": 6578,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/3077223454.jpg?im=Resize=(205,205)",
+      "path": "static/images/b4ff9f981b5be67dd2d5.jpg",
+      "sha256": "c8091b3778eae1df4ca5721a0d2cd420c5cb17e0cfa735c3af3eb7887588f3da",
+      "bytes": 9422,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/content/dam/enterprise/cvsretail/homepage/hp00001/2026/wk40/hero-no-card-truncated-plush.png",
+      "path": "static/images/b70f267e0384f0611390.png",
+      "sha256": "12464e3c152226c9492447aebfbc7329b64e94c711188da10516bb9da5775225",
+      "bytes": 36452,
+      "format": "PNG",
+      "width": 540,
+      "height": 344
+    },
+    {
+      "source_url": "https://www.cvs.com/content/dam/enterprise/cvsretail/homepage/hp00001/2026/wk40/hero-top-decoration-holiday.png",
+      "path": "static/images/bac4c24117c93460f5e3.png",
+      "sha256": "4fc9234dddd7a50ed11abd3ae7369bf6f569b65169614aa12ae358b2c65785cb",
+      "bytes": 32405,
+      "format": "PNG",
+      "width": 976,
+      "height": 194
+    },
+    {
+      "source_url": "https://www.cvs.com/content/dam/enterprise/cvsretail/homepage/hp00001/2026/wk40/hero-shape-mask-inverted-ebd.png",
+      "path": "static/images/baf602161a5fd43683c2.png",
+      "sha256": "3a0b0b75e2fe593cb325ee555fda83800026b8aebf2d31caf1af21934ef320ea",
+      "bytes": 130846,
+      "format": "PNG",
+      "width": 514,
+      "height": 826
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/603084491834.jpg?im=Resize=(205,205)",
+      "path": "static/images/bcbc24441aff8abaa8fd.jpg",
+      "sha256": "e74e59319db54d8a697371b39983f88bd5839eb46be7f4ac9eb8ed8da490ac7e",
+      "bytes": 5783,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/content/dam/enterprise/cvsretail/homepage/hp00005/2026/wk40/weekly-deals-no-card-half-big-hair.jpg",
+      "path": "static/images/bdfce587b766d87e9689.jpg",
+      "sha256": "e0fa2040c3acb6bef3ba2e772cc57e23a778c5bdbd031604cd839649ff62f714",
+      "bytes": 57977,
+      "format": "JPEG",
+      "width": 1240,
+      "height": 712
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/72894700032_2.jpg?im=Resize=(600,600),aspect=ignore",
+      "path": "static/images/c0ab9548aeae2ceee17b.jpg",
+      "sha256": "5d9ded49b69e883fbe244bd8ee4116c6035da57277f384bfa2c3f8b5da91d784",
+      "bytes": 18357,
+      "format": "JPEG",
+      "width": 600,
+      "height": 600
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/60308445949.jpg?im=Resize=(205,205)",
+      "path": "static/images/c955333a8f2cd8869822.jpg",
+      "sha256": "b6be531fbc1069cb4378de4126e349807f2b4bfc706bb7c75588b59a89321e1b",
+      "bytes": 6350,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/7940045152.jpg?im=Resize=(205,205)",
+      "path": "static/images/d6b514dd4ef83659d14c.jpg",
+      "sha256": "da6c7736e534542962eb510b003c549a69efe7f207da8738920b0ed5e6c3befb",
+      "bytes": 2877,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/7124920727.jpg?im=Resize=(205,205)",
+      "path": "static/images/e0641f75694f17b2f97f.jpg",
+      "sha256": "c95d61fb76c9dec9fb9d7635be7efda649536570dc69c654781b3ab9f4e15710",
+      "bytes": 6441,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/content/dam/enterprise/cvsretail/homepage/hp00002/2025/v1/sept4/extracare-bag-of-products.jpg",
+      "path": "static/images/e713e630504441e4922e.jpg",
+      "sha256": "748dc23ac39e64db90a05ff817604586dd97dfe1b6d5fdda03f0f3c88ddd12dd",
+      "bytes": 36837,
+      "format": "JPEG",
+      "width": 580,
+      "height": 360
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/3077223298.jpg?im=Resize=(205,205)",
+      "path": "static/images/f0abcce0d33c64430f4c.jpg",
+      "sha256": "39959808faf41aca83321e0fe9ad220d9cf9893043825775f701647cd64bdd09",
+      "bytes": 5858,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/7124970432.jpg?im=Resize=(205,205)",
+      "path": "static/images/f1e26bb4d6454b90d5e2.jpg",
+      "sha256": "7c7eb703a9a2c19d0a7788276fe11f880e07f705990fca31c3541d8ebccceb4f",
+      "bytes": 5514,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/content/dam/enterprise/cvsretail/homepage/hp00002/2025/wk49/tabs-1-2-prescription-bottle.jpg",
+      "path": "static/images/f72c5cb1255dac9fcfec.jpg",
+      "sha256": "28206386f844531b2ebec422253889c7a2280e26f527c51cd8c1c2cfa8dbebf7",
+      "bytes": 9391,
+      "format": "JPEG",
+      "width": 580,
+      "height": 360
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/7124966567.jpg?im=Resize=(205,205)",
+      "path": "static/images/fb81212cdc489371ad6e.jpg",
+      "sha256": "8de91960ccce313885f1e19025554c7085f9f2e12e69c6eeeace3832e8d28ce4",
+      "bytes": 6217,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    },
+    {
+      "source_url": "https://www.cvs.com/bizcontent/merchandising/productimages/high_res/7940050959.jpg?im=Resize=(205,205)",
+      "path": "static/images/fcf129a8f303ac5b601b.jpg",
+      "sha256": "982dc435b453e9658d6599e2fc0db9fe8f7c109e2e5dcf990bab4f823bf29a59",
+      "bytes": 2834,
+      "format": "JPEG",
+      "width": 205,
+      "height": 205
+    }
+  ]
+}
