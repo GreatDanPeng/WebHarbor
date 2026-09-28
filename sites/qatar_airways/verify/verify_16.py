@@ -35,7 +35,7 @@ def run_checks(judge, traj, initial_db, after_db):
     judge.check("flight", contains_all(answer, ["QR701"]))
     judge.check("outbound_date", contains_any(answer, ["20 October 2026", "October 20, 2026", "2026-10-20"]))
     judge.check("form_language", contains_all(answer, ["English"]))
-    judge.check("support_hours", contains_any(answer, ["24-hour", "24 hour", "24/7", "around the clock"]))
+    judge.check("support_hours", contains_any(answer, ["24-hour", "24 hour", "24 hours", "24/7", "around the clock"]))
 
     check_trajectory_identity(judge, traj, TASK_ID)
     check_seed_identity(judge, initial_db)
