@@ -338,6 +338,16 @@ RUN cd /opt/WebSyn/ryanair && rm -rf instance instance_seed && \
 
 RUN python3 /opt/check_seed_databases.py /opt/WebSyn
 
-EXPOSE 8101 40000-40098
 
 CMD ["/opt/websyn_start.sh"]
+
+# ticketmaster: validate source assets and build the deterministic seed.
+RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/ticketmaster
+RUN cd /opt/WebSyn/ticketmaster && rm -rf instance instance_seed && \
+    PYTHONHASHSEED=0 python3 seed_data.py && \
+    mkdir -p instance_seed && cp instance/ticketmaster.db instance_seed/ticketmaster.db && \
+    rm -rf instance __pycache__
+
+RUN python3 /opt/check_seed_databases.py /opt/WebSyn
+
+EXPOSE 8101 40000-40146
