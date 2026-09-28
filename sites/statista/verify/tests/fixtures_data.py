@@ -455,6 +455,7 @@ MUTATIONS = {
     ],
 }
 
+
 # Current browser regression fixtures (synthetic unit-test reconstructions, not new browser evidence).
 SPECS = {0: {'answer': 'The worldwide inflation rate for 2025 is 4.13%. The forecast for 2031 is 3.2%. Saved the '
                'statistic to Bob’s favorites.',
@@ -708,8 +709,8 @@ MUTATIONS = {0: ['INSERT INTO "favorites" ("id", "user_id", "stat_id", "report_i
  3: ['INSERT INTO "favorites" ("id", "user_id", "stat_id", "report_id", "created_at") VALUES (16, 2, 267233, '
      "NULL, '2026-09-26 12:00:00.000000');"],
  4: ['INSERT INTO "users" ("id", "email", "username", "display_name", "password_hash", "account_type", "company", '
-     '"created_at") VALUES (5, \'frank.miller@test.com\', \'frank_m\', \'Frank_M\', '
-     "X'243262243132244f6c42656f564f7a67563733495a2e70547a475455653854707431377448583772594737543155324d3834355935424d61484a382e', "
+     '"created_at") VALUES (5, \'frank.miller@test.com\', \'frank_m\', \'Frank Miller\', '
+     "X'24326224313224795143516475634e4b687a593154372e39386442384f567454656f5a336f39334a4c49336c41544d456254674a3465545170416865', "
      "'Basic', '', '2026-09-26 12:00:00.000000');"],
  5: [],
  6: [],
@@ -740,5 +741,4 @@ MUTATIONS = {0: ['INSERT INTO "favorites" ("id", "user_id", "stat_id", "report_i
       "team.', '2026-09-26 12:00:00.000000');"],
  22: []}
 
-# Only tasks with a saved-state change belong in the state-mismatch test set.
 MUTATIONS = {n: sql for n, sql in MUTATIONS.items() if sql}

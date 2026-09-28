@@ -22,9 +22,9 @@
         {% for row in rows %}
         <tr>
           <td><strong>{{ row.enquiry.reference }}</strong></td>
-          <td>
+          <td style="min-width:240px">
             {% if row.prop %}
-            <a href="/us/{{ row.prop.state_slug }}/{{ row.prop.city_slug }}/p/{{ row.prop.slug }}" style="display:flex;gap:10px;align-items:center">
+            <a href="/us/{{ row.prop.state_slug }}/{{ row.prop.city_slug }}/p/{{ row.prop.slug }}" style="display:flex;gap:10px;align-items:center;overflow-wrap:anywhere">
               {% if row.prop.primary_image %}<img src="{{ row.prop.primary_image }}" alt="Image of {{ row.prop.name }}">{% endif %}
               <span>{{ row.prop.name }}</span>
             </a>
