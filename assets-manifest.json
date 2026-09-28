@@ -328,6 +328,10 @@
       "bytes": 7811183,
       "sha256": "b34d7af7334dccb7a0f2f7c670deaadf640adf82ff02e45e16b7ab9c2893af7f"
     },
+    "porsche.tar.gz": {
+      "bytes": 274973213,
+      "sha256": "91f54ebba8cb323a2f6fb8c23332cad43b220a436e0c3919d0806113edff3be7"
+    },
     "public_storage.tar.gz": {
       "bytes": 62984102,
       "sha256": "f91672f0e70d5b912a7bb73834790277a95040ea4e5ec56865166fa223dcd360"
@@ -401,7 +405,7 @@
       "sha256": "986c51d2fe6c557b3b2c784c4bc198e53065af7da65946a99b782a90fde3b7db"
     }
   },
-  "managed_tree_sha256": "8949065fa79dde980c75a98e92d75222d6fe5f9303c28be7deff04e7efc78bfc",
+  "managed_tree_sha256": "39475415d915a86e0c4bcf5e1ab7e46a2c6a900a202391f109e38fbe77a58546",
   "repo": "ChilleD/WebHarbor",
   "revision": "06ad82ba8856e27c216318d15867dda663830320",
   "version": 1
