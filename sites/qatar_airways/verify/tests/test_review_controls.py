@@ -37,3 +37,15 @@ def test_other_member_unchanged(tmp_path):
     run,_=honest_run(tmp_path,18)
     with sqlite3.connect(run/'after.db') as c:c.execute("UPDATE users SET country='Brazil' WHERE email='alice.j@test.com'")
     assert run_verifier(18,run)['pass'] is False
+
+
+@pytest.mark.parametrize("sql", [
+    "UPDATE passengers SET first_name='Wrong' WHERE first_name='John'",
+    "UPDATE bookings SET contact_email='wrong@example.com' WHERE contact_email='john.smith@example.com'",
+    "UPDATE bookings SET card_last4='9999' WHERE contact_email='john.smith@example.com'",
+    "INSERT INTO bookings (pnr, contact_email, contact_last_name, cabin, fare_type, total_paid) VALUES ('EXTRA1','extra@example.com','Extra','Economy','ECO_LITE',1)",
+])
+def test_booking_requested_details(tmp_path, sql):
+    run,_=honest_run(tmp_path,0)
+    with sqlite3.connect(run/'after.db') as c:c.execute(sql)
+    assert run_verifier(0,run)['pass'] is False

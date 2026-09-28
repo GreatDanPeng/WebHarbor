@@ -452,6 +452,8 @@ def added_booking_matching(after_db, initial_db, *, cabin=None, fare_type=None,
     """The single booking row added by the run, matching every given field.
     Runtime-random fields (pnr, ids) are matched structurally, never by value."""
     added = row_delta(initial_db, after_db, "bookings", "pnr")
+    if len(added) != 1:
+        return None
     matches = []
     for b in added:
         if cabin is not None and b["cabin"] != cabin:
@@ -671,8 +673,35 @@ def run_verifier(task_id, run_checks):
     judge = Judge(task_id)
     try:
         run_checks(judge, traj, initial_db, after_db)
+        check_booking_details(judge, initial_db, after_db, task_id)
         from state_review import check_existing_state
         check_existing_state(judge, initial_db, after_db, task_id)
     except Exception as exc:  # noqa: BLE001 — any verifier error fails closed
         fail_closed(task_id, "verifier_error", f"{type(exc).__name__}: {exc}")
     judge.emit()
+
+
+
+def check_booking_details(judge, initial_db, after_db, task_id):
+    """Validate requested identities and all newly created booking children."""
+    contracts = {
+        0: ([("john", "smith"), ("mary", "smith")], "john.smith@example.com", "9010"),
+        1: ([("sarah", "chen")], "sarah.chen@example.com", "7890"),
+        2: ([("alice", "johnson")], "alice.j@test.com", "4242"),
+        13: ([("leo", "martin")], "leo.martin@example.com", "5556"),
+        19: ([("ravi", "patel"), ("anaya", "patel")], "ravi.patel@example.com", "4444"),
+    }
+    n = int(task_id.rsplit("--", 1)[-1])
+    if n not in contracts:
+        return
+    added = row_delta(initial_db, after_db, "bookings", "id")
+    if not judge.check("exactly_one_new_booking", len(added) == 1):
+        return
+    b = added[0]
+    names, email, card = contracts[n]
+    pax = row_delta(initial_db, after_db, "passengers", "id")
+    legs = row_delta(initial_db, after_db, "booking_legs", "id")
+    judge.check("requested_passengers", sorted((p["first_name"].casefold(), p["last_name"].casefold()) for p in pax) == sorted(names))
+    judge.check("new_rows_belong_to_booking", bool(legs) and all(p["booking_id"] == b["id"] for p in pax + legs))
+    judge.check("requested_contact", b["contact_email"].casefold() == email)
+    judge.check("requested_payment_card", b["card_last4"] == card)
