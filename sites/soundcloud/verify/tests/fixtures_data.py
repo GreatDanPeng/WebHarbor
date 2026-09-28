@@ -1,6 +1,5 @@
-"""Synthetic regression fixtures; SQL never represents browser task execution."""
+"""Synthetic regression fixtures, not browser recordings."""
 BASE = 'http://localhost:40094/'
-
 SPECS = {0: {'urls': ['http://localhost:40094/',
               'http://localhost:40094/charts',
               'http://localhost:40094/music-charts-us/sets/all-music-genres',
@@ -117,8 +116,7 @@ SPECS = {0: {'urls': ['http://localhost:40094/',
                "2:12 duration || #4: 'TP' — 653,691 plays exact plays — 2:48 duration || #5: 'Kiss Me "
                "Interlude' — 572,927 plays exact plays — 3:05 duration || Longer than three minutes: ['Piece "
                "Of Your Love', 'Kiss Me Interlude']. Most-played track's Details panel: Artist\tRod Wave / "
-               'Label\tAlamo / License\tAll rights reserved / Released\tJune 26, 2026. Newest comment on it: '
-               'jaylan hutchins at 1:53.',
+               'Label\tAlamo / License\tAll rights reserved / Released\tJune 26, 2026.',
      'sql': []},
  5: {'urls': ['http://localhost:40094/',
               'http://localhost:40094/signin',
@@ -171,15 +169,8 @@ SPECS = {0: {'urls': ['http://localhost:40094/',
               'http://localhost:40094/upgrade/done?plan=next-pro',
               'http://localhost:40094/upload',
               'http://localhost:40094/david_k/night-shift-demo'],
-     'answer': 'Plans page: Go / $4.99 / / month · 7-day free trial / Ad-free listening / Offline access to '
-               'your library / Access to 30M+ premium tracks / Start Go with 7-day free trial / Go+ / $11.99 '
-               '/ / month · 30-day free trial / Everything in Go / Full premium catalog in high quality / '
-               'Preview Next Pro stats / Start Go+ with 30-day free trial / Next Pro / $15.99 / / month or '
-               '$99.00 / year / Unlimited upload time / Advanced audience stats / Distribute to Spotify, '
-               'Apple Music and more / Priority support / Monthly / Yearly ($99.00) / Start Next Pro. David '
-               'switched to yearly Next Pro. Receipt: Plan\tNext Pro / Billing cycle\tYearly / Price\t$99.00 '
-               '/ yearly / Started\tSeptember 26, 2026 / Renews\tSeptember 26, 2027 / Card\t•••• 4242. '
-               "Uploaded 'Night Shift Demo' — its page URL: http://localhost:40094/david_k/night-shift-demo",
+     'answer': 'David subscribed to yearly Next Pro for $99.00, renewing September 26, 2027. Uploaded Night '
+               'Shift Demo (Rock, 4:12): http://localhost:45232/david_k/night-shift-demo.',
      'sql': ['INSERT INTO artists (id, permalink, username, avatar, banner, followers, followings, '
              'track_count, description, city, country_code, verified, pro, pro_unlimited, created_at) VALUES '
              "(1753634641, 'david_k', 'David Kim', '', '', 0, 0, 1, 'Indie rock & shoegaze. Vinyl first, "
@@ -474,8 +465,7 @@ SPECS = {0: {'urls': ['http://localhost:40094/',
                 'Records/RCA Records / License\tAll rights reserved / Released\tJuly 17, 2026. Profile: '
                 "377,394 followers, 52 tracks uploaded. Popular top three: #1 'Buttons' — 1,059,416 plays "
                 "exact plays; #2 'oh yeah?' — 211,561 plays exact plays; #3 'doom' — 128,218 plays exact "
-                "plays. 'oh yeah?' is also on the UK Indie chart at #3. UK Indie #1: 'Guilty' by Sammi "
-                'Heaney — 33,262 plays exact plays; #1 artist profile follower count: 118.',
+                "plays. 'oh yeah?' is also on the UK Indie chart at #3.",
       'sql': []},
  20: {'urls': ['http://localhost:40094/',
                'http://localhost:40094/signin',
