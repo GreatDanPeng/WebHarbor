@@ -10,6 +10,8 @@ import json
 import pathlib
 import re
 
+import pytest
+
 SITE = pathlib.Path(__file__).resolve().parent.parent
 
 
@@ -264,3 +266,23 @@ def test_boot_leaves_seed_bytes_untouched(app, tmp_path):
         app_module.seed_benchmark_users()
     after = hashlib.md5(db_path.read_bytes()).hexdigest()
     assert before == after
+
+
+@pytest.mark.parametrize("model", ["Ignite", "Valor", "Intent"])
+def test_racing_quiz_honors_selected_model(client, model):
+    for i, choice in enumerate(["Women's", "Racing", "Fastskin " + model]):
+        client.post('/pages/swimsuit-quiz', data={'step': str(i), 'value': choice})
+    body = get(client, '/pages/swimsuit-quiz/results')
+    names = re.findall(r'<a class="card-name"[^>]*>(.*?)</a>', body)
+    assert names and all(model in name for name in names)
+
+
+def test_checkout_rejects_unknown_delivery_method(client):
+    client.post('/cart/add', data={'slug': 'biofuse-2-0-goggles-black-800233214501', 'size': 'One Size', 'qty': '1'})
+    response = client.post('/checkout', data={
+        'email': 'swimmer@example.com', 'first_name': 'Test', 'last_name': 'Swimmer',
+        'line1': '1 Test Row', 'city': 'Portsmouth', 'postcode': 'PO1 1AA',
+        'shipping_method': 'invalid', 'card_number': '4242424242424242',
+        'exp_month': '12', 'exp_year': '28', 'cvc': '123', 'card_name': 'Test Swimmer'})
+    assert response.status_code == 200
+    assert 'Choose a valid delivery method.' in response.get_data(as_text=True)

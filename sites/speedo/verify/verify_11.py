@@ -16,9 +16,8 @@ TASK_ID = "Speedo--11"
 
 ALICE_ID = 1
 NAVY_PRODUCT_ID = 961      # Women's Endurance+ Medalist Swimsuit Navy £23.25
-# Colourway ground truth: Black £31.00, Blue £23.25 (two listings), Green
-# £23.25, Navy £23.25, Red (Womens') £31.00, Printed Black £22.80, Printed
-# Dark Pink £28.50, Plus Size Black £33.00. Most expensive: Plus Size Black.
+# Standard plain colourways: Black/Red £31; Blue/Green/Navy £23.25.
+# Printed and Plus Size variants are outside this task's comparison.
 
 
 def run_checks(judge, traj, initial_db, after_db):

@@ -31,7 +31,7 @@ class FormClient(FlaskClient):
 
 
 SITE = pathlib.Path(__file__).resolve().parent.parent
-SEED = SITE / "instance_seed" / "speedo.db"
+SEED = pathlib.Path(os.environ["SPEEDO_TEST_SEED_DB"]) if os.environ.get("SPEEDO_TEST_SEED_DB") else SITE / "instance_seed" / "speedo.db"
 
 if str(SITE) not in sys.path:
     sys.path.insert(0, str(SITE))

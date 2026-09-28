@@ -35,7 +35,7 @@ PASSWORD = "TestPass123!"
 
 
 def acquire_seed() -> Path:
-    seed = SITE_DIR / "instance_seed/speedo.db"
+    seed = Path(os.environ["SPEEDO_TEST_SEED_DB"]) if os.environ.get("SPEEDO_TEST_SEED_DB") else SITE_DIR / "instance_seed/speedo.db"
     if not seed.is_file():
         raise RuntimeError("Build the site seed before running verifier tests")
     return seed
@@ -198,8 +198,7 @@ def run_verifier(task_no: int, run_dir: Path, after_db: Path,
     verifier = VERIFY_DIR / f"verify_{task_no}.py"
     cmd = [sys.executable, str(verifier), "--run_dir", str(run_dir),
            "--after_db", str(after_db)]
-    if initial_db is not None:
-        cmd += ["--initial_db", str(initial_db)]
+    cmd += ["--initial_db", str(initial_db if initial_db is not None else acquire_seed())]
     r = subprocess.run(cmd, capture_output=True, text=True, cwd=str(VERIFY_DIR))
     try:
         verdict = json.loads(r.stdout)
