@@ -370,7 +370,13 @@ def search():
 def product_detail(product_id):
     product = db.get_or_404(Product, product_id)
     favorite = current_user.is_authenticated and Favorite.query.filter_by(user_id=current_user.id, product_id=product.id).first() is not None
-    return render_template("product.html", product=product, variants=product.variants, favorite=favorite)
+    # An unselected source form field is not a product specification. Keep the
+    # original snapshot intact while omitting this empty section from the page.
+    detail_sections = [section for section in product.details
+                       if not (section.get("heading") == "Specifications"
+                               and section.get("text", "").split() == ["Product", "type", "Select", "a", "value"])]
+    return render_template("product.html", product=product, variants=product.variants, favorite=favorite,
+                           detail_sections=detail_sections)
 
 
 @app.route("/rx/dotm/cart")

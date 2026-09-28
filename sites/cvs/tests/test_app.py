@@ -183,6 +183,53 @@ class CVSAppTests(unittest.TestCase):
         _, context = self.rendered("/rx/dotm/cart")
         self.assertEqual(context["subtotal_cents"], 399)
 
+    def test_recorded_offers_are_visible_without_changing_demo_prices(self):
+        examples = [
+            ("452370", 399, "$5.19", "save $5.00"),
+            ("851347", 2499, "ExtraCare Plus", "$19.99"),
+            ("1015021", 829, "save $4.00", "Buy 1, Get 1 40% Off"),
+        ]
+        for product_id, price_cents, *offer_texts in examples:
+            with self.subTest(product=product_id):
+                client = self.app.test_client()
+                response = client.get(f"/shop/product/{product_id}")
+                self.assertEqual(response.status_code, 200)
+                text = html.unescape(response.get_data(as_text=True))
+                self.assertIn("Recorded offer details", text)
+                self.assertIn("As shown on 2026-09-28", text)
+                self.assertIn("Demo orders use the single-item price above.", text)
+                self.assertIn("Membership prices, coupons, rewards and multi-buy offers are not applied.", text)
+                self.assertIn(f'id="product-price">${price_cents / 100:.2f}</p>', text)
+                for offer_text in offer_texts:
+                    self.assertIn(offer_text, text)
+                self.assertEqual(self.add(product_id, quantity=2, client=client).status_code, 302)
+                _, context = self.rendered("/rx/dotm/cart", client)
+                self.assertEqual(context["subtotal_cents"], price_cents * 2)
+        text = self.client.get("/shop/product/478253").get_data(as_text=True)
+        self.assertNotIn("Recorded offer details", text)
+
+    def test_product_details_omit_source_placeholder_without_changing_snapshot(self):
+        before = self.site.DB_PATH.read_bytes()
+        response, context = self.rendered("/shop/product/478253")
+        text = response.get_data(as_text=True)
+        self.assertNotIn("Select a value", text)
+        self.assertEqual([section["heading"] for section in context["detail_sections"]], ["Details"])
+        self.assertIn("Sugar-free formula", text)
+        with self.app.app_context():
+            product = self.site.db.session.get(self.site.Product, "478253")
+            self.assertIn({"heading": "Specifications", "text": "Product type\nSelect a value"}, product.details)
+        response, context = self.rendered("/shop/product/476215")
+        text = html.unescape(response.get_data(as_text=True))
+        self.assertEqual([section["heading"] for section in context["detail_sections"]],
+                         ["Details", "Ingredients", "Directions", "Warnings", "Specifications"])
+        for fact in ("Replacement toothbrush heads", "Life Stage\nChild", "Not suitable for children under 3 years."):
+            self.assertIn(fact, text)
+        for product_id in ("452372", "851347", "481078"):
+            response, context = self.rendered(f"/shop/product/{product_id}")
+            self.assertEqual(context["detail_sections"], [])
+            self.assertIn("A full description is unavailable", response.get_data(as_text=True))
+        self.assertEqual(self.site.DB_PATH.read_bytes(), before)
+
     def test_price_ranges_are_visible_but_cannot_enter_cart(self):
         with self.app.app_context():
             ranged = self.site.Product.query.filter(self.site.Product.price_min_cents != self.site.Product.price_max_cents).all()
@@ -200,6 +247,11 @@ class CVSAppTests(unittest.TestCase):
                                            if control.get("type", "submit" if control["tag"] == "button" else "text") == "submit"]
                         self.assertTrue(submit_controls)
                         self.assertTrue(all("disabled" in control for control in submit_controls))
+                        quantity_controls = [control for control in form["controls"] if control.get("name") == "quantity"]
+                        self.assertTrue(quantity_controls)
+                        self.assertTrue(all("disabled" in control for control in quantity_controls))
+                self.assertIn("Individual options and their exact prices are unavailable.", text)
+                self.assertIn("Browse shampoo", text)
                 self.assertEqual(self.add(product_id).status_code, 400)
         self.assertEqual(self.count(self.site.CartItem), 0)
 
