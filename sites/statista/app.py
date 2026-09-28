@@ -1222,11 +1222,14 @@ def login():
         user = User.query.filter_by(email=ident).first()
         if user is None:
             user = User.query.filter_by(username=ident).first()
-        if user is None or not user.check_password(password):
-            flash("Email address or username is required", "error")
-            flash("Enter a valid email address or username", "error")
-            flash("Password is required", "error")
-            flash("Invalid credentials. Please check your email/username and password.", "error")
+        if not ident or not password or user is None or not user.check_password(password):
+            if not ident:
+                flash("Email address or username is required", "error")
+                flash("Enter a valid email address or username", "error")
+            if not password:
+                flash("Password is required", "error")
+            if ident and password:
+                flash("Invalid credentials. Please check your email/username and password.", "error")
             return render_template("login.html")
         login_user(user)
         flash(f"Welcome back, {user.display_name}!", "success")

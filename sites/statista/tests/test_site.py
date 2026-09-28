@@ -75,6 +75,18 @@ def test_search_scored_not_strict(client):
     assert b"serpResult__title" in r.data
     r = client.get("/serp?q=social+media+users+by+country")
     assert b"serpResult__title" in r.data
+    # Topic names already end in "statistics & facts"; the SERP must not
+    # append that suffix a second time.
+    topics = client.get("/serp?q=tiktok&content_type=Topics")
+    assert b"TikTok - statistics &amp; facts" in topics.data
+    assert b"statistics &amp; facts - statistics" not in topics.data
+
+
+def test_login_rejects_wrong_password_without_empty_field_errors(client):
+    r = client.post("/login", data={"email": "alice.j@test.com", "password": "not-the-password"})
+    assert r.status_code == 200
+    flashes = re.findall(r'class="flash flash--error">(.*?)</div>', r.data.decode())
+    assert flashes == ["Invalid credentials. Please check your email/username and password."]
 
 
 def test_stat_detail_chart_modes(client):
