@@ -598,7 +598,9 @@ def callback_puzzles_solve():
         return jsonify({"ok": False, "error": "invalid puzzle id"}), 400
     if not puzzle:
         return jsonify({"ok": False, "error": "unknown puzzle"}), 404
-    solved = bool(data.get("solved"))
+    submitted = data.get("moves", [])
+    expected = [{"from": m["from"], "to": m["to"]} for m in puzzle.uci_moves]
+    solved = data.get("solved") is True and submitted == expected
     attempt = PuzzleAttempt(user_id=current_user.id, puzzle_id=puzzle.id,
                              solved=solved, used_hint=bool(data.get("hint")),
                              attempted_at=datetime.now(timezone.utc).isoformat(timespec="seconds"))
@@ -617,7 +619,7 @@ def lessons():
     level = request.args.get("level", type=int)
     search = request.args.get("q", "").strip()
     if category:
-        q = q.filter(LessonCourse.categories.contains([category]))
+        q = q.filter(db.cast(LessonCourse.categories, db.Text).contains(json.dumps(category)))
     if level is not None:
         q = q.filter_by(level=level)
     courses = q.order_by(LessonCourse.id).all()
@@ -641,7 +643,7 @@ def lesson_detail(slug):
         progress = LessonProgress.query.filter_by(user_id=current_user.id,
                                                   course_id=course.id).first()
     related = [c for c in LessonCourse.query.filter(
-        LessonCourse.categories.contains([course.categories[0] if course.categories else "strategy"])
+        db.cast(LessonCourse.categories, db.Text).contains(json.dumps(course.categories[0] if course.categories else "strategy"))
     ).limit(5) if c.id != course.id]
     return render_template("lesson_detail.html", course=course, progress=progress,
                            related=related[:4])
@@ -657,7 +659,7 @@ def lesson_complete(slug):
         progress = LessonProgress(user_id=current_user.id, course_id=course.id,
                                    completed_at=datetime.now(timezone.utc).isoformat(timespec="seconds"))
         db.session.add(progress)
-    progress.lessons_done = request.form.get("lessons_done", course.n_lessons, type=int)
+    progress.lessons_done = max(0, min(course.n_lessons, request.form.get("lessons_done", course.n_lessons, type=int)))
     db.session.commit()
     flash(f"Progress saved for {course.title}.", "success")
     return redirect(url_for("lesson_detail", slug=slug))
@@ -901,7 +903,7 @@ def news_index():
 def news_category(slug):
     page = request.args.get("page", 1, type=int)
     per = 12
-    articles = NewsArticle.query.filter(NewsArticle.categories.contains([slug])) \
+    articles = NewsArticle.query.filter(db.cast(NewsArticle.categories, db.Text).contains(json.dumps(slug))) \
         .order_by(NewsArticle.id.desc()).all()
     total = len(articles)
     articles = articles[(page - 1) * per: page * per]
