@@ -428,6 +428,10 @@
       "bytes": 40021527,
       "sha256": "986c51d2fe6c557b3b2c784c4bc198e53065af7da65946a99b782a90fde3b7db"
     },
+    "student_com.tar.gz": {
+      "bytes": 465181101,
+      "sha256": "632c7fe694803aa5c63d3603b54c5ce365b8774357c910f658725453179db8d0"
+    },
     "statista.tar.gz": {
       "bytes": 1343202,
       "sha256": "a41b0a75fe3d450f9f1b341ed35f7c9f58a8aed212ae9717b7d7d3ee17389f62"

@@ -381,7 +381,12 @@ RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/spothero
 RUN cd /opt/WebSyn/spothero && rm -rf instance instance_seed && \
     PYTHONHASHSEED=0 python3 seed_data.py && rm -rf instance __pycache__
 
+RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/student_com
+
+# statista: validate source assets and build the deterministic seed.
 RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/statista
+RUN cd /opt/WebSyn/statista && rm -rf instance instance_seed && \
+    PYTHONHASHSEED=0 python3 seed_data.py && rm -rf instance __pycache__
 
 RUN python3 /opt/check_seed_databases.py /opt/WebSyn
 
