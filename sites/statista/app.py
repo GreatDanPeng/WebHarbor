@@ -441,6 +441,16 @@ class DownloadEvent(db.Model):
     created_at = db.Column(db.DateTime, default=MIRROR_NOW)
 
 
+class Inquiry(db.Model):
+    """Contact-form submission. Not seeded; a successful POST is the only write."""
+    __tablename__ = "inquiries"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    email = db.Column(db.String(200), nullable=False)
+    message = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=MIRROR_NOW)
+
+
 @login_manager.user_loader
 def load_user(user_id):
     return db.session.get(User, int(user_id))
@@ -1162,6 +1172,9 @@ def contact():
         elif "@" not in email or "." not in email:
             flash("Please enter a valid email address.", "error")
         else:
+            db.session.add(Inquiry(name=name, email=email, message=message,
+                                   created_at=MIRROR_NOW))
+            db.session.commit()
             sent = True
     return render_template("contact.html", sent=sent)
 

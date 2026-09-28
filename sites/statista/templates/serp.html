@@ -27,21 +27,14 @@
       {% if item.premium %}<span class="card__tag card__tag--premium">Premium Statistic</span>
       {% elif item.content_type == 'forecast' %}<span class="card__tag card__tag--forecast">Market Insights</span>
       {% else %}<span class="card__tag">Statistic</span>{% endif %}
-      <span>{{ item.last_update }}</span>
-      <span>{{ item.region }}</span>
-      {% if item.survey_period %}<span>{{ item.survey_period }}</span>{% endif %}
     {% elif kind == 'topic' %}
       <span class="card__tag">Topic</span>
       {% if item.published_date %}<span>{{ item.published_date }}</span>{% endif %}
     {% elif kind == 'report' %}
       <span class="card__tag card__tag--premium">Premium Report</span>
-      <span>{{ item.details.get('Released', '') }}</span>
-      <span>{{ item.details.get('Pages', '') }}</span>
-      <span>{{ item.price }}</span>
     {% else %}
       <span class="card__tag card__tag--forecast">Market Insights</span>
       <span>{{ item.region }}</span>
-      {% if item.revenue_2026 %}<span>Revenue 2026: US${{ item.revenue_2026 }}</span>{% endif %}
     {% endif %}
   </div>
   {% if kind == 'statistic' %}

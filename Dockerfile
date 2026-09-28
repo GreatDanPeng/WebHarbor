@@ -343,6 +343,6 @@ RUN cd /opt/WebSyn/statista && rm -rf instance instance_seed && \
 
 RUN python3 /opt/check_seed_databases.py /opt/WebSyn
 
-EXPOSE 8101 40000-40142
+EXPOSE 8101 40000-40099
 
 CMD ["/opt/websyn_start.sh"]
