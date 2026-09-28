@@ -101,7 +101,10 @@ All registered websites and their default ports, in registration order from left
 | OhioMeansJobs | 40090 | Ohio.gov | 40091 | NFL | 40092 |
 | MTA | 40093 | Public Storage | 40094 | Raising Cane’s | 40095 |
 | RE/MAX | 40096 | Parkers | 40097 | Ryanair | 40098 |
-| Statista | 40142 | | | | |
+| Chess.com | 40099 | Porsche | 40100 | Qatar Airways | 40101 |
+| SoundCloud | 40102 | Speedo | 40103 | SourceForge | 40104 |
+| StubHub | 40105 | SpotHero | 40106 | Student.com | 40107 |
+| Statista | 40108 | | | | |
 
 ## 🤝 Contribute
 
