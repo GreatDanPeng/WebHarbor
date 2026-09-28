@@ -9,7 +9,7 @@
 
   {% if rows %}
   <div class="card" style="margin-top:24px;padding:8px 16px;overflow-x:auto">
-    <table class="table" data-testid="enquiries-table">
+    <table class="table" style="min-width:760px" data-testid="enquiries-table">
       <thead>
         <tr>
           <th>Inquiry ID</th>
@@ -37,7 +37,7 @@
       </tbody>
     </table>
   </div>
-  <p class="small muted" style="margin-top:12px">You have seen your {{ rows|length }} most recent inquiries. Older inquiries will be automatically removed from this list but you should have received an email with the details of each inquiry you submitted for your reference.</p>
+  <p class="small muted" style="margin-top:12px">All {{ rows|length }} inquiries are shown newest first. Previous inquiries remain available here for reference.</p>
   {% else %}
   <div class="empty-state">
     <p style="font-weight:600">Let's get your search started!</p>

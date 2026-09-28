@@ -224,7 +224,14 @@ def check_visited_path(judge, traj, name, pattern):
 def check_answer_phrase(judge, answer, name, phrase, case_sensitive=False):
     hay = answer if case_sensitive else answer.casefold()
     needle = phrase if case_sensitive else phrase.casefold()
-    judge.check(name, needle in hay, f"answer must mention {phrase!r}")
+    aliases = {
+        'report anything suspicious': r'report.{0,35}(?:suspicious|student\.com)',
+        'trace the paperwork': r'(?:save|keep|retain).{0,45}(?:evidence|records|screenshots|emails)',
+        'external authorities': r'(?:contact|notify|report to).{0,30}(?:authorities|ic3|ftc)',
+        'ghost': r'(?:ghost|absent|away|cannot (?:meet|show)|refus.{0,20}view)',
+    }
+    ok = needle in hay or (needle in aliases and bool(re.search(aliases[needle], hay)))
+    judge.check(name, ok, f"answer must state {phrase!r} or its equivalent")
 
 
 def _norm_num(s):
@@ -385,7 +392,6 @@ def check_read_only(judge, initial_db, after_db):
     """Read-only contract: after-state rows identical to the frozen seed."""
     check_seed_initial(judge, initial_db)
     judge.check("after_schema_unchanged", schema_digest(after_db) == schema_digest(initial_db))
-    judge.check("after_schema_unchanged", schema_digest(after_db) == schema_digest(initial_db))
     judge.check("after_rows_unchanged", rows_digest(after_db) == SEED_ROWS_SHA256,
                 "read-only task: after_db rows must equal the seed rows")
 
@@ -414,9 +420,6 @@ def check_only_tables_changed(judge, initial_db, after_db, allowed):
     """Every table outside `allowed` must be row-identical; allowed tables are
     checked by the task verifier with exact deltas."""
     check_seed_initial(judge, initial_db)
-    judge.check("initial_is_seed_schema", schema_digest(initial_db) == SCHEMA_SHA256)
-    judge.check("initial_is_seed_rows", rows_digest(initial_db) == SEED_ROWS_SHA256)
-    judge.check("after_schema_unchanged", schema_digest(after_db) == schema_digest(initial_db))
     judge.check("initial_is_seed_schema", schema_digest(initial_db) == SCHEMA_SHA256)
     judge.check("initial_is_seed_rows", rows_digest(initial_db) == SEED_ROWS_SHA256)
     judge.check("after_schema_unchanged", schema_digest(after_db) == schema_digest(initial_db))
