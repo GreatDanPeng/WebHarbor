@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
-"""Verify Qatar Airways--18.
-
-carol.d updates her profile to Brazil / +55 11 98765 4321:
-confirmation "Your profile has been updated."; profile still shows Carol
-Davis, carol.d@test.com, Burgundy, Avios 4,200, Qpoints 60; most recent
-dashboard activity "Privilege Club partner bonus - Qatar Duty Free"
-+2,500 Avios.
-"""
+"""Verify Qatar Airways--18: Sign in as carol.d@test.com (password TestPass123!). I've moved to Brazil: update my profile country to Brazil and mobile to +55 11 98765 4321, keeping every other detail unchanged. Confirm the change was saved and report the name, email, tier, Avios and Qpoints still shown on the profile so I can check that my membership was preserved."""
 import re
 import sys
 from pathlib import Path
@@ -69,10 +62,6 @@ def run_checks(judge, traj, initial_db, after_db):
                 f"expected the Avios balance {AVIOS}")
     judge.check("answer_qpoints", contains_amount(answer, QPOINTS),
                 f"expected the Qpoints balance {QPOINTS}")
-    judge.check("answer_recent_activity",
-                contains_any(answer, ["partner bonus", "Qatar Duty Free"]) and
-                contains_amount(answer, ACTIVITY_AVIOS),
-                f"expected the most recent activity (partner bonus, +{ACTIVITY_AVIOS} Avios)")
     check_only_tables_changed(judge, initial_db, after_db, ("users",))
 
 

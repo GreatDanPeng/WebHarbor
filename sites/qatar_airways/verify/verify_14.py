@@ -1,11 +1,5 @@
 #!/usr/bin/env python3
-"""Verify Qatar Airways--14.
-
-QR105 (DOH->LHR, 24 Sep 2026) is operated by the Airbus
-A350-900: Qsuite, 283 seats, Business rows 1-8, Economy rows 30-51. The
-largest fleet aircraft is the A380-800 (517 seats), First Class rows
-1-3. Read-only task.
-"""
+"""Verify Qatar Airways--14: I'm choosing a seat for QR105 from Doha to London Heathrow on 24 September 2026. Use the flight status and fleet information to identify the aircraft, whether it has Qsuite, its total seat count, and the Business and Economy row ranges so I know which cabin rows to consider."""
 import re
 import sys
 from pathlib import Path
@@ -40,8 +34,6 @@ def run_checks(judge, traj, initial_db, after_db):
                 "required: flight-status by route DOH->LHR")
     judge.check("visited_a350_fleet", navigated_fleet(traj, "Airbus-A350-900"),
                 "required: /en/our-fleet/Airbus-A350-900.html")
-    judge.check("visited_a380_fleet", navigated_fleet(traj, "Airbus-A380-800"),
-                "required: /en/our-fleet/Airbus-A380-800.html")
     judge.check("answer_aircraft", contains_all(answer, ["A350-900"]),
                 "expected the Airbus A350-900 operating QR105")
     judge.check("answer_qsuite", contains_all(answer, ["Qsuite"]),
@@ -52,11 +44,6 @@ def run_checks(judge, traj, initial_db, after_db):
                 "expected Business Class rows 1-8")
     judge.check("answer_economy_rows", contains_all(answer, ["30-51", "30–51"]),
                 "expected Economy rows 30-51")
-    judge.check("answer_largest",
-                contains_all(answer, ["A380-800"]) and contains_all(answer, ["First"]),
-                "expected the A380-800 named as the largest aircraft")
-    judge.check("answer_first_rows", contains_all(answer, ["1-3", "1–3"]),
-                "expected the A380-800 First Class rows 1-3")
     check_read_only(judge, initial_db, after_db)
 
 

@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
-"""Verify Qatar Airways--12.
-
-Seoul vs Tokyo guides: Tokyo's Activities mentions the Yayoi
-Kusama Museum; Seoul City Wall Trail (Naksan Section) 18.6 km; Seoul
-Activities suggests Bukchon Hanok Village; Seoul Things to do highlights
-Changdeokgung (Joseon palace with Secret Garden); Tokyo Food: Tsukiji
-Outer Market; Tokyo Activities: Yoyogi Park. Read-only task.
-"""
+"""Verify Qatar Airways--12: Help me choose between Seoul and Tokyo for a walking and culture holiday using Qatar Airways' guides. I particularly want to visit the Yayoi Kusama Museum. Compare Seoul's city-wall walk, traditional village and palace with a Secret Garden against Tokyo's museum, recommended sushi market and park for jogging or picnics. Include the full city-wall trail's length and say which destination meets my museum priority."""
 import re
 import sys
 from pathlib import Path

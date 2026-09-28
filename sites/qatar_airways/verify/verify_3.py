@@ -1,11 +1,5 @@
 #!/usr/bin/env python3
-"""Verify Qatar Airways--3.
-
-QR004 (London to Doha, 24 Sep 2026): En route, scheduled
-departure 15:05, estimated arrival 23:47, Airbus A380-800. Earliest
-London-Doha departure that day: QR104 at 08:25. The A380-800 fleet page:
-First/Business/Economy cabins, 517 seats. Read-only task.
-"""
+"""Verify Qatar Airways--3: My colleague is meeting someone on QR004 from London to Doha on 24 September 2026. Check its current status, scheduled departure, estimated arrival and aircraft so they can plan the pickup. The traveller is considering an earlier flight: compare the London–Doha departures that day and identify the earliest option, with its flight number and departure time."""
 import re
 import sys
 from pathlib import Path
@@ -45,8 +39,6 @@ def run_checks(judge, traj, initial_db, after_db):
     judge.check("visited_status_by_route",
                 navigated_flight_status(traj, mode="route", origin="LHR", dest="DOH"),
                 "required: flight-status by route LHR->DOH")
-    judge.check("visited_a380_fleet", navigated_fleet(traj, "Airbus-A380-800"),
-                "required: /en/our-fleet/Airbus-A380-800.html")
     judge.check("answer_status", contains_all(answer, ["En route"]),
                 "expected the current status En route")
     judge.check("answer_sched_dep", contains_time(answer, SCHED_DEP),
@@ -59,12 +51,6 @@ def run_checks(judge, traj, initial_db, after_db):
                 f"expected the earliest London-Doha departure {EARLIEST_DEP}")
     judge.check("answer_earliest_flight", contains_all(answer, [EARLIEST_FLIGHT]),
                 f"expected the earliest flight {EARLIEST_FLIGHT}")
-    judge.check("answer_cabins",
-                contains_all(answer, ["First"]) and contains_all(answer, ["Business"])
-                and contains_all(answer, ["Economy"]),
-                "expected First, Business and Economy cabins")
-    judge.check("answer_total_seats", contains_amount(answer, TOTAL_SEATS),
-                f"expected the A380-800 total seat count {TOTAL_SEATS}")
     check_read_only(judge, initial_db, after_db)
 
 
