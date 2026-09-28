@@ -356,6 +356,10 @@
       "bytes": 5301076,
       "sha256": "2d6a65fd37ac819e05890357b74cf463f61f3172e398356748fdbff3adc026d2"
     },
+    "tourradar.tar.gz": {
+      "bytes": 174543664,
+      "sha256": "dfeead95745c27b797bde45e4797d6c1c439cad01e67ff20a1f831c53389351c"
+    },
     "uniqlo.tar.gz": {
       "bytes": 131544567,
       "sha256": "0e81fd745d3dc2955b113ab428ed1cb689a5677c652a25ebc206263b402e7c00"
