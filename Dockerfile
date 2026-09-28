@@ -354,8 +354,13 @@ RUN cd /opt/WebSyn/qatar_airways && rm -rf instance instance_seed && \
     mkdir -p instance_seed && cp instance/qatar_airways.db instance_seed/qatar_airways.db && \
     rm -rf instance __pycache__
 
+# soundcloud: validate source assets and build the deterministic seed.
+RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/soundcloud
+RUN cd /opt/WebSyn/soundcloud && rm -rf instance instance_seed && \
+    PYTHONHASHSEED=0 python3 seed_data.py && rm -rf instance __pycache__
+
 RUN python3 /opt/check_seed_databases.py /opt/WebSyn
 
-EXPOSE 8101 40000-40101
+EXPOSE 8101 40000-40102
 
 CMD ["/opt/websyn_start.sh"]

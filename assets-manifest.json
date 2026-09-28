@@ -407,9 +407,13 @@
     "qatar_airways.tar.gz": {
       "bytes": 266218569,
       "sha256": "b4346ac709164667b363c210baf0f3b576eb7c8ac6ed14962454a0d0ea2a9a2c"
+    },
+    "soundcloud.tar.gz": {
+      "bytes": 135604573,
+      "sha256": "25e7c10c204c683e58fb1ab54382308d2379a3d0fae9fc49a33b8284e356222c"
     }
   },
-  "managed_tree_sha256": "9d3e39b3d7cfd208a1c461b2fd0b62a7f598682c97f87340a810e67e09b7f517",
+  "managed_tree_sha256": "36fb9bf88c42dc2801edf3fe1662a62b5b0e0ffc7cfabc4fef65f8a29933f4d7",
   "repo": "ChilleD/WebHarbor",
   "revision": "6cd6db8182c15e2cb19e17c95ca888047ef8607f",
   "version": 1
