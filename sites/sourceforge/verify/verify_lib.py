@@ -142,30 +142,14 @@ def same_origin_port(traj):
 
 
 def decode_png(path):
-    """Return (ok, detail) for a PNG file: signature, chunk CRCs, IEND presence."""
+    """Decode the entire pixel stream, not merely its PNG chunk wrappers."""
     try:
-        data = Path(path).read_bytes()
-    except OSError as e:
-        return False, f"unreadable: {e}"
-    if len(data) < 8 or data[:8] != b"\x89PNG\r\n\x1a\n":
-        return False, "missing PNG signature"
-    pos, seen_iend, chunks = 8, False, 0
-    while pos + 8 <= len(data):
-        length = int.from_bytes(data[pos:pos + 4], "big")
-        ctype = data[pos + 4:pos + 8]
-        if pos + 12 + length > len(data):
-            return False, f"truncated chunk {ctype!r}"
-        crc = int.from_bytes(data[pos + 8 + length:pos + 12 + length], "big")
-        if zlib.crc32(data[pos + 4:pos + 8 + length]) != crc:
-            return False, f"chunk {ctype!r} CRC mismatch"
-        if ctype == b"IEND":
-            seen_iend = True
-            break
-        pos += 12 + length
-        chunks += 1
-    if not seen_iend:
-        return False, "missing IEND chunk"
-    return True, f"ok ({chunks} chunks, {len(data)} bytes)"
+        from PIL import Image
+        with Image.open(path) as im:
+            im.load()
+            return im.format == "PNG" and im.width > 0 and im.height > 0, "decoded PNG"
+    except (OSError, ValueError, ImportError) as exc:
+        return False, str(exc)
 
 
 def screenshots_ok(traj):
@@ -234,31 +218,36 @@ def check_visited_path(judge, traj, name, pattern):
                 + ("" if hit else f" — visited: {[u.split('localhost')[-1] for u in trajectory_urls(traj)][:12]}"))
 
 
+def _affirmative(text, match):
+    prefix = re.split(r"[;.!?\n]|\b(?:but|however)\b", text[:match.start()], flags=re.I)[-1]
+    return not re.search(r"\b(?:not|never|incorrect|wrong|isn't|isnt)\b(?:\W+\w+){0,3}\W*$", prefix, re.I)
+
+
 def check_answer_phrase(judge, answer, name, phrase, case_sensitive=False):
     hay = answer if case_sensitive else answer.casefold()
     needle = phrase if case_sensitive else phrase.casefold()
-    judge.check(name, needle in hay, f"answer must mention {phrase!r}")
+    judge.check(name, any(_affirmative(hay, m) for m in re.finditer(re.escape(needle), hay)), f"answer must mention {phrase!r}")
 
 
 def _norm_num(s):
-    s = re.sub(r"[,\s]", "", str(s)).strip(".,")
-    return s.lower()
+    from decimal import Decimal, InvalidOperation
+    value = re.sub(r"[,\s]", "", str(s)).strip(".,")
+    try:
+        return Decimal(value)
+    except InvalidOperation:
+        return value.casefold()
 
 
 def check_answer_number(judge, answer, name, value, label=None):
-    """The answer must contain the number (comma-formatted or plain)."""
     target = _norm_num(value)
-    tokens = re.findall(NUM_TOKEN_RX, answer)
-    found = any(_norm_num(tok) == target for tok in tokens)
-    label_suffix = f" ({label})" if label else ""
-    judge.check(name, found,
-                f"answer must contain the number {value}{label_suffix}; "
-                f"found tokens={tokens[:14]}")
+    found = any(_norm_num(m.group()) == target and _affirmative(answer, m)
+                for m in re.finditer(r"(?<![\w.])[0-9]+(?:,[0-9]{3})*(?:\.[0-9]+)?(?!\w|\.\d)", answer))
+    judge.check(name, found, f"answer must affirm {value} ({label or name})")
 
 
 def check_answer_any(judge, answer, name, variants, label=""):
     hay = answer.casefold()
-    hit = any(_norm_num(v) in hay or str(v).casefold() in hay for v in variants)
+    hit = any(str(_norm_num(v)) in hay or str(v).casefold() in hay for v in variants)
     judge.check(name, hit, f"answer must mention one of {variants} {label}")
 
 
@@ -372,6 +361,7 @@ def check_read_only(judge, initial_db, after_db):
                 "initial_db schema digest must match the frozen seed")
     judge.check("initial_is_seed_rows", rows_digest(initial_db) == SEED_ROWS_SHA256,
                 "initial_db row digest must match the frozen seed")
+    judge.check("after_schema_unchanged", schema_digest(after_db) == schema_digest(initial_db))
     judge.check("after_rows_unchanged", rows_digest(after_db) == SEED_ROWS_SHA256,
                 "read-only task: after_db rows must equal the seed rows")
 
@@ -379,6 +369,9 @@ def check_read_only(judge, initial_db, after_db):
 def check_only_tables_changed(judge, initial_db, after_db, allowed):
     """Every table outside `allowed` must be row-identical; allowed tables are
     checked by the task verifier with exact deltas."""
+    judge.check("initial_is_seed_schema", schema_digest(initial_db) == SCHEMA_SHA256)
+    judge.check("initial_is_seed_rows", rows_digest(initial_db) == SEED_ROWS_SHA256)
+    judge.check("after_schema_unchanged", schema_digest(after_db) == schema_digest(initial_db))
     for t in TABLES:
         if t in allowed:
             continue
