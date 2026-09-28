@@ -29,3 +29,14 @@ def test_equivalent_new_mastercard_accepted(tmp_path):
     with sqlite3.connect(run/'after.db') as c:c.execute("UPDATE payment_cards SET last4='5556' WHERE id=8")
     answer(run,lambda a:a.replace('4444','5556'))
     run_verifier(11,run,True)
+
+
+def test_explore_swapped_prices_rejected(tmp_path):
+    run=honest_run(tmp_path,18)
+    answer(run,lambda a:a.replace('$106','SWAP').replace('$228','$106').replace('SWAP','$228'))
+    run_verifier(18,run,False)
+
+def test_explore_missing_venue_rejected(tmp_path):
+    run=honest_run(tmp_path,18)
+    answer(run,lambda a:a.replace('Sony Hall','Unknown Hall'))
+    run_verifier(18,run,False)
