@@ -349,3 +349,5 @@ SPECS = {'0': {'answer': 'The eight 2026 Seahawks home games at Lumen Field in s
                 '/seattle-opera-seattle-tickets-10-31-2026/event/161306189?quantity=&price_min=&price_max=&sort=price',
                 '/seattle-opera-seattle-tickets-10-31-2026/event/161306189',
                 '/search?q=salome']}}
+
+SPECS["18"]["answer"] = "Pacific Northwest Ballet - Serenade: September 26, 2026, Marion Oliver McCaw Hall, $106, 1 listing. Greenshield Industrial Supply Season End: September 26, 2026, Evergreen Speedway, $228, 13 listings. Lovers Rock Reggae Live: September 26, 2026, Sony Hall, $70, 21 listings; cheapest, saving $36 versus Pacific Northwest Ballet and $158 versus Greenshield."
