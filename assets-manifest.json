@@ -376,6 +376,10 @@
       "bytes": 96456978,
       "sha256": "229f8a83624962fb57d9cf74535d5a5daf4f146fc251883884c647797d3ac3e5"
     },
+    "statista.tar.gz": {
+      "bytes": 1343202,
+      "sha256": "a41b0a75fe3d450f9f1b341ed35f7c9f58a8aed212ae9717b7d7d3ee17389f62"
+    },
     "stubhub.tar.gz": {
       "bytes": 281326465,
       "sha256": "938072c9d5d570316abc1ea6a4c90924a63ab844fcd6d83591bd3a9792f9787c"
