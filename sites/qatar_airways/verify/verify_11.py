@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
-"""Verify Qatar Airways--11.
-
-The Middle East guide whose Things to do mentions the Museum of Islamic
-Art is Doha; its Activities section lists the Corniche stroll / dhow
-boat ride and The Pearl. Read-only task.
-"""
+"""Verify Qatar Airways--11: Help me choose between Doha and Muscat for a cultural city break using Qatar Airways' destination guides. I want to visit the Museum of Islamic Art and spend the rest of the day by the water. Recommend the city that fits, with two waterfront activities from its guide, and explain the alternative by naming Muscat's heritage museum and the beach its guide recommends for a sunset swim."""
 import re
 import sys
 from pathlib import Path
@@ -31,11 +26,12 @@ DOHA_SLUG = "flights-to-doha"
 
 def run_checks(judge, traj, initial_db, after_db):
     answer = final_answer(traj)
+    judge.check("visited_muscat_guide", navigated_destination_guide(traj, "flights-to-muscat"))
+    judge.check("muscat_heritage", contains_any(answer, ["Bait Al-Zubair", "Bait al Zubair"]))
+    judge.check("muscat_beach", contains_all(answer, ["Qurum Beach"]))
+
     check_trajectory_identity(judge, traj, TASK_ID)
     check_seed_identity(judge, initial_db)
-    judge.check("visited_destinations_region",
-                navigated_destinations(traj, region="themiddleeast"),
-                "required: /en/destinations.html?region=themiddleeast")
     judge.check("visited_doha_guide",
                 navigated_destination_guide(traj, DOHA_SLUG),
                 f"required: /en/destinations/{DOHA_SLUG}.html")

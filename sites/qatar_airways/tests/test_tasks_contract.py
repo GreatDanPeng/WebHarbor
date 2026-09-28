@@ -68,7 +68,7 @@ def test_grading_keys_present_on_every_row():
 
 def test_task_web_urls_point_at_the_declared_port():
     for row in _rows():
-        assert row["web"] == "http://localhost:40130/", row["web"]
+        assert row["web"] == "http://localhost:40101/", row["web"]
         assert row["upstream_url"] == "https://www.qatarairways.com/", row["upstream_url"]
 
 

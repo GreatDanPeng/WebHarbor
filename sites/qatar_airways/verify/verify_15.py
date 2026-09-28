@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
-"""Verify Qatar Airways--15.
-
-Baggage facts: Economy Comfort piece-concept 2 pieces up to
-23kg (50lb) each; extra 23kg piece on Doha-Sao Paulo (over 8,000km) USD
-140; Business Elite weight-concept 40kg (88lb); Economy Lite piece-concept
-1 piece up to 23kg (50lb); Economy carry-on 1 piece up to 7kg (Help FAQ).
-Read-only task.
-"""
+"""Verify Qatar Airways--15: I'm choosing between Economy Lite and Economy Comfort for Doha to Sao Paulo and need room for my luggage. Compare their included checked bags on this piece-concept route, including each bag's weight limit, and find the cost of an extra 23kg piece. Use the Help pages to explain the cabin-baggage allowance that applies to this Brazil trip, including its weight and dimensions, so I can decide what to pack in the cabin."""
 import re
 import sys
 from pathlib import Path
@@ -35,33 +28,29 @@ CARRYON_KG = 7
 
 def run_checks(judge, traj, initial_db, after_db):
     answer = final_answer(traj)
+    judge.check("brazil_cabin_baggage", bool(re.search(r"(?:Brazil|cabin|carry.on)[^.;\n]{0,120}\b10\s*kg\b", answer, re.I)))
+    judge.check("brazil_not_general_limit", not re.search(r"(?:Brazil|cabin|carry.on)[^.;\n]{0,80}\b7\s*kg\b", answer, re.I))
+    judge.check("cabin_dimensions", bool(re.search(r"50\s*[x×]\s*37\s*[x×]\s*25\s*cm", answer, re.I)))
+
     check_trajectory_identity(judge, traj, TASK_ID)
     check_seed_identity(judge, initial_db)
     judge.check("visited_baggage_comfort",
                 navigated_baggage(traj, fare="Economy Comfort", route="americas"),
                 "required: baggage checker Economy Comfort / piece concept")
-    judge.check("visited_baggage_elite",
-                navigated_baggage(traj, fare="Business Elite", route="weight"),
-                "required: baggage checker Business Elite / weight concept")
     judge.check("visited_baggage_lite",
                 navigated_baggage(traj, fare="Economy Lite", route="americas"),
                 "required: baggage checker Economy Lite / piece concept")
     judge.check("visited_help", navigated_help(traj),
                 "required: /en/help.html for the carry-on rules")
     judge.check("answer_eco_comfort",
-                contains_amount(answer, 2) and contains_any(answer, ["23kg", "23 kg"]),
+                (contains_amount(answer, 2) or contains_all(answer, ["two"])) and contains_any(answer, ["23kg", "23 kg"]),
                 "expected Economy Comfort 2 pieces up to 23kg each")
     judge.check("answer_extra_rate", contains_amount(answer, EXTRA_RATE),
                 f"expected the extra-piece rate USD {EXTRA_RATE}")
-    judge.check("answer_bus_elite",
-                contains_any(answer, ["40kg", "40 kg", "88lb", "88 lb"]),
-                "expected Business Elite 40kg (88lb) on weight concept")
     judge.check("answer_eco_lite",
                 contains_all(answer, ["Lite"]) and
-                (contains_all(answer, ["1 piece", "one piece"]) or contains_amount(answer, 1)),
+                (contains_any(answer, ["1 piece", "one piece"]) or contains_amount(answer, 1)),
                 "expected Economy Lite 1 piece up to 23kg on piece concept")
-    judge.check("answer_carryon", contains_amount(answer, CARRYON_KG),
-                f"expected the Economy carry-on limit {CARRYON_KG}kg per piece")
     check_read_only(judge, initial_db, after_db)
 
 

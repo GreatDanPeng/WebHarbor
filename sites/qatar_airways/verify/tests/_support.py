@@ -36,18 +36,10 @@ SEED_DB = Path(os.environ.get("QA_TEST_SEED_DB") or "")
 
 
 def _acquire_seed() -> Path:
-    if SEED_DB.is_file():
-        return SEED_DB
-    if CACHE.is_file():
-        return CACHE
-    CACHE.parent.mkdir(parents=True, exist_ok=True)
-    r = subprocess.run(["docker", "cp",
-                        f"{CONTAINER}:/opt/WebSyn/qatar_airways/instance_seed/qatar_airways.db",
-                        str(CACHE)], capture_output=True, text=True)
-    if r.returncode != 0:
-        raise RuntimeError(f"cannot acquire the seed DB (docker cp failed): {r.stderr[:200]}")
-    return CACHE
-
+    seed = SITE_DIR / "instance_seed/qatar_airways.db"
+    if not seed.is_file():
+        raise RuntimeError("Build the site seed before running verifier tests")
+    return seed
 
 # ------------------------------------------------------------------ tiny valid PNG
 def tiny_png(width: int = 4, height: int = 4) -> bytes:
@@ -563,6 +555,14 @@ def honest_run(tmp: Path, index: int):
                   f"Lite for Ravi Patel and his daughter Anaya Patel: total "
                   f"charged USD 314. Booking reference {pnr}.")
 
+    refined = {11: {'urls': ['/', '/en/destinations.html', '/en/destinations.html?q=Muscat', '/en/destinations/flights-to-muscat.html', '/en/destinations.html?q=Doha', '/en/destinations/flights-to-doha.html'], 'answer': 'Doha fits the Museum of Islamic Art priority. Its waterfront activities include a Corniche stroll or dhow boat ride and exploring The Pearl marina promenade. Muscat instead offers the Bait Al-Zubair Museum for Omani heritage and Qurum Beach for a sunset swim.'}, 15: {'urls': ['/', '/en/baggage.html', '/en/baggage.html?fare=Economy+Comfort&route=americas', '/en/baggage.html?fare=Economy+Lite&route=americas', '/en/help.html', '/en/help.html?q=carry-on+baggage'], 'answer': 'For Doha–Sao Paulo, Economy Comfort includes two checked pieces up to 23kg each; Economy Lite includes one checked piece up to 23kg. Each extra 23kg piece costs USD 140. For Brazil, Economy cabin baggage is one piece up to 10kg, no larger than 50 x 37 x 25 cm.'}, 16: {'urls': ['/', '/en/Privilege-Club/login.html', '/en/Privilege-Club/dashboard.html', '/en/manage-booking.html', '/en/manage-booking/QC08BV.html', '/en/help.html', '/en/help.html?q=medical+assistance', '/en/help.html?q=hard-of-hearing'], 'answer': 'For booking QC08BV, Carol Davis and James Davis fly QR701 from Doha to New York JFK on 20 October 2026. Complete the medical-assistance form in English and submit it between 7 days and 48 hours before departure. The hard-of-hearing support line is +1 833 607 2675, available 24 hours. No booking changes or request submission were made.'}}
+    if index in refined:
+        for url in refined[index]['urls']: b.goto(url)
+        answer = refined[index]['answer']
+    if index == 4:
+        b.goto("/en/flight-status.html?mode=route&from=DOH&to=SYD&date=2026-09-24")
+        b.goto("/en/flight-status.html?mode=route&from=DOH&to=MEL&date=2026-09-24")
+        answer = "Sydney: QR908, Boeing 777-300ER, departure 20:05, scheduled arrival 17:10. Melbourne: QR904, Boeing 777-300ER, departure 20:20, scheduled arrival 16:50. I recommend Melbourne because its arrival is before 17:00 local time."
     b.done(answer)
     copy_db(seed, root / "initial.db")
     if stmts:

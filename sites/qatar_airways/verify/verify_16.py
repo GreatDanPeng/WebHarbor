@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
-"""Verify Qatar Airways--16.
-
-Help facts: hard-of-hearing support +1 833 607 2675;
-medical assistance form between 7 days and 48 hours before departure;
-Oman firearms more than 19 days prior; proof-of-travel certificates up
-to 12 months from the date of travel; infants carry one baby stroller
-or collapsible carrycot at no additional cost. Read-only task.
-"""
+"""Verify Qatar Airways--16: Help Carol Davis prepare a medical-assistance request for her booked New York trip. Sign in as carol.d@test.com (password TestPass123!) and retrieve booking QC08BV. Report the passengers and outbound flight/date to identify the trip, then find the required language and submission window for the medical form. Carol is hard of hearing, so include the dedicated support number and its hours. Do not change the booking or submit a request."""
 import re
 import sys
 from pathlib import Path
@@ -37,6 +30,13 @@ CERT_MONTHS = 12
 
 def run_checks(judge, traj, initial_db, after_db):
     answer = final_answer(traj)
+    judge.check("visited_trip", navigated_manage_booking(traj, "QC08BV"))
+    judge.check("passengers", contains_all(answer, ["Carol Davis", "James Davis"]))
+    judge.check("flight", contains_all(answer, ["QR701"]))
+    judge.check("outbound_date", contains_any(answer, ["20 October 2026", "October 20, 2026", "2026-10-20"]))
+    judge.check("form_language", contains_all(answer, ["English"]))
+    judge.check("support_hours", contains_any(answer, ["24-hour", "24 hour", "24 hours", "24/7", "around the clock"]))
+
     check_trajectory_identity(judge, traj, TASK_ID)
     check_seed_identity(judge, initial_db)
     judge.check("visited_help", navigated_help(traj),
@@ -47,16 +47,6 @@ def run_checks(judge, traj, initial_db, after_db):
     judge.check("answer_medical_window",
                 contains_amount(answer, MEDICAL_DAYS) and contains_amount(answer, MEDICAL_HOURS),
                 f"expected the medical form window {MEDICAL_DAYS} days / {MEDICAL_HOURS} hours")
-    judge.check("answer_oman_firearms",
-                contains_all(answer, ["Oman"]) and contains_amount(answer, OMAN_DAYS),
-                f"expected the Oman firearms deadline {OMAN_DAYS} days")
-    judge.check("answer_certificate_window",
-                contains_amount(answer, CERT_MONTHS) and
-                contains_any(answer, ["month", "months"]),
-                f"expected certificates requestable up to {CERT_MONTHS} months after travel")
-    judge.check("answer_infant_item",
-                contains_any(answer, ["stroller", "carrycot"]),
-                "expected the infant stroller / collapsible carrycot at no extra cost")
     check_read_only(judge, initial_db, after_db)
 
 

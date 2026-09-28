@@ -372,20 +372,21 @@ def contains_any(text, tokens):
 
 
 def contains_amount(text, amount):
-    """The answer quotes a USD amount, with or without separators/currency."""
+    from decimal import Decimal
+    target = Decimal(str(amount))
     t = normalize_text(text)
-    a = str(amount)
-    variants = {a, f"{amount:,}", f"usd {a}", f"usd {amount:,}", f"${a}",
-                f"${amount:,}", f"{a} usd", f"{amount:,} usd"}
-    if any(v in t for v in variants):
-        return True
-    # tolerate '1.490' style thousands or 'USD 1,490.00' renderings
-    return bool(re.search(rf"(?<!\d){re.escape(a).replace(',', '[,.]?')}(?!\d)", t))
+    return any(Decimal(m.group().replace(",", "")) == target and _affirmative(t, m)
+               for m in re.finditer(r"(?<![\w.])[0-9]+(?:,[0-9]{3})*(?:\.[0-9]+)?(?!\w|\.\d)", t))
 
 
 def contains_time(text, hhmm):
     t = normalize_text(text)
-    return hhmm in t or hhmm.replace(":", "") in t.replace(":", "")
+    hours, minutes = map(int, hhmm.split(":"))
+    for m in re.finditer(r"(?<!\d)(\d{1,2}):(\d{2})(?:\s*([ap])\.?m\.?)?(?!\d)", t):
+        h, minute = int(m[1]), int(m[2])
+        if m[3]: h = h % 12 + (12 if m[3] == "p" else 0)
+        if (h, minute) == (hours, minutes) and _affirmative(t, m): return True
+    return False
 
 
 # ---------------------------------------------------------------- SQLite snapshots
@@ -451,6 +452,8 @@ def added_booking_matching(after_db, initial_db, *, cabin=None, fare_type=None,
     """The single booking row added by the run, matching every given field.
     Runtime-random fields (pnr, ids) are matched structurally, never by value."""
     added = row_delta(initial_db, after_db, "bookings", "pnr")
+    if len(added) != 1:
+        return None
     matches = []
     for b in added:
         if cabin is not None and b["cabin"] != cabin:
@@ -533,44 +536,31 @@ def check_seed_identity(judge, initial_db):
 def _png_decodes(path):
     try:
         from PIL import Image
-    except ImportError:
-        data = Path(path).read_bytes()
-        return (data.startswith(b"\x89PNG\r\n\x1a\n") and len(data) >= 33
-                and data[12:16] == b"IHDR")
-    try:
         with Image.open(path) as image:
             image.load()
-            return image.format == "PNG" and image.width >= 1 and image.height >= 1
-    except Exception:  # noqa: BLE001
+            return image.format == "PNG" and image.width > 0 and image.height > 0
+    except (OSError, ValueError, ImportError):
         return False
 
 
 def check_trajectory_identity(judge, traj, task_id):
-    judge.check("task_id", traj.get("task_id") == task_id,
-               f"expected {task_id!r}, got {traj.get('task_id')!r}")
-    judge.check("terminated", bool(traj.get("terminated")),
-               f"terminated={traj.get('terminated')!r}, reason={traj.get('termination_reason')!r}")
-    judge.check("nonempty_answer", len(final_answer(traj)) > 0,
-               f"final answer length {len(final_answer(traj))}")
-    start = str(traj.get("start_url") or "")
-    same_origin = True
-    for u in site_urls(traj):
-        a, b = urlparse(u), urlparse(start)
-        try:
-            if (a.port or 80) != (b.port or 80) or a.hostname.casefold() != b.hostname.casefold():
-                same_origin = False
-        except ValueError:
-            same_origin = False
-    judge.check("same_origin", same_origin and bool(start), f"start_url={start!r}")
+    judge.check("task_id", traj.get("task_id") == task_id)
+    judge.check("terminated", traj.get("terminated") is True and traj.get("termination_reason") == "agent_done")
+    judge.check("nonempty_answer", bool(final_answer(traj)))
+    start = urlparse(str(traj.get("start_url") or ""))
+    try:
+        host_ok = start.hostname == "localhost" or ipaddress.ip_address(start.hostname).is_loopback
+    except ValueError:
+        host_ok = False
+    origin = (start.scheme, start.hostname, start.port)
+    urls = trajectory_urls(traj)
+    judge.check("same_origin", host_ok and start.scheme in {"http", "https"} and start.port is not None and all(
+        (urlparse(u).scheme, urlparse(u).hostname, urlparse(u).port) == origin for u in urls))
+    refs = {str(step[k]) for step in traj.get("steps", []) for k in
+            ("screenshot", "screenshot_before", "screenshot_after") if step.get(k)}
     shots = traj.get("_shots") or {}
-    ok_shots = True
-    for step in traj.get("steps") or []:
-        if isinstance(step, dict) and step.get("screenshot"):
-            p = shots.get(str(step["screenshot"]))
-            if p is None or not _png_decodes(p):
-                ok_shots = False
-                break
-    judge.check("screenshots_decode", ok_shots, f"{len(shots)} shots in run dir")
+    judge.check("screenshots_decode", bool(refs) and all(
+        ref in shots and _png_decodes(shots[ref]) for ref in refs), f"{len(refs)} referenced screenshots")
 
 
 # ---------------------------------------------------------------- harness
@@ -683,6 +673,35 @@ def run_verifier(task_id, run_checks):
     judge = Judge(task_id)
     try:
         run_checks(judge, traj, initial_db, after_db)
+        check_booking_details(judge, initial_db, after_db, task_id)
+        from state_review import check_existing_state
+        check_existing_state(judge, initial_db, after_db, task_id)
     except Exception as exc:  # noqa: BLE001 — any verifier error fails closed
         fail_closed(task_id, "verifier_error", f"{type(exc).__name__}: {exc}")
     judge.emit()
+
+
+
+def check_booking_details(judge, initial_db, after_db, task_id):
+    """Validate requested identities and all newly created booking children."""
+    contracts = {
+        0: ([("john", "smith"), ("mary", "smith")], "john.smith@example.com", "9010"),
+        1: ([("sarah", "chen")], "sarah.chen@example.com", "7890"),
+        2: ([("alice", "johnson")], "alice.j@test.com", "4242"),
+        13: ([("leo", "martin")], "leo.martin@example.com", "5556"),
+        19: ([("ravi", "patel"), ("anaya", "patel")], "ravi.patel@example.com", "4444"),
+    }
+    n = int(task_id.rsplit("--", 1)[-1])
+    if n not in contracts:
+        return
+    added = row_delta(initial_db, after_db, "bookings", "id")
+    if not judge.check("exactly_one_new_booking", len(added) == 1):
+        return
+    b = added[0]
+    names, email, card = contracts[n]
+    pax = row_delta(initial_db, after_db, "passengers", "id")
+    legs = row_delta(initial_db, after_db, "booking_legs", "id")
+    judge.check("requested_passengers", sorted((p["first_name"].casefold(), p["last_name"].casefold()) for p in pax) == sorted(names))
+    judge.check("new_rows_belong_to_booking", bool(legs) and all(p["booking_id"] == b["id"] for p in pax + legs))
+    judge.check("requested_contact", b["contact_email"].casefold() == email)
+    judge.check("requested_payment_card", b["card_last4"] == card)
