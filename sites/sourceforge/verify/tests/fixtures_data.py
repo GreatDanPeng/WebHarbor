@@ -452,4 +452,4 @@ WRONG_ANSWERS = {0: 'The top two are WinSCP and 7-Zip: WinSCP has 5,000 weekly d
      'first is PSeInt (MIT, 100 weekly, updated 2020, registered 1999, 1.0 rating, 3 reviews, Support recommends email); the second is '
      'registered 1998.'}
 
-SPECS["9"]["answer"] += ' DOSBox is an emulator, while Neko Void is a Linux distribution, with Linux listed as its operating system. These entries are supporting software rather than standalone games.'
+SPECS[9]["answer"] += ' DOSBox is an emulator, while Neko Void is a Linux distribution, with Linux listed as its operating system. These entries are supporting software rather than standalone games.'
