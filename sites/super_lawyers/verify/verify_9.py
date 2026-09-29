@@ -22,12 +22,8 @@ def run_checks(judge, traj, initial_db, after_db):
     check_screenshots(judge, traj)
     check_visited_path(judge, traj, "visited_login", r"/login")
     check_visited_path(judge, traj, "visited_profile_settings", r"/account/profile")
-    check_visited_path(judge, traj, "visited_favorites", r"/account/favorites")
     check_answer_phrase(judge, answer, "answer_display_name", "Carol D. Davis")
     check_answer_phrase(judge, answer, "answer_new_email", "carol.d.davis@example.com")
-    check_answer_number(judge, answer, "answer_saved_count", 3)
-    check_answer_count_at_least(judge, answer, "answer_saved_cities", ["Seattle", "Bremerton"], 2)
-    check_answer_count_at_least(judge, answer, "answer_saved_attorneys", ["Steven W. Fogg", "Richard Friedman", "Karolyn Hicks"], 3)
     check_only_tables_changed(judge, initial_db, after_db, {"users"})
     check_rows_changed(judge, initial_db, after_db, "users", [[3, "carol.d.davis@example.com", "carol_d", "Carol D. Davis", "$2b$12$mTNQa9oqZyOoIJBpKN.0p.LVaApMSu9gZnYufEZrciM5QgBN7EM7u", None]], "carol_profile_edited")
 

@@ -410,3 +410,9 @@ WRONG_ANSWERS = {
     18: "The Denver DUI page is titled 'Denver DUI Lawyers'. Nearby cities are Aurora and Boulder; related areas are Bankruptcy and Immigration. The first attorney card is Angela Campbell (303-555-5555). The Car Accident page lists 12 attorneys and the Englewood DUI page lists 5.",
     19: "Anne Bremner has more selection years (28 vs 27). Bremner was first admitted in 1986 and Coluccio in 1983. Bremner attended Harvard Law and Coluccio attended Yale Law. Bremner's tagline is Personal Injury; her phone is 206-207-7430.",
 }
+
+# Updated synthetic expected delta for the single relocation goal.
+SPECS[7]['sql'] = [q for q in SPECS[7]['sql'] if 'family-law' not in q]
+SPECS[7]['answer'] = 'Personal Injury in Miami, Florida replaced DUI-DWI in Denver. 2 saved searches remain: Personal Injury in Miami, Florida and Employment & Labor in Boston. Miami lists 31 attorney cards.'
+
+SPECS[12]["answer"] += " Salaried New York employees may still be eligible for overtime: time and a half for hours over 40 in a workweek. Exemption depends on primary duties."

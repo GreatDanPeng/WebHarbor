@@ -113,11 +113,17 @@ def final_answer(traj):
 
 
 def _png_ok(path: Path) -> bool:
+    from PIL import Image
     try:
-        data = path.read_bytes()[:8]
-    except OSError:
+        with Image.open(path) as image:
+            if image.format != "PNG":
+                return False
+            image.verify()
+        with Image.open(path) as image:
+            image.load()
+        return True
+    except (OSError, ValueError, SyntaxError):
         return False
-    return data == b"\x89PNG\r\n\x1a\n"
 
 
 # ---------------------------------------------------------------- judge
@@ -326,7 +332,10 @@ def _match(row, template):
 
 
 def check_rows_added(judge, initial_db, after_db, table, templates, check):
-    added, _, _ = _diff(initial_db, after_db, table)
+    added, removed, changed = _diff(initial_db, after_db, table)
+    if templates and (removed or changed):
+        judge.fail(check, "unrequested removal or edit in addition-only table")
+        return
     if len(added) != len(templates):
         judge.fail(check, f"expected {len(templates)} added row(s) in {table}, got {len(added)}: {added}")
         return
@@ -338,7 +347,10 @@ def check_rows_added(judge, initial_db, after_db, table, templates, check):
 
 
 def check_rows_removed(judge, initial_db, after_db, table, templates, check):
-    _, removed, _ = _diff(initial_db, after_db, table)
+    added, removed, changed = _diff(initial_db, after_db, table)
+    if templates and (added or changed):
+        judge.fail(check, "unrequested addition or edit in removal-only table")
+        return
     if len(removed) != len(templates):
         judge.fail(check, f"expected {len(templates)} removed row(s) in {table}, got {len(removed)}: {removed}")
         return
@@ -358,6 +370,14 @@ def check_set_delta(judge, initial_db, after_db, table, key_cols, removed_templa
         cols = ", ".join(f'"{c}"' for c in key_cols)
         return {tuple(str(v) for v in row) for row in
                 db.execute(f'SELECT {cols} FROM "{table}"')}
+    # Preserve full rows for retained logical records, even when SQLite reuses IDs.
+    columns = [r[1] for r in initial_db.execute(f'PRAGMA table_info("{table}")')]
+    indices = [columns.index(c) for c in key_cols]
+    def keyed(db):
+        return {tuple(str(row[i]) for i in indices): tuple(row) for row in db.execute(f'SELECT * FROM "{table}"')}
+    before, after = keyed(initial_db), keyed(after_db)
+    if any(before[k] != after[k] for k in before.keys() & after.keys()):
+        judge.fail(check, "retained rows were changed")
     a, b = keyset(initial_db), keyset(after_db)
     removed = a - b
     added = b - a
@@ -371,7 +391,10 @@ def check_set_delta(judge, initial_db, after_db, table, key_cols, removed_templa
 
 
 def check_rows_changed(judge, initial_db, after_db, table, templates, check):
-    _, _, changed = _diff(initial_db, after_db, table)
+    added, removed, changed = _diff(initial_db, after_db, table)
+    if templates and (added or removed):
+        judge.fail(check, "unrequested addition or removal in update-only table")
+        return
     if len(changed) != len(templates):
         judge.fail(check, f"expected {len(templates)} changed row(s) in {table}, got {len(changed)}")
         return

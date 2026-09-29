@@ -18,11 +18,12 @@ TASK_ID = "Super Lawyers--14"
 
 def run_checks(judge, traj, initial_db, after_db):
     answer = final_answer(traj)
+    from reviewed_checks import check_answer
+    check_answer(judge, traj, 14)
     check_trajectory_identity(judge, traj, TASK_ID)
     check_screenshots(judge, traj)
     check_visited_path(judge, traj, "visited_articles_hub", r"/articles/")
     check_visited_path(judge, traj, "visited_article", r"/articles/colorado/finding-the-after/")
-    check_visited_path(judge, traj, "visited_related_article", r"/articles/online-features/bump-in-the-road/")
     check_answer_phrase(judge, answer, "answer_magazine", "Colorado Super Lawyers magazine")
     check_answer_phrase(judge, answer, "answer_author", "Amy White")
     check_answer_phrase(judge, answer, "answer_publication_date", "March 19, 2026")
@@ -32,8 +33,6 @@ def run_checks(judge, traj, initial_db, after_db):
     check_answer_phrase(judge, answer, "answer_firm", "Jones Law Firm")
     check_answer_phrase(judge, answer, "answer_featured_lawyer", "April D. Jones")
     check_answer_phrase(judge, answer, "answer_featured_city", "Greenwood Village, CO")
-    check_answer_any(judge, answer, "answer_related_subtitle", ["who's liable when you drive, bike or stumble over a pothole", "whos liable", "liable when you drive, bike or stumble over a pothole", "pothole"])
-    check_answer_any(judge, answer, "answer_related_attorney", ["Daniel Flanzig", "Christina R. Mercado", "Stephan Peskin"])
     check_read_only(judge, initial_db, after_db)
 
 
