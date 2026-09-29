@@ -452,5 +452,9 @@
   "managed_tree_sha256": "d94cfe0db5f97da163c893aa2a0b1c34e758e97679389d5ab52063682020ea16",
   "repo": "ChilleD/WebHarbor",
   "revision": "eba57287d6e58131b37175b9f03d5fc859306167",
-  "version": 1
+  "version": 1,
+  "united_airlines.tar.gz": {
+    "bytes": 22952615,
+    "sha256": "1e48d3b8aa616e077afde3c51908f3021f4548fedc092f21f64feae9c78db93a"
+  }
 }

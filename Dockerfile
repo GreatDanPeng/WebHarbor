@@ -391,10 +391,12 @@ RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/student_com && \
     python3 /opt/check_asset_inventory.py /opt/WebSyn/ticketmaster && \
     (cd /opt/WebSyn/ticketmaster && rm -rf instance instance_seed && PYTHONHASHSEED=0 python3 seed_data.py && mkdir -p instance_seed && cp instance/ticketmaster.db instance_seed/ticketmaster.db && rm -rf instance __pycache__) && \
     python3 /opt/check_asset_inventory.py /opt/WebSyn/trip_com && \
-    (cd /opt/WebSyn/trip_com && rm -rf instance instance_seed && PYTHONHASHSEED=0 python3 seed_data.py && mkdir -p instance_seed && cp instance/trip_com.db instance_seed/trip_com.db && rm -rf instance __pycache__)
+    (cd /opt/WebSyn/trip_com && rm -rf instance instance_seed && PYTHONHASHSEED=0 python3 seed_data.py && mkdir -p instance_seed && cp instance/trip_com.db instance_seed/trip_com.db && rm -rf instance __pycache__) && \
+    python3 /opt/check_asset_inventory.py /opt/WebSyn/united_airlines && \
+    (cd /opt/WebSyn/united_airlines && rm -rf instance instance_seed && PYTHONHASHSEED=0 python3 seed_data.py && mkdir -p instance_seed && cp instance/united_airlines.db instance_seed/united_airlines.db && rm -rf instance __pycache__)
 
 RUN python3 /opt/check_seed_databases.py /opt/WebSyn
 
-EXPOSE 8101 40000-40111
+EXPOSE 8101 40000-40167
 
 CMD ["/opt/websyn_start.sh"]
