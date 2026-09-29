@@ -408,6 +408,10 @@
       "bytes": 89982594,
       "sha256": "0f91ccbfaf752d3a19585151efc76c6b727bdfef404347917b9f9c43c94cb8eb"
     },
+    "us_appliance.tar.gz": {
+      "bytes": 353327317,
+      "sha256": "7ee8a0bcdff1b5496a8f513261326f891660a1f53b40c5ac6d4ba17af4063c26"
+    },
     "uniqlo.tar.gz": {
       "bytes": 131544567,
       "sha256": "0e81fd745d3dc2955b113ab428ed1cb689a5677c652a25ebc206263b402e7c00"

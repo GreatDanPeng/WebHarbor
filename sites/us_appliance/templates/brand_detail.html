@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% import "macros.html" as macros %}
+{% block crumbs %}
+<li><a href="{{ url_for('home') }}">Home</a></li>
+<li><a href="{{ url_for('brands_index') }}">Shop By Brand</a></li>
+<li aria-current="page"><span>{{ brand.name }}</span></li>
+{% endblock %}
+{% block title %}{{ brand.name }} Appliances - US Appliance{% endblock %}
+{% block content %}
+<section class="container brand-page">
+  <h1 class="page-heading">{{ brand.name }} Appliances</h1>
+  <p class="category-blurb">{{ products | length }} {{ brand.name }} products available. US Appliance carries a huge selection of {{ brand.name }} major appliances at low prices.</p>
+  <div class="result-bar">
+    <p class="result-count">{{ products | length }} products</p>
+  </div>
+  {% if products %}
+  <div class="prod-grid">
+    {% for p in products[:12] %}
+    {{ macros.prod_card(p) }}
+    {% endfor %}
+  </div>
+  {% if products | length > 12 %}
+  <details class="brand-more">
+    <summary>More {{ brand.name }} products</summary>
+    <div class="prod-grid">
+      {% for p in products[12:60] %}
+      {{ macros.prod_card(p) }}
+      {% endfor %}
+    </div>
+  </details>
+  {% endif %}
+  {% else %}
+  <p class="empty-note">No {{ brand.name }} products are currently available.</p>
+  {% endif %}
+</section>
+{% endblock %}
