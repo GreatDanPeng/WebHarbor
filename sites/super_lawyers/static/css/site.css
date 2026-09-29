@@ -390,3 +390,6 @@ a.answer-card { display: block; padding: 1rem 1.1rem; color: var(--body); }
 /* profile extras -------------------------------------------------------------- */
 .profile-phone-row .call-label { display: inline-block; font-size: 1.15rem; margin: 0 .4rem 0 0; }
 .profile-section.profile-promo { background: var(--primary-light); border-radius: 10px; padding: 1.25rem 1.5rem; }
+
+/* White wordmark keeps its shape readable on the purple brand header. */
+.brand img { filter: brightness(0) invert(1); }

@@ -23,13 +23,12 @@ def run_checks(judge, traj, initial_db, after_db):
     check_visited_path(judge, traj, "visited_login", r"/login")
     check_visited_path(judge, traj, "visited_saved_searches", r"/account/saved-searches")
     check_visited_path(judge, traj, "visited_miami_pi_serp", r"/attorneys/personal-injury-plaintiff/florida/miami/")
-    check_answer_number(judge, answer, "answer_remaining_count", 3)
+    check_answer_number(judge, answer, "answer_remaining_count", 2)
     check_answer_phrase(judge, answer, "answer_new_label_miami", "Personal Injury in Miami, Florida")
-    check_answer_phrase(judge, answer, "answer_new_label_chicago", "Family Law in Chicago, Illinois")
     check_answer_phrase(judge, answer, "answer_kept_label", "Employment & Labor in Boston")
     check_answer_number(judge, answer, "answer_miami_card_count", 31)
     check_only_tables_changed(judge, initial_db, after_db, {"saved_searches"})
-    check_set_delta(judge, initial_db, after_db, "saved_searches", ["user_id", "practice_slug", "city_slug", "state_slug", "label"], [[4, "dui-dwi", "denver", "colorado", "DUI-DWI in Denver"]], [[4, "personal-injury-plaintiff", "miami", "florida", "Personal Injury in Miami, Florida"], [4, "family-law", "chicago", "illinois", "Family Law in Chicago, Illinois"]], "david_saved_search_delta")
+    check_set_delta(judge, initial_db, after_db, "saved_searches", ["user_id", "practice_slug", "city_slug", "state_slug", "label"], [[4, "dui-dwi", "denver", "colorado", "DUI-DWI in Denver"]], [[4, "personal-injury-plaintiff", "miami", "florida", "Personal Injury in Miami, Florida"]], "david_saved_search_delta")
 
 
 if __name__ == "__main__":

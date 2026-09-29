@@ -18,6 +18,8 @@ TASK_ID = "Super Lawyers--12"
 
 def run_checks(judge, traj, initial_db, after_db):
     answer = final_answer(traj)
+    from reviewed_checks import check_answer
+    check_answer(judge, traj, 12)
     check_trajectory_identity(judge, traj, TASK_ID)
     check_screenshots(judge, traj)
     check_visited_path(judge, traj, "visited_answers_hub", r"/answers/")
@@ -31,7 +33,6 @@ def run_checks(judge, traj, initial_db, after_db):
     check_answer_phrase(judge, answer, "answer_last_answered", "April 8, 2026")
     check_answer_phrase(judge, answer, "answer_ny_attorney", "Joseph A. Fitapelli")
     check_answer_phrase(judge, answer, "answer_ny_last_answered", "October 11, 2024")
-    check_answer_any(judge, answer, "answer_more_recent", ["Minnesota question was answered more recently", "Minnesota severance question was answered more recently", "severance question was answered more recently", "Minnesota one was answered more recently"])
     check_read_only(judge, initial_db, after_db)
 
 

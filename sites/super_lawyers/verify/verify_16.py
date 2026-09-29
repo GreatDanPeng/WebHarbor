@@ -18,6 +18,8 @@ TASK_ID = "Super Lawyers--16"
 
 def run_checks(judge, traj, initial_db, after_db):
     answer = final_answer(traj)
+    from reviewed_checks import check_answer
+    check_answer(judge, traj, 16)
     check_trajectory_identity(judge, traj, TASK_ID)
     check_screenshots(judge, traj)
     check_visited_path(judge, traj, "visited_cd_seattle_serp", r"/attorneys/criminal-defense/washington/seattle/")
