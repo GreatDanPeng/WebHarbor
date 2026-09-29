@@ -220,10 +220,17 @@ class WebWorkflowTests(unittest.TestCase):
         self.assertIn(b"APY already includes the effect of compounding", response.data)
         self.assertNotIn(b'Compounding frequency', response.data)
         self.assertNotIn(b'name="compound"', response.data)
+    def test_review_deduction_used_is_visible(self):
+        response = self.client.post('/calculators/income-tax', data={
+            'income': '145000', 'filing': 'married', 'pretax_401k': '12000', 'itemized': '20000'})
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Deduction used', response.data)
+        self.assertIn(b'$31,500', response.data)
+
 
 class TaskContractTests(unittest.TestCase):
     def test_tasks_use_basic_schema_and_real_targets(self):
-        allowed = {"web_name", "id", "ques", "web", "upstream_url"}
+        allowed = {"web_name", "id", "ques", "web", "upstream_url", "verifier_path", "judge_rubric"}
         tasks = [
             json.loads(line) for line in (SITE_DIR / "tasks.jsonl").read_text().splitlines()
             if line.strip()
@@ -234,7 +241,7 @@ class TaskContractTests(unittest.TestCase):
         for task in tasks:
             with self.subTest(task=task["id"]):
                 self.assertEqual(set(task), allowed)
-                self.assertEqual(task["web"], "http://localhost:40103/")
+                self.assertEqual(task["web"], "http://localhost:40119/")
                 self.assertTrue(task["ques"].strip())
                 self.assertNotIn("answer", " ".join(task).lower())
 
@@ -248,6 +255,7 @@ class TaskContractTests(unittest.TestCase):
         combined = "\n".join(task["ques"] + task["upstream_url"] for task in tasks)
         for topic in required_topics:
             self.assertIn(topic, combined)
+
 
 
 if __name__ == "__main__":

@@ -333,6 +333,7 @@ def event_detail(slug):
     return render_template('event_detail.html',
         ev=ev, related=related, is_saved=is_saved,
         is_following=is_following, reviews=reviews,
+        questions=EventQuestion.query.filter_by(event_id=ev.id).order_by(EventQuestion.created_at, EventQuestion.id).all(),
         refund_label=dict(REFUND_POLICIES).get(ev.refund_policy, ev.refund_policy),
     )
 
@@ -341,7 +342,12 @@ def event_detail(slug):
 def event_ics(slug):
     ev = Event.query.filter_by(slug=slug).first()
     if not ev: abort(404)
+    from zoneinfo import ZoneInfo
+    from datetime import timezone
     def f(dt): return dt.strftime('%Y%m%dT%H%M%S')
+    def utc(dt): return f(dt.replace(tzinfo=ZoneInfo(ev.timezone)).astimezone(timezone.utc)) + 'Z'
+    def escape(value):
+        return (value or '').replace('\\', '\\\\').replace('\n', r'\n').replace(',', r'\,').replace(';', r'\;').replace('\r', '')
     loc = 'Online' if ev.is_online else f'{ev.venue_name}, {ev.venue_address}'
     body = (
         'BEGIN:VCALENDAR\r\n'
@@ -350,11 +356,11 @@ def event_ics(slug):
         'BEGIN:VEVENT\r\n'
         f'UID:{ev.slug}@webharbor.eventbrite\r\n'
         f'DTSTAMP:{f(datetime.utcnow())}Z\r\n'
-        f'DTSTART:{f(ev.start_dt)}\r\n'
-        f'DTEND:{f(ev.end_dt)}\r\n'
-        f'SUMMARY:{(ev.title or "").replace(chr(10),"  ")}\r\n'
-        f'LOCATION:{loc}\r\n'
-        f'DESCRIPTION:{(ev.summary or "").replace(chr(10),"  ")}\r\n'
+        f'DTSTART:{utc(ev.start_dt)}\r\n'
+        f'DTEND:{utc(ev.end_dt)}\r\n'
+        f'SUMMARY:{escape(ev.title)}\r\n'
+        f'LOCATION:{escape(loc)}\r\n'
+        f'DESCRIPTION:{escape(ev.summary)}\r\n'
         'END:VEVENT\r\nEND:VCALENDAR\r\n'
     )
     resp = make_response(body)

@@ -467,13 +467,13 @@ class ApartmentsRegressionTests(unittest.TestCase):
         feasibility = json.loads(
             (self.site / "tests" / "task_feasibility.json").read_text()
         )
-        expected_keys = {"web_name", "id", "ques", "web", "upstream_url"}
+        expected_keys = {"web_name", "id", "ques", "web", "upstream_url", "verifier_path", "judge_rubric"}
         self.assertGreaterEqual(len(tasks), 15)
         self.assertLessEqual(len(tasks), 20)
         self.assertEqual({task["id"] for task in tasks}, set(feasibility))
         for task in tasks:
             self.assertEqual(set(task), expected_keys)
-            self.assertEqual(task["web"], "http://localhost:40099/")
+            self.assertEqual(task["web"], "http://localhost:40115/")
             self.assertGreater(feasibility[task["id"]]["candidate_count"], 0)
 
         m = self.module
@@ -650,6 +650,14 @@ class ApartmentsRegressionTests(unittest.TestCase):
             hashes[0],
             file_hash(self.site / "instance_seed" / "apartments_com.db"),
         )
+
+    def test_review_fixed_dollar_move_in_deposit(self):
+        response = self.client.post('/tools/move-in-cost', data={
+            'rent': '3711', 'deposit_months': '2', 'security_deposit': '2565',
+            'app_fee': '85', 'admin_fee': '169', 'moving': '600'})
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'$7,130', response.data)
+        self.assertNotIn(b'$12,098', response.data)
 
 
 if __name__ == "__main__":

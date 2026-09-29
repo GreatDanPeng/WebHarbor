@@ -21,7 +21,7 @@
     {% for a in articles %}
       <div class="trending-item">
         <h4><a href="{{ url_for('article_view', wiki_slug=wiki.slug, title=a.slug) }}">{{ a.title }}</a></h4>
-        <div class="ti-meta">{{ a.summary[:120] }}{{ '...' if a.summary|length > 120 else '' }}</div>
+        <div class="ti-meta">{{ (a.summary | wiki_excerpt)[:120] }}{{ '...' if a.summary|length > 120 else '' }}</div>
       </div>
     {% else %}
       <p style="color: #888;">No articles in this category yet.</p>

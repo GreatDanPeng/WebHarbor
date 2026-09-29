@@ -419,3 +419,5 @@ button { font-family: inherit; cursor: pointer; }
   .eb-table { display: block; overflow-x: auto; }
   .eb-footer-inner { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+.eb-hero[style*="background-image"] .eb-hero-sub { color: #fff; }

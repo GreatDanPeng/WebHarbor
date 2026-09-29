@@ -7,10 +7,11 @@
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <div class="row">
       <div class="form-field" style="flex:1;"><label>Monthly rent ($)</label><input type="number" name="rent" value="{{ rent or '' }}"></div>
-      <div class="form-field" style="flex:1;"><label>Deposit (months of rent)</label><input type="number" name="deposit_months" value="1"></div>
-      <div class="form-field" style="flex:1;"><label>Application fee</label><input type="number" name="app_fee" value="75"></div>
-      <div class="form-field" style="flex:1;"><label>Admin fee</label><input type="number" name="admin_fee" value="200"></div>
-      <div class="form-field" style="flex:1;"><label>Moving cost</label><input type="number" name="moving" value="800"></div>
+      <div class="form-field" style="flex:1;"><label>Deposit (months of rent)</label><input type="number" name="deposit_months" min="0" value="{{ deposit_months }}"></div>
+      <div class="form-field" style="flex:1;"><label>Fixed security deposit ($, if quoted)</label><input type="number" name="security_deposit" min="0" value="{{ fixed_deposit }}"><small>Overrides the months-of-rent estimate.</small></div>
+      <div class="form-field" style="flex:1;"><label>Application fee</label><input type="number" name="app_fee" min="0" value="{{ app_fee }}"></div>
+      <div class="form-field" style="flex:1;"><label>Admin fee</label><input type="number" name="admin_fee" min="0" value="{{ admin }}"></div>
+      <div class="form-field" style="flex:1;"><label>Moving cost</label><input type="number" name="moving" min="0" value="{{ moving }}"></div>
     </div>
     <button class="btn" type="submit">Calculate</button>
   </form>

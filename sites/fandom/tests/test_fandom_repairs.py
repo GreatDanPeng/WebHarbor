@@ -331,7 +331,7 @@ class FandomRepairTests(unittest.TestCase):
             self.assertEqual(revision.bytes_delta, len(content.encode("utf-8")))
 
     def test_tasks_have_basic_keys_and_live_targets(self):
-        required = {"web_name", "id", "ques", "web", "upstream_url"}
+        required = {"web_name", "id", "ques", "web", "upstream_url", "verifier_path", "judge_rubric"}
         tasks = [
             json.loads(line) for line in (self.site / "tasks.jsonl").read_text().splitlines()
             if line.strip()
@@ -341,7 +341,7 @@ class FandomRepairTests(unittest.TestCase):
                          [f"Fandom--{i}" for i in range(18)])
         for task in tasks:
             self.assertEqual(set(task), required)
-            self.assertEqual(task["web"], "http://localhost:40101/")
+            self.assertEqual(task["web"], "http://localhost:40117/")
 
         targets = [
             "/wiki/mcu/Tony_Stark",
@@ -408,6 +408,14 @@ class FandomRepairTests(unittest.TestCase):
             "ix_articles_wiki_slug",
             "ix_articles_wiki_view",
         }.issubset(indexes))
+
+    def test_review_historical_revision_and_plain_excerpt(self):
+        response = self.client.get('/wiki/mcu/Tony_Stark?oldid=1')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Historical revision', response.data)
+        self.assertEqual(self.client.get('/wiki/mcu/Tony_Stark?oldid=999999').status_code, 404)
+        self.assertEqual(self.module.wiki_excerpt("Read [[Tony_Stark|Tony Stark]]"), 'Read Tony Stark')
+        self.assertIn(b'Category:Five-Star_Characters', self.client.get('/wiki/genshin/Special:Categories').data)
 
 
 if __name__ == "__main__":

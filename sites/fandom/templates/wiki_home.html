@@ -36,7 +36,7 @@
       {% endif %}
       <div class="fa-label">Featured Article</div>
       <h2><a href="{{ url_for('article_view', wiki_slug=wiki.slug, title=featured.slug) }}">{{ featured.title }}</a></h2>
-      <p>{{ featured.summary }}</p>
+      <p>{{ featured.summary | wiki_excerpt }}</p>
       <p><a href="{{ url_for('article_view', wiki_slug=wiki.slug, title=featured.slug) }}">Read full article &raquo;</a></p>
     </article>
     {% endif %}

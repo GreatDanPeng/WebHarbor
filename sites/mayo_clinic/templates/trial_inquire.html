@@ -14,11 +14,7 @@
   <p class="muted">{{ trial.brief_summary }}</p>
 
   {% if success_code %}
-    {% if eligible == 'eligible' %}
-      <div class="alert alert-success">Based on the information provided you appear potentially eligible. Confirmation: <strong>{{ success_code }}</strong>. A trial coordinator will reach out for additional screening.</div>
-    {% else %}
-      <div class="alert alert-info">Based on the information provided you may not meet eligibility criteria. Your inquiry has been logged as <strong>{{ success_code }}</strong> and a coordinator may still reach out for additional review.</div>
-    {% endif %}
+    <div class="alert alert-success">Your inquiry has been received. Confirmation: <strong>{{ success_code }}</strong>. Eligibility requires study-team review; this form does not determine whether you qualify.</div>
   {% endif %}
 
   <form method="post" class="form-grid">

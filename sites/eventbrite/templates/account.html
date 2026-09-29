@@ -3,6 +3,8 @@
 {% block content %}
 <div class="eb-container eb-page" style="max-width:920px;">
   <h1 class="eb-h1">Hi {{ current_user.name.split(' ')[0] }}</h1>
+  <p>City: {{ current_user.city }}</p>
+  <p>Interests: {% for interest in current_user.get_interests() %}{{ cat_map.get(interest, (interest,))[0] }}{% if not loop.last %}, {% endif %}{% endfor %}</p>
   <div class="eb-grid-3">
     <a class="eb-card" href="{{ url_for('my_tickets') }}">
       <div class="eb-card-img" style="background:linear-gradient(135deg,#F05537,#FFB169);"><div class="img-title">My Tickets</div></div>

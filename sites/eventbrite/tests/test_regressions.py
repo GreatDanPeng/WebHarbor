@@ -324,8 +324,8 @@ class EventbriteRegressionTests(unittest.TestCase):
         tasks = [json.loads(line) for line in (SITE / "tasks.jsonl").read_text().splitlines()]
         self.assertEqual(len(tasks), 18)
         self.assertEqual([task["id"] for task in tasks], [f"Eventbrite--{i}" for i in range(18)])
-        self.assertTrue(all(set(task) == {"web_name", "id", "ques", "web", "upstream_url"} for task in tasks))
-        self.assertTrue(all(task["web"] == "http://localhost:40100/" for task in tasks))
+        self.assertTrue(all(set(task) == {"web_name", "id", "ques", "web", "upstream_url", "verifier_path", "judge_rubric"} for task in tasks))
+        self.assertTrue(all(task["web"] == "http://localhost:40116/" for task in tasks))
 
         with site.app.app_context():
             titles = {event.title for event in site.Event.query.all()}
@@ -405,6 +405,21 @@ class EventbriteRegressionTests(unittest.TestCase):
         for task_id, path in task_paths.items():
             with self.subTest(task_id=task_id, path=path):
                 self.assertEqual(self.client.get(path).status_code, 200)
+
+    def test_review_calendar_preserves_timezone(self):
+        response = self.client.get('/e/science-fiction-kim-stanley-robinson/ics')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'DTSTART:20260617T000000Z', response.data)
+        self.assertIn(b'DTEND:20260617T020000Z', response.data)
+        self.assertIn(b'Pioneer Works\\, 159 Pioneer St', response.data)
+
+    def test_review_questions_are_visible_after_submission(self):
+        marker = 'Does the recording include questions from remote attendees?'
+        response = self.client.post('/e/ai-product-summit-online-2026/qa',
+            data={'name': 'Review Reader', 'question': marker}, follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(marker.encode(), response.data)
+        self.assertIn(b'Review Reader', response.data)
 
 
 if __name__ == "__main__":
