@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Verify Thumbtack--8.
 
-Log in with the demo account (email: alice.j@test.com, password: TestPass123!). I can only be home on Sundays. Find two handymen whose business hours include Sunday, save both to my saved pros, and message the one with more reviews to confirm they can do a Sunday visit. Follow up in the same thread asking which Sunday time slots they have open, then open my saved list and remove the other handyman. Report both replies.
+Log in with the demo account (email: alice.j@test.com, password: TestPass123!). I can only be home on Sundays. Find two handymen whose business hours include Sunday, compare their reviews, and message the one with more reviews to confirm they can do a Sunday visit. Follow up in the same thread asking which Sunday time slots they have open, then save that handyman to my saved pros. Report both replies.
 """
 import sys
 from pathlib import Path

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Verify Thumbtack--18.
 
-Log in with the demo account (email: carol.d@test.com, password: TestPass123!). Starting from the Services near me page, open the Events services group and go to the wedding and event makeup category. Sort the list by Most hires and tell me the top makeup artist's name, number of hires, and review count. Check their profile for Top Pro status and how fast they respond, message them about availability for an October 18 event, follow up asking about a pre-event trial, then save them to my saved pros. Report both replies.
+Log in with the demo account (email: carol.d@test.com, password: TestPass123!). I need a makeup artist for my October 18 event and would like the one with the most Thumbtack hires. Compare the wedding and event makeup artists and tell me the leader's name, number of hires, and review count. Check their profile for Top Pro status and how fast they respond, message them about availability for an October 18 event, follow up asking about a pre-event trial, then save them to my saved pros. Report both replies.
 """
 import sys
 from pathlib import Path

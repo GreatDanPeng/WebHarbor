@@ -59,3 +59,11 @@ profile zip/address update.
 - The Kirkland city page (`/wa/kirkland`) is reachable only by URL inference
   (footer city pattern); recorded as a discoverability note in the review
   report, task 15 still verifiable via the navigation gate on `/wa/kirkland`.
+
+
+Reviewer continuation (PRs 252–254): tasks and verifiers are maintained together.
+The former generation scripts must not be used to overwrite the reviewed contract.
+The current tests reconstruct synthetic states from final browser regression deltas;
+they are unit tests, not additional browser runs. Numeric checks accept equivalent
+decimal forms and selected comparisons bind values to subjects. These deterministic
+checks cover finite language patterns, not arbitrary semantic equivalence.

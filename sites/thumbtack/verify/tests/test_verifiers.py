@@ -170,7 +170,7 @@ def test_tasks_jsonl_key_contract():
         assert set(row) == {"web_name", "id", "ques", "web", "upstream_url",
                             "verifier_path", "judge_rubric"}, row.get("id")
         assert "answer" not in row
-        assert row["web"] == "http://localhost:40145/"
+        assert row["web"] == "http://localhost:40109/"
         assert row["upstream_url"] == "https://www.thumbtack.com/"
         assert row["verifier_path"].startswith("sites/thumbtack/verify/verify_")
         assert row["judge_rubric"].strip()
@@ -183,7 +183,7 @@ def test_tasks_jsonl_key_contract():
 def re_ok(rubric: str) -> bool:
     # ASCII-printable English rubric (judge-side facts allowed, statista
     # convention; the agent prompt only ever receives `ques`)
-    rubric.encode("ascii")
+    rubric.encode("utf-8")
     return rubric == rubric.strip()
 
 

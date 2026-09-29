@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Verify Thumbtack--0.
 
-Log in with the demo account (email: alice.j@test.com, password: TestPass123!). I'm choosing between the Seattle wedding photographers Jeshua Frees (Clearline Production) and Tanner Schmidt. Compare how many Thumbtack hires each of them has, save the one with more hires to my saved pros, and tell me how many years that pro has been in business and how many employees they have.
+Log in with the demo account (email: alice.j@test.com, password: TestPass123!). I'm choosing between the Seattle wedding photographers Jeshua Frees (Clearline Production), Tanner Schmidt, and Liz Ong. Compare how many Thumbtack hires each of them has, save the one with the most hires to my saved pros, and tell me how many years that pro has been in business and how many employees they have.
 """
 import sys
 from pathlib import Path

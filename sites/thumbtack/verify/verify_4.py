@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Verify Thumbtack--4.
 
-Log in with the demo account (email: alice.j@test.com, password: TestPass123!). My TV mounting project is on hold — cancel it, but first tell me which pro had quoted the lowest price and how many quotes the project had received in total. Then start a replacement request in zip 98033 to hire a handyman for hanging a heavy mirror instead.
+Log in with the demo account (email: alice.j@test.com, password: TestPass123!). My TV mounting project is on hold — cancel it, but first tell me which pro had quoted the lowest price and how many quotes the project had received in total. Then start a replacement request in zip 98033 for a handyman to hang a heavy mirror, describe the job in the quote request, and report the cheapest quote the new request received.
 """
 import sys
 from pathlib import Path

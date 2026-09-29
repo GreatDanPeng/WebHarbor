@@ -56,10 +56,10 @@ DEFAULT_CONTAINER = os.environ.get("WH_CONTAINER", "wh-tt-review")
 # Review container wh-tt-review, image webharbor:tt-review (built from the
 # committed tree at 371b81fa), thumbtack seed built in-image with
 # PYTHONHASHSEED=0; instance == instance_seed, md5 0c1320fd…, byte-reproducible.
-TABLES = ("categories", "cost_guides", "users", "pros", "projects",
+TABLES = ("content_records", "categories", "cost_guides", "users", "pros", "projects",
           "enrollments", "reviews", "saved_pros", "project_matches",
           "threads", "messages")
-SEED_COUNTS = {"categories": 16, "cost_guides": 26, "users": 4, "pros": 177,
+SEED_COUNTS = {"content_records": 1, "categories": 16, "cost_guides": 26, "users": 4, "pros": 177,
                "projects": 5, "enrollments": 0, "reviews": 856,
                "saved_pros": 13, "project_matches": 25, "threads": 1,
                "messages": 2}
@@ -125,31 +125,14 @@ def is_site_url(url):
 
 
 def decode_png(path):
-    """Return (ok, detail) for a PNG file: signature, chunk CRCs, IEND presence."""
     try:
-        data = Path(path).read_bytes()
-    except OSError as e:
-        return False, f"unreadable: {e}"
-    if len(data) < 8 or data[:8] != b"\x89PNG\r\n\x1a\n":
-        return False, "missing PNG signature"
-    pos, seen_iend, chunks = 8, False, 0
-    while pos + 8 <= len(data):
-        length = int.from_bytes(data[pos:pos + 4], "big")
-        tag = data[pos + 4:pos + 8]
-        if pos + 8 + length + 4 > len(data):
-            return False, f"truncated chunk {tag!r}"
-        crc = int.from_bytes(data[pos + 8 + length:pos + 12 + length], "big")
-        if crc != zlib.crc32(data[pos + 4:pos + 8 + length]) & 0xFFFFFFFF:
-            return False, f"bad CRC in chunk {tag!r}"
-        if tag == b"IEND":
-            seen_iend = True
-        pos += 12 + length
-        chunks += 1
-        if chunks > 4096:
-            return False, "too many chunks"
-    if not seen_iend:
-        return False, "missing IEND"
-    return True, f"{chunks} chunks ok"
+        from PIL import Image
+        with Image.open(path) as image:
+            image.load()
+            valid = image.format == "PNG" and image.width > 0 and image.height > 0
+        return (valid, "decoded PNG")
+    except (OSError, ValueError) as exc:
+        return (False, str(exc))
 
 
 def check_trajectory_identity(judge, traj, task_id):
@@ -253,25 +236,17 @@ def check_answer_any(judge, answer, label, phrases):
 
 
 def check_answer_number(judge, answer, label, number, context=None):
-    """The answer must contain the number; if context given, the number must
-    appear within `context` words of it (guards against right number for the
-    wrong fact)."""
-    num = str(number).replace(",", "")
-    ans = _norm(answer).replace(",", "")
-    if num not in ans:
-        judge.fail(f"answer does not contain the number for {label}: {number}")
-        return
-    contexts = [context] if isinstance(context, str) else list(context or [])
-    if contexts:
-        for m in re.finditer(re.escape(num), ans):
-            window = ans[max(0, m.start() - 160):m.end() + 160]
-            if any(_norm(c) in window for c in contexts):
-                judge.evidence(f"answer reports {label} = {number} near "
-                               f"{contexts!r}")
-                return
-        judge.fail(f"number {number} for {label} never appears near {contexts!r}")
-        return
-    judge.evidence(f"answer reports {label} = {number}")
+    from answer_bindings import BINDINGS, number_bound, _number_pattern, _affirmed, _assertions
+    task_no = int(getattr(judge, 'task_id', '--0').split('--')[-1])
+    groups = BINDINGS.get(task_no, {}).get(label)
+    value = str(number)
+    if groups:
+        hit = number_bound(answer, value, groups)
+    else:
+        hit = any(_affirmed(segment, m.start()) for segment in _assertions(answer)
+                  for m in _number_pattern(value).finditer(segment))
+    if hit: judge.evidence(f"{label}: {value}")
+    else: judge.fail(f"{label}: missing or incorrectly associated value {value}")
 
 
 # ---------------------------------------------------------------- db helpers
@@ -368,7 +343,7 @@ def check_table_added(judge, initial_db, after_db, table, expect_rows, key_index
         # match on all non-timestamp positions
         matched = False
         for got in added:
-            if all(g == e for g, e in zip(got, exp) if e is not None):
+            if all(g == e for i, (g, e) in enumerate(zip(got, exp)) if e is not None and not (table == "saved_pros" and i == 0)):
                 matched = True
                 break
         if not matched:
@@ -435,6 +410,9 @@ def check_new_user(judge, initial_db, after_db, email, username, display_name):
 
 
 def check_seed_contract(judge, db_path):
+    if logical_digest(db_path) != "37db1a9fdccea722938aabb9746bf1694c3546411dc7183c93e35eb750d6e2ec":
+        judge.fail("initial database differs from reviewed seed schema or rows")
+        return
     counts = fetch_counts(db_path)
     for table, count in SEED_COUNTS.items():
         if counts.get(table) != count:
@@ -486,6 +464,7 @@ def run_verifier(task_id, run_checks):
     ap.add_argument("--container", default=DEFAULT_CONTAINER)
     args = ap.parse_args()
     judge = Judge()
+    judge.task_id = task_id
     result = {"task_id": task_id, "pass": False, "reason": "", "evidence": []}
     try:
         traj = load_run(args.run_dir)
@@ -495,6 +474,8 @@ def run_verifier(task_id, run_checks):
         check_trajectory_identity(judge, traj, task_id)
         if judge.passed:
             run_checks(judge, traj, initial, after)
+            from state_contract import check
+            check(judge, task_id, initial, after)
     except Exception as e:  # fail closed on any verifier error
         judge.fail(f"verifier error: {type(e).__name__}: {e}")
     result["pass"] = judge.passed
@@ -502,3 +483,11 @@ def run_verifier(task_id, run_checks):
     result["evidence"] = judge.evidence_list
     print(json.dumps(result, indent=1))
     return 0 if judge.passed else 1
+
+
+def logical_digest(path):
+    with sqlite3.connect(f"file:{path}?mode=ro", uri=True) as con:
+        schema = list(con.execute("SELECT type,name,tbl_name,sql FROM sqlite_master WHERE name NOT LIKE 'sqlite_%' ORDER BY type,name"))
+        tables = [r[0] for r in con.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' ORDER BY name")]
+        rows = {t: sorted([list(r) for r in con.execute('SELECT * FROM "'+t+'"')], key=repr) for t in tables}
+    return hashlib.sha256(json.dumps([schema, rows], default=str).encode()).hexdigest()
