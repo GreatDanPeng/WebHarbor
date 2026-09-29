@@ -401,8 +401,8 @@
       "sha256": "f9a3d45c7af7e5bc7bfa03d4906e9854b69897477c5115b00b12dbfddb320746"
     },
     "ticketmaster.tar.gz": {
-      "bytes": 18711844,
-      "sha256": "da278a7c4e7f305b3f5245df1ac067c11641fe4d0dfdf069b522ecfd02b57b76"
+      "bytes": 17652879,
+      "sha256": "46eabbc33c318e54badecd6ceb646d339bf0c25e4de1f2a566a955f965c87914"
     },
     "trip_com.tar.gz": {
       "bytes": 89982594,
@@ -449,8 +449,8 @@
       "sha256": "986c51d2fe6c557b3b2c784c4bc198e53065af7da65946a99b782a90fde3b7db"
     }
   },
-  "managed_tree_sha256": "d94cfe0db5f97da163c893aa2a0b1c34e758e97679389d5ab52063682020ea16",
+  "managed_tree_sha256": "1d16092ecd4c492e44ac7d0cc2e2325971655515e1286b3e78989381e78199c9",
   "repo": "ChilleD/WebHarbor",
-  "revision": "eba57287d6e58131b37175b9f03d5fc859306167",
+  "revision": "f63db8a547bbbed35eb457b4109d43d5392f3756",
   "version": 1
 }
