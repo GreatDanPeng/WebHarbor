@@ -387,10 +387,12 @@ RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/student_com && \
     python3 /opt/check_asset_inventory.py /opt/WebSyn/statista && \
     (cd /opt/WebSyn/statista && rm -rf instance instance_seed && PYTHONHASHSEED=0 python3 seed_data.py && rm -rf instance __pycache__) && \
     python3 /opt/check_asset_inventory.py /opt/WebSyn/thumbtack && \
-    (cd /opt/WebSyn/thumbtack && rm -rf instance instance_seed && PYTHONHASHSEED=0 python3 seed_data.py && mkdir -p instance_seed && cp instance/thumbtack.db instance_seed/thumbtack.db && rm -rf instance __pycache__)
+    (cd /opt/WebSyn/thumbtack && rm -rf instance instance_seed && PYTHONHASHSEED=0 python3 seed_data.py && mkdir -p instance_seed && cp instance/thumbtack.db instance_seed/thumbtack.db && rm -rf instance __pycache__) && \
+    python3 /opt/check_asset_inventory.py /opt/WebSyn/ticketmaster && \
+    (cd /opt/WebSyn/ticketmaster && rm -rf instance instance_seed && PYTHONHASHSEED=0 python3 seed_data.py && mkdir -p instance_seed && cp instance/ticketmaster.db instance_seed/ticketmaster.db && rm -rf instance __pycache__)
 
 RUN python3 /opt/check_seed_databases.py /opt/WebSyn
 
-EXPOSE 8101 40000-40109
+EXPOSE 8101 40000-40110
 
 CMD ["/opt/websyn_start.sh"]
