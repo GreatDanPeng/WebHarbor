@@ -435,27 +435,51 @@ app.jinja_env.globals.update(
 
 # ------------------------------------------------------------------- routes --
 
+def homepage_selection(events, limit, exclude=()):
+    """Show different performers, rotating categories instead of tour dates."""
+    seen = {e.artist_id or e.name.casefold() for e in exclude}
+    groups = {category: [] for category in GENRE_MAP.values()}
+    for event in events:
+        identity = event.artist_id or event.name.casefold()
+        if not event.image or identity in seen:
+            continue
+        seen.add(identity)
+        groups.setdefault(event.category, []).append(event)
+    selected = []
+    while len(selected) < limit and any(groups.values()):
+        for group in groups.values():
+            if group and len(selected) < limit:
+                selected.append(group.pop(0))
+    return selected
+
+
 @app.route('/')
 def index():
-    base = Event.query.filter_by(is_add_on=False)
-    highlights = (base.filter(Event.image.isnot(None))
-                  .order_by(Event.date).limit(12).all())
-    weekend = (base.filter(Event.date >= '2026-09-27', Event.date <= '2026-09-29')
-               .order_by(Event.date).limit(12).all())
+    base = Event.query.filter_by(is_add_on=False).filter(
+        Event.date >= MIRROR_TODAY.date().isoformat())
+    upcoming = base.order_by(Event.date, Event.id).all()
+    # Saturday/Sunday containing the snapshot day, or the next weekend.
+    saturday = MIRROR_TODAY.date() + timedelta(days=(5 - MIRROR_TODAY.weekday()) % 7)
+    if MIRROR_TODAY.weekday() == 6:
+        saturday -= timedelta(days=7)
+    sunday = saturday + timedelta(days=1)
+    weekend = homepage_selection(
+        [e for e in upcoming if saturday.isoformat() <= e.date <= sunday.isoformat()], 8)
+    featured = homepage_selection(upcoming, 9, exclude=weekend)
+    hero = featured[0] if featured else None
+    highlights = featured[1:]
     popular = {}
     for genre_key, category in GENRE_MAP.items():
-        popular[genre_key] = (Event.query
-                              .filter_by(category=category, is_add_on=False)
-                              .order_by(Event.date).limit(10).all())
+        popular[genre_key] = homepage_selection(
+            [e for e in upcoming if e.category == category], 10)
     trending = []
     for row in CONTENT['trending_searches']:
         artist = Artist.query.get(row['artist_id'])
         if artist:
             trending.append({'label': row['label'], 'artist': artist})
-    soon = base.order_by(Event.date).limit(30).all()
-    return render_template('index.html', highlights=highlights, weekend=weekend,
+    return render_template('index.html', hero=hero, highlights=highlights, weekend=weekend,
                            popular=popular, trending=trending,
-                           cities=CONTENT['cities'], soon=soon)
+                           cities=CONTENT['cities'])
 
 
 @app.route('/discover/cities')
