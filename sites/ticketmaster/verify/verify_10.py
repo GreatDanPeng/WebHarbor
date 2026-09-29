@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Verify Ticketmaster--10.
 
-Log in as david.k@test.com with password TestPass123!. David has a few favorites saved. Remove the saved event for the Rod Wave tour, add the Trans-Siberian Orchestra artist page as a favorite, and then report exactly which items remain listed under My Favorites.
+Log in as david.k@test.com with password TestPass123!. I am replacing my Rod Wave concert plan with Trans-Siberian Orchestra. Remove the saved event for the Rod Wave tour, add the Trans-Siberian Orchestra artist page as a favorite, and then report exactly which items remain listed under My Favorites.
 """
 import sys
 from pathlib import Path

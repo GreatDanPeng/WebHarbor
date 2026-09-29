@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Verify Ticketmaster--19.
 
-I can no longer attend the Karol G show I bought tickets for. Log in with the demo account (david.k@test.com / TestPass123!) to confirm the order is in my history, then find the numbered steps Ticketmaster gives for selling tickets, the page in my account where the listing starts, and the phone number for ordering tickets by phone instead.
+I can no longer attend the Karol G show I bought tickets for. Log in with the demo account (david.k@test.com / TestPass123!) to confirm the order is in my history, then find the numbered steps Ticketmaster gives for selling tickets, the page in my account where the listing starts, and explain what happens after a buyer purchases the listing.
 """
 import sys
 from pathlib import Path
@@ -36,12 +36,13 @@ def run_checks(judge, traj, initial_db, after_db):
     check_visited_path(judge, traj, "orders list", r"/member/orders")
     check_visited_path(judge, traj, "the Karol G order", r"/member/orders/TM2609274105")
     check_visited_path(judge, traj, "the sell page", r"/sell")
-    check_visited_path(judge, traj, "the contact-us help article", r"/help/contact")
     check_answer_phrase(judge, answer, "sell step 1", "list")
     check_answer_phrase(judge, answer, "sell step 3", "get paid")
     check_answer_phrase(judge, answer, "where the listing starts", "my account")
-    check_answer_any(judge, answer, "phone number for ordering by phone",
-                     ["1-800-745-3000", "800-745-3000", "1.800.745.3000"])
+    check_answer_phrase(judge, answer, "sell step 2", "sell")
+    check_answer_phrase(judge, answer, "ticket transfer", "transfer")
+    check_answer_phrase(judge, answer, "buyer", "buyer")
+    check_answer_phrase(judge, answer, "payout destination", "bank")
     check_read_only(judge, initial_db, after_db)
 
 

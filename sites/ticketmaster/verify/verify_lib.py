@@ -64,9 +64,9 @@ DEFAULT_CONTAINER = os.environ.get("WH_CONTAINER", "wh-tm-rereview")
 # the contributor fix commit 73b29ac8), ticketmaster seed built in-image
 # with PYTHONHASHSEED=0; instance == instance_seed, md5 b03a154d…,
 # byte-reproducible (two independent --no-cache builds agree).
-TABLES = ("users", "artists", "venues", "events", "ticket_listings",
+TABLES = ("content_records", "users", "artists", "venues", "events", "ticket_listings",
           "orders", "payment_methods", "favorites", "presales")
-SEED_COUNTS = {"users": 4, "artists": 130, "venues": 171, "events": 621,
+SEED_COUNTS = {"content_records": 1, "users": 4, "artists": 130, "venues": 171, "events": 621,
                "ticket_listings": 37507, "orders": 6, "payment_methods": 6,
                "favorites": 15, "presales": 337}
 SEED_DB_MD5 = "b03a154d8eccfbac2be5ac4bd8a59ff8"
@@ -129,31 +129,14 @@ def is_site_url(url):
 
 
 def decode_png(path):
-    """Return (ok, detail) for a PNG file: signature, chunk CRCs, IEND presence."""
     try:
-        data = Path(path).read_bytes()
-    except OSError as e:
-        return False, f"unreadable: {e}"
-    if len(data) < 8 or data[:8] != b"\x89PNG\r\n\x1a\n":
-        return False, "missing PNG signature"
-    pos, seen_iend, chunks = 8, False, 0
-    while pos + 8 <= len(data):
-        length = int.from_bytes(data[pos:pos + 4], "big")
-        tag = data[pos + 4:pos + 8]
-        if pos + 8 + length + 4 > len(data):
-            return False, f"truncated chunk {tag!r}"
-        crc = int.from_bytes(data[pos + 8 + length:pos + 12 + length], "big")
-        if crc != zlib.crc32(data[pos + 4:pos + 8 + length]) & 0xFFFFFFFF:
-            return False, f"bad CRC in chunk {tag!r}"
-        if tag == b"IEND":
-            seen_iend = True
-        pos += 12 + length
-        chunks += 1
-        if chunks > 4096:
-            return False, "too many chunks"
-    if not seen_iend:
-        return False, "missing IEND"
-    return True, f"{chunks} chunks ok"
+        from PIL import Image
+        with Image.open(path) as image:
+            image.load()
+            valid = image.format == "PNG" and image.width > 0 and image.height > 0
+        return (valid, "decoded PNG")
+    except (OSError, ValueError) as exc:
+        return (False, str(exc))
 
 
 def check_trajectory_identity(judge, traj, task_id):
@@ -257,36 +240,31 @@ def check_answer_any(judge, answer, label, phrases):
 
 
 def check_answer_number(judge, answer, label, number, context=None):
-    """The answer must contain the number; if context given, the number must
-    appear within a window of it (guards against right number for the wrong
-    fact)."""
-    num = str(number).replace(",", "")
-    ans = _norm(answer).replace(",", "")
-    if num not in ans:
-        judge.fail(f"answer does not contain the number for {label}: {number}")
-        return
-    contexts = [context] if isinstance(context, str) else list(context or [])
-    if contexts:
-        for m in re.finditer(re.escape(num), ans):
-            window = ans[max(0, m.start() - 160):m.end() + 160]
-            if any(_norm(c) in window for c in contexts):
-                judge.evidence(f"answer reports {label} = {number} near {contexts!r}")
-                return
-        judge.fail(f"number {number} for {label} never appears near {contexts!r}")
-        return
-    judge.evidence(f"answer reports {label} = {number}")
+    from answer_bindings import BINDINGS, number_bound, _number_pattern, _affirmed, _assertions
+    task_no = int(getattr(judge, 'task_id', '--0').split('--')[-1])
+    groups = BINDINGS.get(task_no, {}).get(label)
+    value = str(number)
+    if groups:
+        hit = number_bound(answer, value, groups)
+    else:
+        hit = any(_affirmed(segment, m.start()) for segment in _assertions(answer)
+                  for m in _number_pattern(value).finditer(segment))
+    if hit: judge.evidence(f"{label}: {value}")
+    else: judge.fail(f"{label}: missing or incorrectly associated value {value}")
 
 
 def check_answer_money(judge, answer, label, amount):
-    """Money check: accepts 333.18 / $333.18 / 333.18 dollars / 333 dollars 18 cents."""
-    amt = f"{amount:.2f}"
-    variants = {amt, amt.rstrip("0").rstrip("."), f"${amt}"}
-    ans = _norm(answer).replace(",", "")
-    for v in variants:
-        if v in ans:
-            judge.evidence(f"answer reports {label} = {amt}")
-            return
-    judge.fail(f"answer does not report {label} = {amt} (got variants {sorted(variants)!r} unmatched)")
+    from answer_bindings import BINDINGS, number_bound, _number_pattern, _affirmed, _assertions
+    task_no = int(getattr(judge, 'task_id', '--0').split('--')[-1])
+    groups = BINDINGS.get(task_no, {}).get(label)
+    value = str(amount)
+    if groups:
+        hit = number_bound(answer, value, groups)
+    else:
+        hit = any(_affirmed(segment, m.start()) for segment in _assertions(answer)
+                  for m in _number_pattern(value).finditer(segment))
+    if hit: judge.evidence(f"{label}: {value}")
+    else: judge.fail(f"{label}: missing or incorrectly associated value {value}")
 
 
 # ---------------------------------------------------------------- db helpers
@@ -502,9 +480,8 @@ def check_row_swap(judge, initial_db, after_db, table, added_row, removed_row,
 
 
 def check_seed_contract(judge, db_path):
-    md5 = hashlib.md5(Path(db_path).read_bytes()).hexdigest()
-    if md5 != SEED_DB_MD5:
-        judge.fail(f"initial DB md5 {md5} != frozen seed contract {SEED_DB_MD5}")
+    if logical_digest(db_path) != "e25d1f6eed2a4a530d0747cf446a5bbdec97cd456a6f6f9b89cb4fee6bbe8f34":
+        judge.fail("initial database differs from reviewed seed schema or rows")
         return
     counts = fetch_counts(db_path)
     for table, count in SEED_COUNTS.items():
@@ -557,6 +534,7 @@ def run_verifier(task_id, run_checks):
     ap.add_argument("--container", default=DEFAULT_CONTAINER)
     args = ap.parse_args()
     judge = Judge()
+    judge.task_id = task_id
     result = {"task_id": task_id, "pass": False, "reason": "", "evidence": []}
     try:
         traj = load_run(args.run_dir)
@@ -573,3 +551,11 @@ def run_verifier(task_id, run_checks):
     result["evidence"] = judge.evidence_list
     print(json.dumps(result, indent=1))
     return 0 if judge.passed else 1
+
+
+def logical_digest(path):
+    with sqlite3.connect(f"file:{path}?mode=ro", uri=True) as con:
+        schema = list(con.execute("SELECT type,name,tbl_name,sql FROM sqlite_master WHERE name NOT LIKE 'sqlite_%' ORDER BY type,name"))
+        tables = [r[0] for r in con.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' ORDER BY name")]
+        rows = {t: sorted([list(r) for r in con.execute('SELECT * FROM "'+t+'"')], key=repr) for t in tables}
+    return hashlib.sha256(json.dumps([schema, rows], default=str).encode()).hexdigest()

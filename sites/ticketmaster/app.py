@@ -304,13 +304,30 @@ def parse_money(text):
         return None
 
 
+class ContentRecord(db.Model):
+    __tablename__ = 'content_records'
+    id = db.Column(db.Integer, primary_key=True)
+    payload = db.Column(db.Text, nullable=False)
+
+
+def seed_content():
+    if db.session.get(ContentRecord, 1) is not None:
+        return
+    with open(os.path.join(BASE_DIR, 'source_data_content.json'), encoding='utf-8') as source:
+        payload = json.dumps(json.load(source), ensure_ascii=False, sort_keys=True)
+    db.session.add(ContentRecord(id=1, payload=payload))
+    db.session.commit()
+
+
 def load_content():
-    path = os.path.join(BASE_DIR, 'source_data_content.json')
-    with open(path, encoding='utf-8') as fh:
-        return json.load(fh)
+    row = db.session.get(ContentRecord, 1)
+    if row is None:
+        raise RuntimeError('Missing build-generated content seed')
+    return json.loads(row.payload)
 
 
-CONTENT = load_content()
+from werkzeug.local import LocalProxy
+CONTENT = LocalProxy(load_content)
 
 
 def genre_events(genre_key):
@@ -1025,6 +1042,7 @@ def seed_benchmark_users():
 
 with app.app_context():
     db.create_all()
+    seed_content()
     seed_database()
     seed_benchmark_users()
 
@@ -1033,6 +1051,7 @@ def main():
     """Standalone entry: build instance/ticketmaster.db from scratch (idempotent)."""
     with app.app_context():
         db.create_all()
+        seed_content()
         seed_database()
         seed_benchmark_users()
     print('seeded')

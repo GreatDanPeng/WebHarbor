@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Verify Ticketmaster--4.
 
-I'm deciding between seeing a show at Sphere in Las Vegas or TD Garden in Boston. Which venue currently lists more upcoming events? For the venue with fewer events, also report its street address and the cheapest all-in price for a Standard Admission ticket to the Boston Bruins vs. Winnipeg Jets game.
+I'm planning to attend the Boston Bruins vs. Winnipeg Jets game at TD Garden. Compare the cheapest Standard Admission option with the next-cheapest Standard Admission option, including section, row, face value, service fee and all-in price per ticket for each. Tell me the extra cost for two people to choose the second option, and the venue's street address.
 """
 import sys
 from pathlib import Path
@@ -33,13 +33,19 @@ EVENT_ID = "010064EDC5277AB0"
 
 def run_checks(judge, traj, initial_db, after_db):
     answer = final_answer(traj)
-    check_visited_path(judge, traj, "Sphere venue page", rf"/venue/{SPHERE_ID}")
     check_visited_path(judge, traj, "TD Garden venue page", rf"/venue/{TDG_ID}")
     check_visited_path(judge, traj, "Bruins vs Jets event page", rf"/event/{EVENT_ID}")
-    check_answer_number(judge, answer, "Sphere events", 20, ["sphere", "20"])
-    check_answer_number(judge, answer, "TD Garden events", 18, ["garden", "18"])
     check_answer_phrase(judge, answer, "TD Garden street address", "100 Legends Way")
     check_answer_money(judge, answer, "cheapest Standard Admission ticket", 81.18)
+    check_answer_money(judge, answer, "second Standard Admission price", 82.56)
+    check_answer_money(judge, answer, "two-person upgrade", 2.76)
+    check_answer_phrase(judge, answer, "first row", "row I")
+    check_answer_phrase(judge, answer, "second row", "row H")
+    check_visited_path(judge, traj, "ticket cost breakdown", rf"/event/{EVENT_ID}/tickets")
+    check_answer_money(judge, answer, "first face value", 59)
+    check_answer_money(judge, answer, "first service fee", 22.18)
+    check_answer_money(judge, answer, "second face value", 60)
+    check_answer_money(judge, answer, "second service fee", 22.56)
     check_read_only(judge, initial_db, after_db)
 
 
