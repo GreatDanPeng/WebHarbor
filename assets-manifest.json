@@ -408,6 +408,10 @@
       "bytes": 89982594,
       "sha256": "0f91ccbfaf752d3a19585151efc76c6b727bdfef404347917b9f9c43c94cb8eb"
     },
+    "tumblr.tar.gz": {
+      "bytes": 494112508,
+      "sha256": "d19931a939d0ba9e2cd024920e6e83c09d64b036689984d6d410fddcf7f0dc7c"
+    },
     "uniqlo.tar.gz": {
       "bytes": 131544567,
       "sha256": "0e81fd745d3dc2955b113ab428ed1cb689a5677c652a25ebc206263b402e7c00"
