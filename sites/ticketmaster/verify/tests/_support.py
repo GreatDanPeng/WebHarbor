@@ -28,7 +28,7 @@ VERIFY_DIR = Path(__file__).resolve().parents[1]
 SITE_DIR = VERIFY_DIR.parent
 CONTAINER = os.environ.get("WH_CONTAINER", "wh-tm-rereview")
 CACHE = Path(os.environ.get("TICKETMASTER_TEST_SEED_DB")
-             or str(Path("/tmp") / "ticketmaster_verify_tests_seed.db"))
+             or str(SITE_DIR / "instance_seed" / "ticketmaster.db"))
 TASKS_FILE = SITE_DIR / "tasks.jsonl"
 
 
@@ -176,12 +176,12 @@ def build_spec_traj(b: RunBuilder, spec: dict, answer: str,
     urls = spec["urls"]
     n = len(urls)
     for i, u in enumerate(urls):
-        b.add_step("navigate", u)
+        b.add_step("navigate", BASE.rstrip("/") + u if u.startswith("/") else u)
         texts = pending.get(i, ())
         for text in texts:
             b.add_input(text)
         if i == n - 1 and texts:
-            b.add_step("navigate", urls[-1])
+            b.add_step("navigate", BASE.rstrip("/") + urls[-1] if urls[-1].startswith("/") else urls[-1])
     return b.finish(answer, terminated=terminated, reason=reason)
 
 

@@ -178,11 +178,18 @@ def test_empty_answer_fails(tmp_path, task_no):
 
 
 # ---------------------------------------------------------------- contract checks
-def test_seed_contract_md5():
-    import hashlib
+def test_seed_is_byte_stable_on_populated_startup():
+    import subprocess, hashlib, shutil, tempfile
     seed = acquire_seed()
-    md5 = hashlib.md5(seed.read_bytes()).hexdigest()
-    assert md5 == "b03a154d8eccfbac2be5ac4bd8a59ff8", md5
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp) / "site"
+        shutil.copytree(Path(__file__).resolve().parents[2], root, ignore=shutil.ignore_patterns("instance", "__pycache__"))
+        (root / "instance").mkdir()
+        runtime = root / "instance" / seed.name
+        shutil.copyfile(seed, runtime)
+        before = hashlib.sha256(runtime.read_bytes()).hexdigest()
+        subprocess.run([sys.executable, "-c", "import app"], cwd=root, check=True)
+        assert hashlib.sha256(runtime.read_bytes()).hexdigest() == before
 
 
 def test_tasks_jsonl_key_contract():
@@ -194,7 +201,7 @@ def test_tasks_jsonl_key_contract():
         assert sorted(row.keys()) == ["id", "judge_rubric", "ques", "upstream_url",
                                       "verifier_path", "web", "web_name"], row.keys()
         assert "answer" not in row
-        assert row["web"] == "http://localhost:40146/"
+        assert row["web"] == "http://localhost:40110/"
         assert row["upstream_url"] == "https://www.ticketmaster.com/"
         assert row["verifier_path"].startswith("sites/ticketmaster/verify/verify_")
         assert (Path(__file__).resolve().parents[4]
