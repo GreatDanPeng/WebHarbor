@@ -10,6 +10,7 @@
 <div class="two-col">
   <div class="panel">
     <h2>Passenger details</h2>
+    <p>Departure: {{ ddate|dmy }}{% if rdate %} · Return: {{ rdate|dmy }}{% endif %}</p>
     <form method="post" autocomplete="off">
       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
       <div class="form-grid">

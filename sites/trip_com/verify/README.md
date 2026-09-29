@@ -75,3 +75,5 @@ python3 -m pytest sites/trip_com/verify/tests -q        # 260 passed
 
 Environment: `WH_CONTAINER` (default `wh-trip-com-review`) and
 `TRIP_COM_TEST_SEED_DB` override the seed DB location for tests.
+
+Reviewer continuation for PRs 252–254: maintain task prompts, rubrics and verifiers together. The former generation scripts must not overwrite this reviewed contract. Tests reconstruct synthetic states from final browser regression deltas; they are not additional browser runs. Numeric checks accept equivalent decimal forms and selected comparisons bind values to subjects. Coverage uses finite language patterns, not arbitrary semantic equivalence.

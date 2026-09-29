@@ -38,7 +38,7 @@
       <div class="bc-main">
         <div class="bc-ref">{{ b.ref }} &middot; Flight{{ ' (round-trip)' if b.trip_type == 'rt' else ' (one-way)' }}</div>
         <div class="bc-title">{{ b.route_label }} &middot; {{ b.passenger_first }} {{ b.passenger_last }}</div>
-        <div class="bc-meta">Outbound {{ b.outbound.dep_time }} on {{ b.outbound.airline }}{% if b.inbound %} &middot; Return {{ b.inbound.dep_time }} on {{ b.inbound.airline }}{% endif %}</div>
+        <div class="bc-meta">Outbound {% if b.departure_date %}{{ b.departure_date|dmy }} {% endif %}{{ b.outbound.dep_time }} on {{ b.outbound.airline }}{% if b.inbound %} &middot; Return {% if b.return_date %}{{ b.return_date|dmy }} {% endif %}{{ b.inbound.dep_time }} on {{ b.inbound.airline }}{% endif %}</div>
         <div class="bc-meta">{{ b.cabin }} cabin &middot; booked {{ b.created_at|dmy }}</div>
       </div>
       <div class="bc-right">

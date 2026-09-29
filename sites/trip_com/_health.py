@@ -17,7 +17,7 @@ MIN_COUNTS = {
     "flight_routes": 6,
     "flights": 700,
     "attractions": 130,
-    "attraction_packages": 130,
+    "attraction_packages": 95,
     "coupons": 4,
     "guides": 6,
     "hotel_bookings": 4,

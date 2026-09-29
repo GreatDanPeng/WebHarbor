@@ -11,11 +11,11 @@
     <h2>{{ route.origin_city }} &#8594; {{ route.dest_city }}{% if inbound %} &#8594; {{ route.origin_city }}{% endif %}</h2>
     <div class="sum-row"><span>Passenger</span><span class="val">{{ booking.passenger_first }} {{ booking.passenger_last }}</span></div>
     <div class="sum-row"><span>Cabin</span><span class="val">{{ booking.cabin }}</span></div>
-    <h3 style="margin-top:12px">Outbound</h3>
+    <h3 style="margin-top:12px">Outbound · {{ booking.departure_date|dmy }}</h3>
     <div class="sum-row"><span>{{ outbound.dep_time }} – {{ outbound.arr_time }}{% if outbound.plus1 %} (+1){% endif %}</span><span class="val">{{ outbound.airline }} {{ outbound.flight_no }}</span></div>
     <div class="sum-row"><span>{{ route.origin_code }} &#8594; {{ route.dest_code }}</span><span class="val">{{ outbound.duration_label }}</span></div>
     {% if inbound %}
-    <h3 style="margin-top:12px">Return</h3>
+    <h3 style="margin-top:12px">Return · {{ booking.return_date|dmy }}</h3>
     <div class="sum-row"><span>{{ inbound.dep_time }} – {{ inbound.arr_time }}{% if inbound.plus1 %} (+1){% endif %}</span><span class="val">{{ inbound.airline }} {{ inbound.flight_no }}</span></div>
     <div class="sum-row"><span>{{ route.dest_code }} &#8594; {{ route.origin_code }}</span><span class="val">{{ inbound.duration_label }}</span></div>
     {% endif %}
