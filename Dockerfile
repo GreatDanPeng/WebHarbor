@@ -393,8 +393,16 @@ RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/student_com && \
     python3 /opt/check_asset_inventory.py /opt/WebSyn/trip_com && \
     (cd /opt/WebSyn/trip_com && rm -rf instance instance_seed && PYTHONHASHSEED=0 python3 seed_data.py && mkdir -p instance_seed && cp instance/trip_com.db instance_seed/trip_com.db && rm -rf instance __pycache__)
 
+# usps validates its tracked media inventory and rebuilds its deterministic SQLite
+# seed from the captured source_data snapshots (see .build-generated-seed).
+RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/usps
+RUN cd /opt/WebSyn/usps && rm -rf instance instance_seed && \
+    PYTHONHASHSEED=0 python3 seed_data.py && \
+    mkdir -p instance_seed && cp instance/usps.db instance_seed/usps.db && \
+    rm -rf instance __pycache__
+
 RUN python3 /opt/check_seed_databases.py /opt/WebSyn
 
-EXPOSE 8101 40000-40111
+EXPOSE 8101 40000-40168
 
 CMD ["/opt/websyn_start.sh"]

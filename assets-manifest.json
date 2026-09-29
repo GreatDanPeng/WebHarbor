@@ -412,6 +412,10 @@
       "bytes": 131544567,
       "sha256": "0e81fd745d3dc2955b113ab428ed1cb689a5677c652a25ebc206263b402e7c00"
     },
+    "usps.tar.gz": {
+      "bytes": 19659362,
+      "sha256": "d81c9873fbc1de01630def7182f05cb2adf496954bb8643932b9e6a47b4c10fd"
+    },
     "versus.tar.gz": {
       "bytes": 12183876,
       "sha256": "093656316188dd7960177c9a187262de860e50c9f27a3b6658407f86d16f5cb3"
