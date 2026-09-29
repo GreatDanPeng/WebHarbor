@@ -165,14 +165,29 @@ def entered_identity(traj, email):
 
 
 def screenshots_decode(traj):
-    """Every recorded screenshot must be a decodable PNG."""
+    """Decode every referenced screenshot; a PNG signature alone is insufficient."""
+    from PIL import Image
+    shots = traj.get("_shots", {})
+    referenced = {step[key] for step in traj.get("steps", [])
+                  for key in ("screenshot", "screenshot_before", "screenshot_after")
+                  if step.get(key)}
+    if not referenced:
+        return False, "no referenced screenshots"
     bad = []
-    for name, path in traj["_shots"].items():
-        head = path.read_bytes()[:8] if path.exists() else b""
-        if not head.startswith(b"\x89PNG\r\n\x1a\n"):
+    for name in referenced:
+        path = shots.get(name)
+        try:
+            if path is None:
+                raise ValueError("missing screenshot")
+            with Image.open(path) as image:
+                if image.format != "PNG":
+                    raise ValueError("not PNG")
+                image.verify()
+            with Image.open(path) as image:
+                image.load()
+        except (OSError, ValueError, SyntaxError):
             bad.append(name)
-    return (not bad), (f"{len(traj['_shots'])} shots ok"
-                       if not bad else f"non-png/missing: {bad[:4]}")
+    return not bad, (f"{len(referenced)} PNGs decoded" if not bad else f"undecodable/missing: {bad[:4]}")
 
 
 # ---------------------------------------------------------------- answer matching
@@ -564,6 +579,10 @@ def run_verifier(task_id, run_checks):
     judge = Judge(task_id)
     try:
         run_checks(judge, traj, initial_db, after_db)
+        from reviewed_answers import check_answer
+        check_answer(judge, traj, int(task_id.split("--")[-1]))
+        from reviewed_state import check_state
+        check_state(judge, task_id, initial_db, after_db)
     except Exception as exc:  # noqa: BLE001 — any verifier error fails closed
         fail_closed(task_id, "verifier_error", f"{type(exc).__name__}: {exc}")
     judge.emit()

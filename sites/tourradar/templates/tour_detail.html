@@ -198,7 +198,7 @@
             <div class="avatar" style="background:var(--bg-blue); color:var(--primary-dark); display:flex; align-items:center; justify-content:center; font-weight:700;">{{ q.asker[:1] if q.asker else 'Q' }}</div>
             <div>
               <div class="name">{{ q.asker }}</div>
-              <div class="when">Asked on {{ q.asked_date }}{% if q.tags %} &bull; {{ q.tags|join(', ') }}{% endif %}</div>
+              <div class="when">Asked on {{ q.asked_date }}{% if q.tags %} &bull; {{ q.tag_list|join(', ') }}{% endif %}</div>
             </div>
           </div>
           <div class="body">{{ q.question }}</div>
@@ -244,7 +244,7 @@
         <form method="post" action="/wishlist/toggle/{{ tour.id }}">
       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
           <input type="hidden" name="next" value="/t/{{ tour.id }}">
-          <button class="btn btn-ghost" type="submit">{{ '&#9829; Saved' if in_wishlist else '&#9825; Save to wishlist' }}</button>
+          <button class="btn btn-ghost" type="submit">{{ '♥ Saved' if in_wishlist else '♡ Save to wishlist' }}</button>
         </form>
       </div>
 

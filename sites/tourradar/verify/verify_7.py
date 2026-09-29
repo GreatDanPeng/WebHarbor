@@ -36,8 +36,6 @@ def run_checks(judge, traj, initial_db, after_db):
                 "required: /t/46923 (Europe Taster)")
     judge.check("nav_booking_form", navigated_to(traj, "/book-now/46923"),
                 "required: the booking form on the cheapest guaranteed departure")
-    judge.check("nav_europe_jewel", navigated_to(traj, "/t/46922"),
-                "required: /t/46922 (Europe Jewel, the operator's other tour)")
     judge.check("answer_per_person", contains_amount(answer, 1635),
                 "expected the shared-room per-person price US$1,635")
     judge.check("answer_premium", contains_amount(answer, 421.83),
@@ -56,19 +54,6 @@ def run_checks(judge, traj, initial_db, after_db):
                 "expected the Single Room per-person price US$2,224")
     judge.check("answer_premium_2travelers", contains_amount(answer, 281.22),
                 "expected Premium Protection US$281.22 for 2 travelers")
-    judge.check("answer_second_cheapest", contains_amount(answer, 1735),
-                "expected the second-cheapest guaranteed departure at US$1,735")
-    judge.check("answer_jewel_dep",
-                contains_any(answer, ["May 27, 2027", "27 May 2027"]),
-                "expected Europe Jewel's cheapest guaranteed departure May 27, 2027")
-    judge.check("answer_jewel_price", contains_amount(answer, 2835),
-                "expected Europe Jewel's cheapest guaranteed departure at US$2,835")
-    judge.check("answer_which_cheaper",
-                contains_any(answer, ["europe taster is cheaper",
-                                       "europe taster's cheapest guaranteed departure is cheaper",
-                                       "the europe taster"]),
-                "expected Europe Taster's cheapest guaranteed departure to be "
-                "named the cheaper one")
     check_read_only(judge, initial_db, after_db)
 
 

@@ -42,8 +42,6 @@ def run_checks(judge, traj, initial_db, after_db):
                 "required: the winner's booking form (Single Room price)")
     judge.check("nav_other_top_tour", navigated_to(traj, "/t/312271"),
                 "required: /t/312271 (the other 5.0-rated Kenya tour)")
-    judge.check("nav_most_reviewed", navigated_to(traj, "/t/4280"),
-                "required: /t/4280 (Kenya Wildlife Safari, most-reviewed)")
     # Ground truth: two Kenya tours tie at 5.0 — Amboseli (17 reviews) and
     # Masai Mara (16 reviews); the tie-break ("more traveler reviews") makes
     # the Amboseli safari the unique answer.
@@ -76,9 +74,6 @@ def run_checks(judge, traj, initial_db, after_db):
     judge.check("answer_other_typhoid",
                 contains_any(answer, ["typhoid"]),
                 "expected the other tour's Good to Know to list Typhoid")
-    judge.check("answer_most_reviewed",
-                contains_all(answer, ["Kenya Wildlife Safari"]),
-                "expected Kenya Wildlife Safari as the most-reviewed Kenya tour")
     check_read_only(judge, initial_db, after_db)
 
 

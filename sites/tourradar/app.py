@@ -371,6 +371,11 @@ class TourQA(db.Model):
 
     tour = db.relationship('Tour', backref='qa_list')
 
+    @property
+    def tag_list(self):
+        return json.loads(self.tags or '[]')
+
+
 
 class Moment(db.Model):
     __tablename__ = 'moments'

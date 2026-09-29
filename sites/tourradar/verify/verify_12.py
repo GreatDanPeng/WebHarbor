@@ -37,41 +37,12 @@ def run_checks(judge, traj, initial_db, after_db):
     judge.check("entered_question",
                 "airport pickup" in " ".join(input_texts(traj)).lower(),
                 "expected the airport-pickup question in the ask form inputs")
-    judge.check("nav_egypt_tours",
-                navigated_to(traj, "/srp/d-egypt") or navigated_to(traj, "/d/egypt"),
-                "required: the Egypt tours listing")
-    judge.check("nav_cheapest_egypt", navigated_to(traj, "/t/144972"),
-                "required: /t/144972 (Adventure Ancient Egypt - 7 Day, the "
-                "cheapest Egypt tour)")
-    judge.check("nav_most_reviewed_egypt", navigated_to(traj, "/t/111022"),
-                "required: /t/111022 (Pharaohs Nile Cruise Adventure, "
-                "Egypt's most-reviewed tour)")
     judge.check("answer_confirmation",
                 contains_any(answer, ["sent to the operator", "has been sent",
                                       "question was submitted",
                                       "thank you"]),
                 "expected the on-site confirmation message")
-    judge.check("answer_cheapest_name",
-                contains_all(answer, ["Adventure Ancient Egypt"]),
-                "expected Adventure Ancient Egypt - 7 Day as the cheapest")
-    judge.check("answer_cheapest_price", contains_amount(answer, 560),
-                "expected the cheapest Egypt tour at US$560")
-    judge.check("answer_cheapest_rating", contains_all(answer, ["4.6"]),
-                "expected the cheapest tour's rating 4.6")
-    judge.check("answer_most_name",
-                contains_all(answer, ["Pharaohs Nile Cruise"]),
-                "expected the Pharaohs Nile Cruise Adventure as most-reviewed")
-    judge.check("answer_most_reviews", contains_int(answer, 1652),
-                "expected 1,652 reviews on the most-reviewed tour")
-    judge.check("answer_most_price", contains_amount(answer, 975),
-                "expected the most-reviewed tour at US$975")
-    judge.check("answer_most_departure",
-                contains_any(answer, ["October 1, 2026", "1 October 2026",
-                                      "Oct 1, 2026"]),
-                "expected the most-reviewed tour's first available departure "
-                "October 1, 2026")
-    judge.check("answer_egypt_total", contains_int(answer, 13),
-                "expected 13 Egypt tours in total")
+    judge.check("confirmation_not_negated", not re.search(r"\b(?:not|never|failed|unsent)\b", answer, re.I), "submission must be confirmed")
     # DB: exactly one new Q&A row on the Ultimate Egyptian Experience tour
     qa = tour_qa_for_tour(after_db, 252256)
     new_qa = [q for q in qa if q["id"] > 819]

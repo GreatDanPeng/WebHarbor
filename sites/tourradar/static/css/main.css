@@ -348,3 +348,19 @@ footer.site-footer a:hover { color: #fff; }
   .two-col { grid-template-columns: 1fr; }
   .dep-row { flex-wrap: wrap; }
 }
+
+/* Space direct navigation links like the adjacent menu controls. */
+.nav > a { padding: 10px 12px; white-space: nowrap; flex-shrink: 0; }
+@media (max-width: 740px) {
+  .trust-strip .container { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 10px; text-align: center; }
+  .trust-strip span { justify-content: center; font-size: 11px; }
+}
+
+/* Operator catalogs sit inside a half-width panel; use vertical cards there. */
+.operator-adventures .tour-card { flex-direction: column; }
+.operator-adventures .tour-card .thumb { width: 100%; height: 220px; min-height: 0; }
+.operator-adventures .tour-card .price-block { align-items: flex-start; text-align: left; }
+
+@media (max-width:600px) {
+  .td-main .panel p, .subrating { overflow-wrap: anywhere; }
+}
