@@ -9,6 +9,8 @@ TASK_ID = "The Weather Network--18"
 
 def run_checks(judge, traj, initial_db, after_db):
     answer = final_answer(traj)
+    from reviewed_checks import check_answer
+    check_answer(judge, traj, 18)
     check_trajectory_identity(judge, traj, TASK_ID)
     check_visited_path(judge, traj, "visited_plant_article",
                        r"/en/news/nature/habitats/once-you-see-it-you-cant-unsee-it-ontarios-worst-invasive-plant-is-back-phragmites")

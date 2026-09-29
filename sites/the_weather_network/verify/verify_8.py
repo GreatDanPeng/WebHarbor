@@ -17,18 +17,14 @@ TASK_ID = "The Weather Network--8"
 
 def run_checks(judge, traj, initial_db, after_db):
     answer = final_answer(traj)
+    from reviewed_checks import check_answer
+    check_answer(judge, traj, 8)
     check_trajectory_identity(judge, traj, TASK_ID)
     check_visited_path(judge, traj, "visited_radar", r"/en/maps/radar")
     check_visited_path(judge, traj, "visited_ottawa", r"/en/city/ca/ontario/ottawa")
     check_visited_path(judge, traj, "visited_toronto", r"/en/city/ca/ontario/toronto")
     check_visited_path(judge, traj, "visited_alerts", r"/en/alerts/ca")
     # radar cities + provinces with more than one
-    check_answer_number(judge, answer, "answer_radar_city_count", "7",
-                        label="number of radar cities")
-    check_answer_any(judge, answer, "answer_multi_radar_provinces",
-                     ["ontario and british columbia", "british columbia and ontario",
-                      "on and bc", "ontario & british columbia"],
-                     label="provinces with more than one radar city")
     # the two Ontario radar cities: warmer + sky condition in each
     check_answer_any(judge, answer, "answer_warmer_city", ["toronto"],
                      label="warmer Ontario radar city")
@@ -41,8 +37,6 @@ def run_checks(judge, traj, initial_db, after_db):
     check_answer_any(judge, answer, "answer_ottawa_sky", ["partly cloudy"],
                      label="Ottawa sky condition")
     # national alert total + Ontario
-    check_answer_number(judge, answer, "answer_national_alert_total", "51",
-                        label="alerts in effect across Canada")
     check_answer_any(judge, answer, "answer_ontario_alerts",
                      ["no active", "none", "no alerts", "does not have", "doesn't have",
                       "not currently", "no weather alerts"],

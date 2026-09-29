@@ -18,6 +18,8 @@ TASK_ID = "The Weather Network--5"
 
 def run_checks(judge, traj, initial_db, after_db):
     answer = final_answer(traj)
+    from reviewed_checks import check_answer
+    check_answer(judge, traj, 5)
     check_trajectory_identity(judge, traj, TASK_ID)
     check_visited_path(judge, traj, "visited_sign_in", r"/en/account/sign-in")
     check_visited_path(judge, traj, "visited_account", r"/en/account$")

@@ -1061,7 +1061,7 @@ SPECS = {
     "/en/school/ca/alberta/banff-community-high-school/7-days"
    ]
   ],
-  "answer": "At Banff Community High School right now it is 3°C and Clear. Tomorrow (Sunday, September 27) during school hours is mainly sunny with no precipitation in the forecast (10% PoP, 0 mm) — the morning drop-off at 9 AM will be -1°C, warming to a daytime high of 11°C, so dry outdoor recess. The rest of the school week does not stay dry: Tuesday, September 29 and Wednesday, September 30 both show the highest rain chance at 60%.",
+  "answer": "At Banff Community High School right now it is 3°C and Clear. Monday, September 28 during school hours is mainly sunny with no precipitation in the forecast (10% PoP, 0 mm) — the morning drop-off at 9 AM will be -1°C, warming to a daytime high of 12°C, so dry outdoor recess. The rest of the school week does not stay dry: Tuesday, September 29 and Wednesday, September 30 both show the highest rain chance at 60%.",
   "sql": []
  }
 }
@@ -1090,3 +1090,9 @@ WRONG_ANSWERS = {
 }
 
 START_PATHS = {"0": "/en", "1": "/en", "2": "/en", "3": "/en", "4": "/en", "5": "/en", "6": "/en", "7": "/en", "8": "/en", "9": "/en", "10": "/en", "11": "/en", "12": "/en", "13": "/en", "14": "/en", "15": "/en", "16": "/en", "17": "/en", "18": "/en", "19": "/en"}
+
+# Synthetic controls updated for the coherent reviewed tasks.
+SPECS[5]["answer"] += " Saved locations: Vancouver, Victoria, Kelowna and Whistler Blackcomb."
+SPECS[11]["answer"] += " Both fit into five minutes: 4:50 combined. The shortest shows a bat receiving water during a heat wave."
+
+SPECS[11]["steps"].append(["click", "/en/video/PfcTWOOE"])

@@ -9,6 +9,8 @@ TASK_ID = "The Weather Network--4"
 
 def run_checks(judge, traj, initial_db, after_db):
     answer = final_answer(traj)
+    from reviewed_checks import check_answer
+    check_answer(judge, traj, 4)
     check_trajectory_identity(judge, traj, TASK_ID)
     # NOTE: the °F toggle is a redirect-through URL (/en/account/preferences?unit=imperial
     # bounces straight back to the referrer), so an honest agent's trajectory records the

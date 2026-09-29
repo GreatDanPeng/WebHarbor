@@ -64,18 +64,18 @@ DEFAULT_CONTAINER = os.environ.get("WH_CONTAINER", "wh-twn-review")
 # ---------------------------------------------------------------- frozen seed contract
 TABLES = ("alerts", "articles", "authors", "daily_forecasts", "hourly_forecasts",
           "locations", "monthly_averages", "observations", "saved_locations",
-          "users", "videos", "wellbeing")
+          "users", "videos", "wellbeing", "site_content")
 SEED_COUNTS = {"alerts": 51, "articles": 638, "authors": 42,
                "daily_forecasts": 8700, "hourly_forecasts": 41760,
                "locations": 580, "monthly_averages": 23744,
                "observations": 580, "saved_locations": 15, "users": 4,
-               "videos": 782, "wellbeing": 525}
+               "videos": 782, "wellbeing": 525, "site_content": 2}
 # sha256 over sqlite_master (type, name, tbl_name, sql) of instance_seed/the_weather_network.db.
 # Environment-stable: identical for the contributor's host-built seed (sqlite 3.45.1)
 # and the reviewer's in-container rebuild (sqlite 3.40.1).
-SCHEMA_SHA256 = "ed0420308c8724ee26bdb502407963fa6173754311cd15a884fbe0eab6e08748"
+SCHEMA_SHA256 = "4ba151cf98be0352f32ba8e10e9782450884f63b1980bea0500d7c846e3eaa24"
 # sha256 over every seed row (table-canonical, ORDER BY all columns).
-SEED_ROWS_SHA256 = "35cbe02ea07012b9199667bc16c69b5565f7bc5a69c5d27af78b05d73106b9b1"
+SEED_ROWS_SHA256 = "c5994c0f36421a173db7885f8be84f9b1462c93bbc0d6cf10f86796acfd0eff2"
 SEED_USERS = {  # email -> (id, display); identity columns never change
     "alice.j@test.com": (1, "Alice Johnson"),
     "bob.c@test.com": (2, "Bob Chen"),

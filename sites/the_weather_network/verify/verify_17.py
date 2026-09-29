@@ -17,6 +17,8 @@ CITIES = [
 
 def run_checks(judge, traj, initial_db, after_db):
     answer = final_answer(traj)
+    from reviewed_checks import check_answer
+    check_answer(judge, traj, 17)
     check_trajectory_identity(judge, traj, TASK_ID)
     for name, pattern, temp in CITIES:
         check_visited_path(judge, traj, f"visited_{name}", pattern)
