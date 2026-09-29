@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Verify Ticketmaster--4.
 
-I'm planning to attend the Boston Bruins vs. Winnipeg Jets game at TD Garden. Compare the cheapest Standard Admission option with the next-cheapest Standard Admission option, including section, row and all-in price for each. Tell me the extra cost for two people to choose the second option, and the venue's street address.
+I'm planning to attend the Boston Bruins vs. Winnipeg Jets game at TD Garden. Compare the cheapest Standard Admission option with the next-cheapest Standard Admission option, including section, row, face value, service fee and all-in price per ticket for each. Tell me the extra cost for two people to choose the second option, and the venue's street address.
 """
 import sys
 from pathlib import Path
@@ -41,6 +41,11 @@ def run_checks(judge, traj, initial_db, after_db):
     check_answer_money(judge, answer, "two-person upgrade", 2.76)
     check_answer_phrase(judge, answer, "first row", "row I")
     check_answer_phrase(judge, answer, "second row", "row H")
+    check_visited_path(judge, traj, "ticket cost breakdown", rf"/event/{EVENT_ID}/tickets")
+    check_answer_money(judge, answer, "first face value", 59)
+    check_answer_money(judge, answer, "first service fee", 22.18)
+    check_answer_money(judge, answer, "second face value", 60)
+    check_answer_money(judge, answer, "second service fee", 22.56)
     check_read_only(judge, initial_db, after_db)
 
 

@@ -114,3 +114,10 @@ BINDINGS = {3: {'accessible two-ticket total': [(['accessible'], ['standard'])]}
 def _norm_num(s):
     s = re.sub(r"[,\s]", "", str(s)).strip(".,")
     return s.lower()
+
+BINDINGS[4].update({
+    "first face value": [(["row I"], ["row H"])],
+    "first service fee": [(["row I"], ["row H"])],
+    "second face value": [(["row H"], ["row I"])],
+    "second service fee": [(["row H"], ["row I"])],
+})
