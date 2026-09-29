@@ -113,11 +113,17 @@ def final_answer(traj):
 
 
 def _png_ok(path: Path) -> bool:
+    from PIL import Image
     try:
-        data = path.read_bytes()[:8]
-    except OSError:
+        with Image.open(path) as image:
+            if image.format != "PNG":
+                return False
+            image.verify()
+        with Image.open(path) as image:
+            image.load()
+        return True
+    except (OSError, ValueError, SyntaxError):
         return False
-    return data == b"\x89PNG\r\n\x1a\n"
 
 
 # ---------------------------------------------------------------- judge
