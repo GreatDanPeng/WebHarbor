@@ -399,8 +399,14 @@ RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/student_com && \
     python3 /opt/check_asset_inventory.py /opt/WebSyn/tourradar && \
     (cd /opt/WebSyn/tourradar && rm -rf instance instance_seed && PYTHONHASHSEED=0 python3 seed_data.py && mkdir -p instance_seed && cp instance/tourradar.db instance_seed/tourradar.db && rm -rf instance __pycache__)
 
+
+
+RUN python3 /opt/WebSyn/smartasset/migrate_seed.py
+
+RUN python3 /opt/WebSyn/fandom/migrate_seed.py
+
 RUN python3 /opt/check_seed_databases.py /opt/WebSyn
 
-EXPOSE 8101 40000-40114
+EXPOSE 8101 40000-40119
 
 CMD ["/opt/websyn_start.sh"]

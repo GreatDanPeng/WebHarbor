@@ -106,7 +106,8 @@ All registered websites and their default ports, in registration order from left
 | StubHub | 40105 | SpotHero | 40106 | Student.com | 40107 |
 | Statista | 40108 | Thumbtack | 40109 | Ticketmaster | 40110 |
 | Trip.com | 40111 | The Weather Network | 40112 | Super Lawyers | 40113 |
-| TourRadar | 40114 | | | | |
+| TourRadar | 40114 | Apartments.com | 40115 | Eventbrite | 40116 |
+| Fandom | 40117 | Mayo Clinic | 40118 | SmartAsset | 40119 |
 
 ## 🤝 Contribute
 
