@@ -65,7 +65,7 @@ def _nearest_is_subject(origin, subjects, competitors, window):
 
 
 def _assertions(text):
-    return re.split(r",\s*(?=(?!US\$)[A-Z][A-Za-z ]+(?:\$|US\$))|;|\n|(?<!\d)\.(?=\s|$)|(?<=\d)\.(?=\s+[A-Z])", text)
+    return re.split(r",\s*(?=(?![A-Z]{2,3}\s*\$)[A-Z][A-Za-z ]+(?:\$|US\$))|;|\n|(?<!\d)\.(?=\s|$)|(?<=\d)\.(?=\s+[A-Z])", text)
 
 
 def _affirmed(text, start):
