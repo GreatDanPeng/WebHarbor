@@ -495,25 +495,45 @@ def create_indexes():
             conn.execute(db.text(ddl))
 
 
+class SiteContent(db.Model):
+    __tablename__ = 'site_content'
+    key = db.Column(db.String(80), primary_key=True)
+    payload = db.Column(db.Text, nullable=False)
+
+
+def seed_site_content():
+    if SiteContent.query.count():
+        return
+    for key, filename in [('chrome', 'source_data_site.json'), ('inline_images', 'inline_images.json')]:
+        with open(os.path.join(BASE_DIR, filename), encoding='utf-8') as handle:
+            value = json.load(handle)
+        db.session.add(SiteContent(key=key, payload=json.dumps(value, ensure_ascii=False, sort_keys=True)))
+    db.session.commit()
+
+
 def load_site_chrome():
-    path = os.path.join(BASE_DIR, 'source_data_site.json')
-    if os.path.exists(path):
-        with open(path, encoding='utf-8') as fh:
-            return json.load(fh)
-    return {}
+    row = db.session.get(SiteContent, 'chrome')
+    return json.loads(row.payload) if row else {}
 
 
-SITE_CHROME = load_site_chrome()
+SITE_CHROME = {}
+
+
+def search_text(value):
+    """Match Canadian place names with or without keyboard accents."""
+    import unicodedata
+    return ''.join(c for c in unicodedata.normalize('NFKD', str(value or ''))
+                   if not unicodedata.combining(c)).casefold()
 
 
 def scored_search(query, items, fields=('name', 'prov', 'country', 'channel')):
-    tokens = [t.lower() for t in re.split(r'\W+', query or '')
+    tokens = [t.lower() for t in re.split(r'\W+', search_text(query))
               if t.lower() not in STOP_WORDS and len(t) > 1]
     if not tokens:
         return items
     results = []
     for item in items:
-        text = ' '.join(str(getattr(item, f, '') or '') for f in fields).lower()
+        text = search_text(' '.join(str(getattr(item, f, '') or '') for f in fields))
         score = sum(1 for t in tokens if t in text)
         if score > 0:
             results.append((item, score))
@@ -711,17 +731,11 @@ def context(**kw):
 
 
 def _load_inline_map():
-    """Tracked map of upstream inline-image URL (query-stripped base) -> local
-    path under static/images/inline/. Built by the capture tooling from the
-    real downloads; every mapped file is a genuine upstream image."""
-    path = os.path.join(BASE_DIR, 'inline_images.json')
-    if os.path.exists(path):
-        with open(path, encoding='utf-8') as fh:
-            return json.load(fh)
-    return {}
+    row = db.session.get(SiteContent, 'inline_images')
+    return json.loads(row.payload) if row else {}
 
 
-INLINE_IMAGES = _load_inline_map()
+INLINE_IMAGES = {}
 
 
 def _inline_base(url):
@@ -1750,6 +1764,9 @@ if os.environ.get('WEBSYN_SKIP_BOOTSTRAP') != '1':
         create_indexes()
         seed_database()
         seed_benchmark_users()
+        seed_site_content()
+        SITE_CHROME.update(load_site_chrome())
+        INLINE_IMAGES.update(_load_inline_map())
         _paths, _slugs, _locs, _byslug = _load_link_sets()
         ARTICLE_PATHS.update(_paths)
         AUTHOR_SLUGS.update(_slugs)

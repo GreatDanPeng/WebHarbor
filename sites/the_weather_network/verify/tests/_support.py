@@ -28,8 +28,7 @@ from fixtures_data import BASE, SPECS  # noqa: E402  (same directory)
 VERIFY_DIR = Path(__file__).resolve().parents[1]
 SITE_DIR = VERIFY_DIR.parent
 CONTAINER = os.environ.get("WH_CONTAINER", "wh-twn-review")
-CACHE = Path(os.environ.get("TWN_TEST_SEED_DB") or
-             str(Path("/tmp") / "twn_verify_tests_seed.db"))
+CACHE = Path(os.environ.get("TWN_TEST_SEED_DB") or str(SITE_DIR / "instance_seed" / "the_weather_network.db"))
 TASKS_FILE = SITE_DIR / "tasks.jsonl"
 PASSWORD = "TestPass123!"
 

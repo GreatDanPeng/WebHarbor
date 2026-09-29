@@ -22,6 +22,8 @@ TASK_ID = "The Weather Network--16"
 
 def run_checks(judge, traj, initial_db, after_db):
     answer = final_answer(traj)
+    from reviewed_checks import check_answer
+    check_answer(judge, traj, 16)
     check_trajectory_identity(judge, traj, TASK_ID)
     check_visited_path(judge, traj, "visited_el_nino_hub",
                        r"/en/explore/el-nino-la-nina")

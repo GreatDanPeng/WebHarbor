@@ -104,14 +104,14 @@ img{max-width:100%;display:block}
   .header-bar{flex-wrap:wrap;height:auto;min-height:56px;padding:8px 0;gap:10px}
   .header-logo{width:auto;flex-shrink:1}
   .header-logo svg{height:26px}
-  .header-right{flex:1;min-width:0;gap:8px}
+  .header-right{flex:0 0 100%;min-width:0;gap:8px;order:2}
   .search-wrap{flex:1;min-width:0}
   .search-input{width:100%;min-width:0;padding:7px 10px}
   .search-results{width:min(340px,calc(100vw - 32px));left:0}
   .unit-toggle{font-size:12px}
   .unit-toggle a{padding:4px 8px}
   .welcome-btn{padding:5px 10px;font-size:13px;gap:6px}
-  .header-nav{order:3;width:100%;gap:16px;justify-content:space-between}
+  .header-nav{order:3;flex:0 0 100%;width:100%;gap:16px;justify-content:space-between}
   .header-nav a.nav-link{font-size:14px;padding:4px 0}
 }
 @media (max-width:400px){
@@ -431,3 +431,6 @@ img{max-width:100%;display:block}
   .period-row .pr-meta{grid-column:2;text-align:left}
   .fx-surface table{display:block;overflow-x:auto;white-space:normal}
 }
+
+/* Keep forecast text legible against the blue conditions panel. */
+.fx-surface { color: #fff; }

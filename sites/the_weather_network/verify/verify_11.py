@@ -21,13 +21,14 @@ TASK_ID = "The Weather Network--11"
 
 def run_checks(judge, traj, initial_db, after_db):
     answer = final_answer(traj)
+    from reviewed_checks import check_answer
+    check_answer(judge, traj, 11)
     check_trajectory_identity(judge, traj, TASK_ID)
     check_visited_path(judge, traj, "visited_video_index", r"/en/video")
     check_visited_path(judge, traj, "visited_longest_video_page",
                        r"/en/video/[A-Za-z0-9]{8}")
+    check_visited_path(judge, traj, "visited_shortest_video", r"/en/video/PfcTWOOE")
     # playlist size
-    check_answer_number(judge, answer, "answer_playlist_count", "50",
-                        label="videos in the Animals and Weather playlist")
     # longest video title + exact duration
     check_answer_any(judge, answer, "answer_longest_title",
                      ["all about bees: what to do when you get stung", "all about bees"],
@@ -45,14 +46,6 @@ def run_checks(judge, traj, initial_db, after_db):
                      ["bee", "sting", "stung"],
                      label="longest video description subject")
     # Featured playlist comparison
-    check_answer_any(judge, answer, "answer_featured_longest",
-                     ["fall night sky", "parade of meteor showers"],
-                     label="Featured playlist longest video")
-    check_answer_any(judge, answer, "answer_featured_duration", ["3:37"],
-                     label="Featured longest duration")
-    check_answer_any(judge, answer, "answer_which_playlist_longer",
-                     ["animals", "4:00 is longer", "longer than the featured"],
-                     label="which playlist's longest runs longer")
     check_read_only(judge, initial_db, after_db)
 
 

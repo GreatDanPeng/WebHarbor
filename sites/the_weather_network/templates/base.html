@@ -64,9 +64,9 @@ document.addEventListener('DOMContentLoaded', function () {
         <a href="/en/account/preferences?unit=metric" class="{% if unit == 'metric' %}on{% endif %}" data-noform>°C</a>
         <a href="/en/account/preferences?unit=imperial" class="{% if unit == 'imperial' %}on{% endif %}" data-noform>°F</a>
       </div>
-      <a class="welcome-btn" href="/en/account/sign-in">
+      <a class="welcome-btn" href="{{ '/en/account' if session.get('user_id') else '/en/account/sign-in' }}">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
-        Welcome
+        {{ 'My account' if session.get('user_id') else 'Welcome' }}
       </a>
     </div>
   </div>

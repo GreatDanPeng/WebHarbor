@@ -9,6 +9,8 @@ TASK_ID = "The Weather Network--0"
 
 def run_checks(judge, traj, initial_db, after_db):
     answer = final_answer(traj)
+    from reviewed_checks import check_answer
+    check_answer(judge, traj, 0)
     check_trajectory_identity(judge, traj, TASK_ID)
     check_visited_path(judge, traj, "visited_toronto_weekend", r"/en/city/ca/ontario/toronto/weekend")
     check_visited_path(judge, traj, "visited_montreal_weekend", r"/en/city/ca/quebec/montreal/weekend")
