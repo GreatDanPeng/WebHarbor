@@ -416,6 +416,10 @@
       "bytes": 12183876,
       "sha256": "093656316188dd7960177c9a187262de860e50c9f27a3b6658407f86d16f5cb3"
     },
+    "virginia_dmv.tar.gz": {
+      "bytes": 235095377,
+      "sha256": "d72fff80090f7fdc3d5c3453b48e53d961ef995c95ddda2bc653b0bb6621324b"
+    },
     "walmart_careers.tar.gz": {
       "bytes": 11458196,
       "sha256": "b84a0072c603225f29e21edfd8f8038fe02a0261a38a60f8e70ed871ea7ce77a"
