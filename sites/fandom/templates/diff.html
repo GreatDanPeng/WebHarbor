@@ -22,6 +22,7 @@
     </tr>
   </table>
 
+  <p class="diff-meta">Old revision: {{ old_r.bytes_size }} bytes · New revision: {{ new_r.bytes_size }} bytes · Change: {{ '%+d'|format(new_r.bytes_size - old_r.bytes_size) }} bytes</p>
   <table class="diff-table">
     {% for tag, l, r in rows %}
       <tr class="diff-{{ tag }}">

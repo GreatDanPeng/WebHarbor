@@ -15,6 +15,9 @@
     </p>
   </div>
 
+  <p>Community watchlists:
+    {% for w in WIKIS %}<a href="{{ url_for('special_watchlist', wiki_slug=w.slug) }}">{{ w.name }}</a>{% if not loop.last %} · {% endif %}{% endfor %}
+  </p>
   <h2>Watched pages ({{ watched | length }})</h2>
   <ul>
     {% for a in watched %}

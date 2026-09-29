@@ -2078,8 +2078,13 @@ def calc_move_in():
     app_fee = _parse_int(request.values.get("app_fee"), 75)
     admin = _parse_int(request.values.get("admin_fee"), 200)
     moving = _parse_int(request.values.get("moving"), 800)
-    total = rent + rent * deposit_x + app_fee + admin + moving
-    return render_template("calc_move_in.html", rent=rent, deposit=rent * deposit_x,
+    fixed_deposit = request.values.get("security_deposit", "").strip()
+    deposit = _parse_int(fixed_deposit, 0) if fixed_deposit else rent * deposit_x
+    if min(rent, deposit, app_fee, admin, moving, deposit_x) < 0:
+        abort(400)
+    total = rent + deposit + app_fee + admin + moving
+    return render_template("calc_move_in.html", rent=rent, deposit=deposit,
+                           fixed_deposit=fixed_deposit, deposit_months=deposit_x,
                            app_fee=app_fee, admin=admin, moving=moving, total=total)
 
 

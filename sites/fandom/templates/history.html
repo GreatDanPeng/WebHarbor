@@ -10,7 +10,7 @@
     &middot; {{ revisions | length }} revisions
   </p>
 
-  <form method="get" action="">
+  <div id="revision-compare">
     <table class="history-table">
       <thead>
         <tr>
@@ -30,12 +30,12 @@
               <input type="radio" name="new" value="{{ r.id }}" {% if loop.index == 1 %}checked{% endif %}>
             </td>
             <td>
-              <a href="{{ url_for('article_view', wiki_slug=wiki.slug, title=article.slug) }}#rev-{{ r.id }}">
+              <a href="{{ url_for('article_view', wiki_slug=wiki.slug, title=article.slug, oldid=r.id) }}">
                 {{ r.timestamp | ts }}
               </a>
             </td>
             <td>
-              {% if r.user %}
+              {% if r.user and r.author_label == r.user.username %}
                 <a href="{{ url_for('user_profile', username=r.user.username) }}">{{ r.user.username }}</a>
               {% else %}
                 <span class="tag-anon">{{ r.author_label }}</span>
@@ -66,12 +66,12 @@
       </tbody>
     </table>
     <button type="button" class="btn" onclick="(function(){
-      var f=document.forms[0];
-      var o=f.elements['old'], n=f.elements['new'];
-      var oVal,nVal;
-      for(var i=0;i<o.length;i++){if(o[i].checked)oVal=o[i].value;if(n[i].checked)nVal=n[i].value;}
+      var root=document.getElementById('revision-compare');
+      var old=root.querySelector('input[name=old]:checked');
+      var newer=root.querySelector('input[name=new]:checked');
+      var oVal=old && old.value, nVal=newer && newer.value;
       if(oVal&&nVal){location='{{ url_for('article_diff', wiki_slug=wiki.slug, title=article.slug, old_id=0, new_id=0) }}'.replace('0/0', oVal+'/'+nVal);}
     })()">Compare selected revisions</button>
-  </form>
+  </div>
 </div>
 {% endblock %}

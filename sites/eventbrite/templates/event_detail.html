@@ -172,6 +172,9 @@
 
       <div class="eb-detail-section">
         <h2>Ask a question / RSVP</h2>
+        {% for question in questions %}
+          <div class="event-question"><strong>{{ question.author_name }}</strong><p>{{ question.question }}</p></div>
+        {% endfor %}
         <form method="POST" action="{{ url_for('event_qa', slug=ev.slug) }}" style="margin-bottom:14px;">
           {% if not current_user.is_authenticated %}<input type="text" name="name" placeholder="Your name" style="width:100%;padding:8px;border:1px solid var(--eb-border);border-radius:4px;margin-bottom:8px;">{% endif %}
           <textarea name="question" rows="2" placeholder="Ask the organizer a public question" style="width:100%;padding:8px;border:1px solid var(--eb-border);border-radius:4px;"></textarea>

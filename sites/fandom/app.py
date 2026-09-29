@@ -377,6 +377,14 @@ def unslug(slug: str) -> str:
     return (slug or "").replace("_", " ")
 
 
+@app.template_filter("wiki_excerpt")
+def wiki_excerpt(value):
+    """Display plain snippets without exposing stored wiki markup."""
+    text = re.sub(r"\[\[([^]\|]+)\|([^]]+)\]\]", r"\2", value or "")
+    text = re.sub(r"\[\[([^]]+)\]\]", r"\1", text)
+    return text.replace("'" * 3, "").replace("'" * 2, "")
+
+
 @app.template_filter("nice_title")
 def nice_title(s):
     return unslug(s or "")
@@ -814,11 +822,17 @@ def article_view(wiki_slug, title):
                                unavailable=bool(a)), 404
     a.view_count = (a.view_count or 0) + 1
     db.session.commit()
+    revision = None
+    if "oldid" in request.args:
+        revision = db.session.get(Revision, request.args.get("oldid", type=int))
+        if revision is None or revision.article_id != a.id:
+            abort(404)
+    content = revision.content if revision else a.content
     body_html = render_wikitext(
-        a.content, wiki_slug=w.slug,
+        content, wiki_slug=w.slug,
         edit_url=url_for("article_edit", wiki_slug=w.slug, title=a.slug),
     )
-    toc = build_toc(a.content)
+    toc = build_toc(content)
     revs = (Revision.query.filter_by(article_id=a.id)
             .order_by(desc(Revision.timestamp)).limit(3).all())
     is_watching = False
@@ -826,7 +840,7 @@ def article_view(wiki_slug, title):
         is_watching = WatchItem.query.filter_by(
             user_id=current_user.id, article_id=a.id).first() is not None
     return render_template("article.html", wiki=w, article=a, body_html=body_html,
-                           toc=toc, recent_revisions=revs, is_watching=is_watching)
+                           toc=toc, recent_revisions=revs, is_watching=is_watching, revision=revision)
 
 
 @app.route("/wiki/<wiki_slug>/<path:title>/edit", methods=["GET", "POST"])
@@ -836,7 +850,7 @@ def article_edit(wiki_slug, title):
     slug = slugify(title)
     a = Article.query.filter_by(wiki_id=w.id, slug=slug).first()
     if request.method == "POST":
-        new_content = request.form.get("content", "")
+        new_content = request.form.get("content", "").replace("\r\n", "\n").replace("\r", "\n")
         summary = request.form.get("summary", "").strip()
         minor = bool(request.form.get("minor"))
         if not new_content.strip():
@@ -860,7 +874,8 @@ def article_edit(wiki_slug, title):
             previous_content = a.content or ""
             prev_bytes = len((a.content or "").encode("utf-8"))
         a.content = new_content
-        a.summary = new_content[:200]
+        if new_content.split("\n\n", 1)[0] != previous_content.split("\n\n", 1)[0]:
+            a.summary = new_content.split("\n\n", 1)[0][:200]
         a.updated_at = datetime.utcnow()
         sync_article_categories(a, previous_content, new_content)
         size = len(new_content.encode("utf-8"))

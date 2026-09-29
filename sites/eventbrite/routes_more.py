@@ -606,6 +606,7 @@ def region_landing(region_slug):
                         .order_by(Event.start_dt.asc()).limit(60).all())
     return render_template('region_landing.html',
         region_slug=rs, region_name=name,
+        city_counts={city: Event.query.filter(Event.city_slug == city, Event.start_dt >= today).count() for city in city_slugs},
         cities=[c for c in CITIES if c[0] in city_slugs],
         events=events,
     )

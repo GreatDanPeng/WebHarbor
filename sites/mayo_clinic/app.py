@@ -1838,8 +1838,13 @@ def trial_inquire(nct_id):
             yr = int(request.form.get("diagnosis_year", "0"))
         except ValueError:
             age, yr = 0, 0
-        # Simple eligibility: must be 18-80, diagnosed within last 5 yrs
-        eligible = "eligible" if 18 <= age <= 80 and yr >= 2020 else "not-eligible"
+        name = request.form.get("patient_name", "").strip()
+        email = request.form.get("patient_email", "").strip()
+        if not name or not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", email) or not 0 <= age <= 120 or not 1950 <= yr <= 2030:
+            flash("Enter a name, valid email, age from 0 to 120, and diagnosis year from 1950 to 2030.", "error")
+            return render_template("trial_inquire.html", trial=trial), 400
+        # The form cannot establish diagnosis, biomarkers or prior-treatment eligibility.
+        eligible = "needs-review"
         ti = TrialInquiry(
             trial_nct_id=nct_id,
             patient_name=request.form.get("patient_name", ""),

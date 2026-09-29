@@ -83,9 +83,9 @@ class MayoRepairTests(unittest.TestCase):
         for task in tasks:
             self.assertEqual(
                 set(task),
-                {"web_name", "id", "ques", "web", "upstream_url"},
+                {"web_name", "id", "ques", "web", "upstream_url", "verifier_path", "judge_rubric"},
             )
-            self.assertEqual(task["web"], "http://localhost:40102/")
+            self.assertEqual(task["web"], "http://localhost:40118/")
 
         checks = [
             "/search?q=type+2+diabetes",
@@ -476,6 +476,20 @@ class MayoRepairTests(unittest.TestCase):
                 cwd=SITE,
                 check=True,
             )
+
+    def test_review_prescreen_does_not_determine_eligibility(self):
+        path = '/clinical-trials/SIM-MAYO-001/inquire'
+        response = self.client.post(path, data={'patient_name': 'Jordan Lee',
+            'patient_email': 'jordan.lee@test.com', 'patient_age': '55',
+            'diagnosis_year': '2024', 'prior_treatments': 'None'})
+        self.assertEqual(response.status_code, 200)
+        with sqlite3.connect(self.database) as c:
+            self.assertEqual(c.execute('SELECT eligible_screen FROM trial_inquiry').fetchone()[0], 'needs-review')
+        response = self.client.post(path, data={'patient_name': 'Jordan Lee',
+            'patient_email': 'invalid', 'patient_age': '-1', 'diagnosis_year': '2024'})
+        self.assertEqual(response.status_code, 400)
+        with sqlite3.connect(self.database) as c:
+            self.assertEqual(c.execute('SELECT COUNT(*) FROM trial_inquiry').fetchone()[0], 1)
 
 
 if __name__ == "__main__":

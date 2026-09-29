@@ -8,24 +8,11 @@
   <p style="color: #888;">{{ cats | length }} categories.</p>
 
   <div style="background: #fff; padding: 20px; border-radius: 6px;">
-    <h2 style="margin-top: 0;">Top-level</h2>
+    <h2 style="margin-top: 0;">Browse categories</h2>
     <ul>
-      {% for c in by_parent.get('', []) %}
-        <li>
-          <a href="{{ url_for('article_view', wiki_slug=wiki.slug, title='Category:' + c.slug) }}">
-            {{ c.name }}
-          </a>
-          <small style="color: #888;">({{ counts.get(c.id, 0) }} pages)</small>
-          {% if by_parent.get(c.slug) %}
-            <ul>
-              {% for sub in by_parent[c.slug] %}
-                <li>
-                  <a href="{{ url_for('article_view', wiki_slug=wiki.slug, title='Category:' + sub.slug) }}">{{ sub.name }}</a>
-                  <small style="color: #888;">({{ counts.get(sub.id, 0) }})</small>
-                </li>
-              {% endfor %}
-            </ul>
-          {% endif %}
+      {% for c in cats %}
+        <li><a href="{{ url_for('article_view', wiki_slug=wiki.slug, title='Category:' + c.slug) }}">{{ c.name }}</a>
+          <small style="color:#666">({{ counts.get(c.id, 0) }} pages)</small>
         </li>
       {% endfor %}
     </ul>

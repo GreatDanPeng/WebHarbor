@@ -139,6 +139,7 @@
           <div class="calc-breakdown">
             <div class="chip"><span class="lbl">Federal Tax</span><span class="val">${{ result.federal_tax|commafy }}</span></div>
             <div class="chip"><span class="lbl">AGI</span><span class="val">${{ result.agi|commafy }}</span></div>
+            <div class="chip"><span class="lbl">Deduction used</span><span class="val">${{ result.deduction_used|commafy }}</span></div>
             <div class="chip"><span class="lbl">Taxable</span><span class="val">${{ result.taxable_income|commafy }}</span></div>
             <div class="chip"><span class="lbl">Effective Rate</span><span class="val">{{ result.effective_rate }}%</span></div>
             <div class="chip"><span class="lbl">Marginal Rate</span><span class="val">{{ result.marginal_rate }}%</span></div>
@@ -202,6 +203,7 @@
           </details>
 
         {% elif spec.slug == 'ira' %}
+          <p>Equal annual contributions are assumed. These balances do not include investing any current tax deduction from traditional IRA contributions. Eligibility and deduction limits are not modeled.</p>
           <div class="calc-breakdown">
             <div class="chip"><span class="lbl">Future Value</span><span class="val">${{ result.fv_total|commafy }}</span></div>
             <div class="chip"><span class="lbl">Roth After-Tax</span><span class="val">${{ result.roth_after_tax|commafy }}</span></div>
