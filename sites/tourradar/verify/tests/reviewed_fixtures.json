@@ -159,10 +159,10 @@
     "thought": "submit submit the booking"
    }
   ],
-  "final_answer": "Booked 8D Splendid Japan-Private 3 Star Hotels-Osaka to Tokyo for 2 travelers (shared room). Booking reference TR-244895029566; US$359.80 charged today (10% deposit).",
+  "final_answer": "Booked 8D Splendid Japan-Private 3 Star Hotels-Osaka to Tokyo for 2 travelers (shared room). Booking reference TR-244895029566; US$359.80 charged today (10% deposit). Departure March 6, 2027.",
   "db_sql": [
    "INSERT INTO \"users\" (\"id\", \"email\", \"username\", \"display_name\", \"password_hash\", \"nationality\", \"phone\") VALUES (5, 'spring@example.com', 'spring', 'Spring', '$2b$12$qSds4Mr9Wo7VwPWLhompEer88SuxxXFDp31P9etY6v7nfRctNO7B.', NULL, '+1 555 0199')",
-   "INSERT INTO \"bookings\" (\"id\", \"ref\", \"user_id\", \"tour_id\", \"departure_date\", \"travelers\", \"room_type\", \"room_count\", \"insurance\", \"promo_code\", \"payment_schedule\", \"total\", \"due_today\", \"status\", \"created_at\", \"lead_email\", \"lead_phone\") VALUES (7, 'TR-244895029566', 5, 244895, '2026-10-16', '[{\"title\": \"Mr.\", \"first\": \"Alex\", \"last\": \"Traveler\", \"dob\": \"\", \"gender\": \"\", \"nationality\": \"\"}, {\"title\": \"Mr.\", \"first\": \"Alex 2\", \"last\": \"Traveler\", \"dob\": \"\", \"gender\": \"\", \"nationality\": \"\"}]', 'Double Room', 1, 'none', NULL, 'deposit', 3598.0, 359.8, 'confirmed', '2026-09-27', 'spring@example.com', '+1 555 0199')"
+   "INSERT INTO \"bookings\" (\"id\", \"ref\", \"user_id\", \"tour_id\", \"departure_date\", \"travelers\", \"room_type\", \"room_count\", \"insurance\", \"promo_code\", \"payment_schedule\", \"total\", \"due_today\", \"status\", \"created_at\", \"lead_email\", \"lead_phone\") VALUES (7, 'TR-244895029566', 5, 244895, '2027-03-06', '[{\"title\": \"Mr.\", \"first\": \"Alex\", \"last\": \"Traveler\", \"dob\": \"\", \"gender\": \"\", \"nationality\": \"\"}, {\"title\": \"Mr.\", \"first\": \"Alex 2\", \"last\": \"Traveler\", \"dob\": \"\", \"gender\": \"\", \"nationality\": \"\"}]', 'Double Room', 1, 'none', NULL, 'deposit', 3598.0, 359.8, 'confirmed', '2026-09-27', 'spring@example.com', '+1 555 0199')"
   ],
   "final_path": "/booking/TR-244895029566"
  },
@@ -485,7 +485,7 @@
     "path": "/book-now/4280?date=2027-01-16&type=book&travellers%5B1%5D=2&travellers=1",
     "action": "click",
     "url": "http://localhost:40099/book-now/4280?date=2027-01-16&type=book&travellers[1]=2",
-    "thought": "click click '\u2212' to book for 1 traveler"
+    "thought": "click click '−' to book for 1 traveler"
    },
    {
     "path": "/book-now/4280?date=2027-01-16&type=book&travellers%5B1%5D=2&travellers=1",
@@ -718,8 +718,7 @@
   "final_answer": "Cancelled TR-000010101 (departs October 1, 2026); the trip she still has coming departs October 15, 2026 (TR-000010102); her wishlist now lists 4 adventures.",
   "db_sql": [
    "UPDATE bookings SET status='cancelled' WHERE ref='TR-000010101'",
-   "INSERT INTO wishlist_items (user_id, tour_id, created_at) VALUES (1, 22237, '2026-09-28')",
-   "UPDATE users SET nationality='Australia', phone='+61 2 8000 1234' WHERE id=1"
+   "INSERT INTO wishlist_items (user_id, tour_id, created_at) VALUES (1, 22237, '2026-09-28')"
   ],
   "final_path": "/account/profile"
  },
@@ -985,7 +984,7 @@
     "params": {}
    }
   ],
-  "final_answer": "Nepal Hiking Team: rating 4.9, responds 9 hours, rate 93%, cheapest Nepal tour $1475; Nepal Social Treks: rating 4.8, responds 5 hours, rate 100%, cheapest $890. First guaranteed Oct-2026 departure on Explore Nepal Tours 11 Days: October 1, 2026 at $890; deposit-only for 2 travelers: $178.00.",
+  "final_answer": "Nepal Hiking Team: rating 4.9, responds 9 hours, rate 93%, cheapest Nepal tour $1475; Nepal Social Treks: rating 4.8, responds 5 hours, rate 100%, cheapest $890. First guaranteed Oct-2026 departure on Explore Nepal Tours 11 Days: October 1, 2026 at $890; deposit-only for 2 travelers: $178.00. The Nepal operator filter lists 1 tour for Nepal Hiking Team and 1 tour for Nepal Social Treks.",
   "db_sql": [],
   "final_path": "/book-now/114044"
  },
@@ -1387,7 +1386,7 @@
     "path": "/book-now/46923?date=2027-03-28&type=book&travellers%5B1%5D=2&travellers=2",
     "action": "click",
     "url": "http://localhost:40099/book-now/46923?date=2027-03-28&type=book&travellers%5B1%5D=2&travellers=2",
-    "thought": "click click '\u2212' back to 2 travelers",
+    "thought": "click click '−' back to 2 travelers",
     "params": {}
    },
    {
@@ -1567,7 +1566,7 @@
     "params": {}
    }
   ],
-  "final_answer": "Dimos review posted September 2026: Pauline rated 4.3, traveled August 2026, operator reply: no. Top-rated Dimos review: Sweta (5.0). Tour review count: 390. Cheapest guaranteed departure: $1,635. Operator's most-reviewed other tours: Europe Jewel (most recent by Adebabay) and Classic Europe (most recent by Chrystal).",
+  "final_answer": "Pauline rated the September 2026 Dimos-led Europe Taster review 4.3, traveled in August 2026, and had no operator reply. Sweta has the highest-rated Dimos-led review at 5.0. Europe Jewel: Adebabay rated 4.7 and was led by Tim. Classic Europe: Chrystal rated 4.7; her guide is not identified. The Dimos reviews praise organization and helpfulness; Adebabay found the guide informative, while Chrystal recommends the overall trip.",
   "db_sql": [],
   "final_path": "/o/expat-explore-travel"
  },
@@ -1835,7 +1834,7 @@
     "params": {}
    }
   ],
-  "final_answer": "Inca Adventures Day 5: A shuttle bus takes you from Aguas Calientes to Machu Picchu, one of the New Seven Wonders. You'll get a two-hour guided; 4 days list optional activities; reviews page lists 10 entries; cheapest available departure November 7, 2026 at $1,323. Classic Inca Trail: Day 1 'Cusco to Km 82 - Patallacta - Ayapata', Day 4 'Wi\u00f1ay Wayna to Sun Gate - Machu Picchu - Cusco', rating 5.0, 12 reviews listed, first available October 18, 2026.",
+  "final_answer": "Inca Adventures Day 5 includes entrance to Machu Picchu and a two-hour guided tour of the citadel, reached by shuttle bus from Aguas Calientes. Optional hikes are Huayna Picchu and Machu Picchu Mountain (both listed as landmarks); each needs pre-booking and a $90 ticket. Four days list optional activities. The full reviews page lists 10 entries; the cheapest available departure is November 7, 2026 at $1,323. Classic Inca Trail Day 1: Cusco to Km 82 - Patallacta - Ayapata. Day 4: Wiñay Wayna to Sun Gate - Machu Picchu - Cusco. It is rated 5.0 with 12 listed reviews and first departs October 18, 2026. Inca Adventures is longer (7 vs 4 days); Classic Inca Trail is higher rated.",
   "db_sql": [],
   "final_path": "/t/133014"
  },
@@ -2086,7 +2085,7 @@
     "path": "/t/111022",
     "action": "click",
     "url": "http://localhost:40099/t/111022",
-    "thought": "click open Pharaohs Nile Cruise Adventure - Grand GEM Visit \u2013 Return Flights Included",
+    "thought": "click open Pharaohs Nile Cruise Adventure - Grand GEM Visit – Return Flights Included",
     "params": {}
    },
    {
@@ -2104,7 +2103,7 @@
     "params": {}
    }
   ],
-  "final_answer": "Confirmation: question has been sent to the operator.. Cheapest Egypt tour: Adventure Ancient Egypt - 7 Day at US$560 (rating 4.6, upcoming departures: yes). Most-reviewed: Pharaohs Nile Cruise Adventure - Grand GEM Visit \u2013 Return Flights Included (1652 reviews, 4.7), US$975, first available departure October 1, 2026. Egypt lists 13 tours total.",
+  "final_answer": "Confirmation: question has been sent to the operator.. Cheapest Egypt tour: Adventure Ancient Egypt - 7 Day at US$560 (rating 4.6, upcoming departures: yes). Most-reviewed: Pharaohs Nile Cruise Adventure - Grand GEM Visit – Return Flights Included (1652 reviews, 4.7), US$975, first available departure October 1, 2026. Egypt lists 13 tours total.",
   "db_sql": [
    "INSERT INTO tour_qa (tour_id, question, asker, asked_date, tags) VALUES (252256, 'Is airport pickup included on arrival day?', 'Curious Traveler', 'September 28th, 2026', '[]')"
   ],
@@ -2318,7 +2317,7 @@
     "path": "/book-now/46923?date=2027-03-28&type=book&travellers%5B1%5D=2&travellers=1",
     "action": "click",
     "url": "http://localhost:40099/book-now/46923?date=2027-03-28&type=book&travellers[1]=2",
-    "thought": "click click '\u2212' to book for 1 traveler"
+    "thought": "click click '−' to book for 1 traveler"
    },
    {
     "path": "/book-now/46923?date=2027-03-28&type=book&travellers%5B1%5D=2&travellers=1",
@@ -2593,7 +2592,7 @@
     "params": {}
    }
   ],
-  "final_answer": "Morocco lists 7 tours, 3 with more than 110 reviews. Winner: Morocco 7 Days Tour From Casablanca (group size 1-6, US$1,322); its booking form for 2 travelers: per-person $1,322, deposit-only $264.40. Runner-up: 5 day trip: Sahara Fun Outdoor Experience (1-10, US$1,153); its booking form: per-person $1,153, deposit-only $230.60.",
+  "final_answer": "Morocco lists 7 tours, 3 with more than 110 reviews. Timeless Morocco has a group range of 2-15 and costs $1,268 per person. Morocco 7 Days Tour From Casablanca has a group range of 1-6 and costs $1,322 per person, the smallest maximum group. Sahara Fun Outdoor Experience has a group range of 1-10 and costs $1,153 per person. For two travelers on their cheapest available departures, Casablanca quotes $1,322 per person and a $264.40 deposit; Sahara Fun quotes $1,153 per person and a $230.60 deposit.",
   "db_sql": [],
   "final_path": "/srp/d-morocco"
  },
@@ -3011,7 +3010,7 @@
     "params": {}
    }
   ],
-  "final_answer": "Best-reviewed within budget: Cultural Athens & Island Hopping Mykonos - Santorini (Self-guided) (4.6), next guaranteed departure September 30, 2026, price basis Private Double Room, first reviewer Linda; form: per-person $1,249, Single Room $1,699, deposit $249.80. Other tour: Best of Greece (15 days) Athens & 4 Islands in 15 days (Self-Guided) (4.5), US$1,360, next guaranteed September 30, 2026, deposit $374.20.",
+  "final_answer": "Best-reviewed within budget: Cultural Athens & Island Hopping Mykonos - Santorini (Self-guided) (4.6), next guaranteed departure September 30, 2026, price basis Private Double Room, first reviewer Linda; form: per-person $1,249, Single Room $1,699, deposit $249.80. Other tour: Best of Greece (15 days) Athens & 4 Islands in 15 days (Self-Guided) (4.5), US$1,871, next guaranteed September 30, 2026, deposit $374.20. Cultural Athens is cheaper and within budget; Best of Greece exceeds the budget on that departure.",
   "db_sql": [],
   "final_path": "/book-now/158180"
  },
@@ -3071,7 +3070,7 @@
     "path": "/t/111022",
     "action": "click",
     "url": "http://localhost:40099/t/111022",
-    "thought": "click open Pharaohs Nile Cruise Adventure - Grand GEM Visit \u2013 Return Flights Included",
+    "thought": "click open Pharaohs Nile Cruise Adventure - Grand GEM Visit – Return Flights Included",
     "params": {}
    },
    {
@@ -3131,7 +3130,7 @@
     "params": {}
    }
   ],
-  "final_answer": "'Nile cruise' finds 24 tours. Cheapest: Adventure Ancient Egypt - 7 Day at US$560 (upcoming departures), operator response rate 100%. Most-reviewed: Pharaohs Nile Cruise Adventure - Grand GEM Visit \u2013 Return Flights Included (1652 reviews, 4.7), first available October 1, 2026, deposit for 2 $195.00, operator response rate 96%. 'Egypt' finds 13 tours; cheapest Adventure Ancient Egypt - 7 Day at US$560.",
+  "final_answer": "'Nile cruise' finds 24 tours. Cheapest: Adventure Ancient Egypt - 7 Day at US$560 (upcoming departures), operator response rate 100%. Most-reviewed: Pharaohs Nile Cruise Adventure - Grand GEM Visit – Return Flights Included (1652 reviews, 4.7), first available October 1, 2026, deposit for 2 $195.00, operator response rate 96%. The most-reviewed cruise costs US$975.",
   "db_sql": [],
   "final_path": "/search"
  },

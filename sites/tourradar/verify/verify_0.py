@@ -48,7 +48,7 @@ def run_checks(judge, traj, initial_db, after_db):
                       tour_id=244895, travelers=2, room_type="Double Room",
                       insurance="none", schedule="deposit", total=3598.00,
                       due_today=359.80, lead_email="spring@example.com",
-                      departure_date="2026-10-16")
+                      departure_date="2027-03-06")
     check_only_tables_changed(judge, initial_db, after_db,
                               allowed=("bookings", "users"))
 

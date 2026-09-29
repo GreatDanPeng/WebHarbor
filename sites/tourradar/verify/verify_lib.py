@@ -564,6 +564,10 @@ def run_verifier(task_id, run_checks):
     judge = Judge(task_id)
     try:
         run_checks(judge, traj, initial_db, after_db)
+        from reviewed_answers import check_answer
+        check_answer(judge, traj, int(task_id.split("--")[-1]))
+        from reviewed_state import check_state
+        check_state(judge, task_id, initial_db, after_db)
     except Exception as exc:  # noqa: BLE001 — any verifier error fails closed
         fail_closed(task_id, "verifier_error", f"{type(exc).__name__}: {exc}")
     judge.emit()

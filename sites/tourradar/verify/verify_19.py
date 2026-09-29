@@ -50,17 +50,12 @@ def run_checks(judge, traj, initial_db, after_db):
     judge.check("nav_most_operator",
                 navigated_to(traj, "/o/beyond-the-nile-tours"),
                 "required: the most-reviewed result's operator page")
-    judge.check("nav_egypt_search",
-                any("egypt" in u.lower() and "/search" in u for u in urls),
-                "required: the 'Egypt' search")
     # Ground truth: 'Nile cruise' finds 24 tours; the cheapest is Adventure
     # Ancient Egypt - 7 Day at US$560 (upcoming departures listed, Itaca
     # Holiday response rate 100%); the most-reviewed is the Pharaohs Nile
     # Cruise Adventure (1,652 reviews, 4.7, first available October 1, 2026,
     # 2-traveler deposit US$195.00, Beyond The Nile Tours response rate 96%);
     # 'Egypt' finds 13 tours with the same cheapest tour.
-    judge.check("answer_nile_count", contains_int(answer, 24),
-                "expected 24 tours found by the 'Nile cruise' search")
     judge.check("answer_cheapest_name",
                 contains_all(answer, ["Adventure Ancient Egypt"]),
                 "expected Adventure Ancient Egypt - 7 Day as the cheapest result")
@@ -87,8 +82,6 @@ def run_checks(judge, traj, initial_db, after_db):
                 "expected the most-reviewed result's 2-traveler deposit US$195.00")
     judge.check("answer_most_rr", contains_int(answer, 96),
                 "expected the most-reviewed operator's 96% response rate")
-    judge.check("answer_egypt_count", contains_int(answer, 13),
-                "expected 13 tours found by the 'Egypt' search")
     check_read_only(judge, initial_db, after_db)
 
 

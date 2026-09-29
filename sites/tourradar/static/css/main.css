@@ -348,3 +348,10 @@ footer.site-footer a:hover { color: #fff; }
   .two-col { grid-template-columns: 1fr; }
   .dep-row { flex-wrap: wrap; }
 }
+
+/* Space direct navigation links like the adjacent menu controls. */
+.nav > a { padding: 10px 12px; white-space: nowrap; flex-shrink: 0; }
+@media (max-width: 740px) {
+  .trust-strip .container { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 10px; text-align: center; }
+  .trust-strip span { justify-content: center; font-size: 11px; }
+}

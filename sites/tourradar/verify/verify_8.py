@@ -70,10 +70,6 @@ def run_checks(judge, traj, initial_db, after_db):
                 "expected: the operator did not post a reply")
     judge.check("answer_top_rated_dimos", contains_all(answer, ["Sweta"]),
                 "expected Sweta as the top-rated Dimos-led review (5.0)")
-    judge.check("answer_review_count", contains_int(answer, 390),
-                "expected the tour's total review count 390")
-    judge.check("answer_cheapest_guaranteed", contains_amount(answer, 1635),
-                "expected the cheapest guaranteed departure at US$1,635")
     judge.check("answer_jewel_recent", contains_all(answer, ["Adebabay"]),
                 "expected Adebabay as Europe Jewel's most recent reviewer")
     judge.check("answer_classic_recent", contains_all(answer, ["Chrystal"]),

@@ -40,12 +40,6 @@ def run_checks(judge, traj, initial_db, after_db):
                 "required: /t/187857 (Peru Express, the completed tour)")
     judge.check("nav_reviews_page", navigated_to(traj, "/t/187857/reviews"),
                 "required: /t/187857/reviews (write + count the review entries)")
-    judge.check("nav_reviews_rating_sort",
-                any("sort=rating" in u for u in trajectory_urls(traj)
-                    if "/t/187857/reviews" in u),
-                "required: the reviews sorted by highest rating")
-    judge.check("nav_wishlists", navigated_to_path(traj, "/wishlists"),
-                "required: /wishlists (his Saved adventures)")
     judge.check("entered_review_body",
                 "guide made every day special" in " ".join(input_texts(traj)).lower(),
                 "expected the review body text in the form inputs")
@@ -55,20 +49,8 @@ def run_checks(judge, traj, initial_db, after_db):
     # TR-000040501 and the tour's next available departure is October 24, 2026.
     judge.check("answer_entries_listed", contains_int(answer, 11),
                 "expected 11 review entries listed after publishing")
-    judge.check("answer_five_star_entries", contains_int(answer, 6),
-                "expected 6 entries rated 5.0 after the highest-rating sort")
-    judge.check("answer_saved_tours",
-                contains_all(answer, ["Philippines Island Hopper"])
-                and contains_all(answer, ["Philippines West"]),
-                "expected all three saved tours to be reported")
-    judge.check("answer_cheapest_saved", contains_amount(answer, 504),
-                "expected the cheapest saved adventure at US$504")
     judge.check("answer_booking_ref", "TR-000040501" in answer,
                 f"final={answer[:120]!r}")
-    judge.check("answer_next_departure",
-                contains_any(answer, ["October 24, 2026", "24 October 2026",
-                                      "Oct 24, 2026"]),
-                "expected the tour's next available departure October 24, 2026")
     # DB: exactly one new review row on the completed tour
     reviews = reviews_for_tour(after_db, 187857)
     new = [r for r in reviews if r["id"] > 2105]

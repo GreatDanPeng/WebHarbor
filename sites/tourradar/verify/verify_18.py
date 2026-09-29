@@ -79,8 +79,8 @@ def run_checks(judge, traj, initial_db, after_db):
                 "expected Best of Greece (15 days) Athens & 4 Islands as the other tour")
     judge.check("answer_other_rating", contains_all(answer, ["4.5"]),
                 "expected the other candidate's rating 4.5")
-    judge.check("answer_other_price", contains_amount(answer, 1360),
-                "expected the other candidate at US$1,360")
+    judge.check("answer_other_price", contains_amount(answer, 1871),
+                "expected the other candidate at US$1,871")
     judge.check("answer_other_deposit", contains_amount(answer, 374.20),
                 "expected the other candidate's 2-traveler deposit US$374.20")
     check_read_only(judge, initial_db, after_db)

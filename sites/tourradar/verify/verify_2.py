@@ -45,8 +45,6 @@ def run_checks(judge, traj, initial_db, after_db):
                 "required: /t/22237 (the cancelled booking's tour page)")
     judge.check("nav_wishlists", navigated_to_path(traj, "/wishlists"),
                 "required: /wishlists (her Saved adventures)")
-    judge.check("nav_profile", navigated_to_path(traj, "/account/profile"),
-                "required: /account/profile")
     judge.check("answer_cancelled_ref", "TR-000010101" in answer,
                 f"final={answer[:120]!r}")
     judge.check("answer_remaining_departure",
@@ -80,14 +78,8 @@ def run_checks(judge, traj, initial_db, after_db):
                                  "FROM users WHERE email=?",
                          ("alice.j@test.com",))
     alice = alice_rows[0] if alice_rows else None
-    judge.check("db_profile_nationality",
-                (alice or {}).get("nationality") == "Australia",
-                f"nationality={(alice or {}).get('nationality')!r}")
-    judge.check("db_profile_phone",
-                (alice or {}).get("phone") == "+61 2 8000 1234",
-                f"phone={(alice or {}).get('phone')!r}")
     check_only_tables_changed(judge, initial_db, after_db,
-                              allowed=("bookings", "wishlist_items", "users"))
+                              allowed=("bookings", "wishlist_items"))
 
 
 if __name__ == "__main__":

@@ -105,7 +105,8 @@ All registered websites and their default ports, in registration order from left
 | SoundCloud | 40102 | Speedo | 40103 | SourceForge | 40104 |
 | StubHub | 40105 | SpotHero | 40106 | Student.com | 40107 |
 | Statista | 40108 | Thumbtack | 40109 | Ticketmaster | 40110 |
-| Trip.com | 40111 | TourRadar | 40114 |  |  |
+| Trip.com | 40111 | The Weather Network | 40112 | Super Lawyers | 40113 |
+| TourRadar | 40114 | | | | |
 
 ## 🤝 Contribute
 
