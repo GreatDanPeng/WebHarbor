@@ -393,8 +393,16 @@ RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/student_com && \
     python3 /opt/check_asset_inventory.py /opt/WebSyn/trip_com && \
     (cd /opt/WebSyn/trip_com && rm -rf instance instance_seed && PYTHONHASHSEED=0 python3 seed_data.py && mkdir -p instance_seed && cp instance/trip_com.db instance_seed/trip_com.db && rm -rf instance __pycache__)
 
+# ups validates its tracked media inventory and rebuilds its deterministic SQLite
+# seed from the captured source_data snapshots (see .build-generated-seed).
+RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/ups
+RUN cd /opt/WebSyn/ups && rm -rf instance instance_seed && \
+    PYTHONHASHSEED=0 python3 seed_data.py && \
+    mkdir -p instance_seed && cp instance/ups.db instance_seed/ups.db && \
+    rm -rf instance __pycache__
+
 RUN python3 /opt/check_seed_databases.py /opt/WebSyn
 
-EXPOSE 8101 40000-40111
+EXPOSE 8101 40000-40163
 
 CMD ["/opt/websyn_start.sh"]
