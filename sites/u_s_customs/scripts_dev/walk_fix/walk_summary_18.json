@@ -1,0 +1,52 @@
+{
+  "task_id": "CBP.gov--18",
+  "atomic": 10,
+  "A": 18,
+  "reads": [
+    {
+      "fact": "ESTA application number",
+      "value": "ESTA-88452017"
+    },
+    {
+      "fact": "ESTA status",
+      "value": "Authorization Pending"
+    },
+    {
+      "fact": "creation date",
+      "value": "2026-09-26"
+    },
+    {
+      "fact": "checker status",
+      "value": "Authorization Pending"
+    },
+    {
+      "fact": "passport type + feature",
+      "value": "e-Passport with embedded electronic chip"
+    },
+    {
+      "fact": "when to apply",
+      "value": "as soon as they begin preparing travel plans / prior to purchasing airline tickets"
+    },
+    {
+      "fact": "ESTA fee",
+      "value": "$40.27"
+    },
+    {
+      "fact": "expiration shown",
+      "value": "no expiration date shown yet (pending)"
+    }
+  ],
+  "actions": [
+    "click:{\"selector\": \"header a[href='/login']\", \"desc\": \"nav Log in\"",
+    "input:{\"selector\": \"#email\", \"text\": \"carol.d@test.com\", \"desc\": \"",
+    "input:{\"selector\": \"#password\", \"text\": \"TestPass123!\", \"desc\": \"p",
+    "click:{\"selector\": \"form.stack button[type='submit']\", \"desc\": \"Lo",
+    "navigate:{\"url\": \"/account\", \"desc\": \"My Account\"}",
+    "navigate:{\"url\": \"/esta/check\", \"desc\": \"ESTA status checker\"}",
+    "input:{\"selector\": \"#application_number\", \"text\": \"ESTA-88452017\",",
+    "click:{\"selector\": \"form.stack button[type='submit']\", \"desc\": \"Ch",
+    "navigate:{\"url\": \"/travel/international-visitors/esta\", \"desc\": \"ESTA",
+    "navigate:{\"url\": \"/account\", \"desc\": \"My Account\"}"
+  ],
+  "answer": "Carol's ESTA application ESTA-88452017, status Authorization Pending, created 2026-09-26; the status checker confirms Authorization Pending. ESTA requires an e-Passport (enhanced secure passport with an embedded electronic chip); apply as soon as travel plans begin / before purchasing tickets. Fee $40.27. Her application shows no expiration date shown yet (pending)."
+}

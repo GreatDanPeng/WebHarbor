@@ -1,0 +1,66 @@
+{
+  "task_id": "CBP.gov--16",
+  "atomic": 4,
+  "A": 17,
+  "reads": [
+    {
+      "fact": "GE fee",
+      "value": "$120.00"
+    },
+    {
+      "fact": "GE membership",
+      "value": "5 years"
+    },
+    {
+      "fact": "NEXUS fee",
+      "value": "$50.00"
+    },
+    {
+      "fact": "NEXUS membership",
+      "value": "5 years"
+    },
+    {
+      "fact": "SENTRI fee",
+      "value": "$122.25"
+    },
+    {
+      "fact": "SENTRI membership",
+      "value": "5 years"
+    },
+    {
+      "fact": "TSA PreCheck fee",
+      "value": "$78.00"
+    },
+    {
+      "fact": "TSA membership",
+      "value": "5 years"
+    },
+    {
+      "fact": "programs including GE benefits",
+      "value": "NEXUS and SENTRI include Global Entry benefits"
+    },
+    {
+      "fact": "commercial driver program",
+      "value": "FAST \u2014 Commercial truck drivers (Canada and Mexico)"
+    },
+    {
+      "fact": "FAST borders",
+      "value": "Canada and Mexico"
+    },
+    {
+      "fact": "GE requirement",
+      "value": "all applicants must undergo a background check"
+    },
+    {
+      "fact": "TSA eligibility",
+      "value": "?"
+    }
+  ],
+  "actions": [
+    "click:{\"selector\": \"a.quick-card:has-text('Trusted Traveler Progra",
+    "click:{\"selector\": \"a:has-text('Global Entry')\", \"desc\": \"GE page\"",
+    "navigate:{\"url\": \"/travel/trusted-traveler-programs\", \"desc\": \"back t",
+    "click:{\"selector\": \"a:has-text('TSA PreCheck')\", \"desc\": \"TSA page"
+  ],
+  "answer": "Global Entry $120.00 / 5 years; NEXUS $50.00 / 5 years; SENTRI $122.25 / 5 years; TSA PreCheck $78.00 / 5 years. NEXUS and SENTRI state they include Global Entry benefits. FAST targets commercial truck drivers crossing the Canada and Mexico borders. Global Entry: all applicants must undergo a background check. TSA PreCheck: U.S. citizens, U.S. lawful permanent residents and citizens of partner countries enrolled in Global Entry, NEXUS or SENTRI, as well as Canadian citizens who are NEXUS members."
+}

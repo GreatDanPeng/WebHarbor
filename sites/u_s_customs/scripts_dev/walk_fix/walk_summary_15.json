@@ -1,0 +1,69 @@
+{
+  "task_id": "CBP.gov--15",
+  "atomic": 11,
+  "A": 23,
+  "reads": [
+    {
+      "fact": "saved crossing name",
+      "value": "Otay Mesa - Passenger"
+    },
+    {
+      "fact": "std passenger delay",
+      "value": "185 min"
+    },
+    {
+      "fact": "Ready delay",
+      "value": "120 min"
+    },
+    {
+      "fact": "saved job",
+      "value": "Border Patrol Agent"
+    },
+    {
+      "fact": "job salary",
+      "value": "$51,632 - $92,912"
+    },
+    {
+      "fact": "job closing",
+      "value": "09/30/2026"
+    },
+    {
+      "fact": "TTP app number",
+      "value": "GE-77554402"
+    },
+    {
+      "fact": "TTP program",
+      "value": "Global Entry"
+    },
+    {
+      "fact": "TTP status",
+      "value": "Interview Scheduled"
+    },
+    {
+      "fact": "interview date/time",
+      "value": "2026-10-14 at 10:00 a.m."
+    },
+    {
+      "fact": "LAX hours",
+      "value": "7:30 a.m. - 9:30 p.m."
+    },
+    {
+      "fact": "LAX phone",
+      "value": "(310) 642-1425"
+    }
+  ],
+  "actions": [
+    "click:{\"selector\": \"header a[href='/login']\", \"desc\": \"nav Log in\"",
+    "input:{\"selector\": \"#email\", \"text\": \"dana.k@test.com\", \"desc\": \"e",
+    "input:{\"selector\": \"#password\", \"text\": \"TestPass123!\", \"desc\": \"p",
+    "click:{\"selector\": \"form.stack button[type='submit']\", \"desc\": \"Lo",
+    "navigate:{\"url\": \"/account\", \"desc\": \"My Account\"}",
+    "click:{\"selector\": \"a[href^='/bwt/crossing/']:has-text('Otay Mesa'",
+    "navigate:{\"url\": \"/account\", \"desc\": \"back to account\"}",
+    "click:{\"selector\": \"a:has-text('Border Patrol Agent')\", \"desc\": \"o",
+    "navigate:{\"url\": \"/account\", \"desc\": \"back to account\"}",
+    "click:{\"selector\": \"a:has-text('GE-77554402')\", \"desc\": \"open TTP ",
+    "click:{\"selector\": \"a:has-text('Schedule Interview')\", \"desc\": \"sc"
+  ],
+  "answer": "Saved crossing Otay Mesa - Passenger (#250601): standard passenger delay 185 min, Ready Lane delay 120 min. Saved job Border Patrol Agent: salary $51,632 - $92,912, closing 09/30/2026. Trusted Traveler application GE-77554402 (Global Entry), status Interview Scheduled, interview 2026-10-14 at 10:00 a.m. at Los Angeles International Airport (LAX); the enrollment center's hours are 7:30 a.m. - 9:30 p.m., contact phone (310) 642-1425."
+}

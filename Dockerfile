@@ -395,6 +395,6 @@ RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/student_com && \
 
 RUN python3 /opt/check_seed_databases.py /opt/WebSyn
 
-EXPOSE 8101 40000-40111
+EXPOSE 8101 40000-40162
 
 CMD ["/opt/websyn_start.sh"]
