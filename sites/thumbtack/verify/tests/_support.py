@@ -28,7 +28,7 @@ VERIFY_DIR = Path(__file__).resolve().parents[1]
 SITE_DIR = VERIFY_DIR.parent
 CONTAINER = os.environ.get("WH_CONTAINER", "wh-tt-review")
 CACHE = Path(os.environ.get("THUMBTACK_TEST_SEED_DB")
-             or str(Path("/tmp") / "thumbtack_verify_tests_seed.db"))
+             or str(SITE_DIR / "instance_seed" / "thumbtack.db"))
 TASKS_FILE = SITE_DIR / "tasks.jsonl"
 
 
@@ -151,7 +151,7 @@ def honest_run(tmp_path: Path, task_no: int) -> Path:
     spec = SPECS[task_no]
     b = RunBuilder(root, tid)
     for u in spec["urls"]:
-        b.add_step("navigate", u)
+        b.add_step("navigate", BASE.rstrip("/") + u if u.startswith("/") else u)
     b.finish(spec["answer"])
     after = copy_db(root, "after.db")
     if task_no in MUTATIONS:
@@ -197,7 +197,7 @@ def wrong_answer_run(tmp_path: Path, task_no: int, wrong: str) -> Path:
     spec = SPECS[task_no]
     b = RunBuilder(root, tid)
     for u in spec["urls"]:
-        b.add_step("navigate", u)
+        b.add_step("navigate", BASE.rstrip("/") + u if u.startswith("/") else u)
     b.finish(wrong)
     after = copy_db(root, "after.db")
     if task_no in MUTATIONS:
@@ -214,7 +214,7 @@ def state_mismatch_run(tmp_path: Path, task_no: int) -> Path:
     spec = SPECS[task_no]
     b = RunBuilder(root, tid)
     for u in spec["urls"]:
-        b.add_step("navigate", u)
+        b.add_step("navigate", BASE.rstrip("/") + u if u.startswith("/") else u)
     b.finish(spec["answer"])
     copy_db(root, "after.db")
     copy_db(root, "initial.db")

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Verify Thumbtack--5.
 
-Log in with the demo account (email: carol.d@test.com, password: TestPass123!). I've just moved to Kirkland (zip 98033). Update my profile's zip code and address, then find the highest-rated lawn care professional who serves that area and request a quote for a weekly mowing service.
+Log in with the demo account (email: carol.d@test.com, password: TestPass123!). I've just moved to Kirkland (zip 98033). Update my profile's zip code to 98033 and address to 123 Main St, Kirkland, WA, then find the highest-rated lawn care professional who serves that area and request a quote for a weekly mowing service.
 """
 import sys
 from pathlib import Path

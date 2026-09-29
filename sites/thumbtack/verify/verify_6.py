@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Verify Thumbtack--6.
 
-Log in with the demo account (email: david.k@test.com, password: TestPass123!). My kitchen faucet has been dripping for a week. Find a plumber who is background checked and accepts Venmo, save them to my saved pros, and message them to confirm they can handle the leak urgently. Then request a pipe-repair quote within a week describing the leaky faucet, and tell me the lowest quote and how it compares to the cost guide's typical range for plumbers.
+Log in with the demo account (email: david.k@test.com, password: TestPass123!). My kitchen faucet has been dripping for a week. Find a plumber who is background checked and accepts Venmo, save them to my saved pros, and message them to confirm they can handle the leak urgently. Then request a plumbing-repair quote within a week describing the leaky faucet, and tell me the lowest quote and how it compares to the cost guide's typical range for plumbers.
 """
 import sys
 from pathlib import Path

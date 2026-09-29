@@ -434,18 +434,37 @@ def pro_quote(pro, project):
     return 80 + det_hash(project.id, pro.service_pk) % 220
 
 
+class ContentRecord(db.Model):
+    __tablename__ = 'content_records'
+    id = db.Column(db.Integer, primary_key=True)
+    payload = db.Column(db.Text, nullable=False)
+
+
+def seed_content():
+    if db.session.get(ContentRecord, 1) is not None:
+        return
+    with open(os.path.join(BASE_DIR, 'source_data_content.json'), encoding='utf-8') as source:
+        payload = json.dumps(json.load(source), ensure_ascii=False, sort_keys=True)
+    db.session.add(ContentRecord(id=1, payload=payload))
+    db.session.commit()
+
+
+def load_content():
+    row = db.session.get(ContentRecord, 1)
+    if row is None:
+        raise RuntimeError('Missing build-generated content seed')
+    return json.loads(row.payload)
+
+
 def pro_response_note(pro, project):
-    pool = json.loads(open(os.path.join(
-        BASE_DIR, 'source_data_content.json'), encoding='utf-8').read()
-    )['quote_notes']
+    pool = load_content()['quote_notes']
     idx = det_hash('note', pro.service_pk, project.id) % len(pool)
     return pool[idx].format(pro=pro.name)
 
 
 def auto_reply(thread, user_message):
     """Deterministic pro reply for a user message (category + keyword aware)."""
-    content = json.loads(open(os.path.join(
-        BASE_DIR, 'source_data_content.json'), encoding='utf-8').read())
+    content = load_content()
     cat = thread.pro.category
     key = cat.slug if cat.slug in content['pro_replies'] else 'default'
     pool = content['pro_replies'][key]
@@ -490,9 +509,7 @@ def index():
     groups = {}
     for c in cats:
         groups.setdefault(c.meta_group, []).append(c)
-    city_links = json.loads(open(os.path.join(
-        BASE_DIR, 'source_data_content.json'), encoding='utf-8').read()
-    )['home_cities']
+    city_links = load_content()['home_cities']
     return render_template('index.html', cats=cats, popular=popular,
                            groups=groups, city_links=city_links)
 
@@ -870,9 +887,7 @@ def prices():
     groups = {}
     for g in guides:
         groups.setdefault(g.group_name, []).append(g)
-    featured = json.loads(open(os.path.join(
-        BASE_DIR, 'source_data_content.json'), encoding='utf-8').read()
-    )['price_featured']
+    featured = load_content()['price_featured']
     return render_template('prices.html', groups=groups, featured=featured)
 
 
@@ -893,9 +908,7 @@ def near_me():
     groups = {}
     for c in cats:
         groups.setdefault(c.meta_group, []).append(c)
-    popular = json.loads(open(os.path.join(
-        BASE_DIR, 'source_data_content.json'), encoding='utf-8').read()
-    )['near_me_popular']
+    popular = load_content()['near_me_popular']
     return render_template('near_me.html', groups=groups, popular=popular)
 
 
@@ -917,17 +930,13 @@ def city_page(state_abbr, city_slug):
 
 @app.route('/guarantee')
 def guarantee():
-    blocks = json.loads(open(os.path.join(
-        BASE_DIR, 'source_data_content.json'), encoding='utf-8').read()
-    )['guarantee_blocks']
+    blocks = load_content()['guarantee_blocks']
     return render_template('guarantee.html', blocks=blocks)
 
 
 @app.route('/how-it-works')
 def how_it_works():
-    steps = json.loads(open(os.path.join(
-        BASE_DIR, 'source_data_content.json'), encoding='utf-8').read()
-    )['how_it_works']
+    steps = load_content()['how_it_works']
     return render_template('how_it_works.html', steps=steps)
 
 
@@ -976,8 +985,7 @@ def seed_database():
 def seed_benchmark_users():
     if User.query.filter_by(email='alice.j@test.com').first():
         return
-    content = json.loads(open(os.path.join(
-        BASE_DIR, 'source_data_content.json'), encoding='utf-8').read())
+    content = load_content()
     for spec in content['benchmark_users']:
         db.session.add(User(username=spec['username'], email=spec['email'],
                             display_name=spec['display_name'],
@@ -992,8 +1000,7 @@ def seed_user_activity():
     """Pre-existing saved pros, projects, threads for the benchmark users."""
     if Project.query.count() > 0:
         return
-    content = json.loads(open(os.path.join(
-        BASE_DIR, 'source_data_content.json'), encoding='utf-8').read())
+    content = load_content()
     for spec in content['user_activity']:
         user = User.query.filter_by(email=spec['email']).first()
         if not user:
@@ -1039,6 +1046,7 @@ def seed_user_activity():
 
 with app.app_context():
     create_schema()
+    seed_content()
     seed_database()
     seed_benchmark_users()
 
@@ -1047,6 +1055,7 @@ def main() -> None:
     """Standalone entry: build instance/thumbtack.db from scratch (idempotent)."""
     with app.app_context():
         create_schema()
+        seed_content()
         seed_database()
         seed_benchmark_users()
     print('seeded')
