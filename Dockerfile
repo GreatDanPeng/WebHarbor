@@ -395,10 +395,12 @@ RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/student_com && \
     python3 /opt/check_asset_inventory.py /opt/WebSyn/the_weather_network && \
     (cd /opt/WebSyn/the_weather_network && rm -rf instance instance_seed && PYTHONHASHSEED=0 python3 seed_data.py && mkdir -p instance_seed && cp instance/the_weather_network.db instance_seed/the_weather_network.db && rm -rf instance __pycache__) && \
     python3 /opt/check_asset_inventory.py /opt/WebSyn/super_lawyers && \
-    (cd /opt/WebSyn/super_lawyers && rm -rf instance instance_seed && PYTHONHASHSEED=0 python3 -c 'import app' && mkdir -p instance_seed && cp instance/super_lawyers.db instance_seed/super_lawyers.db && rm -rf instance __pycache__)
+    (cd /opt/WebSyn/super_lawyers && rm -rf instance instance_seed && PYTHONHASHSEED=0 python3 -c 'import app' && mkdir -p instance_seed && cp instance/super_lawyers.db instance_seed/super_lawyers.db && rm -rf instance __pycache__) && \
+    python3 /opt/check_asset_inventory.py /opt/WebSyn/tourradar && \
+    (cd /opt/WebSyn/tourradar && rm -rf instance instance_seed && PYTHONHASHSEED=0 python3 seed_data.py && mkdir -p instance_seed && cp instance/tourradar.db instance_seed/tourradar.db && rm -rf instance __pycache__)
 
 RUN python3 /opt/check_seed_databases.py /opt/WebSyn
 
-EXPOSE 8101 40000-40113
+EXPOSE 8101 40000-40114
 
 CMD ["/opt/websyn_start.sh"]

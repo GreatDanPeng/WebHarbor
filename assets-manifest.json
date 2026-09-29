@@ -412,6 +412,10 @@
       "bytes": 17652879,
       "sha256": "46eabbc33c318e54badecd6ceb646d339bf0c25e4de1f2a566a955f965c87914"
     },
+    "tourradar.tar.gz": {
+      "bytes": 174543664,
+      "sha256": "dfeead95745c27b797bde45e4797d6c1c439cad01e67ff20a1f831c53389351c"
+    },
     "trip_com.tar.gz": {
       "bytes": 89982594,
       "sha256": "0f91ccbfaf752d3a19585151efc76c6b727bdfef404347917b9f9c43c94cb8eb"
