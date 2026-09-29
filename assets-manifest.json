@@ -388,6 +388,10 @@
       "bytes": 465181101,
       "sha256": "632c7fe694803aa5c63d3603b54c5ce365b8774357c910f658725453179db8d0"
     },
+    "super_lawyers.tar.gz": {
+      "bytes": 53284958,
+      "sha256": "19bc834ab5eb0829bdb0f505fca22f78affbeeae05ca681449451340c68d9d53"
+    },
     "target.tar.gz": {
       "bytes": 15776899,
       "sha256": "f12c2bf1ec60344ddd8dda7289e38d2ec9ffc6612b3d459c2a2898a0e9da4ac1"
