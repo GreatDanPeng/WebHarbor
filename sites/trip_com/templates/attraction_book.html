@@ -38,7 +38,7 @@
       <div class="sum-row"><span>Unit price</span><span class="val">${{ '%.2f'|format(package.price) }}</span></div>
       <div class="sum-row"><span>Guests</span><span class="val">{{ guests }}</span></div>
       <div class="sum-row total"><span>Total</span><span class="val">${{ '%.2f'|format(total) }}</span></div>
-      <div class="rate-flags">&#10003; Instant confirmation &middot; Free cancellation until 11:00 PM on your travel date</div>
+      <div class="rate-flags">{{ attraction.cancellation }}</div>
     </div>
   </div>
 </div>

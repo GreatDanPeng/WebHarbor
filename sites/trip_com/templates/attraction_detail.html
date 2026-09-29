@@ -41,9 +41,9 @@
         </div>
       </div>
       {% else %}
-      <div class="empty-note">Packages coming soon for this activity.</div>
+      <div class="empty-note">Booking options are unavailable in this snapshot.</div>
       {% endfor %}
-      <div class="rate-flags">&#10003; Booking confirmation &middot; Free cancellation until 11:00 PM (local time) on your travel date</div>
+      <div class="rate-flags">{{ attraction.cancellation }}</div>
     </div>
   </div>
 
@@ -51,8 +51,8 @@
     <div class="panel">
       <h3>From</h3>
       <div class="hr-price" style="font-size:26px">${{ '%.2f'|format(attraction.price_from) }}</div>
-      <div class="hr-total">per person</div>
-      <a class="btn btn-lg" href="#top" onclick="document.querySelector('.pkg-row .btn').click();return false" style="margin-top:10px">Select package</a>
+      <div class="hr-total">{{ attraction.price_unit }}</div>
+      {% if packages %}<a class="btn btn-lg" href="#top" onclick="document.querySelector('.pkg-row .btn').click();return false" style="margin-top:10px">Select package</a>{% endif %}
     </div>
     <div class="panel">
       <h3>Similar experiences</h3>

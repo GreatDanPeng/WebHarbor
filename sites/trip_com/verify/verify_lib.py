@@ -59,18 +59,14 @@ TABLES = ("airports", "attraction_bookings", "attraction_packages", "attractions
           "cities", "coupons", "flight_bookings", "flight_routes", "flights",
           "guides", "hotel_bookings", "hotel_photos", "hotel_reviews", "hotels",
           "room_rates", "users", "wishlist_items")
-SEED_COUNTS = {"airports": 7, "attraction_bookings": 2, "attraction_packages": 140,
-               "attractions": 140, "cities": 11, "coupons": 4, "flight_bookings": 2,
-               "flight_routes": 6, "flights": 946, "guides": 6, "hotel_bookings": 4,
-               "hotel_photos": 1494, "hotel_reviews": 83, "hotels": 1110,
-               "room_rates": 588, "users": 4, "wishlist_items": 12}
+SEED_COUNTS = {'airports': 7, 'attraction_bookings': 2, 'attraction_packages': 95, 'attractions': 131, 'cities': 11, 'coupons': 4, 'flight_bookings': 2, 'flight_routes': 6, 'flights': 946, 'guides': 6, 'hotel_bookings': 4, 'hotel_photos': 1494, 'hotel_reviews': 83, 'hotels': 1110, 'room_rates': 588, 'users': 4, 'wishlist_items': 12}
 # sha256 over sqlite_master (type, name, tbl_name, sql) of instance_seed/trip_com.db.
-SCHEMA_SHA256 = "6708b0d19eaa1d5e425c6d86c5da251317766459e2f3abfbf0c0ca898be6102b"
+SCHEMA_SHA256 = "e3307500b48521fc859bc2b859b5b41e020292fa4daae898d355fb143cf3ea86"
 # sha256 over every seed row (table-canonical, ORDER BY all columns).
 # r2 re-freeze (2026-09-28): 12 attractions.img values changed via the
 # contributor's tracked asset path manifest (image de-duplication pass); table
 # counts and schema digest are unchanged.
-SEED_ROWS_SHA256 = "56fa75a6c8d2a9df3d6fb49ef2ff9290de82a476a4b6575c2db834f487b0df8c"
+SEED_ROWS_SHA256 = "6f6a7eb4c4ccde9a6100dc80bdc166e614ab93f480e8afa8100474a70d0e67b3"
 # Byte-level md5 of the seed produced inside the pinned image. r2 value:
 # reproduced independently by the r2 reviewer's image build (two fresh
 # PYTHONHASHSEED=0 seed builds inside the image, byte-identical).
@@ -113,12 +109,15 @@ def final_answer(traj):
     return "" if answer is None else str(answer)
 
 
-def _png_ok(path: Path) -> bool:
+def _png_ok(path):
     try:
-        data = path.read_bytes()[:8]
-    except OSError:
+        from PIL import Image
+        with Image.open(path) as image:
+            image.load()
+            valid = image.format == "PNG" and image.width > 0 and image.height > 0
+        return valid
+    except (OSError, ValueError) as exc:
         return False
-    return data == b"\x89PNG\r\n\x1a\n"
 
 
 # ---------------------------------------------------------------- judge
@@ -233,24 +232,32 @@ def check_answer_any(judge, answer, check, phrases):
     judge.fail(check, f"answer lacks all of {phrases!r}")
 
 
-def check_answer_number(judge, answer, check, number):
-    want = str(number)
-    tokens = re.findall(NUM_TOKEN_RX, answer)
-    if any(t.replace(",", "").rstrip(".").lstrip("$") == want for t in tokens):
-        judge.ok(check, want)
+def check_answer_number(judge, answer, label, number, context=None):
+    from answer_bindings import BINDINGS, number_bound, _number_pattern, _affirmed, _assertions
+    task_no = int(getattr(judge, 'task_id', '--0').split('--')[-1])
+    groups = BINDINGS.get(task_no, {}).get(label)
+    value = str(number)
+    if groups:
+        hit = number_bound(answer, value, groups)
     else:
-        judge.fail(check, f"number {want} not in answer tokens")
+        hit = any(_affirmed(segment, m.start()) for segment in _assertions(answer)
+                  for m in _number_pattern(value).finditer(segment))
+    if hit: judge.ok(label, value)
+    else: judge.fail(label, f"missing or incorrectly associated value {value}")
 
 
-def check_answer_money(judge, answer, check, amount):
-    """Accept $X, $X.00, X.00, X forms for a dollar amount."""
-    want = float(amount)
-    pat = rf"(?:\$)?{want:.2f}".replace(".", r"\.")
-    pat2 = rf"(?:\$)?{int(want)}(?:\.0*)?(?![\d.])"
-    if re.search(pat, answer) or re.search(pat2, answer):
-        judge.ok(check, f"${want:.2f}")
+def check_answer_money(judge, answer, label, amount):
+    from answer_bindings import BINDINGS, number_bound, _number_pattern, _affirmed, _assertions
+    task_no = int(getattr(judge, 'task_id', '--0').split('--')[-1])
+    groups = BINDINGS.get(task_no, {}).get(label)
+    value = str(amount)
+    if groups:
+        hit = number_bound(answer, value, groups)
     else:
-        judge.fail(check, f"amount ${want:.2f} not in answer")
+        hit = any(_affirmed(segment, m.start()) for segment in _assertions(answer)
+                  for m in _number_pattern(value).finditer(segment))
+    if hit: judge.ok(label, value)
+    else: judge.fail(label, f"missing or incorrectly associated value {value}")
 
 
 def check_answer_count_at_least(judge, answer, check, options, minimum):
@@ -351,7 +358,9 @@ def _match(row, template):
 
 
 def check_rows_added(judge, initial_db, after_db, table, templates, check):
-    added, _, _ = _diff(initial_db, after_db, table)
+    added, removed, changed = _diff(initial_db, after_db, table)
+    if removed or changed:
+        judge.fail(check, "unrequested removal or modification of existing rows")
     if len(added) != len(templates):
         judge.fail(check, f"expected {len(templates)} added row(s) in {table}, got {len(added)}: {added}")
         return
@@ -363,7 +372,9 @@ def check_rows_added(judge, initial_db, after_db, table, templates, check):
 
 
 def check_rows_changed(judge, initial_db, after_db, table, templates, check):
-    _, _, changed = _diff(initial_db, after_db, table)
+    added, removed, changed = _diff(initial_db, after_db, table)
+    if added or removed:
+        judge.fail(check, "unrequested addition or removal")
     if len(changed) != len(templates):
         judge.fail(check, f"expected {len(templates)} changed row(s) in {table}, got {len(changed)}")
         return
@@ -437,7 +448,10 @@ def run_verifier(task_id, run_checks):
 
     judge = Judge(task_id)
     try:
+        check_seed_contract(judge, initial)
+        check_schema_unchanged(judge, initial, after)
         run_checks(judge, traj, initial, after)
+        check_booking_identity(judge, traj, initial, after)
     finally:
         initial.close()
         after.close()
@@ -450,3 +464,21 @@ def run_verifier(task_id, run_checks):
 
 if __name__ == "__main__":
     raise SystemExit("import this module from verify_<n>.py")
+
+
+def check_schema_unchanged(judge, initial, after):
+    query = "SELECT type, name, tbl_name, sql FROM sqlite_master WHERE name NOT LIKE 'sqlite_%' ORDER BY type, name"
+    if list(initial.execute(query)) != list(after.execute(query)):
+        judge.fail("schema", "after-state schema differs from seed")
+
+
+def check_booking_identity(judge, traj, initial, after):
+    for table in ('hotel_bookings','flight_bookings','attraction_bookings'):
+        added, _, _ = _diff(initial, after, table)
+        columns = [r[1] for r in after.execute('PRAGMA table_info('+table+')')]
+        for values in added:
+            row = dict(zip(columns, values))
+            if row['user_id'] is not None:
+                judge.fail('booking_owner', 'guest booking attached to an account')
+            if 'booking reference' in str(traj.get('task', traj.get('ques', ''))).lower() and row['ref'] not in final_answer(traj):
+                judge.fail('booking_reference', 'answer omits actual booking reference')

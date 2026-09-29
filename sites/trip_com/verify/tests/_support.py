@@ -29,7 +29,7 @@ VERIFY_DIR = Path(__file__).resolve().parents[1]
 SITE_DIR = VERIFY_DIR.parent
 CONTAINER = os.environ.get("WH_CONTAINER", "wh-trip-com-review")
 CACHE = Path(os.environ.get("TRIP_COM_TEST_SEED_DB") or
-             str(Path("/tmp") / "trip_com_verify_tests_seed.db"))
+             str(SITE_DIR / "instance_seed" / "trip_com.db"))
 TASKS_FILE = SITE_DIR / "tasks.jsonl"
 PASSWORD = "TestPass123!"
 

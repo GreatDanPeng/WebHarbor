@@ -1,8 +1,8 @@
 {
  "schema_version": 1,
  "site": "trip_com",
- "asset_count": 1862,
- "total_bytes": 89569928,
+ "asset_count": 1853,
+ "total_bytes": 90138981,
  "captured_on": "2026-09-27",
  "capture_method": "Playwright-rendered pages + direct HTTP fetches of the resolved media URLs (ak-d.tripcdn.com / dimg04.tripcdn.com)",
  "source_page": "https://us.trip.com/",
@@ -10,7 +10,8 @@
   "Covers every managed media file under static/images/; the seed database is deterministically generated at build time from the tracked source_data_*.json snapshots (see .build-generated-seed).",
   "Every entry is byte- and hash-verified by scripts/check_asset_inventory.py during the Docker build.",
   "All source URLs are real upstream media URLs served by us.trip.com as rendered on the snapshot date.",
-  "2026-09-28 de-duplication pass (review MINOR-1): files that previously shared one upstream source URL were re-byted from a real upstream photo of the same entry (own detail-page photo for attraction cards, top-attraction/hotel photo of the same city for city cards, own distinct gallery photo for hotel mains) via scripts_dev/fix_asset_reuse.py; the seed database and every file path are unchanged. A few duplicated upstream property pairs keep their identical upstream image sets (documented in the fix report)."
+  "2026-09-28 de-duplication pass (review MINOR-1): files that previously shared one upstream source URL were re-byted from a real upstream photo of the same entry (own detail-page photo for attraction cards, top-attraction/hotel photo of the same city for city cards, own distinct gallery photo for hotel mains) via scripts_dev/fix_asset_reuse.py; the seed database and every file path are unchanged. A few duplicated upstream property pairs keep their identical upstream image sets (documented in the fix report).",
+  "Reviewer recovered real detail-page content and photos for mislabeled attractions; invalid category redirects removed. See reviewer_recovery.json."
  ],
  "assets": [
   {
@@ -20,7 +21,7 @@
    "source_url": "https://ak-d.tripcdn.com/images/0352d12000tlqi5lo20FA_C_568_320.jpg_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/100449416_1.webp",
+   "path": "static/images/attractions/100449416_review.webp",
    "bytes": 172974,
    "sha256": "100d008e34ce53c2165504c63035f845215bb5b490f16a52c79b9915b2f5dbc9",
    "source_url": "https://ak-d.tripcdn.com/images/0350c12000izmolb46D9E_C_1080_540_Q80.jpg_.webp?_fr=wc"
@@ -182,7 +183,7 @@
    "source_url": "https://ak-d.tripcdn.com/images/0353r12000r1z61rqE7C3_C_568_320.png_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/103339776_1.webp",
+   "path": "static/images/attractions/103339776_review.webp",
    "bytes": 152002,
    "sha256": "7b5743ac8929a9d575936fc23186cb707026f69e35bee316d0e84d527a0cbb56",
    "source_url": "https://ak-d.tripcdn.com/images/0350112000r7ye9041060_C_1080_540_Q80.jpg_.webp?_fr=wc"
@@ -242,7 +243,7 @@
    "source_url": "https://ak-d.tripcdn.com/images/0351f12000rlrwg9xECB0_C_568_320_Q80.jpg_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/104809227_1.webp",
+   "path": "static/images/attractions/104809227_review.webp",
    "bytes": 86626,
    "sha256": "44f5400e938d6643a8f4e1b038d9cdddfaa06eae6baa03b9628cc062c58495bb",
    "source_url": "https://ak-d.tripcdn.com/images/0355w12000rt3cgxkB793_C_1080_540_Q80.jpg_.webp?_fr=wc"
@@ -278,22 +279,16 @@
    "source_url": "https://ak-d.tripcdn.com/images/0352t12000rx7fd1vA28F_C_1080_540_Q80.jpg_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/105682729_1.avif",
-   "bytes": 2107,
-   "sha256": "68dee13722536240cfe96581f23d5640d5161c1feff56a1ae5c73c5827c7d162",
-   "source_url": "https://ak-d.tripcdn.com/images/05E4f12000cjsls8g082A.png"
+   "path": "static/images/attractions/105682729_review.webp",
+   "bytes": 44848,
+   "sha256": "b8656eecc356d5010f7296646d31f8ba47d9f86e72ea85c73691a2e8dd80502f",
+   "source_url": "https://ak-d.tripcdn.com/images/0351n12000q0qthvm18A4_C_1080_540_Q80.jpg_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/106108965_1.avif",
-   "bytes": 3367,
-   "sha256": "0d74b9dce17178ffe8e5d85356cfd92cad164abc6f76f109acbf9a5ae29a233a",
-   "source_url": "https://ak-d.tripcdn.com/images/05E1112000cx47zr7DBBA.png"
-  },
-  {
-   "path": "static/images/attractions/106152452_1.avif",
-   "bytes": 4110,
-   "sha256": "3efdf7205dad6d0e981d0860504801e4a90c9561922d8ea4210aa3c6c677a76f",
-   "source_url": "https://ak-d.tripcdn.com/images/wj0t1800000156kx536A0.png"
+   "path": "static/images/attractions/106152452_review.webp",
+   "bytes": 10752,
+   "sha256": "9c13a0c5cbfa753f895674ba01cb40b0396b3295a254537b3bab7ac2e5071327",
+   "source_url": "https://ak-d.tripcdn.com/images//0587112000r4hsp076516_C_1080_540_Q80.jpg_.webp?_fr=wc"
   },
   {
    "path": "static/images/attractions/106193778_1.webp",
@@ -302,34 +297,28 @@
    "source_url": "https://ak-d.tripcdn.com/images//0586y12000r4txnajD7E9_C_568_320.jpg_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/106263703_1.avif",
-   "bytes": 1943,
-   "sha256": "4062639f1ede54bbd6345d6c3f297f874cfec8634d1c6a1496dcdc47f9b73d5c",
-   "source_url": "https://ak-d.tripcdn.com/images/0AS5z1200096fxqjc2462.png"
+   "path": "static/images/attractions/106263703_review.webp",
+   "bytes": 84960,
+   "sha256": "7cbb7fa791855fcf2849a9f693c677b3ba1a57358efeb757c059713dac54342c",
+   "source_url": "https://ak-d.tripcdn.com/images//0583d12000oadgl3a48CF_C_1080_540_Q80.jpg_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/106307491_1.webp",
-   "bytes": 46588,
-   "sha256": "42579b1b8f3dfce0ade992917eb10a5644da48208c525eeed59e564b7b6a82df",
-   "source_url": "https://ak-d.tripcdn.com/images/0355g12000tl0voqe5C05_C_568_320_Q80.jpg_.webp?_fr=wc"
+   "path": "static/images/attractions/106307491_review.webp",
+   "bytes": 190222,
+   "sha256": "c8bcfd3ec2d6c7ce732fef4ebab2cc3bcb652070bc47b2abe92387b234046325",
+   "source_url": "https://ak-d.tripcdn.com/images//0583712000q4fbmfy7196_C_1080_540_Q80.jpg_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/106363835_1.webp",
-   "bytes": 50952,
-   "sha256": "da5cace572f8240a65747defebe3231df6b90310a08a91d68d09fce089fd468d",
-   "source_url": "https://ak-d.tripcdn.com/images/0351f12000fzcy9ri332B_C_1080_540_Q80.jpg_.webp?_fr=wc"
+   "path": "static/images/attractions/106363835_review.webp",
+   "bytes": 121690,
+   "sha256": "418e9677c7a1161d20709de775cbfae3b61be70de9fe1cf4d71a9a2cf18efd08",
+   "source_url": "https://ak-d.tripcdn.com/images/0352612000fzcxrl83E9D_C_1080_540_Q80.jpg_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/106389664_1.webp",
+   "path": "static/images/attractions/106389664_review.webp",
    "bytes": 72106,
    "sha256": "f60751d1c000918a685f277200c5e5ba7f178e108c06f9f12e7e229ec46465c1",
    "source_url": "https://ak-d.tripcdn.com/images/0353x12000noko0iw59E1_C_1080_540_Q80.jpg_.webp?_fr=wc"
-  },
-  {
-   "path": "static/images/attractions/106392031_1.webp",
-   "bytes": 33754,
-   "sha256": "dcfc3e465bfcf4f9c35032bbb42e50dc703804309ffb293b547ea1bdc4b9e7f8",
-   "source_url": "https://ak-d.tripcdn.com/images/0350k12000npuoihz8E66_C_568_320.jpg_.webp?_fr=wc"
   },
   {
    "path": "static/images/attractions/106479533_1.webp",
@@ -338,22 +327,22 @@
    "source_url": "https://ak-d.tripcdn.com/images/0350e12000s6cny1t5EB2_C_568_320.png_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/106760873_1.webp",
-   "bytes": 44256,
-   "sha256": "b7ce661ba2c994b8364ad36844f75cea79076ec5ff9be99030134707370dafa0",
-   "source_url": "https://ak-d.tripcdn.com/images/0353u12000q1nfloxBD7D_C_568_320.jpg_.webp?_fr=wc"
+   "path": "static/images/attractions/106760873_review.webp",
+   "bytes": 5802,
+   "sha256": "dda11034e13a42efa702a28bb536e86adad197890ee30696f0508027d15eba0e",
+   "source_url": "https://ak-d.tripcdn.com/images//0580v12000n0ow8a27898_C_1080_540_Q80.jpg_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/106760896_1.webp",
-   "bytes": 39982,
-   "sha256": "501f76ee5554b0c50537c72d5dc6f6d42c7bc1911a3af8d26991d3700bebe2fc",
-   "source_url": "https://ak-d.tripcdn.com/images/0352e12000tvmdy7074FF_C_568_320.jpg_.webp?_fr=wc"
+   "path": "static/images/attractions/106760896_review.webp",
+   "bytes": 48078,
+   "sha256": "c312ce445c75f77e81114ceb0d24cf86fab842fd6ad0bca2ad70515cea186e2c",
+   "source_url": "https://ak-d.tripcdn.com/images//0585z12000s8zvr4vA1F5_C_1080_540_Q80.jpg_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/106760959_1.webp",
-   "bytes": 12642,
-   "sha256": "e10c9e57924812ae3f31c097b78f3c227beb001318a9d7cb86caa334f6cdefa1",
-   "source_url": "https://ak-d.tripcdn.com/images/0356v12000noxzvbqA465_C_568_320.jpg_.webp?_fr=wc"
+   "path": "static/images/attractions/106760959_review.webp",
+   "bytes": 210750,
+   "sha256": "22c6c73e4aee3adb65d91d58004268dcec575303490d22ec5023825ef2206486",
+   "source_url": "https://ak-d.tripcdn.com/images//0585112000s8zeqodC046_C_1080_540_Q80.jpg_.webp?_fr=wc"
   },
   {
    "path": "static/images/attractions/106760962_1.webp",
@@ -362,16 +351,16 @@
    "source_url": "https://ak-d.tripcdn.com/images//0582512000r538xulC4B6_C_568_320.jpg_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/106849298_1.webp",
-   "bytes": 2076,
-   "sha256": "0f637650e63ad839a6a7629a9cb20ac845f32b9877ba1ff2836725597ef42dc4",
-   "source_url": "https://ak-d.tripcdn.com/images/0305512000b6jqvmk5967_R_160_160.jpg_.webp?_fr=wc"
+   "path": "static/images/attractions/106849298_review.webp",
+   "bytes": 97806,
+   "sha256": "983b458e5448dfc93c9db6a4fb1538d3f26c4841c90fd824debcb6650e6c0717",
+   "source_url": "https://ak-d.tripcdn.com/images//0582y12000nq8z9o93E56_C_1080_540_Q80.jpg_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/106908873_1.webp",
-   "bytes": 1860,
-   "sha256": "af0d26934e5ede3a79f2fed5d4ba9c7fc3a2d4b4f3df8a3e734db656d0d70a24",
-   "source_url": "https://ak-d.tripcdn.com/images/0304x12000b6jqp8d9798_R_160_160.jpg_.webp?_fr=wc"
+   "path": "static/images/attractions/106908873_review.webp",
+   "bytes": 159222,
+   "sha256": "93adf2ea8a248f382f8d4bbc8fadf5a56edcc5013d9801173494fa7194b0be88",
+   "source_url": "https://ak-d.tripcdn.com/images//0580n12000nwb3if21C71_C_1080_540_Q80.jpg_.webp?_fr=wc"
   },
   {
    "path": "static/images/attractions/107218092_1.webp",
@@ -380,7 +369,7 @@
    "source_url": "https://ak-d.tripcdn.com/images/0353712000gc7yqpr1658_C_1080_540_Q80.jpg_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/107270006_1.webp",
+   "path": "static/images/attractions/107270006_review.webp",
    "bytes": 97190,
    "sha256": "2809712e7e8bde6df79bb2cba33c659ef7a444fe667f6fb284c27d694aa91e6f",
    "source_url": "https://ak-d.tripcdn.com/images/0352112000sac98k3C1B4_C_1080_540_Q80.jpg_.webp?_fr=wc"
@@ -408,12 +397,6 @@
    "bytes": 38458,
    "sha256": "fd6cfd32d2f96f50aee99b62f316a801ad9f9c3fbcb0af77b9057f06ac1536ae",
    "source_url": "https://ak-d.tripcdn.com/images/0354e12000tbggffbCA6C_C_568_320_Q80.jpg_.webp?_fr=wc"
-  },
-  {
-   "path": "static/images/attractions/108466797_1.webp",
-   "bytes": 29750,
-   "sha256": "4bbe891bc4a0081820c8f77b5c84922064ada6669bb73d39dd7db6e4e61dc4f8",
-   "source_url": "https://ak-d.tripcdn.com/images/0353y12000tvkoyyn1DC1_C_568_320.jpg_.webp?_fr=wc"
   },
   {
    "path": "static/images/attractions/109311461_1.webp",
@@ -464,25 +447,19 @@
    "source_url": "https://ak-d.tripcdn.com/images/0355f12000svo32r5B6EA_C_568_320_Q80.jpg_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/109410896_1.webp",
+   "path": "static/images/attractions/109410896_review.webp",
    "bytes": 77128,
    "sha256": "0e9c4837f0b5ebb5f999bc92f9fc112f182d7eac97bc322f5a3d094fc96b47ce",
    "source_url": "https://ak-d.tripcdn.com/images/0355k12000swwvy524B04_C_1080_540_Q80.jpg_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/109453429_1.webp",
+   "path": "static/images/attractions/109453429_review.webp",
    "bytes": 107936,
    "sha256": "9093d8e3f9629a4aa3a710c8cf3558394d06ce460090b70dbc07015ea8c726f2",
    "source_url": "https://ak-d.tripcdn.com/images/0356312000sx1dzhqB934_C_1080_540_Q80.png_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/109883094_1.webp",
-   "bytes": 50734,
-   "sha256": "4ffed171c3d99029e904dba0d136a5def0565e49d3bf4561beec0ba76a2625e6",
-   "source_url": "https://ak-d.tripcdn.com/images/0352s12000smwj7y4EA88_C_568_320.jpg_.webp?_fr=wc"
-  },
-  {
-   "path": "static/images/attractions/109913025_1.webp",
+   "path": "static/images/attractions/109913025_review.webp",
    "bytes": 60866,
    "sha256": "22ad79446a91cc08a8cdd7f59d5190ad8512180b6f3cd0b8693e404fb3a2e840",
    "source_url": "https://ak-d.tripcdn.com/images/0356p12000t1l96iz0639_C_1080_540_Q80.jpg_.webp?_fr=wc"
@@ -524,7 +501,7 @@
    "source_url": "https://ak-d.tripcdn.com/images/0350d12000t5bj72oD54C_C_568_320_Q80.jpg_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/110611799_1.webp",
+   "path": "static/images/attractions/110611799_review.webp",
    "bytes": 107540,
    "sha256": "8ba0ab1f5d31b01d8df359aa0bf127bb5cc2b8997aed875194633b1e1b2ad945",
    "source_url": "https://ak-d.tripcdn.com/images/100m0x000000lpoesA376_C_1080_540_Q80.jpg_.webp?_fr=wc"
@@ -560,13 +537,13 @@
    "source_url": "https://ak-d.tripcdn.com/images/0351m12000tbr7c9m2D3D_C_568_320.jpg_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/110836927_1.webp",
+   "path": "static/images/attractions/110836927_review.webp",
    "bytes": 89938,
    "sha256": "70939e94a4c9bfdb33fc5ffa8f460902f875d55dd8526c7b9231c59d3475862e",
    "source_url": "https://ak-d.tripcdn.com/images/0357412000tf80v3vE3C6_C_1080_540_Q80.jpg_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/110939124_1.webp",
+   "path": "static/images/attractions/110939124_review.webp",
    "bytes": 95850,
    "sha256": "297d7f18ff60acea72bd3aede7ecb50378dfacc397f395fe4d3e2bd7d4abcf58",
    "source_url": "https://ak-d.tripcdn.com/images/0350512000teahqjm6674_C_1080_540_Q80.jpg_.webp?_fr=wc"
@@ -614,7 +591,7 @@
    "source_url": "https://ak-d.tripcdn.com/images/0356v12000q1coaa894AF_C_568_320.jpg_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/111213844_1.webp",
+   "path": "static/images/attractions/111213844_review.webp",
    "bytes": 50190,
    "sha256": "50ef45a59dda625362d0fa3262a4c04b98591dc40f99fa83efda85175c41250e",
    "source_url": "https://ak-d.tripcdn.com/images/0354012000thfcskz085E_C_1080_540_Q80.png_.webp?_fr=wc"
@@ -626,7 +603,7 @@
    "source_url": "https://ak-d.tripcdn.com/images/0353212000rsdlrb5D8FD_C_568_320.jpg_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/113697232_1.webp",
+   "path": "static/images/attractions/113697232_review.webp",
    "bytes": 82890,
    "sha256": "8406a36f07ba42baf18a47464f16a9c8b23ca8975609419e646dbf38d13bded9",
    "source_url": "https://ak-d.tripcdn.com/images/0353712000tqy4s3s788E_C_1080_540_Q80.jpg_.webp?_fr=wc"
@@ -644,37 +621,37 @@
    "source_url": "https://ak-d.tripcdn.com/images/0350m12000tthq2h03D5E_C_568_320.jpg_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/113938034_1.webp",
+   "path": "static/images/attractions/113938034_review.webp",
    "bytes": 132566,
    "sha256": "41d81ab2db45262ea3012b4c0a85c79f97cb2156c146604ee33fe000f50b2ea1",
    "source_url": "https://ak-d.tripcdn.com/images/0355112000tu8g78y0873_C_1080_540_Q80.jpg_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/114186605_1.webp",
+   "path": "static/images/attractions/114186605_review.webp",
    "bytes": 43006,
    "sha256": "9543463b1d892f997c5b5e8717205882480f2616a1839ef07c3fc798cc0bfb72",
    "source_url": "https://ak-d.tripcdn.com/images/0354412000tsfqt194830_C_1080_540_Q80.jpg_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/114216409_1.webp",
+   "path": "static/images/attractions/114216409_review.webp",
    "bytes": 127426,
    "sha256": "1ac005fa6e1571477b92abffe4c9c5662faeb7e85d87cd9b1eebbcc8d551f613",
    "source_url": "https://ak-d.tripcdn.com/images/0353i12000tvdcb0g3E8C_C_1080_540_Q80.png_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/114343351_1.webp",
+   "path": "static/images/attractions/114343351_review.webp",
    "bytes": 156652,
    "sha256": "40ca211b94bbd17dec5c27023e04c0634217063a7671c942aedc626edb9bdd3b",
    "source_url": "https://ak-d.tripcdn.com/images/0350312000tvhhdot6912_C_1080_540_Q80.jpg_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/114364659_1.webp",
+   "path": "static/images/attractions/114364659_review.webp",
    "bytes": 50756,
    "sha256": "f81daeccb7ba7801312c41439d0d67af683403080510169a7b86af80c69abf55",
    "source_url": "https://ak-d.tripcdn.com/images/0351s12000tvilrt3A22C_C_1080_540_Q80.jpg_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/114378524_1.webp",
+   "path": "static/images/attractions/114378524_review.webp",
    "bytes": 129578,
    "sha256": "e6fd64975bd173d55bcfef2a4069859eb16992776630628b9d085e8ad0725038",
    "source_url": "https://ak-d.tripcdn.com/images/0356r12000tvjf3qq3AF0_C_1080_540_Q80.jpg_.webp?_fr=wc"
@@ -980,22 +957,10 @@
    "source_url": "https://ak-d.tripcdn.com/images/0356x12000c0uxnyhB50F_C_568_320_Q80.jpg_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/54979115_1.webp",
-   "bytes": 25610,
-   "sha256": "c4628a1d3cf001a16aafe0c87600fb01043e3aa45b9c7aa0f33ab8e4be5c021b",
-   "source_url": "https://ak-d.tripcdn.com/images/0350o12000o5gguuf1747_C_568_320_Q80.png_.webp?_fr=wc"
-  },
-  {
-   "path": "static/images/attractions/57081579_1.webp",
-   "bytes": 28014,
-   "sha256": "8d8c93038b947f1868022f7ae3322530a0398f23a3909e8c302bb15444020e06",
-   "source_url": "https://ak-d.tripcdn.com/images/0356t12000my83aicC860_C_568_320.jpg_.webp?_fr=wc"
-  },
-  {
-   "path": "static/images/attractions/57105789_1.webp",
-   "bytes": 40798,
-   "sha256": "8c1a9dcb64e880ea7aac99c33463036e7f13d7b1695d256a52294f6a6b6cf597",
-   "source_url": "https://ak-d.tripcdn.com/images/0351t12000tvreodzF106_C_568_320.jpg_.webp?_fr=wc"
+   "path": "static/images/attractions/54979115_review.webp",
+   "bytes": 105048,
+   "sha256": "47bd38b61bc7fdb8552aa02c489daba93c82480a00d7c45eda80619cf747caa5",
+   "source_url": "https://ak-d.tripcdn.com/images//0585z12000opelo7p7214_C_1080_540_Q80.jpg_.webp?_fr=wc"
   },
   {
    "path": "static/images/attractions/57606520_1.webp",
@@ -1190,25 +1155,25 @@
    "source_url": "https://ak-d.tripcdn.com/images/0351c12000poxyzae1789_C_568_320_Q80.jpg_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/88568521_1.webp",
+   "path": "static/images/attractions/88568521_review.webp",
    "bytes": 93456,
    "sha256": "1eb3ab875d04ca8bc185f36017d611f0c0e41ac9065488161913a448992c1cb7",
    "source_url": "https://ak-d.tripcdn.com/images/0350h12000izmjeor8CC9_C_1080_540_Q80.jpg_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/88901396_1.webp",
+   "path": "static/images/attractions/88901396_review.webp",
    "bytes": 125006,
    "sha256": "14b257efd8aeec2250501e9e0f0adc6ff6fedc2ab47a195cc40c711e82b66ec2",
    "source_url": "https://ak-d.tripcdn.com/images/0350112000maqgxhu4AD4_C_1080_540_Q80.jpg_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/88901781_1.webp",
+   "path": "static/images/attractions/88901781_review.webp",
    "bytes": 111740,
    "sha256": "31a041b011d13f3026f4d25f6d0dbd953cf46acbcd9a7a08f4972c6d042ecf40",
    "source_url": "https://ak-d.tripcdn.com/images/0352r12000ej0l32x480D_C_1080_540_Q80.jpg_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/88914817_1.webp",
+   "path": "static/images/attractions/88914817_review.webp",
    "bytes": 35114,
    "sha256": "73fa45eb545b03977475c813d7042084cf72ea53d76cf427f00f392a5d241ba3",
    "source_url": "https://ak-d.tripcdn.com/images/0351s12000o7aq7nu94A2_C_1080_540_Q80.jpg_.webp?_fr=wc"
@@ -1316,28 +1281,10 @@
    "source_url": "https://ak-d.tripcdn.com/images/0352s12000sjvu3ba1AB8_C_568_320.jpg_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/93108496_1.webp",
-   "bytes": 29484,
-   "sha256": "d0bd61a3b6dfaabaa9f32abc16c203e8cffaaf270d3158ec7309de9524c8dfd1",
-   "source_url": "https://ak-d.tripcdn.com/images/0353g12000r5s4j7n3E87_C_568_320.jpg_.webp?_fr=wc"
-  },
-  {
-   "path": "static/images/attractions/93121446_1.webp",
+   "path": "static/images/attractions/93121446_review.webp",
    "bytes": 71400,
    "sha256": "486ef25496c3fe6a8ddcac3554768efb749aa8ac1d94644c48c53033aeeac1fd",
    "source_url": "https://ak-d.tripcdn.com/images/0352w12000r5rt9bd156C_C_1080_540_Q80.jpg_.webp?_fr=wc"
-  },
-  {
-   "path": "static/images/attractions/93123795_1.webp",
-   "bytes": 11614,
-   "sha256": "81add5dba24443dec37e3096e2e6a4f5021071e0a8d5a248b45cffde978acd0e",
-   "source_url": "https://ak-d.tripcdn.com/images/0354b12000r5qgzqo897E_C_568_320.jpg_.webp?_fr=wc"
-  },
-  {
-   "path": "static/images/attractions/93133260_1.webp",
-   "bytes": 50484,
-   "sha256": "f8821f9c0d5306be8a7eb7a597611edddeeb6a8d3c0af21be388a185dc0554f1",
-   "source_url": "https://ak-d.tripcdn.com/images/0352g12000l264hc28798_C_568_320.jpg_.webp?_fr=wc"
   },
   {
    "path": "static/images/attractions/93362697_1.webp",
@@ -1526,7 +1473,7 @@
    "source_url": "https://ak-d.tripcdn.com/images/0353o12000mj26btbE9D3_C_568_320_Q80.jpg_.webp?_fr=wc"
   },
   {
-   "path": "static/images/attractions/96659161_1.webp",
+   "path": "static/images/attractions/96659161_review.webp",
    "bytes": 79344,
    "sha256": "f9ddcc1b10c03fa30e07316d7e76276e975efa170c7a5c7d865faca819fb6ce5",
    "source_url": "https://ak-d.tripcdn.com/images/0355s12000ni4k7qoB781_C_1080_540_Q80.jpg_.webp?_fr=wc"

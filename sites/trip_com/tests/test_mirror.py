@@ -52,7 +52,8 @@ def test_seed_volume():
     assert Hotel.query.filter_by(bookable=True).count() >= 70
     assert RoomRate.query.count() >= 500
     assert Flight.query.count() >= 700
-    assert Attraction.query.count() >= 130
+    assert Attraction.query.count() == 131
+    assert not Attraction.query.filter_by(name='Attractions & Tours category').count()
     assert Guide.query.count() == 6
     assert Coupon.query.count() == 4
     assert HotelPhoto.query.count() >= 400
@@ -216,7 +217,7 @@ def test_flight_roundtrip_chain():
     out = Flight.query.filter_by(route_id=route.id, leg='out').order_by(Flight.price).first()
     ret = Flight.query.filter_by(route_id=route.id, leg='ret').order_by(Flight.price).first()
     total = out.price + ret.price
-    r = _post(f'/flights/book?out={out.id}&ret={ret.id}',
+    r = _post(f'/flights/book?out={out.id}&ret={ret.id}&ddate=2026-10-20&rdate=2026-10-27',
               first_name='Test', last_name='Flyer',
               email='tf@example.com', phone='+15550002222',
               card_no='4242424242424242', card_name='Test Flyer')
@@ -228,6 +229,9 @@ def test_flight_roundtrip_chain():
     assert booking is not None
     assert abs(booking.total - total) < 0.01
     assert booking.trip_type == 'rt'
+    assert str(booking.departure_date) == '2026-10-20'
+    assert str(booking.return_date) == '2026-10-27'
+    assert 'Oct 20, 2026' in body and 'Oct 27, 2026' in body
 
 
 def test_attraction_booking_chain():
@@ -373,3 +377,17 @@ def test_health_probe_passes():
     import _health
     result = _health.health()
     assert result['ok'], result
+
+
+def test_recovered_attractions_do_not_invent_packages():
+    # Recovered source entries retain real titles; never a category placeholder.
+    assert not Attraction.query.filter(Attraction.name == 'Attractions & Tours category').count()
+    package = AttractionPackage.query.filter_by(attraction_id=46680654).first()
+    assert 'year' in package.validity.lower()
+
+
+def test_return_date_must_follow_departure():
+    outbound = Flight.query.filter_by(leg='out').first()
+    inbound = Flight.query.filter_by(route_id=outbound.route_id, leg='ret').first()
+    response = client.get(f'/flights/book?out={outbound.id}&ret={inbound.id}&ddate=2026-10-27&rdate=2026-10-20')
+    assert response.status_code == 400

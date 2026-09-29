@@ -301,6 +301,8 @@ class FlightBooking(db.Model):
     promo_code = db.Column(db.String(20), default='')
     status = db.Column(db.String(20), default='confirmed')
     created_at = db.Column(db.Date, default=MIRROR_TODAY)
+    departure_date = db.Column(db.Date, nullable=True)
+    return_date = db.Column(db.Date, nullable=True)
 
     @property
     def outbound(self):
@@ -329,6 +331,8 @@ class Attraction(db.Model):
     reviews_count = db.Column(db.Integer, default=0)
     booked_count = db.Column(db.Integer, default=0)
     price_from = db.Column(db.Float, default=0.0)
+    price_unit = db.Column(db.String(80), default='per person')
+    cancellation = db.Column(db.Text, default='')
     img = db.Column(db.String(250), default='')
     description = db.Column(db.Text, default='')
     highlights = db.Column(db.Text, default='')
@@ -847,6 +851,10 @@ def flight_book():
     route = db.session.get(FlightRoute, outbound.route_id)
     cabin = request.values.get('cabin', 'Economy') or 'Economy'
     total = outbound.price + (inbound.price if inbound else 0)
+    ddate = parse_date(request.values.get('ddate'), DEFAULT_CHECKIN)
+    rdate = parse_date(request.values.get('rdate'), ddate + timedelta(days=7)) if inbound else None
+    if rdate and rdate <= ddate:
+        abort(400, 'Return date must be after departure')
 
     if request.method == 'POST':
         first = request.form.get('first_name', '').strip()
@@ -869,7 +877,7 @@ def flight_book():
                 flash(e)
             return render_template('flight_book.html', route=route,
                                    outbound=outbound, inbound=inbound,
-                                   cabin=cabin, total=total,
+                                   cabin=cabin, total=total, ddate=ddate, rdate=rdate,
                                    form=request.form), 400
         discount, coupon = apply_promo(promo, total, 'flights')
         paid = round(total - discount, 2)
@@ -881,13 +889,14 @@ def flight_book():
             passenger_first=first, passenger_last=last, email=email,
             phone=phone, cabin=cabin,
             trip_type='rt' if inbound else 'ow',
-            total=paid, promo_code=coupon.code if coupon else '')
+            total=paid, promo_code=coupon.code if coupon else '',
+            departure_date=ddate, return_date=rdate)
         db.session.add(booking)
         db.session.commit()
         return redirect(url_for('flight_confirmation', ref=ref))
 
     return render_template('flight_book.html', route=route, outbound=outbound,
-                           inbound=inbound, cabin=cabin, total=total, form={})
+                           inbound=inbound, cabin=cabin, total=total, ddate=ddate, rdate=rdate, form={})
 
 
 @app.route('/flights/confirmation/<ref>')
@@ -1221,4 +1230,4 @@ with app.app_context():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 40147)), debug=False)
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 40111)), debug=False)

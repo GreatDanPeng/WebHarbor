@@ -111,13 +111,15 @@ def build_seed(db):
             booked_count=a.get("booked_count", 0) or 0,
             price_from=a.get("price_from", 0.0) or 0.0,
             img=img_name, description=a.get("description", ""),
-            highlights=a.get("highlights", "")))
+            highlights=a.get("highlights", ""),
+            price_unit=a.get("price_unit", "per person"),
+            cancellation=a.get("cancellation", "Cancellation terms not specified")))
         for p in a.get("packages", [])[:5]:
             if p.get("price"):
                 db.session.add(AttractionPackage(
-                    attraction_id=a["id"], name=p["name"][:190],
+                    id=p.get("id"), attraction_id=a["id"], name=p["name"][:190],
                     price=p["price"],
-                    validity="Valid for 90 days from the booking date"))
+                    validity=p.get("validity") or "Validity not specified in this snapshot"))
     db.session.flush()
 
     for cp in content["coupons"]:

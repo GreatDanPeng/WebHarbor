@@ -86,7 +86,7 @@
       </div>
       <div class="f-select-cell">
         {% if trip_type == 'ow' %}
-        <a class="btn" href="{{ url_for('flight_book', out=f.id, cabin=cabin) }}">Select</a>
+        <a class="btn" href="{{ url_for('flight_book', out=f.id, cabin=cabin, ddate=ddate.isoformat()) }}">Select</a>
         {% else %}
         {# Carry the outbound airline/stops filters into the return-selection page
            so a filtered outbound search cannot silently end in a non-matching
