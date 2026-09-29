@@ -412,6 +412,10 @@
       "bytes": 131544567,
       "sha256": "0e81fd745d3dc2955b113ab428ed1cb689a5677c652a25ebc206263b402e7c00"
     },
+    "verizon.tar.gz": {
+      "bytes": 4336678,
+      "sha256": "0f17bf4399208927ec9f212b9ec24e662012bc6597b5438f713bf1d782cb3a8f"
+    },
     "versus.tar.gz": {
       "bytes": 12183876,
       "sha256": "093656316188dd7960177c9a187262de860e50c9f27a3b6658407f86d16f5cb3"
