@@ -347,6 +347,7 @@ WRONG_ANSWERS = {
 }
 
 
+
 # Current browser regression fixtures (synthetic unit-test reconstructions; not new browser evidence).
 SPECS = {0: {'answer': 'Order confirmed in My Account: order 40F0E6D6A9F291, seats Sec BALC Row I (cheapest Standard '
                'Admission), all-in total $573.80 for 2 tickets.',
@@ -416,14 +417,16 @@ SPECS = {0: {'answer': 'Order confirmed in My Account: order 40F0E6D6A9F291, sea
               '/event/0B00650BD65F6C93?qty=&price_max=&type=Standard+Admission&sort=lowest',
               '/help',
               '/help/accessible-tickets']},
- 4: {'answer': 'The cheapest Standard Admission option is section BALC, row I at $81.18 per ticket. The '
-               'next-cheapest is section BALC, row H at $82.56 per ticket. For two people, the row H upgrade '
-               'costs $2.76 extra. TD Garden is at 100 Legends Way, Boston, MA 02114.',
+ 4: {'answer': 'The cheapest Standard Admission ticket is section BALC, row I: face value $59, service fee '
+               '$22.18, all-in price $81.18 per ticket. The next-cheapest is section BALC, row H: face value $60, '
+               'service fee $22.56, all-in price $82.56 per ticket. The upgrade costs $2.76 extra for two people. '
+               'TD Garden is at 100 Legends Way.',
      'inputs': [(1, 'sphere'), (3, 'td garden'), (5, 'bruins jets')],
      'urls': ['/',
               '/search?q=bruins+jets',
               '/event/010064EDC5277AB0',
-              '/event/010064EDC5277AB0?qty=&price_max=&type=Standard+Admission&sort=lowest',
+              '/event/010064EDC5277AB0/tickets?listing=15685&qty=2',
+              '/event/010064EDC5277AB0/tickets?listing=15684&qty=2',
               '/venue/8337']},
  5: {'answer': "Comparing the window's Music events by Standard Admission prices, the cheapest is Metallica: Life "
                'Burns Faster on Sat, Oct 31, 2026: cheapest Standard Sec BALC Row I at $132.78 per ticket, '
