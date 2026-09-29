@@ -404,6 +404,10 @@
       "bytes": 18711844,
       "sha256": "da278a7c4e7f305b3f5245df1ac067c11641fe4d0dfdf069b522ecfd02b57b76"
     },
+    "trip_com.tar.gz": {
+      "bytes": 89982594,
+      "sha256": "0f91ccbfaf752d3a19585151efc76c6b727bdfef404347917b9f9c43c94cb8eb"
+    },
     "uniqlo.tar.gz": {
       "bytes": 131544567,
       "sha256": "0e81fd745d3dc2955b113ab428ed1cb689a5677c652a25ebc206263b402e7c00"
@@ -445,7 +449,7 @@
       "sha256": "986c51d2fe6c557b3b2c784c4bc198e53065af7da65946a99b782a90fde3b7db"
     }
   },
-  "managed_tree_sha256": "141548eaaf93df261b33d23d2f3bfd9e056a54cd3abb57c0d5586e0727f5e35d",
+  "managed_tree_sha256": "d94cfe0db5f97da163c893aa2a0b1c34e758e97679389d5ab52063682020ea16",
   "repo": "ChilleD/WebHarbor",
   "revision": "eba57287d6e58131b37175b9f03d5fc859306167",
   "version": 1
