@@ -4,7 +4,7 @@
 <section class="ua-booking-page">
   <div class="ua-confirm-head">
     <h1>Your trip is booked</h1>
-    <p>United has emailed the itinerary to {{ booking.contact_email }}.</p>
+    <p>Itinerary contact: {{ booking.contact_email }}.</p>
   </div>
   <div class="ua-booking-summary">
     <div class="ua-price-line">Confirmation number:
@@ -26,7 +26,7 @@
       <div class="ua-price-line ua-price-total">Total charged: ${{ '%.2f'|format(booking.total) }} ({{ booking.card_type }} ending {{ booking.card_last4 }})</div>
     {% endif %}
     {% if credited %}
-      <div class="ua-price-line">MileagePlus credit: {{ '{:,}'.format(credited[0]) }} award miles and {{ booking.total | int }} PQP
+      <div class="ua-price-line">MileagePlus credit: {{ '{:,}'.format(credited[0]) }} award miles and {{ booking.total | round | int }} PQP
         to the account of{% for pax in booking.passengers if pax.mp_number %} {{ pax.mp_number }} ({{ credited[1] }}){% endfor %}</div>
     {% endif %}
     <div class="ua-next-steps">

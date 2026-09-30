@@ -678,3 +678,31 @@ def test_seed_is_byte_identical():
         digests.append(hashlib.sha256(
             open(os.path.join(tmp, 'seed.db'), 'rb').read()).hexdigest())
     assert digests[0] == digests[1]
+
+
+def test_seat_selection_rejects_nonexistent_letter():
+    client.get('/mytrips?confirmation=KX42LM&lastname=Johnson')
+    before = db.session.get(Passenger, 1).seat
+    response = client.post('/mytrips/KX42LM/seats/1', data={'seat_1': '15Z'}, follow_redirects=True)
+    assert b'does not exist' in response.data
+    assert db.session.get(Passenger, 1).seat == before
+
+
+def test_flight_change_rejects_another_route():
+    booking = Booking.query.filter_by(confirmation='QT83NB').one()
+    leg = booking.legs[0]
+    wrong = Flight.query.filter(Flight.origin_code != leg.flight.origin_code).first()
+    before = (leg.flight_id, leg.amount, booking.total)
+    client.get('/mytrips?confirmation=QT83NB&lastname=Miller')
+    response = client.post(f'/mytrips/QT83NB/change/{leg.id}', data={'flight_id': wrong.id})
+    assert response.status_code == 400
+    assert (leg.flight_id, leg.amount, booking.total) == before
+
+
+def test_baggage_calculator_applies_free_allowance_and_retains_inputs():
+    from bs4 import BeautifulSoup
+    for cabin, tier, bags, total in [('BUS', 'Premier Gold', 2, '0.00'), ('PP', 'Member', 2, '0.00'), ('ECO', 'Premier Silver', 2, '35.00')]:
+        response = client.post('/baggage/fee-calculator', data={'origin': 'LHR', 'destination': 'DEN', 'cabin': cabin, 'tier': tier, 'bags': str(bags), 'where': 'online'})
+        soup = BeautifulSoup(response.data, 'html.parser')
+        assert soup.select_one('.ua-total-row').get_text(' ', strip=True) == 'Total $' + total
+        assert soup.select_one('select[name=tier] option[selected]')['value'] == tier

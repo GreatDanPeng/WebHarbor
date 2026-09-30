@@ -215,7 +215,7 @@ CABIN_PAGES = [
      'static/images/cabins_premium-plus/united-premium-plus-image-2x.png',
      ['Wider seat with deeper recline', 'Elevated dining service',
       'Amenity kit and Saks Fifth Avenue blanket',
-      'Priority boarding in Group 2', '2 free checked bags at 70 lb']),
+      'Priority boarding in Group 2', '2 free checked bags at 50 lb']),
     ('united-first-business', 'United First® / United Business®',
      'The premium cabin on North American flights',
      'static/images/cabins_united-first-business/first-class.png',
@@ -227,7 +227,7 @@ CABIN_PAGES = [
      'static/images/cabins_united-polaris/source_POLARIS_UPP_230425_SLE0905_rs_v3.jpg',
      ['Lie-flat 6\'6" seat', 'Saks Fifth Avenue bedding',
       'Polaris lounge access', 'Slippers and amenity kit',
-      '3 free checked bags at 70 lb']),
+      '2 free checked bags at 70 lb']),
 ]
 
 POLICY_PAGES = [

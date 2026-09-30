@@ -1119,11 +1119,11 @@ def seat_selection(conf, leg_id):
     if request.method == 'POST':
         occupied_now = flight.occupied_seats(leg.travel_date)
         for pax in booking.passengers:
-            seat = request.form.get(f'seat_{pax.id}', '').strip()
+            seat = request.form.get(f'seat_{pax.id}', '').strip().upper()
             if not seat:
                 continue
             row = int(re.sub(r'\D', '', seat) or 0)
-            if not (1 <= row <= aircraft.seat_rows):
+            if not re.fullmatch(r'[1-9][0-9]?[A-Z]', seat) or seat[-1] not in aircraft.seat_letters or not (1 <= row <= aircraft.seat_rows):
                 flash('That seat does not exist on this aircraft.')
                 break
             # the seat map marks frozen-snapshot occupancy; an occupied seat
@@ -1171,6 +1171,8 @@ def change_flight(conf, leg_id):
         new_flight = db.session.get(Flight, new_id)
         if not new_flight:
             abort(404)
+        if booking.status != 'confirmed' or new_id not in {f.id for f in results}:
+            abort(400)
         fare = new_flight.fare_for(leg.cabin)
         new_amount = round(fare.amount, 2)
         diff = fare_difference(leg.amount, new_amount)
@@ -1275,9 +1277,9 @@ def checkin_flow(conf):
         occupied.discard(pax.seat)
     if request.method == 'POST':
         for pax in booking.passengers:
-            seat = request.form.get(f'seat_{pax.id}', '').strip().upper()
+            seat = request.form.get(f'seat_{pax.id}', '').strip().upper().upper()
             if seat:
-                if not re.match(r'^\d{1,2}[A-K]$', seat) or \
+                if not re.fullmatch(r'[1-9][0-9]?[A-Z]', seat) or seat[-1] not in aircraft.seat_letters or \
                         not (1 <= int(re.sub(r'\D', '', seat)) <= aircraft.seat_rows):
                     flash('Enter a valid seat like 21C.')
                     return redirect(url_for('checkin_flow', conf=booking.confirmation))
@@ -1388,18 +1390,22 @@ def baggage_calculator():
         dest = db.session.get(Airport, request.form.get('destination', '').upper())
         cabin = request.form.get('cabin', 'ECO')
         tier = request.form.get('tier', 'Member')
-        bags = int(request.form.get('bags', '1') or 1)
+        bags = request.form.get('bags', 1, type=int) or 1
         where = request.form.get('where', 'online')
         if origin and dest and bags >= 1:
             weight_limit = (BAG_WEIGHT_LIMIT_PREMIER
                             if (tier != 'Member' or cabin in ('BUS',))
                             else BAG_WEIGHT_LIMIT)
             fees = []
+            free = max(2 if cabin in ('BUS', 'PP') else 0, PREMIER_FREE_BAGS.get(tier, 0))
             for i in range(1, min(bags, 4) + 1):
-                if i == 1:
+                paid_index = i - free
+                if paid_index <= 0:
+                    fee = 0.0
+                elif paid_index == 1:
                     fee = (BAG_FEE_TABLE['first_online'] if where == 'online'
                            else BAG_FEE_TABLE['first_airport'])
-                elif i == 2:
+                elif paid_index == 2:
                     fee = (BAG_FEE_TABLE['second_online'] if where == 'online'
                            else BAG_FEE_TABLE['second_airport'])
                 else:
