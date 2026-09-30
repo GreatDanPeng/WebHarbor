@@ -57,7 +57,7 @@ class UPSSeededTests(unittest.TestCase):
                       b'calculate shipping cost', b'schedule a pickup',
                       b'find closest ups location', b'service alert'):
             self.assertIn(label, low)
-        self.assertIn(b'<img src="/static/images/ups-package-ontime.png"', r.data)
+        self.assertIn(b'<img src="/static/images/pickup-dropoff-packages-b-1166486-q421.jpg"', r.data)
 
     def test_no_task_answers_leak_on_home(self) -> None:
         r = self.client.get('/')
@@ -428,6 +428,16 @@ class UPSSeededTests(unittest.TestCase):
             self.assertTrue(u.check_password('TestPass123!'))
 
 
+    def test_bad_reschedule_preserves_tracking_state(self):
+        from app import TrackingChange, TrackingEvent
+        old = (TrackingChange.query.count(), TrackingEvent.query.count())
+        for value in ['not-a-date', '2026-02-30', '2026-09-27', '']:
+            response = self.client.post('/track/detail/1Z58F0E70312456012/change-delivery', data={'change_type': 'reschedule', 'new_date': value})
+            self.assertEqual(response.status_code, 400)
+            self.assertIn(b'valid future delivery date', response.data)
+            self.assertEqual((TrackingChange.query.count(), TrackingEvent.query.count()), old)
+
+
 class TasksContractTests(unittest.TestCase):
     def test_tasks_jsonl_contract(self) -> None:
         rows = [json.loads(l) for l in
@@ -445,7 +455,7 @@ class TasksContractTests(unittest.TestCase):
             self.assertEqual('UPS', row['web_name'])
             self.assertNotIn(row['id'], ids)
             ids.add(row['id'])
-            self.assertEqual('http://localhost:40107/', row['web'])
+            self.assertEqual('http://localhost:40123/', row['web'])
             self.assertTrue(row['upstream_url'].startswith('https://www.ups.com/'))
             words = len(row['ques'].split())
             self.assertLessEqual(words, 110, row['id'])
@@ -456,6 +466,8 @@ class TasksContractTests(unittest.TestCase):
         for leak in ('21.40', '231.49', '243.57', 'DEEPCHHAYA', '9.65',
                      'A. JOHNSON', '32.80', 'Maspeth', 'Tishman'):
             self.assertNotIn(leak, text)
+
+
 
 
 class AssetCoverageTests(unittest.TestCase):
