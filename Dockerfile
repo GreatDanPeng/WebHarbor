@@ -432,8 +432,11 @@ RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/us_appliance && \
 RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/zara && \
     (cd /opt/WebSyn/zara && rm -rf instance instance_seed && PYTHONHASHSEED=0 python3 seed_data.py && mkdir -p instance_seed && cp instance/zara.db instance_seed/zara.db && rm -rf instance __pycache__)
 
+RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/usps && \
+    (cd /opt/WebSyn/usps && rm -rf instance instance_seed && PYTHONHASHSEED=0 python3 seed_data.py && mkdir -p instance_seed && cp instance/usps.db instance_seed/usps.db && rm -rf instance __pycache__)
+
 RUN python3 /opt/check_seed_databases.py /opt/WebSyn
 
-EXPOSE 8101 40000-40128
+EXPOSE 8101 40000-40129
 
 CMD ["/opt/websyn_start.sh"]

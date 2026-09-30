@@ -111,7 +111,7 @@ All registered websites and their default ports, in registration order from left
 | U.S. DOJ | 40120 | CVS | 40121 | CBP.gov | 40122 |
 | UPS | 40123 | United Airlines | 40124 | US Appliance | 40125 |
 | USCIS | 40126 | Tumblr | 40127 | Zara | 40128 |
-|  |  |  |  |  |  |
+| USPS | 40129 |  |  |  |  |
 
 ## 🤝 Contribute
 
