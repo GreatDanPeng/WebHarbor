@@ -109,6 +109,7 @@ All registered websites and their default ports, in registration order from left
 | TourRadar | 40114 | Apartments.com | 40115 | Eventbrite | 40116 |
 | Fandom | 40117 | Mayo Clinic | 40118 | SmartAsset | 40119 |
 | U.S. DOJ | 40120 | CVS | 40121 | CBP.gov | 40122 |
+| UPS | 40123 | | | | |
 
 ## 🤝 Contribute
 
