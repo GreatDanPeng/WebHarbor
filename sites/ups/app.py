@@ -753,6 +753,14 @@ def change_delivery(tracking_number):
             return redirect(url_for('track_detail', tracking_number=tracking_number))
         if change_type == 'reschedule':
             new_date = request.form.get('new_date', '').strip()
+            try:
+                requested = date.fromisoformat(new_date)
+            except ValueError:
+                requested = None
+            if requested is None or requested <= date.fromisoformat(MIRROR_DATE_ISO):
+                flash('Choose a valid future delivery date.')
+                return render_template('change_delivery.html', s=shipment,
+                                       access_points=[], selected_zip=''), 400
             ev = TrackingEvent(
                 shipment_id=shipment.id,
                 seq=(max(e.seq for e in shipment.events) + 1) if shipment.events else 1,
