@@ -307,7 +307,7 @@ h3 { font-size: 1.1rem; margin: 1.2rem 0 .4rem; }
 .ua-progress-bar { height: 10px; background: #fff; border-radius: 6px; overflow: hidden; margin-top: 8px; }
 .ua-progress-fill { height: 100%; background: var(--ua-blue); }
 .ua-account-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 16px; margin-top: 16px; }
-.ua-account-card { border: 1px solid var(--ua-line); border-radius: 10px; padding: 16px; }
+.ua-account-card { min-width: 0; border: 1px solid var(--ua-line); border-radius: 10px; padding: 16px; }
 .ua-account-card h2 { margin-top: 0; font-size: 1.1rem; }
 
 /* ------------------------------------------------ flashes + footer */
