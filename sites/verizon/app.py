@@ -25,6 +25,9 @@ benchmark users).
 import json
 import os
 import random
+import re
+import secrets
+from decimal import Decimal, InvalidOperation
 from datetime import date, timedelta
 
 from flask import (Flask, abort, flash, jsonify, redirect, render_template,
@@ -89,6 +92,36 @@ class User(UserMixin, db.Model):
 
     def check_password(self, raw):
         return bcrypt.check_password_hash(self.password_hash, raw)
+
+
+class Cart(db.Model):
+    __tablename__ = 'carts'
+    id = db.Column(db.Integer, primary_key=True)
+    cart_key = db.Column(db.String(64), unique=True, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    items = db.Column(db.Text, nullable=False, default='[]')
+
+
+def load_cart():
+    key = session.get('cart_key')
+    cart = Cart.query.filter_by(cart_key=key).first() if key else None
+    if cart and cart.user_id is not None and (not current_user.is_authenticated or cart.user_id != current_user.id):
+        session.pop('cart_key', None)
+        return []
+    return json.loads(cart.items) if cart else []
+
+
+def save_cart(items):
+    key = session.get('cart_key')
+    cart = Cart.query.filter_by(cart_key=key).first() if key else None
+    if cart is None:
+        key = secrets.token_hex(24)
+        session['cart_key'] = key
+        cart = Cart(cart_key=key)
+        db.session.add(cart)
+    cart.user_id = current_user.id if current_user.is_authenticated else None
+    cart.items = json.dumps(items)
+    db.session.commit()
 
 
 class Device(db.Model):
@@ -181,7 +214,7 @@ class Store(db.Model):
         return json.loads(self.hours)
 
     def services_list(self):
-        return json.loads(self.services)
+        return [{'LOCKER': 'Express Pickup Locker', 'INSTORE': 'In-store shopping'}.get(service, service) for service in json.loads(self.services)]
 
     def display_type(self):
         return ("Verizon Company Store" if self.store_type == "Store"
@@ -196,7 +229,11 @@ class ContentPage(db.Model):
     body = db.Column(db.Text, nullable=False)
 
     def body_text(self):
-        return self.body
+        body = re.split(r'end of navigation menu', self.body, maxsplit=1, flags=re.I)[-1]
+        if self.slug == 'return_policy' and 'Planning to ship us a device' in body:
+            body = 'Planning to ship us a device' + body.split('Planning to ship us a device', 1)[1]
+            body = body.split('Is this bill info helpful?', 1)[0]
+        return re.split(r'\n\s*-?\s*Shop\s*\n\s*-?\s*Devices\b', body, maxsplit=1, flags=re.I)[0].strip()
 
 
 class Line(db.Model):
@@ -500,6 +537,24 @@ def _monthly_for(device, term):
     return terms.get(str(term)) or terms.get(term)
 
 
+def plan_caps(plan):
+    """Data allowances, never the dollar price of a plan."""
+    data = {'Talk & Text': '0', '15 GB': '15'}.get(plan.name)
+    hotspot = '15' if plan.name == '15 GB' else str(plan.hotspot_gb or 0)
+    return data, hotspot
+
+
+def bill_balance(bill):
+    paid = sum((Decimal(p.amount) for p in Payment.query.filter_by(bill_id=bill.id)), Decimal('0'))
+    return max(Decimal('0'), Decimal(bill.total) - paid)
+
+
+def owns_confirmation(record, session_key):
+    if record.user_id is not None:
+        return current_user.is_authenticated and current_user.id == record.user_id
+    return record.confirmation in session.get(session_key, [])
+
+
 # ------------------------------------------------------------------- seed --
 
 def seed_devices():
@@ -659,10 +714,9 @@ def seed_benchmark_users():
             usage = line_spec['usage']
             db.session.add(Usage(
                 line_id=line.id, cycle='Sep 2026', data_gb=usage['data_gb'],
-                data_cap_gb=None if plan.kind == 'simplicity' else plan.monthly,
+                data_cap_gb=plan_caps(plan)[0],
                 hotspot_gb=usage['hotspot_gb'],
-                hotspot_cap_gb='10' if plan.kind == 'simplicity' else (
-                    '25' if plan.name == 'Unlimited Plus' else '5'),
+                hotspot_cap_gb=plan_caps(plan)[1],
                 talk_min=210 + idx * 17, texts=880 + idx * 23))
         # bills: three periods, latest unpaid for postpaid accounts
         for b, period in enumerate(spec['bills']):
@@ -887,7 +941,11 @@ def smartphones():
 def device_detail(slug):
     device = Device.query.filter_by(slug=slug).first_or_404()
     specs = device.specs_map()
-    compare_names = list({n for section in specs.values() for n in section})
+    compare_names = sorted({n for section in specs.values() for n in section})
+    for name in compare_names:
+        related = Device.query.filter_by(name=name).first()
+        if related and related.rating:
+            specs.setdefault('Reviews', {})[name] = f'{related.rating} out of 5 ({related.reviews} reviews)'
     compare = {name: {k: v.get(name) for k, v in specs.items()} for name in compare_names}
     protections = ProtectionPlan.query.order_by(ProtectionPlan.sort).all()
     tradeins = [q for q in TradeInQuote.query.order_by(TradeInQuote.sort)
@@ -903,6 +961,9 @@ def device_configure(slug):
     colors = device.colors_list()
     storage = device.storage_list() or ['Single capacity']
     terms = device.terms_map()
+    if not terms and not device.full_price:
+        flash('Pricing is currently unavailable for this device.')
+        return redirect(url_for('device_detail', slug=slug))
     protections = ProtectionPlan.query.order_by(ProtectionPlan.sort).all()
     plans = Plan.query.order_by(Plan.sort).all()
     if request.method == 'POST':
@@ -911,13 +972,19 @@ def device_configure(slug):
         term = request.form.get('term') or '36'
         protection = request.form.get('protection') or ''
         plan_id = request.form.get('plan') or ''
-        cart = session.get('cart', [])
+        if (color not in (colors or ['Default']) or storage_pick not in storage
+                or term not in set(terms) | ({'full'} if device.full_price else set())
+                or protection not in {p.name for p in protections} | {''}
+                or plan_id not in {str(p.id) for p in plans} | {''}):
+            flash('Choose an available color, storage, payment term and plan.')
+            return redirect(url_for('device_configure', slug=slug))
+        cart = load_cart()
         cart.append({'slug': slug, 'name': device.name, 'color': color,
                      'storage': storage_pick, 'term': term,
                      'monthly': _monthly_for(device, term),
                      'full': device.full_price, 'protection': protection,
                      'plan_id': plan_id, 'qty': 1})
-        session['cart'] = cart
+        save_cart(cart)
         flash(f"Added {device.name} ({color}) to your cart.")
         return redirect(url_for('cart_view'))
     return render_template('device_configure.html', device=device, colors=colors,
@@ -927,7 +994,7 @@ def device_configure(slug):
 
 @app.route('/cart/')
 def cart_view():
-    cart = session.get('cart', [])
+    cart = load_cart()
     plan_names = {p.id: p.name for p in Plan.query}
     plan_monthly = {p.id: p.monthly for p in Plan.query}
     protection_map = {p.name: p.monthly for p in ProtectionPlan.query}
@@ -954,27 +1021,35 @@ def cart_view():
 
 @app.route('/cart/remove/<int:index>', methods=['POST'])
 def cart_remove(index):
-    cart = session.get('cart', [])
+    cart = load_cart()
     if 0 <= index < len(cart):
         cart.pop(index)
-        session['cart'] = cart
+        save_cart(cart)
         flash('Item removed from your cart.')
     return redirect(url_for('cart_view'))
 
 
 @app.route('/checkout/', methods=['GET', 'POST'])
 def checkout():
-    cart = session.get('cart', [])
+    cart = load_cart()
     if not cart:
         flash('Your cart is empty.')
         return redirect(url_for('smartphones'))
     if request.method == 'POST':
-        confirmation = f"VZW{random.randrange(310000, 399999)}"
+        if (not all(request.form.get(k, '').strip() for k in ('name', 'email', 'street', 'city', 'state', 'zip'))
+                or not re.fullmatch(r'[^\s@]+@[^\s@]+\.[^\s@]+', request.form.get('email', ''))
+                or not re.fullmatch(r'\d{5}(?:-\d{4})?', request.form.get('zip', ''))):
+            flash('Enter a complete shipping address and valid email and ZIP code.')
+            return redirect(url_for('checkout'))
+        confirmation = 'VZW' + str(secrets.randbelow(900000000000) + 100000000000)
         protection_map = {p.name: p.monthly for p in ProtectionPlan.query}
         plan_map = {p.id: p for p in Plan.query}
         total_monthly = 0.0
+        total_today = Decimal('0')
         items = []
         for item in cart:
+            if item['term'] == 'full':
+                total_today += Decimal(item['full'].replace(',', ''))
             device_monthly = float(item.get('monthly') or 0)
             protection_monthly = 0.0
             if item.get('protection'):
@@ -997,14 +1072,15 @@ def checkout():
             placed_at=MIRROR_TODAY.isoformat(),
             delivery_by='Ships between ' + (MIRROR_TODAY + timedelta(days=1)).strftime('%a, %b %-d')
                          + ' - ' + (MIRROR_TODAY + timedelta(days=10)).strftime('%a, %b %-d'),
-            items=json.dumps(items), total_today='0.00',
+            items=json.dumps(items), total_today=f'{total_today:.2f}',
             total_monthly=f"{total_monthly:.2f}",
             name=request.form.get('name'), email=request.form.get('email'),
             street=request.form.get('street'), city=request.form.get('city'),
             state=request.form.get('state'), zip=request.form.get('zip'))
         db.session.add(order)
         db.session.commit()
-        session['cart'] = []
+        save_cart([])
+        session['guest_orders'] = session.get('guest_orders', []) + [confirmation]
         return redirect(url_for('order_confirmation', confirmation=confirmation))
     return render_template('checkout.html', cart=cart, **_nav_stats())
 
@@ -1012,6 +1088,8 @@ def checkout():
 @app.route('/order/<confirmation>/')
 def order_confirmation(confirmation):
     order = Order.query.filter_by(confirmation=confirmation).first_or_404()
+    if not owns_confirmation(order, 'guest_orders'):
+        abort(403)
     return render_template('order_confirmation.html', order=order, **_nav_stats())
 
 
@@ -1126,8 +1204,21 @@ def store_appointment(code):
     store = Store.query.filter_by(code=code).first_or_404()
     topics = ['New line & device purchase', 'Device trade-in',
               'Billing & payments', 'Technical support', 'Fios / Home Internet']
+    if not store.appointments:
+        abort(404)
     if request.method == 'POST':
-        confirmation = f"APT{random.randrange(410000, 499999)}"
+        try:
+            requested_date = date.fromisoformat(request.form.get('date', ''))
+        except ValueError:
+            requested_date = None
+        if (not requested_date or requested_date < MIRROR_TODAY
+                or request.form.get('time') not in ('10:00 AM', '11:00 AM', '01:00 PM', '02:00 PM', '03:00 PM')
+                or request.form.get('topic') not in topics
+                or not all(request.form.get(k, '').strip() for k in ('name', 'email', 'phone'))
+                or not re.fullmatch(r'[^\s@]+@[^\s@]+\.[^\s@]+', request.form.get('email', ''))):
+            flash('Choose a valid date, time and topic and enter your contact details.')
+            return redirect(url_for('store_appointment', code=code))
+        confirmation = 'APT' + str(secrets.randbelow(900000000000) + 100000000000)
         db.session.add(Appointment(
             store_id=store.id,
             user_id=current_user.id if current_user.is_authenticated else None,
@@ -1136,6 +1227,7 @@ def store_appointment(code):
             appt_date=request.form.get('date'), appt_time=request.form.get('time'),
             confirmation=confirmation))
         db.session.commit()
+        session['guest_appointments'] = session.get('guest_appointments', []) + [confirmation]
         return redirect(url_for('appointment_confirmation', confirmation=confirmation))
     return render_template('store_appointment.html', store=store, topics=topics,
                            **_nav_stats())
@@ -1144,6 +1236,8 @@ def store_appointment(code):
 @app.route('/appointment/<confirmation>/')
 def appointment_confirmation(confirmation):
     appt = Appointment.query.filter_by(confirmation=confirmation).first_or_404()
+    if not owns_confirmation(appt, 'guest_appointments'):
+        abort(403)
     return render_template('appointment_confirmation.html', appt=appt, **_nav_stats())
 
 
@@ -1187,7 +1281,7 @@ def troubleshoot():
 @app.route('/account/login', methods=['GET', 'POST'])
 def account_login():
     if request.method == 'POST':
-        user = User.query.filter_by(email=request.form.get('email', '').strip()).first()
+        user = User.query.filter_by(email=request.form.get('email', '').strip().lower()).first()
         if user and user.check_password(request.form.get('password', '')):
             login_user(user)
             return redirect(url_for('account_overview'))
@@ -1198,13 +1292,16 @@ def account_login():
 @app.route('/account/register', methods=['GET', 'POST'])
 def account_register():
     if request.method == 'POST':
-        email = request.form.get('email', '').strip()
-        if User.query.filter_by(email=email).first():
+        email = request.form.get('email', '').strip().lower()
+        if (not re.fullmatch(r'[^\s@]+@[^\s@]+\.[^\s@]+', email)
+                or not request.form.get('name', '').strip() or len(request.form.get('password', '')) < 8):
+            flash('Enter your name, a valid email and a password of at least 8 characters.')
+        elif User.query.filter_by(email=email).first():
             flash('An account with that email already exists.')
         else:
             user = User(
                 email=email, display_name=request.form.get('name'),
-                password_hash=bcrypt.generate_password_hash('TestPass123!').decode(),
+                password_hash=bcrypt.generate_password_hash(request.form['password']).decode(),
                 account_number=f"{random.randrange(10000000, 99999999)}",
                 street=request.form.get('street'),
                 city=request.form.get('city'), state=request.form.get('state'),
@@ -1262,18 +1359,25 @@ def bill_detail(bill_id):
 def account_pay():
     bill = Bill.query.filter_by(user_id=current_user.id) \
         .filter(Bill.status != 'paid').order_by(Bill.id.desc()).first()
+    remaining = bill_balance(bill) if bill else Decimal('0')
+    methods = ('Card ending 4242', 'Bank account (ACH ending 8891)', 'Verizon Visa Card ending 0057')
     if request.method == 'POST':
-        confirmation = f"PMT{random.randrange(510000, 599999)}"
-        amount = request.form.get('amount') or (bill.total if bill else '0.00')
-        db.session.add(Payment(
-            user_id=current_user.id, bill_id=bill.id if bill else None,
-            amount=amount, method=request.form.get('method', 'Card ending 4242'),
+        try:
+            amount = Decimal(request.form.get('amount', ''))
+            valid = amount.is_finite() and amount > 0 and amount <= remaining and amount == amount.quantize(Decimal('0.01'))
+        except InvalidOperation:
+            valid = False
+        if not bill or not valid or request.form.get('method') not in methods:
+            flash('Enter a positive amount no greater than the outstanding balance and choose a payment method.')
+            return redirect(url_for('account_pay'))
+        confirmation = 'PMT' + str(secrets.randbelow(900000000000) + 100000000000)
+        db.session.add(Payment(user_id=current_user.id, bill_id=bill.id,
+            amount=f'{amount:.2f}', method=request.form['method'],
             confirmation=confirmation, paid_at=MIRROR_TODAY.isoformat()))
-        if bill:
-            bill.status = 'paid'
+        bill.status = 'paid' if amount == remaining else 'partial'
         db.session.commit()
         return redirect(url_for('payment_confirmation', confirmation=confirmation))
-    return render_template('pay.html', bill=bill, **_nav_stats())
+    return render_template('pay.html', bill=bill, remaining=f'{remaining:.2f}', **_nav_stats())
 
 
 @app.route('/payment/<confirmation>/')
@@ -1313,14 +1417,12 @@ def change_plan(line_id):
     line = Line.query.filter_by(id=line_id, user_id=current_user.id).first_or_404()
     plans = Plan.query.order_by(Plan.sort).all()
     if request.method == 'POST':
-        plan = db.session.get(Plan, int(request.form.get('plan')))
+        plan = db.session.get(Plan, request.form.get('plan', type=int))
         if plan:
             line.plan_id = plan.id
             usage = Usage.query.filter_by(line_id=line.id).first()
             if usage:
-                usage.hotspot_cap_gb = ('25' if plan.name == 'Unlimited Plus'
-                                        else '5' if plan.kind == 'prepaid' else '10')
-                usage.data_cap_gb = plan.monthly if plan.kind == 'prepaid' else None
+                usage.data_cap_gb, usage.hotspot_cap_gb = plan_caps(plan)
             db.session.commit()
             flash(f"Plan for {line.nickname} changed to {plan.name}.")
             return redirect(url_for('account_overview'))
@@ -1333,9 +1435,12 @@ def add_line():
     devices = Device.query.order_by(Device.id).all()
     plans = Plan.query.order_by(Plan.sort).all()
     if request.method == 'POST':
-        device = db.session.get(Device, int(request.form.get('device')))
-        plan = db.session.get(Plan, int(request.form.get('plan')))
-        nickname = request.form.get('nickname') or 'New line'
+        device = db.session.get(Device, request.form.get('device', type=int))
+        plan = db.session.get(Plan, request.form.get('plan', type=int))
+        nickname = request.form.get('nickname', '').strip()
+        if not device or not plan or not nickname:
+            flash('Choose a device, a plan and a line name.')
+            return redirect(url_for('add_line'))
         line = Line(user_id=current_user.id, nickname=nickname,
                     phone_number=f"(206) 555-{random.randrange(1000, 9999)}",
                     device_id=device.id, plan_id=plan.id,
@@ -1343,9 +1448,9 @@ def add_line():
         db.session.add(line)
         db.session.flush()
         db.session.add(Usage(line_id=line.id, cycle='Sep 2026', data_gb='0.0',
-                             data_cap_gb=None if plan.kind == 'simplicity' else plan.monthly,
+                             data_cap_gb=plan_caps(plan)[0],
                              hotspot_gb='0.0',
-                             hotspot_cap_gb='10' if plan.kind == 'simplicity' else '5',
+                             hotspot_cap_gb=plan_caps(plan)[1],
                              talk_min=0, texts=0))
         db.session.commit()
         flash(f"New line added for {nickname} with {plan.name}.")
@@ -1393,5 +1498,5 @@ with app.app_context():
 
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
+    port = int(os.environ.get('PORT', 40132))
     app.run(host='0.0.0.0', port=port, debug=False)

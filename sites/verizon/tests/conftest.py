@@ -83,3 +83,19 @@ def dana(client, csrf):
                       "csrf_token": csrf_from(html)},
                 follow_redirects=True)
     return client
+
+@pytest.fixture(autouse=True)
+def restore_db():
+    # Tests never leave state for another case.
+    with verizon_app.app.app_context():
+        tables = list(verizon_app.db.metadata.sorted_tables)
+        rows = {t.name: [dict(r._mapping) for r in verizon_app.db.session.execute(t.select())] for t in tables}
+    yield
+    with verizon_app.app.app_context():
+        verizon_app.db.session.remove()
+        for t in reversed(tables): verizon_app.db.session.execute(t.delete())
+        for t in tables:
+            if rows[t.name]: verizon_app.db.session.execute(t.insert(), rows[t.name])
+        verizon_app.db.session.commit()
+
+

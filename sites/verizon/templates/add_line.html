@@ -9,7 +9,7 @@
     <label>Device
       <select name="device" required>
         {% for d in devices %}
-        <option value="{{ d.id }}">{{ d.name }} (${{ d.full_price }} retail)</option>
+        <option value="{{ d.id }}">{{ d.name }} ({{ '$' ~ d.full_price ~ ' retail' if d.full_price else 'Price unavailable' }})</option>
         {% endfor %}
       </select>
     </label>

@@ -8,7 +8,7 @@
     <div class="card">
       <h2>Lines on this account ({{ lines|length }})</h2>
       <table class="data-table">
-        <thead><tr><th>Line</th><th>Number</th><th>Device</th><th>Plan</th><th></th></tr></thead>
+        <thead><tr><th>Line</th><th>Number</th><th>Device</th><th>Plan</th><th>Status</th><th></th></tr></thead>
         <tbody>
           {% for l in lines %}
           <tr>
@@ -16,6 +16,7 @@
             <td>{{ l.phone_number }}</td>
             <td>{{ l.device.name if l.device else '—' }}</td>
             <td>{{ l.plan.name }} (${{ l.plan.monthly }}/mo)</td>
+            <td>{{ l.status }}</td>
             <td><a href="{{ url_for('change_plan', line_id=l.id) }}">Change plan</a></td>
           </tr>
           {% endfor %}

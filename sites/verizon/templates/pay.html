@@ -6,12 +6,13 @@
   {% if bill %}
   <p>Bill for {{ bill.period }} — total ${{ bill.total }}, due {{ bill.due_date }} ({{ bill.status }}).</p>
   {% else %}
-  <p>You have no unpaid bills right now. You can still make an advance payment.</p>
+  <p>You have no outstanding bills right now.</p>
   {% endif %}
+  {% if bill %}<p>Outstanding balance: ${{ remaining }}</p>
   <form method="post" action="{{ url_for('account_pay') }}" class="card">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <label>Amount ($)
-      <input type="text" name="amount" value="{{ bill.total if bill else '0.00' }}" required>
+      <input type="text" name="amount" value="{{ remaining }}" required>
     </label>
     <label>Payment method
       <select name="method">
@@ -21,6 +22,6 @@
       </select>
     </label>
     <button type="submit" class="btn btn-primary">Submit payment</button>
-  </form>
+  </form>{% endif %}
 </section>
 {% endblock %}
