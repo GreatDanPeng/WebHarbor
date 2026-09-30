@@ -1626,7 +1626,7 @@ def load_user(user_id):
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    app.run(host='0.0.0.0', port=40106, debug=True)
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 40124)), debug=False)
 else:  # pragma: no cover — imported by site_runner.py
     with app.app_context():
         db.create_all()
