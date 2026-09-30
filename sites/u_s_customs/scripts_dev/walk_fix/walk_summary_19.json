@@ -1,0 +1,49 @@
+{
+  "task_id": "CBP.gov--19",
+  "atomic": 7,
+  "A": 15,
+  "reads": [
+    {
+      "fact": "form number",
+      "value": "7507"
+    },
+    {
+      "fact": "form full name",
+      "value": "General Declaration"
+    },
+    {
+      "fact": "who may submit by e-mail",
+      "value": "owners and operators of commercial aircraft"
+    },
+    {
+      "fact": "what to protect",
+      "value": "Personally Identifiable Information (PII)"
+    },
+    {
+      "fact": "Canadian crossings count",
+      "value": "30"
+    },
+    {
+      "fact": "first crossing",
+      "value": "Alexandria Bay - Thousand Islands Bridge"
+    },
+    {
+      "fact": "first crossing hours",
+      "value": "24 hrs/day"
+    },
+    {
+      "fact": "search result",
+      "value": "General Declaration Agriculture, Customs, Immigration and Public Health"
+    }
+  ],
+  "actions": [
+    "click:{\"selector\": \"button.nav-toggle:has-text('Travel')\", \"desc\":",
+    "click:{\"selector\": \".nav-dropdown a:has-text('Advisories and Wait ",
+    "click:{\"selector\": \"a:has-text('View Border Wait Times')\", \"desc\":",
+    "select_dropdown:{\"selector\": \"#border\", \"text\": \"canada\", \"desc\": \"Canadian ",
+    "click:{\"selector\": \"form.filters button.btn\", \"desc\": \"Apply\"}",
+    "input:{\"selector\": \"#site-search\", \"text\": \"7507\", \"desc\": \"site s",
+    "click:{\"selector\": \"form.header-search button[type='submit']\", \"de"
+  ],
+  "answer": "The advisory discusses CBP Form 7507 (General Declaration); owners and operators of commercial aircraft may submit it by e-mail; CBP recommends protecting Personally Identifiable Information (PII) when sending it. Canadian border: 30 crossings; first is Alexandria Bay - Thousand Islands Bridge (hours 24 hrs/day). Site search '7507' returns 'General Declaration Agriculture, Customs, Immigration and Public Health'."
+}

@@ -1,0 +1,55 @@
+{
+  "task_id": "CBP.gov--12",
+  "atomic": 9,
+  "A": 18,
+  "reads": [
+    {
+      "fact": "PTI count",
+      "value": "7"
+    },
+    {
+      "fact": "PTI names",
+      "value": "Antidumping and Countervailing Duty (AD/CVD); Intellectual Property Rights (IPR); Import Safety; Textiles/Wearing Apparel; Agriculture and Quota; Revenue; Trade Agreements"
+    },
+    {
+      "fact": "AD/CVD expansion",
+      "value": "Antidumping and Countervailing Duty (AD/CVD)"
+    },
+    {
+      "fact": "IPR full title",
+      "value": "Intellectual Property Rights (IPR)"
+    },
+    {
+      "fact": "ICP series name",
+      "value": "What Every Member of the Trade Community Should Know About: ...\" series. As of the date of this posting, the subjects listed are available for reading or downloading. The first date shown is the original publication date. The subsequent dates, if any, show the revisions."
+    },
+    {
+      "fact": "apparel issue",
+      "value": "Textiles/Wearing Apparel"
+    },
+    {
+      "fact": "quota issue",
+      "value": "Agriculture and Quota"
+    },
+    {
+      "fact": "ACE stands for",
+      "value": "Automated Commercial Environment"
+    },
+    {
+      "fact": "ACE purpose",
+      "value": "the United States' centralized digital system for processing imports and exports"
+    }
+  ],
+  "actions": [
+    "click:{\"selector\": \"button.nav-toggle:has-text('Trade')\", \"desc\": ",
+    "click:{\"selector\": \".nav-dropdown a:has-text('Priority Trade Issue",
+    "click:{\"selector\": \"a:has-text('Antidumping and Countervailing Dut",
+    "navigate:{\"url\": \"/trade/priority-issues\", \"desc\": \"back to PTI\"}",
+    "click:{\"selector\": \"a:has-text('Intellectual Property Rights')\", \"",
+    "click:{\"selector\": \"button.nav-toggle:has-text('Trade')\", \"desc\": ",
+    "click:{\"selector\": \".nav-dropdown a:has-text('Informed Compliance'",
+    "click:{\"selector\": \"button.nav-toggle:has-text('Trade')\", \"desc\": ",
+    "click:{\"selector\": \".nav-dropdown a:has-text('ACE')\", \"desc\": \"nav"
+  ],
+  "answer": "7 priority trade issues: Antidumping and Countervailing Duty (AD/CVD), Intellectual Property Rights (IPR), Import Safety, Textiles/Wearing Apparel, Agriculture and Quota, Revenue, Trade Agreements. AD/CVD stands for Antidumping and Countervailing Duty (AD/CVD). IPR page title: Intellectual Property Rights (IPR). ICP publications belong to the 'What Every Member of the Trade Community Should Know About: ...\" series. As of the date of this posting, the subjects listed are available for reading or downloading. The first date shown is the original publication date. The subsequent dates, if any, show the revisions.' series. Wearing apparel is covered by Textiles/Wearing Apparel; quotas by Agriculture and Quota. ACE stands for Automated Commercial Environment \u2014 the United States' centralized digital system for processing imports and exports."
+}

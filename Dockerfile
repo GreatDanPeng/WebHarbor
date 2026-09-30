@@ -409,10 +409,15 @@ RUN python3 /opt/WebSyn/fandom/migrate_seed.py
 
 RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/us_doj
 
-RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/cvs
+RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/cvs && \
+    python3 /opt/check_asset_inventory.py /opt/WebSyn/u_s_customs && \
+    (cd /opt/WebSyn/u_s_customs && rm -rf instance instance_seed && PYTHONHASHSEED=0 python3 seed_data.py && mkdir -p instance_seed && cp instance/u_s_customs.db instance_seed/u_s_customs.db && rm -rf instance __pycache__)
+
+
+
 
 RUN python3 /opt/check_seed_databases.py /opt/WebSyn
 
-EXPOSE 8101 40000-40121
+EXPOSE 8101 40000-40122
 
 CMD ["/opt/websyn_start.sh"]

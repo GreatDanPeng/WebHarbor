@@ -1,0 +1,73 @@
+{
+  "task_id": "CBP.gov--13",
+  "atomic": 11,
+  "A": 24,
+  "reads": [
+    {
+      "fact": "BPA salary",
+      "value": "$51,632 - $92,912"
+    },
+    {
+      "fact": "BPA closing",
+      "value": "09/30/2026"
+    },
+    {
+      "fact": "BPA announcement",
+      "value": "BPA DH 26-12"
+    },
+    {
+      "fact": "BPA incentive",
+      "value": "$20,000"
+    },
+    {
+      "fact": "BPA incentive split",
+      "value": "$10,000 on academy completion + $10,000 for prioritized location"
+    },
+    {
+      "fact": "CBP Officer results",
+      "value": "3 postings (incl. controls 886464900, 882167200, 882166800)"
+    },
+    {
+      "fact": "CBPO control number",
+      "value": "882166800"
+    },
+    {
+      "fact": "CBPO salary",
+      "value": "$41,863 - $112,415"
+    },
+    {
+      "fact": "CBPO closing",
+      "value": "09/30/2026"
+    },
+    {
+      "fact": "CBPO drug test",
+      "value": "Yes"
+    },
+    {
+      "fact": "higher starting salary",
+      "value": "Border Patrol Agent ($51,632 vs $41,863, higher by $9,769)"
+    },
+    {
+      "fact": "BPA org",
+      "value": "U.S. Border Patrol"
+    },
+    {
+      "fact": "CBPO org",
+      "value": "Office of Field Operations"
+    }
+  ],
+  "actions": [
+    "click:{\"selector\": \"button.nav-toggle:has-text('Careers')\", \"desc\"",
+    "click:{\"selector\": \".nav-dropdown a:has-text('Search Jobs')\", \"des",
+    "input:{\"selector\": \"#q\", \"text\": \"Border Patrol Agent\", \"desc\": \"s",
+    "click:{\"selector\": \"form.filters button.btn\", \"desc\": \"Search\"}",
+    "click:{\"selector\": \"BPA candidate 0\", \"desc\": \"open BPA posting\"}",
+    "navigate:{\"url\": \"/careers/search?q=Border+Patrol+Agent\", \"desc\": \"ba",
+    "click:{\"selector\": \"BPA candidate 1\", \"desc\": \"open BPA posting\"}",
+    "navigate:{\"url\": \"/careers/search\", \"desc\": \"back to search\"}",
+    "input:{\"selector\": \"#q\", \"text\": \"CBP Officer\", \"desc\": \"search CB",
+    "click:{\"selector\": \"form.filters button.btn\", \"desc\": \"Search\"}",
+    "click:{\"selector\": \"a[href='/careers/job/882166800']\", \"desc\": \"op"
+  ],
+  "answer": "BPA GL 5-7: $51,632 - $92,912, closing 09/30/2026, announcement BPA DH 26-12, recruitment incentive $20,000 ($10,000 on academy completion + $10,000 for prioritized location). CBPO GS 5-7 (control 882166800): $41,863 - $112,415, closing 09/30/2026, drug test Yes. The BPA has the higher starting salary by $9,769. BPA belongs to U.S. Border Patrol; CBPO to Office of Field Operations."
+}

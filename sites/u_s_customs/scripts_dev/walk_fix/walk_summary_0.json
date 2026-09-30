@@ -1,0 +1,55 @@
+{
+  "task_id": "CBP.gov--0",
+  "atomic": 9,
+  "A": 18,
+  "reads": [
+    {
+      "fact": "top port+crossing name",
+      "value": "Otay Mesa - Passenger"
+    },
+    {
+      "fact": "top standard passenger delay",
+      "value": "185 minutes"
+    },
+    {
+      "fact": "standard lanes open",
+      "value": "3"
+    },
+    {
+      "fact": "lane update time",
+      "value": "10:00 am PDT"
+    },
+    {
+      "fact": "Ready Lane delay",
+      "value": "120 minutes"
+    },
+    {
+      "fact": "port hours",
+      "value": "24 hrs/day"
+    },
+    {
+      "fact": "2nd port+crossing",
+      "value": "San Ysidro"
+    },
+    {
+      "fact": "2nd standard passenger delay",
+      "value": "150 minutes"
+    },
+    {
+      "fact": "commercial std delay",
+      "value": "40 minutes"
+    }
+  ],
+  "actions": [
+    "click:{\"selector\": \"a.quick-card:has-text('View Border Wait Times'",
+    "select_dropdown:{\"selector\": \"#border\", \"text\": \"mexico\", \"desc\": \"border fi",
+    "select_dropdown:{\"selector\": \"#sort\", \"text\": \"delay\", \"desc\": \"sort by dela",
+    "click:{\"selector\": \"form.filters button.btn\", \"desc\": \"Apply\"}",
+    "click:{\"selector\": \"table.data a:has-text('Otay Mesa - Passenger')",
+    "navigate:{\"url\": \"back-to-list\", \"desc\": \"back to list\"}",
+    "input:{\"selector\": \"#q\", \"text\": \"Otay Mesa\", \"desc\": \"search Otay",
+    "click:{\"selector\": \"form.filters button.btn\", \"desc\": \"Apply\"}",
+    "click:{\"selector\": \"table.data a:has-text('Otay Mesa - Commercial'"
+  ],
+  "answer": "Longest standard passenger delay on the Mexican border: Otay Mesa - Passenger, 185 minutes, 3 standard lanes open, updated 10:00 am PDT. Detail page: Ready Lane delay 120 minutes; port hours 24 hrs/day. Second-longest Mexican-border crossing: San Ysidro, standard passenger delay 150 minutes. Otay Mesa - Commercial standard commercial delay: 40 minutes."
+}

@@ -1,0 +1,59 @@
+{
+  "task_id": "CBP.gov--2",
+  "atomic": 13,
+  "A": 22,
+  "reads": [
+    {
+      "fact": "San Ysidro crossings listed",
+      "value": "San Ysidro (main), San Ysidro - Cross Border Express, San Ysidro - PedWest"
+    },
+    {
+      "fact": "main std delay",
+      "value": "150 min (6 open)"
+    },
+    {
+      "fact": "main Ready delay",
+      "value": "120 min (11 open)"
+    },
+    {
+      "fact": "main NEXUS delay",
+      "value": "30 min (11 open)"
+    },
+    {
+      "fact": "main pedestrian delay",
+      "value": "60 min (16 open)"
+    },
+    {
+      "fact": "San Ysidro port code",
+      "value": "2504"
+    },
+    {
+      "fact": "San Ysidro port phone",
+      "value": "+1 619-428-2188"
+    },
+    {
+      "fact": "PedWest pedestrian delay",
+      "value": "15 min (4 open)"
+    },
+    {
+      "fact": "PedWest hours",
+      "value": "6 am-2 pm"
+    }
+  ],
+  "actions": [
+    "click:{\"selector\": \"a.quick-card:has-text('View Border Wait Times'",
+    "input:{\"selector\": \"#q\", \"text\": \"San Ysidro\", \"desc\": \"search San",
+    "click:{\"selector\": \"form.filters button.btn\", \"desc\": \"Apply\"}",
+    "click:{\"selector\": \"table.data a:has-text('San Ysidro')\", \"desc\": ",
+    "navigate:{\"url\": \"/\", \"desc\": \"home\"}",
+    "click:{\"selector\": \"a.quick-card:has-text('Locate a Port of Entry'",
+    "click:{\"selector\": \"a:has-text('California')\", \"desc\": \"browse Cal",
+    "click:{\"selector\": \"a:has-text('San Ysidro')\", \"desc\": \"open San Y",
+    "navigate:{\"url\": \"/\", \"desc\": \"home\"}",
+    "click:{\"selector\": \"a.quick-card:has-text('View Border Wait Times'",
+    "input:{\"selector\": \"#q\", \"text\": \"PedWest\", \"desc\": \"search PedWes",
+    "click:{\"selector\": \"form.filters button.btn\", \"desc\": \"Apply\"}",
+    "click:{\"selector\": \"table.data a:has-text('PedWest')\", \"desc\": \"op"
+  ],
+  "answer": "San Ysidro crossings: main San Ysidro (std passenger 150 min/6 open, Ready 120 min/11, NEXUS/SENTRI 30 min/11, pedestrian 60 min/16), Cross Border Express, and PedWest. San Ysidro port code 2504, phone +1 619-428-2188. PedWest: pedestrian delay 15 min with 4 lanes open, hours 6 am-2 pm."
+}
