@@ -14,7 +14,11 @@
 </table>
 {% if 'Schedule' in record.status %}
 <div class="callout">
+  {% if record.status == "Interview Scheduled" %}
+  <p>Your interview is scheduled. Review the appointment details above. You can use the scheduling form to change the appointment if needed.</p>
+  {% else %}
   <p>Your application is <strong>conditionally approved</strong>. The next step is to schedule an interview at an enrollment center.</p>
+  {% endif %}
   <p><a class="btn" href="{{ url_for('ttp_schedule', application_number=record.application_number) }}">Schedule Interview</a></p>
 </div>
 {% elif record.status == 'Pending Review' %}

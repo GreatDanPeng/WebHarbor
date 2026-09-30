@@ -1217,7 +1217,7 @@ def bwt():
     border = request.args.get('border', 'all')
     q = request.args.get('q', '').strip().lower()
     sort = request.args.get('sort', 'name')
-    page_no = max(1, int(request.args.get('page', 1) or 1))
+    page_no = max(1, request.args.get('page', 1, type=int) or 1)
     per_page = 10
     query = Crossing.query
     if border in ('canada', 'mexico'):
@@ -1321,7 +1321,7 @@ def ports_search():
 def media_releases():
     category = request.args.get('category', 'all')
     q = request.args.get('q', '').strip().lower()
-    page_no = max(1, int(request.args.get('page', 1) or 1))
+    page_no = max(1, request.args.get('page', 1, type=int) or 1)
     per_page = 8
     query = NewsRelease.query
     if category in ('national', 'local'):
@@ -1625,7 +1625,7 @@ with app.app_context():
 
 
 if __name__ == '__main__':
-    # Registry slot: u_s_customs is SITES index 112 -> port 40122
+    # Registry slot: u_s_customs is SITES index 122 -> port 40122
     # (scripts/check_site_registry.py enforces tasks.jsonl web == this port).
     port = int(os.environ.get('PORT', 40122))
     app.run(host='0.0.0.0', port=port, debug=False)
