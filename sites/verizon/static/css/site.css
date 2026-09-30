@@ -146,3 +146,6 @@ legend { font-weight: 700; padding: 0 6px; }
   .store-actions { white-space: normal; }
   .store-photo { max-width: 100%; margin-right: 0; }
 }
+
+/* Keep secondary actions readable inside the dark hero and its white cards. */
+.hero a.btn-secondary { color: #111; }

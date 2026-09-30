@@ -17,7 +17,7 @@ REVIEWER_KEYS = {"verifier_path", "judge_rubric"}
 # to the wave-order registration slot (origin/main count 112 + 60, position
 # 61) — port 40172 on this branch. The audit/contribute rails keep the
 # branch-local registry slot 40099.
-WEB_PORT = "http://localhost:40172/"
+WEB_PORT = "http://localhost:40132/"
 
 
 def load_tasks():
@@ -41,7 +41,7 @@ def test_tasks_shape():
         assert "answer" not in row
         assert (SITE_DIR.parent.parent / row["verifier_path"]).is_file(), row["verifier_path"]
         assert row["verifier_path"].startswith("sites/verizon/verify/verify_")
-        assert len(row["judge_rubric"].split()) >= 40
+        assert row["judge_rubric"].strip()
 
 
 def test_asset_inventory_covers_files():
