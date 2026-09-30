@@ -76,7 +76,7 @@
     <h3>Saved Forms</h3>
     <ul>
       {% for s in saved_forms %}
-      <li><a href="{{ url_for('form_detail', catalog_key=s.form.catalog_key) }}">CBP Form {{ s.form.form_number }}</a></li>
+      <li><a href="{{ url_for('form_detail', catalog_key=s.form.catalog_key) }}">CBP Form {{ s.form.form_number }} — {{ s.form.name }}</a></li>
       {% else %}<li class="note">None saved yet.</li>
       {% endfor %}
     </ul>

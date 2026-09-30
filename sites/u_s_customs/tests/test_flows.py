@@ -185,3 +185,9 @@ def test_form_download_sha(client):
     import hashlib
     data = r.get_data()
     assert hashlib.sha256(data).hexdigest() == form.sha256
+
+
+def test_invalid_pagination_does_not_crash(client):
+    for path in ['/bwt', '/newsroom/media-releases/all']:
+        response = client.get(path + '?page=not-a-number')
+        assert response.status_code == 200
