@@ -9,11 +9,11 @@
 
     <div class="notes-panel">
       <div class="notes-head">
-        <h2>{{ '{:,}'.format(post.live_note_count()) }} notes</h2>
+        <h2 data-live-notes>{{ '{:,}'.format(post.live_note_count()) }} notes</h2>
         <div class="notes-tabs">
           <span class="notes-tab active">All</span>
-          <span class="notes-tab">{{ '{:,}'.format(post.like_count + (1 if liked else 0)) }} likes</span>
-          <span class="notes-tab">{{ '{:,}'.format(post.reblog_count) }} reblogs</span>
+          <span class="notes-tab" data-live-likes>{{ '{:,}'.format(post.live_like_count()) }} likes</span>
+          <span class="notes-tab">{{ '{:,}'.format(post.live_reblog_count()) }} reblogs</span>
         </div>
       </div>
       <ol class="notes-list">
@@ -52,9 +52,9 @@
         <dt>Posted by</dt><dd><a href="{{ url_for('blog_page', name=post.blog.name) }}">{{ post.blog.name }}</a></dd>
         <dt>Posted</dt><dd>{{ post.date_str or time_ago(post.timestamp) }}</dd>
         <dt>Type</dt><dd>{{ post.type }}</dd>
-        <dt>Notes</dt><dd>{{ '{:,}'.format(post.live_note_count()) }}</dd>
-        <dt>Likes</dt><dd>{{ '{:,}'.format(post.like_count) }}</dd>
-        <dt>Reblogs</dt><dd>{{ '{:,}'.format(post.reblog_count) }}</dd>
+        <dt>Notes</dt><dd data-live-notes>{{ '{:,}'.format(post.live_note_count()) }}</dd>
+        <dt>Likes</dt><dd data-live-likes>{{ '{:,}'.format(post.live_like_count()) }}</dd>
+        <dt>Reblogs</dt><dd>{{ '{:,}'.format(post.live_reblog_count()) }}</dd>
       </dl>
     </div>
     {% if user %}

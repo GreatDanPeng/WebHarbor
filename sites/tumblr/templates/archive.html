@@ -3,7 +3,7 @@
 {% block content %}
 <div class="page-head">
   <h1>Archive of {{ blog.display_title() }}</h1>
-  <p class="page-sub">{{ '{:,}'.format(pagination.total if pagination is defined else 0) }} posts, newest first{% if blog.updated %} · updated {{ time_ago(blog.updated) }}{% endif %}</p>
+  <p class="page-sub">{{ '{:,}'.format(archive_total) }} archived posts, newest first{% if blog.updated %} · updated {{ time_ago(blog.updated) }}{% endif %}</p>
   <a class="btn btn-ghost" href="{{ url_for('blog_page', name=blog.name) }}">← Back to {{ blog.name }}</a>
 </div>
 

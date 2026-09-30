@@ -20,6 +20,8 @@
       ev.preventDefault();
       postJSON(btn.dataset.likeUrl).then(function (data) {
         btn.classList.toggle("active", data.liked);
+        document.querySelectorAll('[data-live-notes]').forEach(function(e) { e.textContent = data.note_count.toLocaleString() + (e.tagName === 'H2' ? ' notes' : ''); });
+        document.querySelectorAll('[data-live-likes]').forEach(function(e) { e.textContent = data.like_count.toLocaleString() + (e.tagName === 'SPAN' ? ' likes' : ''); });
         var card = btn.closest(".post-card");
         if (card) {
           var count = card.querySelector(".note-count");

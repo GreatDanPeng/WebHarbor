@@ -172,6 +172,12 @@ class Post(db.Model):
                     parts.append(re.sub(r"<[^>]+>", " ", b.get("text") or ""))
         return " ".join(parts)
 
+    def live_like_count(self):
+        return (self.like_count or 0) + Like.query.filter_by(post_id=self.id).count()
+
+    def live_reblog_count(self):
+        return (self.reblog_count or 0) + Reblog.query.filter_by(source_post_id=self.id).count()
+
     def live_note_count(self):
         n = self.note_count or 0
         n += Like.query.filter_by(post_id=self.id).count()
@@ -689,7 +695,7 @@ def blog_archive(name):
         by_month.setdefault(key, []).append(p)
     months = list(by_month.items())
     return render_template("archive.html", **base_ctx(
-        blog=blog, months=months))
+        blog=blog, months=months, archive_total=len(posts)))
 
 
 @app.route("/blog/<name>/<post_id>")
@@ -923,12 +929,12 @@ def ask(name):
                 owner = db.session.get(User, blog.owner_user_id)
             if owner is not None:
                 conv = Conversation.query.filter_by(
-                    user_id=owner.id, blog_name=user.username if user
+                    user_id=owner.id, blog_name=user.username if user and not anon
                     else "anonymous").first()
                 if conv is None:
                     conv = Conversation(
                         user_id=owner.id,
-                        blog_name=user.username if user else "anonymous",
+                        blog_name=user.username if user and not anon else "anonymous",
                         updated_at=MIRROR_TS)
                     db.session.add(conv)
                     db.session.flush()
@@ -1012,7 +1018,7 @@ def new_post():
             created_at=MIRROR_TS,
             date_str=MIRROR_DATE.strftime("%Y-%m-%d %H:%M:%S GMT"),
             post_url=f"https://{blog.name}.tumblr.com/",
-            summary=(title or body or "New post")[:120],
+            summary=(title or body or (request.form.get("quote", "").strip() if post_type == "quote" else "") or "New post")[:120],
             state="published", user_created=True)
         db.session.add(post)
         blog.posts_count = (blog.posts_count or 0) + 1
@@ -1085,12 +1091,12 @@ def toggle_like(post_id):
         db.session.delete(like)
         db.session.commit()
         return jsonify({"liked": False,
-                        "note_count": post.live_note_count()})
+                        "like_count": post.live_like_count(), "note_count": post.live_note_count()})
     db.session.add(Like(user_id=user.id, post_id=post.id,
                         created_at=MIRROR_TS))
     db.session.commit()
     return jsonify({"liked": True,
-                    "note_count": post.live_note_count()})
+                    "like_count": post.live_like_count(), "note_count": post.live_note_count()})
 
 
 @app.route("/post/<post_id>/reblog", methods=["GET", "POST"])
