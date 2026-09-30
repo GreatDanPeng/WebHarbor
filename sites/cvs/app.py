@@ -497,10 +497,17 @@ def adopt_guest_cart(user):
     token = session.get("guest_token")
     if not token:
         return
-    for row in CartItem.query.filter_by(user_id=None, guest_token=token).all():
+    rows = CartItem.query.filter_by(user_id=None, guest_token=token).all()
+    # Validate the whole merge before changing any row: login must never drop
+    # requested quantities or partially transfer the guest cart.
+    for row in rows:
+        existing = CartItem.query.filter_by(user_id=user.id, product_id=row.product_id, variant_id=row.variant_id).first()
+        if existing and existing.quantity + row.quantity > 20:
+            raise ValueError("Signing in would exceed the 20-item limit for a product. Reduce its guest-cart quantity before signing in; both carts are unchanged.")
+    for row in rows:
         existing = CartItem.query.filter_by(user_id=user.id, product_id=row.product_id, variant_id=row.variant_id).first()
         if existing:
-            existing.quantity = min(20, existing.quantity + row.quantity)
+            existing.quantity += row.quantity
             db.session.delete(row)
         else:
             row.user_id, row.guest_token = user.id, None
@@ -530,7 +537,12 @@ def login():
     if request.method == "POST":
         user = User.query.filter_by(email=request.form.get("email", "").strip().lower()).first()
         if user and check_password_hash(user.password_hash, request.form.get("password", "")):
-            adopt_guest_cart(user)
+            try:
+                adopt_guest_cart(user)
+            except ValueError as error:
+                db.session.rollback()
+                flash(str(error), "error")
+                return render_template("login.html"), 409
             login_user(user)
             favorite_path = save_pending_favorite(user)
             return redirect(favorite_path or local_next(request.form.get("next") or request.args.get("next"), url_for("account")))

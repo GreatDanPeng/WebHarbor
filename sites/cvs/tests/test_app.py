@@ -447,10 +447,10 @@ class CVSAppTests(unittest.TestCase):
         _, context = self.rendered("/rx/dotm/cart", other)
         self.assertEqual(context["items"], [])
 
-    def test_login_adopts_only_current_guest_cart_and_caps_merged_quantity(self):
+    def test_login_adopts_only_current_guest_cart_without_losing_quantity(self):
         account_client = self.app.test_client()
         self.login(account_client)
-        self.add(quantity=15, client=account_client)
+        self.add(quantity=9, client=account_client)
         self.add(quantity=10)
         other_guest = self.app.test_client()
         self.add(quantity=3, client=other_guest)
@@ -458,10 +458,30 @@ class CVSAppTests(unittest.TestCase):
         with self.app.app_context():
             user = self.site.User.query.filter_by(email="alice.j@test.com").one()
             row = self.site.CartItem.query.filter_by(user_id=user.id).one()
-            self.assertEqual(row.quantity, 20)
+            self.assertEqual(row.quantity, 19)
             self.assertIsNone(row.guest_token)
             remaining_guest = self.site.CartItem.query.filter_by(user_id=None).one()
             self.assertEqual(remaining_guest.quantity, 3)
+
+    def test_login_overflow_preserves_both_carts_and_authentication(self):
+        account = self.app.test_client()
+        self.login(account)
+        self.add(quantity=15, client=account)
+        self.add(product_id="481078", quantity=2)
+        self.add(quantity=10)
+        with self.app.app_context():
+            before = [(r.id, r.user_id, r.guest_token, r.product_id, r.quantity)
+                      for r in self.site.CartItem.query.order_by(self.site.CartItem.id)]
+        result = self.post("/account-login/look-up", {
+            "email": "alice.j@test.com", "password": "TestPass123!"})
+        self.assertEqual(result.status_code, 409)
+        self.assertIn(b"both carts are unchanged", result.data)
+        with self.client.session_transaction() as session:
+            self.assertNotIn("_user_id", session)
+        with self.app.app_context():
+            after = [(r.id, r.user_id, r.guest_token, r.product_id, r.quantity)
+                     for r in self.site.CartItem.query.order_by(self.site.CartItem.id)]
+        self.assertEqual(before, after)
 
     def test_checkout_validation_does_not_create_an_order_or_clear_cart(self):
         self.add()
