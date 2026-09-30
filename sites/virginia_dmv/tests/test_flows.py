@@ -115,18 +115,11 @@ def test_expired_registration_charged_late_fee(carol):
     assert '$23.75' in html
 
 
-def test_license_renewal_real_id_upgrade(carol):
-    html = carol.get('/account/license/renew').get_data(as_text=True)
-    assert 'Not REAL ID compliant' in html
-    # 8-year renewal 32.00 + REAL ID 10.00 = 42.00
-    r = carol.post('/account/license/renew', data=with_csrf(
-        carol, '/account/license/renew', {'years': '8', 'real_id': '1'}),
-        follow_redirects=True)
-    assert b'Official Internet Receipt' in r.data
-    assert b'$42.00' in r.data
-    assert b'REAL ID' in r.data
-    html = carol.get('/account').get_data(as_text=True)
-    assert 'REAL ID compliant' in html
+def test_first_real_id_requires_office_visit(carol):
+    response = carol.post('/account/license/renew', data=with_csrf(
+        carol, '/account/license/renew', {'years': '8', 'real_id': '1'}))
+    assert response.status_code == 400
+    assert b'customer service center' in response.data
 
 
 def test_license_renewal_standard(alice):

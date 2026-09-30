@@ -5,6 +5,15 @@
   <nav class="breadcrumb" aria-label="Breadcrumb"><a href="{{ url_for('home') }}">Home</a>{% if page.name != 'home' %} › {{ page.title }}{% endif %}</nav>
   <div class="page-title"><h1>{{ page.title }}</h1></div>
 
+  {% if page.name == 'licenses-ids' %}
+  <nav class="card" aria-label="License and ID services">
+    <a href="{{ url_for('licenses_ids_license') }}">Driver's License</a> ·
+    <a href="{{ url_for('licenses_ids_license_replace') }}">Replace a License</a> ·
+    <a href="{{ url_for('licenses_ids_cdl') }}">Commercial Driver's License</a> ·
+    <a href="{{ url_for('licenses_ids_real_id') }}">REAL ID</a> ·
+    <a href="{{ url_for('licenses_ids_exams') }}">Exams and Study Materials</a>
+  </nav>
+  {% endif %}
   {% for alert in site_alerts %}
   <div class="alert" role="alert">
     <h2>{{ alert.heading }}</h2>

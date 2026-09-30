@@ -29,15 +29,9 @@
     <fieldset class="choice">
       <legend>Renewal term</legend>
       <label class="radio-row"><input type="radio" name="years" value="8" {% if not years or years == 8 %}checked{% endif %}> Eight years ($32.00) — standard term</label>
-      <label class="radio-row"><input type="radio" name="years" value="5" {% if years == 5 %}checked{% endif %}> Five years ($20.00 minimum term)</label>
-      <label class="radio-row"><input type="radio" name="years" value="3" {% if years == 3 %}checked{% endif %}> Three years ($12.00)</label>
     </fieldset>
     {% if not lic.real_id %}
-    <fieldset class="choice">
-      <legend>Add REAL ID?</legend>
-      <label class="check-row"><input type="checkbox" name="real_id" value="1" {% if real_id %}checked{% endif %}>
-        Add REAL ID to my renewal — one-time $10 fee (minimum $20 transaction)</label>
-    </fieldset>
+    <p>For a first REAL ID, <a href="{{ url_for('licenses_ids_real_id') }}">review the documents and visit a customer service center</a>. This online renewal keeps your current credential type.</p>
     {% endif %}
     <p><a class="btn btn--secondary" href="{{ url_for('license_renew', years=8) }}">Preview 8-year total</a></p>
     <button class="btn" type="submit">Pay and renew license</button>
