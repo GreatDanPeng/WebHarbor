@@ -1625,7 +1625,7 @@ with app.app_context():
 
 
 if __name__ == '__main__':
-    # Registry slot: u_s_customs is SITES index 112 -> port 40162
+    # Registry slot: u_s_customs is SITES index 112 -> port 40122
     # (scripts/check_site_registry.py enforces tasks.jsonl web == this port).
-    port = int(os.environ.get('PORT', 40162))
+    port = int(os.environ.get('PORT', 40122))
     app.run(host='0.0.0.0', port=port, debug=False)
