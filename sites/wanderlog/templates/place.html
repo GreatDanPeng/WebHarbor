@@ -66,15 +66,10 @@
         {% if cats %}
           <p style="margin:4px 0">{% for c in cats[:6] %}<span class="chip static">{{ c }}</span>{% endfor %}</p>
         {% endif %}
-        {% if place.rank_info %}
-          {% set ri = place.rank_info | from_json %}
-          <p class="small muted" style="margin:6px 0">
-            {% if ri.rank %}Wanderlog ranks it #{{ ri.rank }} in {{ ri.category or 'its category' }}.{% endif %}
-          </p>
-        {% endif %}
         {% set admission = place.admission | from_json %}
         {% if admission %}
-          {% for a in admission %}
+          <p class="small muted">Captured ticket listings are not current price or eligibility quotes. Check the venue for admission conditions.</p>
+          {% for a in admission if a.title and a.title != 'Free admission' %}
             <p class="small" style="margin:4px 0">🎟 {{ a.title }}{% if a.source %} — {{ a.source }}{% endif %}</p>
           {% endfor %}
         {% endif %}
