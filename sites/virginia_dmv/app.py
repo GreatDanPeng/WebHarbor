@@ -273,6 +273,17 @@ class ManualSubsection(db.Model):
     body_html = db.Column(db.Text, nullable=False, default='')
 
 
+class QuizAttempt(db.Model):
+    __tablename__ = 'quiz_attempts'
+    id = db.Column(db.Integer, primary_key=True)
+    section = db.Column(db.Integer, nullable=False)
+    answers = db.Column(db.Text, nullable=False)
+    correct_count = db.Column(db.Integer, nullable=False)
+    total = db.Column(db.Integer, nullable=False)
+    percent = db.Column(db.Integer, nullable=False)
+    passed = db.Column(db.Boolean, nullable=False)
+
+
 class QuizQuestion(db.Model):
     __tablename__ = 'quiz_questions'
     id = db.Column(db.Integer, primary_key=True)
@@ -510,10 +521,21 @@ def _seed_catalog():
             section=sub['section'], subsection=sub['subsection'],
             title=sub['title'], body_html=sub['html']))
     for q in _load('quiz.json'):
+        answers = [a for a in q['answers'] if a['text'].strip()]
+        correct = str(q['correct'])
+        # Upstream codes 5/6/7 designate answers by meaning, not position.
+        special = {'5': 'true', '6': 'false', '7': 'all of the above'}
+        if correct in special:
+            matching = [a for a in answers if a['text'].strip().lower().rstrip('.') == special[correct]]
+            if len(matching) != 1:
+                raise ValueError(f"Unresolved answer code for question {q['id']}")
+            correct = str(matching[0]['value'])
+        if correct not in {str(a['value']) for a in answers}:
+            raise ValueError(f"Unreachable correct answer for question {q['id']}")
         db.session.add(QuizQuestion(
             qid=q['id'], section=str(q.get('section') or ''),
             category=q['category'], question=q['question'],
-            answers=json.dumps(q['answers']), correct=str(q['correct']),
+            answers=json.dumps(answers), correct=correct,
             feedback=q['feedback']))
     for p in _load('pages.json'):
         db.session.add(Page(name=p['name'], path=p.get('path', '/' + p['name']),
@@ -586,6 +608,8 @@ def mirror_href(href):
     resolve to the download route when the file is mirrored; external
     transaction URLs point at the account login. Returns None when the
     mirror has no equivalent (the template renders the label as text)."""
+    if href == '/node/8996':
+        href = '/vehicles/insurance-coverage'
     if not href:
         return None
     if href.startswith('/sites/default/files/forms/') and href.endswith('.pdf'):
@@ -879,8 +903,7 @@ def practice_exam_grade(section):
     sec = ManualSection.query.filter_by(number=section).first_or_404()
     questions = QuizQuestion.query.filter_by(section=str(section)).order_by(
         QuizQuestion.id).limit(10 if section in (1, 2) else 8).all()
-    picks = {int(k.split('_')[1]): v for k, v in request.form.items()
-             if k.startswith('q_')}
+    picks = {q.id: request.form.get(f'q_{q.id}', '') for q in questions}
     results = []
     correct_count = 0
     for q in questions:
@@ -890,6 +913,10 @@ def practice_exam_grade(section):
         results.append({'q': q, 'pick': pick, 'ok': ok})
     pct = round(100 * correct_count / len(questions)) if questions else 0
     passed = pct >= 80
+    db.session.add(QuizAttempt(section=section, answers=json.dumps(picks, sort_keys=True),
+                               correct_count=correct_count, total=len(questions),
+                               percent=pct, passed=passed))
+    db.session.commit()
     return render_template('practice_result.html', section=sec, results=results,
                            correct=correct_count, total=len(questions),
                            pct=pct, passed=passed, q_images=_quiz_images())
@@ -961,7 +988,7 @@ def vehicles_plates_landing():
 def plates_search():
     cat = request.args.get('category', '')
     q = request.args.get('q', '').strip().lower()
-    page = max(1, int(request.args.get('pg', 1) or 1))
+    page = max(1, request.args.get('pg', 1, type=int) or 1)
     query = Plate.query
     if cat:
         query = query.filter_by(category=cat)
@@ -985,7 +1012,7 @@ def plate_detail(slug):
 
 @app.route('/news')
 def news_list():
-    page = max(1, int(request.args.get('pg', 1) or 1))
+    page = max(1, request.args.get('pg', 1, type=int) or 1)
     per = 10
     query = NewsArticle.query.order_by(NewsArticle.published.desc())
     total = query.count()
@@ -1047,7 +1074,7 @@ def forms():
     cat = request.args.get('category', '')
     lang = request.args.get('language', '')
     q = request.args.get('q', '').strip()
-    page = max(1, int(request.args.get('pg', 1) or 1))
+    page = max(1, request.args.get('pg', 1, type=int) or 1)
     query = FormEntry.query
     if cat:
         query = query.filter_by(category=cat)
@@ -1118,45 +1145,32 @@ def appointment_new():
     step = 1
     office = service = appt_date = appt_time = None
     if request.method == 'POST':
-        step = int(request.form.get('step', 2))
-    if request.method == 'POST' and step == 2:
-        office = Office.query.filter_by(
-            slug=request.form.get('office', '')).first()
+        step = request.form.get('step', type=int)
+        if step not in (2, 3):
+            abort(400)
+    if request.method == 'POST':
+        office = Office.query.filter_by(slug=request.form.get('office', ''), office_type='csc').first()
         service = request.form.get('service', '')
-        if not office or service not in APPOINTMENT_SERVICES:
-            flash('Please choose an office and a service to continue.')
-            step = 1
-        else:
-            # business-hour slots: Mon-Fri 8:00-4:40, Sat 8:00-11:40
-            d = date.fromisoformat(request.form.get('date', '') or '2026-10-07')
-            slots = []
-            start = 8 if d.weekday() < 5 else 8
-            end = 17 if d.weekday() < 5 else 12
-            t = start
-            while t < end:
-                hh = int(t)
-                mm = int((t - hh) * 60)
-                ampm = 'AM' if hh < 12 else 'PM'
-                h12 = hh if hh <= 12 else hh - 12
-                slots.append(f"{h12}:{mm:02d} {ampm}")
-                t += 1 / 3
-            appt_date = d.isoformat()
+        try:
+            d = date.fromisoformat(request.form.get('date', ''))
+        except ValueError:
+            abort(400, 'Enter a valid appointment date.')
+        if not office or service not in APPOINTMENT_SERVICES or d < MIRROR_TODAY or d.weekday() >= 5:
+            abort(400, 'Choose a customer service center, service and a weekday appointment date.')
+        # Twenty-minute benchmark slots. Integer arithmetic avoids 8:19/8:39 drift.
+        slots = [f"{minute // 60 if minute // 60 <= 12 else minute // 60 - 12}:{minute % 60:02d} {'AM' if minute < 720 else 'PM'}"
+                 for minute in range(480, 1020, 20)]
+        appt_date = d.isoformat()
+        if step == 2:
             return render_template('appointment_form.html', step=2, office=office,
-                                   service=service, appt_date=appt_date,
-                                   slots=slots, services=APPOINTMENT_SERVICES,
-                                   offices=offices)
-    if request.method == 'POST' and step == 3:
-        office = Office.query.filter_by(
-            slug=request.form.get('office', '')).first()
-        service = request.form.get('service', '')
-        appt_date = request.form.get('date', '')
+                                   service=service, appt_date=appt_date, slots=slots,
+                                   services=APPOINTMENT_SERVICES, offices=offices)
         appt_time = request.form.get('time', '')
         name = request.form.get('name', '').strip()
-        email = request.form.get('email', '').strip()
-        if not (office and service and appt_date and appt_time and name and email
-                and '@' in email):
-            flash('All fields are required to reserve your spot.')
-            return redirect(url_for('appointment_new'))
+        email = request.form.get('email', '').strip().lower()
+        if (appt_time not in slots or not name
+                or not re.fullmatch(r'[^\s@]+@[^\s@]+\.[^\s@]+', email)):
+            abort(400, 'Choose an offered time and enter your name and email.')
         confirm = _receipt('VADM')
         appt = Appointment(confirmation=confirm,
                            user_id=current_user.id if current_user.is_authenticated else None,
@@ -1272,9 +1286,13 @@ def vehicle_renew(vid):
     if vehicle.user_id != current_user.id:
         abort(403)
     preview = None
-    years = int(request.args.get('years', 0) or 0) or None
+    years = request.args.get('years', type=int)
+    if 'years' in request.args and years not in (1, 2, 3):
+        abort(400)
     if request.method == 'POST':
-        years = int(request.form.get('years', 1))
+        years = request.form.get('years', type=int)
+        if years not in (1, 2, 3):
+            abort(400)
         total, lines, expired = registration_fee(vehicle, years, online=True)
         receipt = _receipt('REG')
         db.session.add(Transaction(
@@ -1312,12 +1330,20 @@ def vehicle_renew(vid):
 @login_required
 def license_renew():
     lic = current_user.license
+    if not lic or lic.status.lower() != 'valid' or date.fromisoformat(lic.expires) < MIRROR_TODAY:
+        abort(400, 'This credential requires an in-person eligibility review.')
     preview = None
-    years = int(request.args.get('years', 0) or 0)
+    years = request.args.get('years', 0, type=int)
+    if 'years' in request.args and years != 8:
+        abort(400)
     real_id = request.args.get('real_id', '0') == '1'
     if request.method == 'POST':
-        years = int(request.form.get('years', LICENSE_YEARS))
+        years = request.form.get('years', type=int)
+        if years != 8:
+            abort(400)
         real_id = request.form.get('real_id', '0') == '1'
+        if real_id and not lic.real_id:
+            abort(400, 'A first REAL ID requires a customer service center visit with documents.')
         total = LICENSE_PER_YEAR * years
         lines = [(f"Driver's license renewal ({years} year"
                   f"{'s' if years > 1 else ''} @ $4.00 per year)", total)]
@@ -1359,6 +1385,8 @@ def license_renew():
 @login_required
 def license_replace():
     lic = current_user.license
+    if not lic or lic.status.lower() != 'valid' or date.fromisoformat(lic.expires) < MIRROR_TODAY:
+        abort(400, 'This credential is not eligible for online replacement.')
     if request.method == 'POST':
         reason = request.form.get('reason', 'Lost or stolen')
         receipt = _receipt('REP')
@@ -1387,12 +1415,14 @@ def plate_purchase(slug):
     message = ''
     available = None
     if request.method == 'POST':
-        vehicle = Vehicle.query.get_or_404(int(request.form.get('vehicle_id', 0)))
+        vehicle = Vehicle.query.get_or_404(request.form.get('vehicle_id', 0, type=int))
         if vehicle.user_id != current_user.id:
             abort(403)
         message = request.form.get('message', '').strip().upper()
         maxchars = int(plate.char_combinations or 6)
         if message:
+            if plate.personalization_available != 'Yes':
+                abort(400, 'This plate does not support personalization.')
             if len(message) > maxchars or not re.match(r"^[A-Z0-9 -]+$", message):
                 available = False
             else:
@@ -1414,6 +1444,8 @@ def plate_purchase(slug):
                 details=json.dumps({'lines': [[l, v] for l, v in lines]}),
                 created_at=MIRROR_TODAY.isoformat()))
             vehicle.plate_design = plate.slug
+            if message:
+                vehicle.plate = message
             db.session.commit()
             return render_template('receipt.html', receipt=receipt, total=money(total),
                                    lines=lines, title='Plate Purchase — Official Internet Receipt',
@@ -1433,6 +1465,8 @@ def account_records():
         record_type = request.form.get('record_type', 'driver')
         certified = request.form.get('certified', '0') == '1'
         delivery = request.form.get('delivery', 'online')
+        if record_type not in ('driver', 'vehicle') or delivery not in ('online', 'mail'):
+            abort(400)
         vehicle_id = request.form.get('vehicle_id', type=int)
         vehicle = Vehicle.query.get(vehicle_id) if vehicle_id else None
         if record_type == 'vehicle' and (vehicle is None or vehicle.user_id != current_user.id):
