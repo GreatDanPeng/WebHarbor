@@ -468,6 +468,10 @@
       "bytes": 162049197,
       "sha256": "01e0a5f434d00e235f7863e98f631de78961677f21b83b41e6ea076088dcc2f9"
     },
+    "uscis.tar.gz": {
+      "bytes": 30390895,
+      "sha256": "955496275db8686ecec6b36a68d700bf143039451b889c3d022edd01f17d33f8"
+    },
     "versus.tar.gz": {
       "bytes": 12183876,
       "sha256": "093656316188dd7960177c9a187262de860e50c9f27a3b6658407f86d16f5cb3"
@@ -505,7 +509,7 @@
       "sha256": "986c51d2fe6c557b3b2c784c4bc198e53065af7da65946a99b782a90fde3b7db"
     }
   },
-  "managed_tree_sha256": "559b690e89bb1f579acec96fa9332fbe3cf18cf183cd8aa61206d61b291bf3e6",
+  "managed_tree_sha256": "ee1fb3cb3bc853e1ad51c339184a64af6d627ff57479613a04bb01b1de18fdae",
   "repo": "ChilleD/WebHarbor",
   "revision": "1406dd4f536afd4a62a9c4c1ba6fb2c885e3a6f9",
   "version": 1
