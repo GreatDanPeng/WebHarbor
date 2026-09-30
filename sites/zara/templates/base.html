@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}ZARA United States | New Collection Online{% endblock %}</title>
+<link rel="stylesheet" href="/static/css/site.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="header-top">
+    <form class="header-search" action="/us/en/search" method="get">
+      <input type="search" name="searchTerm" value="{{ request.args.get('searchTerm','') }}"
+             placeholder="SEARCH" aria-label="Search">
+      <button type="submit" aria-label="Run search">SEARCH</button>
+    </form>
+    <a class="logo" href="/" aria-label="Go to homepage">
+      <svg viewBox="0 0 132 55" height="42" width="100" aria-hidden="true" focusable="false">
+        <path fill="currentColor" d="M105.673.035l19.557 53.338 6.77.002v.383h-21.548v-.383h6.344l-6.431-17.54H97.311v.007l.07.204c.521 1.548.78 3.17.764 4.803v6.575c0 3.382 1.494 6.81 4.347 6.81 1.675 0 3.012-.59 4.604-2.046l.227.211C105.594 54.224 103.5 55 100.36 55c-2.37 0-4.398-.57-6.03-1.693l-.309-.222c-2.148-1.624-3.542-4.278-4.142-7.89l-.096-.583-.1-.882-.01-.152-3.599 9.792h5.107v.384H82.057v-.384h4.916L97.353 8.27 93.188.419H86.4v-.384h19.273zM24.744.035h9.594c3.37 0 5.599 1.386 5.599 4.364 0 1.94-1.158 3.276-3.02 4.09-2.083.906-4.936 1.032-7.596 1.032h-1.669l-7.105 44.465h5.383v.383H8.639v-.383h5.272L20.923 9.521h-.277c-2.644 0-4.781 2.727-5.517 6.005-.073.323-.1.637-.147.955h-.581L15.712.035h9.032zM72.6.419v.383h3.81l-4.66 12.692c-1.045 2.846-2.371 3.83-4.497 3.83h-1.74l-5.782 36.834h5.595v.383H52.093v-.383h5.469l5.782-36.834h-1.343c-2.126 0-3.452-.984-4.497-3.83L52.845.802h3.81V.419h15.945zM132 .419v53.339h-6.356V.419h6.356zM6.328.419v53.339H0V.419h6.328z"/>
+      </svg>
+    </a>
+    <nav class="header-links">
+      {% if current_user.is_authenticated %}
+        <a href="/us/en/account">HI, {{ current_user.display_name.split(' ')[0]|upper }}</a>
+      {% else %}
+        <a href="/us/en/logon">LOG IN</a>
+      {% endif %}
+      <a href="/us/en/wishlist">WISHLIST</a>
+      <a href="/us/en/shop">BAG ({{ cart_count }})</a>
+    </nav>
+  </div>
+  <nav class="site-nav" aria-label="Sections">
+    <a href="/" {% if request.path == '/' %}class="active"{% endif %}>NEW</a>
+    {% for sec, items in categories_nav() %}
+      <a href="#{{ sec|lower }}">{{ sec }}</a>
+    {% endfor %}
+    <a href="/us/en/z-stores-st1404.html">STORES</a>
+  </nav>
+</header>
+
+<main>
+{% block body %}{% endblock %}
+</main>
+
+<footer class="site-footer">
+  <div class="footer-cols">
+    <div>
+      <h4>HELP</h4>
+      <a href="/us/en/shop">MY BAG</a>
+      <a href="/us/en/account/orders">MY ORDERS</a>
+      <a href="/us/en/z-stores-st1404.html">STORE LOCATOR</a>
+      <a href="/us/en/logon">LOG IN</a>
+    </div>
+    <div>
+      <h4>COMPANY</h4>
+      <span>OFFICES</span>
+      <span>SUSTAINABILITY</span>
+      <span>PRESS</span>
+    </div>
+    <div>
+      <h4>FOLLOW US</h4>
+      <span>NEWSLETTER</span>
+      <form class="newsletter" action="/newsletter" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="back" value="{{ request.path }}">
+        <input type="email" name="email" placeholder="EMAIL ADDRESS" required>
+        <button type="submit">JOIN</button>
+      </form>
+    </div>
+  </div>
+  <p class="copyright">© ALL RIGHTS RESERVED — ZARA MIRROR SNAPSHOT {{ MIRROR_TS }}</p>
+</footer>
+</body>
+</html>

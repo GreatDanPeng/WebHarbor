@@ -511,10 +511,14 @@
     "youtube.tar.gz": {
       "bytes": 40021527,
       "sha256": "986c51d2fe6c557b3b2c784c4bc198e53065af7da65946a99b782a90fde3b7db"
+    },
+    "zara.tar.gz": {
+      "bytes": 86133990,
+      "sha256": "71f5a4148217673718772afef903b23a4026642203f88dee1a4f482d7a20ace9"
     }
   },
-  "managed_tree_sha256": "f19c90e4f3f70b39404fbb379628c82fda1069a8a6bac6baccadaaa378d345db",
+  "managed_tree_sha256": "4d8fcefb21863f86b7db3c6c6f5923ff0891a7433d1aef3416e9702b52508688",
   "repo": "ChilleD/WebHarbor",
-  "revision": "1406dd4f536afd4a62a9c4c1ba6fb2c885e3a6f9",
+  "revision": "621fa3cbefb443ae3af153c51e0e2fa96d6f0266",
   "version": 1
 }

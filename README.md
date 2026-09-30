@@ -66,8 +66,8 @@ git clone https://github.com/aiming-lab/WebHarbor && cd WebHarbor
 
 All registered websites and their default ports, in registration order from left to right across each row. A site's container port is `40000 + index` (see the `SITES` array and `BASE_PORT` in `websyn_start.sh`, and the `EXPOSE` line in the `Dockerfile`).
 
-| Website | Default port | Website | Default port | Website | Default port |
-| --- | --- | --- | --- | --- | --- |
+| Website | Port | Website | Port | Website | Port |
+|---|---|---|---|---|---|
 | Allrecipes | 40000 | Amazon | 40001 | Apple | 40002 |
 | ArXiv | 40003 | BBC News | 40004 | Booking | 40005 |
 | GitHub | 40006 | Google Flights | 40007 | Google Maps | 40008 |
@@ -110,7 +110,8 @@ All registered websites and their default ports, in registration order from left
 | Fandom | 40117 | Mayo Clinic | 40118 | SmartAsset | 40119 |
 | U.S. DOJ | 40120 | CVS | 40121 | CBP.gov | 40122 |
 | UPS | 40123 | United Airlines | 40124 | US Appliance | 40125 |
-| USCIS | 40126 | Tumblr | 40127 | | |
+| USCIS | 40126 | Tumblr | 40127 | Zara | 40128 |
+|  |  |  |  |  |  |
 
 ## 🤝 Contribute
 

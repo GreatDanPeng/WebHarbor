@@ -429,8 +429,11 @@ RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/us_appliance && \
     python3 /opt/check_asset_inventory.py /opt/WebSyn/tumblr && \
     (cd /opt/WebSyn/tumblr && rm -rf instance instance_seed && PYTHONHASHSEED=0 python3 seed_data.py && mkdir -p instance_seed && cp instance/tumblr.db instance_seed/tumblr.db && rm -rf instance __pycache__)
 
+RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/zara && \
+    (cd /opt/WebSyn/zara && rm -rf instance instance_seed && PYTHONHASHSEED=0 python3 seed_data.py && mkdir -p instance_seed && cp instance/zara.db instance_seed/zara.db && rm -rf instance __pycache__)
+
 RUN python3 /opt/check_seed_databases.py /opt/WebSyn
 
-EXPOSE 8101 40000-40127
+EXPOSE 8101 40000-40128
 
 CMD ["/opt/websyn_start.sh"]
