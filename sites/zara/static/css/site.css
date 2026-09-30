@@ -312,3 +312,6 @@ button, input, select, textarea { font: inherit; color: inherit; }
    the frozen asset bundle (renders the tracked upstream color hex instead of
    a broken /us/en/None image). */
 .pdp-colors .swatch .swdot { display: block; width: 100%; height: 46px; }
+
+.size-pill:has(input:checked) {background:#111;color:white;}
+.size-pill:has(input:disabled) {opacity:.5;cursor:not-allowed;}

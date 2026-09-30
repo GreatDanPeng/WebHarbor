@@ -31,7 +31,7 @@ from flask_login import (LoginManager, UserMixin, current_user,
                          login_required, login_user, logout_user)
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
-from werkzeug.utils import secure_filename
+from urllib.parse import urlsplit
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -393,13 +393,13 @@ def seed_catalog():
                       price=price or 0, old_price=old_price,
                       is_on_sale=bool(old_price))
         db.session.add(row)
-        for c in p.get('colors') or []:
+        for color_index, c in enumerate(p.get('colors') or []):
             col = Color(upstream_id=str(c['id']), product_id=row.id,
                         name=c['name'], hex=c.get('hex'),
                         reference=c.get('reference'), price=c.get('price'),
                         description=c.get('description'),
                         tags=json.dumps(c.get('tags') or []),
-                        gallery=json.dumps([_imgname(p['seo_product_id'], 'gal', i)
+                        gallery=json.dumps([(_imgname(p['seo_product_id'], 'gal', i) if color_index == 0 else f"p{p['seo_product_id']}-c{c['id']}-gal{i}.jpg")
                                             for i in range(len(c.get('gallery') or []))]),
                         thumb=(f"p{p['seo_product_id']}-c{c['id']}-thumb.jpg"
                                if len(p.get('colors') or []) > 1 else None))
@@ -542,6 +542,8 @@ def seed_users():
 def main():
     with app.app_context():
         db.create_all()
+        if all(model.query.first() is not None for model in (Product, Category, Store, SearchSnapshot, Campaign, User)):
+            return
         seed_catalog()
         seed_categories()
         seed_stores()
@@ -575,6 +577,37 @@ def categories_nav():
 
 
 # ------------------------------------------------------------------ helpers --
+
+def local_target(value, fallback):
+    target = urlsplit(value or '')
+    return value if target.path.startswith('/') and not target.netloc and not target.scheme and not value.startswith('//') and '\\' not in value else fallback
+
+
+def positive_form_int(name, default=None, maximum=None):
+    value = request.form.get(name, default)
+    try:
+        value = int(value)
+    except (TypeError, ValueError):
+        abort(400, description=f'Enter a valid {name}.')
+    if value < 1 or (maximum is not None and value > maximum):
+        abort(400, description=f'Enter a valid {name}.')
+    return value
+
+
+def adopt_guest_bag(user):
+    token = session.pop('zara_guest', None)
+    if not token:
+        return
+    for item in CartItem.query.filter_by(user_id=None, guest_token=token).all():
+        existing = CartItem.query.filter_by(user_id=user.id, product_id=item.product_id,
+                                            color_id=item.color_id, size_id=item.size_id).first()
+        if existing:
+            existing.quantity += item.quantity
+            db.session.delete(item)
+        else:
+            item.user_id, item.guest_token = user.id, None
+    db.session.commit()
+
 
 def bag_items():
     """The caller's bag rows (logged-in user or guest cookie)."""
@@ -675,13 +708,12 @@ def render_category(cat):
         f['sizes'] = [s for s in f['sizes'] if s['value'] in cat_sizes]
 
     def keep(p):
-        if selected_color:
-            if not any(c.name.lower() == selected_color.lower() for c in p.colors):
-                return False
-        if selected_size:
-            if not any(s.name == selected_size
-                       for c in p.colors for s in c.sizes):
-                return False
+        variants = [c for c in p.colors if not selected_color or c.name.lower() == selected_color.lower()]
+        if not variants:
+            return False
+        if selected_size and not any(s.name == selected_size and s.availability in ('in_stock', 'low_on_stock')
+                                     for c in variants for s in c.sizes):
+            return False
         if price_min is not None and p.price < price_min:
             return False
         if price_max is not None and p.price > price_max:
@@ -804,6 +836,7 @@ def logon():
             db.session.add(user)
             db.session.commit()
             login_user(user)
+            adopt_guest_bag(user)
             return redirect(url_for('home'))
         email = request.form.get('email', '').strip().lower()
         password = request.form.get('password', '')
@@ -812,7 +845,8 @@ def logon():
             return render_template('logon.html', mode='login',
                                    error='Incorrect email or password.'), 401
         login_user(user)
-        target = request.args.get('next') or url_for('home')
+        adopt_guest_bag(user)
+        target = local_target(request.args.get('next'), url_for('home'))
         return redirect(target)
     return render_template('logon.html', mode=mode, error=None)
 
@@ -837,12 +871,14 @@ def shop():
 @app.route('/us/en/shop/add', methods=['POST'])
 def shop_add():
     product = Product.query.filter_by(seo_id=request.form.get('product', '')).first()
-    color = db.session.get(Color, int(request.form.get('color', 0) or 0))
-    size = db.session.get(Size, int(request.form.get('size', 0) or 0))
+    color = db.session.get(Color, positive_form_int('color'))
+    size = db.session.get(Size, positive_form_int('size'))
     if not (product and color and size) or color.product_id != product.id \
             or size.color_id != color.id:
         abort(404)
-    quantity = max(1, int(request.form.get('quantity', 1) or 1))
+    if size.availability not in ('in_stock', 'low_on_stock'):
+        abort(400, description='This size is not available.')
+    quantity = positive_form_int('quantity', 1, 99)
     if current_user.is_authenticated:
         row = CartItem.query.filter_by(user_id=current_user.id,
                                        product_id=product.id,
@@ -867,21 +903,20 @@ def shop_add():
 
 @app.route('/us/en/shop/update', methods=['POST'])
 def shop_update():
-    item_id = int(request.form.get('item', 0) or 0)
+    item_id = positive_form_int('item')
     item = db.session.get(CartItem, item_id)
     if not item:
         abort(404)
     if current_user.is_authenticated and item.user_id != current_user.id:
         abort(403)
-    if not current_user.is_authenticated and \
-            item.guest_token != session.get('zara_guest'):
+    if not current_user.is_authenticated and (not session.get('zara_guest') or
+            item.user_id is not None or item.guest_token != session.get('zara_guest')):
         abort(403)
     action = request.form.get('action', '')
     if action == 'remove':
         db.session.delete(item)
     else:
-        q = int(request.form.get('quantity', 1) or 1)
-        item.quantity = max(1, q)
+        item.quantity = positive_form_int('quantity', 1, 99)
     db.session.commit()
     return redirect(url_for('shop'))
 
@@ -892,11 +927,11 @@ def checkout():
     items = bag_items()
     if not items:
         return redirect(url_for('shop'))
-    addresses = Address.query.filter_by(user_id=current_user.id).all()
+    addresses = Address.query.filter_by(user_id=current_user.id).order_by(Address.is_default.desc(), Address.id).all()
     error = None
     if request.method == 'POST':
         address_id = request.form.get('address_id', type=int)
-        use_new = request.form.get('new_address') == '1'
+        use_new = request.form.get('address_id') == 'new' or request.form.get('new_address') == '1'
         line1 = request.form.get('line1', '').strip()
         city = request.form.get('city', '').strip()
         state = request.form.get('state', '').strip()
@@ -906,7 +941,7 @@ def checkout():
         card = re.sub(r"\D", "", request.form.get('card', ''))
         expiry = request.form.get('expiry', '').strip()
         if use_new:
-            if not (line1 and city and state and zipc and full_name and phone):
+            if not (line1 and city and state and full_name and phone and re.fullmatch(r'\d{5}(?:-\d{4})?', zipc)):
                 error = 'Fill in every address field.'
             addr = Address(user_id=current_user.id, label='NEW',
                            full_name=full_name, line1=line1, city=city,
@@ -999,7 +1034,7 @@ def wishlist_toggle():
         db.session.add(WishlistItem(user_id=current_user.id,
                                     product_id=product.id, color_id=color.id))
     db.session.commit()
-    return redirect(request.form.get('back') or url_for('wishlist'))
+    return redirect(local_target(request.form.get('back'), url_for('wishlist')))
 
 
 # --------------------------------------------------------------- addresses ----
@@ -1023,7 +1058,7 @@ def address_add():
     state = request.form.get('state', '').strip()
     zipc = request.form.get('zip', '').strip()
     phone = request.form.get('phone', '').strip()
-    if not (full_name and line1 and city and state and zipc and phone):
+    if not (full_name and line1 and city and state and phone and re.fullmatch(r'\d{5}(?:-\d{4})?', zipc)):
         return render_template('addresses.html',
                                addresses=Address.query.filter_by(
                                    user_id=current_user.id).all(),
@@ -1111,15 +1146,7 @@ def not_found(e):
 # -------------------------------------------------------------- seed on boot --
 
 if os.environ.get('ZARA_AUTO_SEED', '1') != '0':
-    with app.app_context():
-        db.create_all()
-        seed_catalog()
-        seed_categories()
-        seed_stores()
-        seed_searches()
-        seed_campaigns()
-        seed_users()
-        db.session.commit()
+    main()
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 40128)), debug=False)

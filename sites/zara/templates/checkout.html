@@ -11,12 +11,12 @@
         1. DELIVERY ADDRESS</h3>
       {% for a in addresses %}
         <label class="addr-choice {{ 'on' if loop.first else '' }}">
-          <input type="radio" name="address_id" value="{{ a.id }}" {{ 'checked' if loop.first else '' }}>
+          <input type="radio" name="address_id" value="{{ a.id }}" onchange="document.getElementById('new-addr').style.display='none'" {{ 'checked' if loop.first else '' }}>
           {{ a.label }} — {{ a.full_name }}, {{ a.line1 }}, {{ a.city }}, {{ a.state }} {{ a.zip }} · {{ a.phone }}
         </label>
       {% endfor %}
       <label class="addr-choice">
-        <input type="radio" name="new_address" value="1"
+        <input type="radio" name="address_id" value="new"
                onchange="document.getElementById('new-addr').style.display='block'"
                {{ '' if addresses else 'checked' }}>
         Ship to a new address
