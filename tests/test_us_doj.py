@@ -158,13 +158,15 @@ class SnapshotTests(unittest.TestCase):
                 if page["image_path"]:
                     self.assertTrue((SITE / page["image_path"].lstrip("/")).is_file())
 
-    def test_contributor_tasks_have_only_public_contract_fields(self):
+    def test_reviewed_tasks_have_public_definitions_and_grading_metadata(self):
         tasks = [json.loads(line) for line in (SITE / "tasks.jsonl").read_text().splitlines() if line.strip()]
         self.assertGreaterEqual(len(tasks), 15)
         self.assertLessEqual(len(tasks), 20)
         self.assertEqual(len(tasks), len({task["id"] for task in tasks}))
         for task in tasks:
-            self.assertEqual(set(task), {"web_name", "id", "ques", "web", "upstream_url"})
+            self.assertEqual(set(task), {"web_name", "id", "ques", "web", "upstream_url", "verifier_path", "judge_rubric"})
+            self.assertEqual(task["verifier_path"], "sites/us_doj/verify/verify.py")
+            self.assertTrue(task["judge_rubric"].strip())
             self.assertEqual(task["web_name"], "U.S. DOJ")
             self.assertTrue(task["ques"].strip())
             self.assertEqual(urlsplit(task["upstream_url"]).hostname, "www.justice.gov")
