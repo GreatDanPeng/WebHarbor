@@ -39,7 +39,7 @@
       {% set ncols = record.fee_columns() %}
       <table class="data-table fee-table">
         <thead>
-          <tr><th>Filing Category</th><th>Paper Filing Fee</th>{% if ncols > 2 %}<th>Online Filing Fee</th>{% endif %}</tr>
+          <tr><th>Filing Category</th><th>Paper Filing Fee</th>{% if ncols > 1 %}<th>Online Filing Fee</th>{% endif %}</tr>
         </thead>
         <tbody>
         {% for row in record.fee_rows() %}

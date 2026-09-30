@@ -30,7 +30,7 @@
     <form method="post" action="{{ url_for('eligibility_tool') }}">
       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
       <input type="hidden" name="state_key" value="{{ state.key }}">
-      <input type="hidden" name="answers" value="{{ answers|tojson }}">
+      <input type="hidden" name="answers" value='{{ answers|tojson }}'>
       <fieldset class="wizard-question">
         <legend>{{ state.question }}</legend>
         {% for opt in state.options() %}

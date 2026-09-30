@@ -33,6 +33,7 @@
   {% for table in data.tables %}
   <div class="table-wrap">
     <table class="data-table">
+      {% if table.caption %}<caption>{{ table.caption }}</caption>{% endif %}
       {% if table.headers %}
       <thead><tr>{% for h in table.headers %}<th>{{ h }}</th>{% endfor %}</tr></thead>
       {% endif %}
