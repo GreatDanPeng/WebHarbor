@@ -121,6 +121,7 @@ table.data th, table.data td { white-space: nowrap; }
   .tracking-box input { min-width: 0; }
 }
 @media (max-width: 480px) {
+  .header-search input { min-width: 0; }
   .grid { grid-template-columns: 1fr; }
   .top-banner .wrap { gap: 4px; }
   .header-links a { margin-left: 8px; }
