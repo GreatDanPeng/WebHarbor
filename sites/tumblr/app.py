@@ -172,6 +172,12 @@ class Post(db.Model):
                     parts.append(re.sub(r"<[^>]+>", " ", b.get("text") or ""))
         return " ".join(parts)
 
+    def live_like_count(self):
+        return (self.like_count or 0) + Like.query.filter_by(post_id=self.id).count()
+
+    def live_reblog_count(self):
+        return (self.reblog_count or 0) + Reblog.query.filter_by(source_post_id=self.id).count()
+
     def live_note_count(self):
         n = self.note_count or 0
         n += Like.query.filter_by(post_id=self.id).count()
@@ -677,6 +683,23 @@ def blog_page(name):
             pagination=paginate(page, total, per_page)))
 
 
+@app.template_filter('readable_title_color')
+def readable_title_color(value):
+    """Keep upstream accents only when readable on the mirror's navy page."""
+    try:
+        color = str(value).lstrip('#')
+        if len(color) == 3:
+            color = ''.join(c * 2 for c in color)
+        if len(color) != 6:
+            return '#ffffff'
+        rgb = [int(color[i:i + 2], 16) / 255 for i in (0, 2, 4)]
+        linear = [v / 12.92 if v <= .04045 else ((v + .055) / 1.055) ** 2.4 for v in rgb]
+        luminance = sum(v * w for v, w in zip(linear, (.2126, .7152, .0722)))
+        return '#' + color if (luminance + .05) / (.009 + .05) >= 4.5 else '#ffffff'
+    except (TypeError, ValueError):
+        return '#ffffff'
+
+
 @app.route("/blog/<name>/archive")
 def blog_archive(name):
     blog = Blog.query.filter_by(name=name).first_or_404()
@@ -689,7 +712,7 @@ def blog_archive(name):
         by_month.setdefault(key, []).append(p)
     months = list(by_month.items())
     return render_template("archive.html", **base_ctx(
-        blog=blog, months=months))
+        blog=blog, months=months, archive_total=len(posts)))
 
 
 @app.route("/blog/<name>/<post_id>")
@@ -923,12 +946,12 @@ def ask(name):
                 owner = db.session.get(User, blog.owner_user_id)
             if owner is not None:
                 conv = Conversation.query.filter_by(
-                    user_id=owner.id, blog_name=user.username if user
+                    user_id=owner.id, blog_name=user.username if user and not anon
                     else "anonymous").first()
                 if conv is None:
                     conv = Conversation(
                         user_id=owner.id,
-                        blog_name=user.username if user else "anonymous",
+                        blog_name=user.username if user and not anon else "anonymous",
                         updated_at=MIRROR_TS)
                     db.session.add(conv)
                     db.session.flush()
@@ -1012,7 +1035,7 @@ def new_post():
             created_at=MIRROR_TS,
             date_str=MIRROR_DATE.strftime("%Y-%m-%d %H:%M:%S GMT"),
             post_url=f"https://{blog.name}.tumblr.com/",
-            summary=(title or body or "New post")[:120],
+            summary=(title or body or (request.form.get("quote", "").strip() if post_type == "quote" else "") or "New post")[:120],
             state="published", user_created=True)
         db.session.add(post)
         blog.posts_count = (blog.posts_count or 0) + 1
@@ -1085,12 +1108,12 @@ def toggle_like(post_id):
         db.session.delete(like)
         db.session.commit()
         return jsonify({"liked": False,
-                        "note_count": post.live_note_count()})
+                        "like_count": post.live_like_count(), "note_count": post.live_note_count()})
     db.session.add(Like(user_id=user.id, post_id=post.id,
                         created_at=MIRROR_TS))
     db.session.commit()
     return jsonify({"liked": True,
-                    "note_count": post.live_note_count()})
+                    "like_count": post.live_like_count(), "note_count": post.live_note_count()})
 
 
 @app.route("/post/<post_id>/reblog", methods=["GET", "POST"])

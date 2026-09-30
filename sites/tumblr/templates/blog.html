@@ -18,7 +18,7 @@
     {% endif %}
   </div>
   <div class="blog-meta">
-    <h1 class="blog-title" style="color: {{ blog.title_color }}">{{ blog.display_title() }}</h1>
+    <h1 class="blog-title" style="color: {{ blog.title_color|readable_title_color }}">{{ blog.display_title() }}</h1>
     <div class="blog-name-line">
       <span class="blog-handle">{{ blog.name }}</span>
       {% if blog.primary %}<span class="verified" title="Verified blog">✓</span>{% endif %}
