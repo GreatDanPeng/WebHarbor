@@ -357,7 +357,6 @@
     ],
     "paths": [
       "^/track/detail/1Z7R4T920199330245$",
-      "^/pickup/confirm/[^/]+$",
       "^/pickup/confirm/[^/]+$"
     ]
   },
@@ -681,7 +680,6 @@
     ],
     "paths": [
       "^/business/weekend\\-pickup$",
-      "^/pickup/confirm/[^/]+$",
       "^/pickup/confirm/[^/]+$"
     ]
   },
