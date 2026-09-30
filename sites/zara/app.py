@@ -1122,4 +1122,4 @@ if os.environ.get('ZARA_AUTO_SEED', '1') != '0':
         db.session.commit()
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 40114)), debug=False)
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 40128)), debug=False)
