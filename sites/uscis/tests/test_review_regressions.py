@@ -58,3 +58,11 @@ def test_poverty_tables_have_regions_without_orphan_legacy_table(client):
     assert '49,500' in tables[0].text
     assert 'Alaska' in tables[1].text or 'Alaska' in str(tables[1].parent)
     assert 'Hawaii' in tables[2].text or 'Hawaii' in str(tables[2].parent)
+
+
+def test_populated_initializer_does_not_commit(monkeypatch):
+    def unexpected_commit():
+        raise AssertionError('populated initialization attempted a commit')
+    with m.app.app_context():
+        monkeypatch.setattr(m.db.session, 'commit', unexpected_commit)
+        m.main()

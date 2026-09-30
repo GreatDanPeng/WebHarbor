@@ -77,6 +77,7 @@ def check_claims(answer,claims):
         # policy patterns include their own polarity and do not start after "not".
         for m in hits:
             claim=m.group()
+            if re.search(r'\b(?:reference(?: number| id)?|unrelated number|example amount)\b',claim) and not re.search(r'reference|unrelated|example',pattern):raise ValueError('Unrelated value used for '+label)
             if re.search(r'\b(?:not|never|incorrect|false)\s*$',text[max(0,m.start()-18):m.start()]):
                 raise ValueError('Negated '+label)
             # An inserted negation must not turn an expected positive claim into a pass.
@@ -110,9 +111,18 @@ def verify(run_dir,task_id):
     for pattern in spec['paths']:
         if not any(re.search(pattern,u,re.I) for u in urls):raise ValueError('Required page evidence missing: '+pattern)
     initial=database(run/'initial.db');after=database(run/'after.db');check_state(initial,after,spec)
+    carts=[r for k,r in after.get('cart_items',{}).items() if k not in initial.get('cart_items',{})]
+    if carts and len({r['cart_token'] for r in carts})!=1:raise ValueError('Cart items belong to different sessions')
     for check in spec.get('state_checks',[]):
         check_relations(initial,after,check)
     answer=traj.get('final_answer','');check_claims(answer,spec['claims'])
+    if spec.get('alternatives'):
+        valid = False
+        for option in spec['alternatives']:
+            if not all(any(re.search(pattern,u,re.I) for u in urls) for pattern in option['paths']):continue
+            try:check_claims(answer,option['claims']);valid=True;break
+            except ValueError:pass
+        if not valid:raise ValueError('No valid tied product with matching detail evidence and facts')
     for pattern in spec.get('forbidden',[]):
         if re.search(pattern,norm(answer),re.I):raise ValueError('Contradictory answer: '+pattern)
     scoped=spec.get('scoped_claims',[])
@@ -161,6 +171,7 @@ def check_relations(initial, after, check):
         rows=[r for k,r in after['posts'].items() if k not in initial['posts']]
         if len(rows)!=1:raise ValueError('Expected one new post')
         content=json.loads(rows[0]['content'])
+        if rows[0]['summary']=='Cabin Wishlist, Part Two' and not any(b.get('text')=='Cabin Wishlist, Part Two' and b.get('subtype')=='heading' for b in content):raise ValueError('Requested post title missing')
         if not any(re.search(check['pattern'],b.get('text',''),re.I) for b in content):raise ValueError('Post content does not meet the requested topic')
 
 
