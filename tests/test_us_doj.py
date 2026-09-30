@@ -346,6 +346,10 @@ class BrowsingTests(unittest.TestCase):
         result_dates = [dates[path] for path in Markup(response.text).links("/opa/pr/")]
         self.assertEqual(result_dates, sorted(result_dates, reverse=True))
 
+    def test_malformed_reference_urls_return_client_errors(self):
+        for target in ("https://[broken", "http:///missing-host", "https://"):
+            self.get("/reference", {"url": target}, expected=400)
+
     def test_invalid_dates_and_unsafe_reference_urls_are_rejected(self):
         for query in [{"start_date": "2026-02-30"}, {"end_date": "nonsense"}, {"start_date": "2026-09-20", "end_date": "2026-09-01"}]:
             self.get("/news", query, expected=400)

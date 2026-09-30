@@ -216,8 +216,14 @@ def search():
 def reference():
     """An explicit offline boundary for links outside the captured collection."""
     target = request.args.get("url", "")
-    parsed = urlsplit(target)
-    if parsed.scheme not in {"http", "https", "mailto", "tel"}:
+    try:
+        parsed = urlsplit(target)
+        valid = parsed.scheme in {"http", "https", "mailto", "tel"}
+        if parsed.scheme in {"http", "https"}:
+            valid = valid and bool(parsed.hostname)
+    except ValueError:
+        valid = False
+    if not valid:
         abort(400)
     return render_template("reference.html", target=target, label=request.args.get("label", "External resource"), hostname=parsed.hostname or parsed.scheme)
 
