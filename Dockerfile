@@ -425,10 +425,12 @@ RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/cvs && \
 RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/us_appliance && \
     (cd /opt/WebSyn/us_appliance && rm -rf instance instance_seed && PYTHONHASHSEED=0 python3 seed_data.py && mkdir -p instance_seed && cp instance/us_appliance.db instance_seed/us_appliance.db && rm -rf instance __pycache__) && \
     python3 /opt/check_asset_inventory.py /opt/WebSyn/uscis && \
-    (cd /opt/WebSyn/uscis && rm -rf instance instance_seed && PYTHONHASHSEED=0 python3 seed_data.py && mkdir -p instance_seed && cp instance/uscis.db instance_seed/uscis.db && rm -rf instance __pycache__)
+    (cd /opt/WebSyn/uscis && rm -rf instance instance_seed && PYTHONHASHSEED=0 python3 seed_data.py && mkdir -p instance_seed && cp instance/uscis.db instance_seed/uscis.db && rm -rf instance __pycache__) && \
+    python3 /opt/check_asset_inventory.py /opt/WebSyn/tumblr && \
+    (cd /opt/WebSyn/tumblr && rm -rf instance instance_seed && PYTHONHASHSEED=0 python3 seed_data.py && mkdir -p instance_seed && cp instance/tumblr.db instance_seed/tumblr.db && rm -rf instance __pycache__)
 
 RUN python3 /opt/check_seed_databases.py /opt/WebSyn
 
-EXPOSE 8101 40000-40126
+EXPOSE 8101 40000-40127
 
 CMD ["/opt/websyn_start.sh"]
