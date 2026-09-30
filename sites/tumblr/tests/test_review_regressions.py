@@ -42,3 +42,9 @@ def test_archive_count_matches_visible_tiles(client):
     count = len(page.select('.archive-tile'))
     assert count > 0
     assert f'{count:,} archived posts' in page.select_one('.page-sub').text
+
+
+def test_imported_dark_blog_titles_remain_readable(client):
+    for name in ['teaboot', 'arainthepara', 'sparth', 'cabinporn']:
+        assert 'class="blog-title" style="color: #ffffff"' in client.get('/blog/'+name).text
+    assert m.readable_title_color('#FFAD9D') == '#FFAD9D'

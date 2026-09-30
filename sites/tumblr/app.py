@@ -683,6 +683,23 @@ def blog_page(name):
             pagination=paginate(page, total, per_page)))
 
 
+@app.template_filter('readable_title_color')
+def readable_title_color(value):
+    """Keep upstream accents only when readable on the mirror's navy page."""
+    try:
+        color = str(value).lstrip('#')
+        if len(color) == 3:
+            color = ''.join(c * 2 for c in color)
+        if len(color) != 6:
+            return '#ffffff'
+        rgb = [int(color[i:i + 2], 16) / 255 for i in (0, 2, 4)]
+        linear = [v / 12.92 if v <= .04045 else ((v + .055) / 1.055) ** 2.4 for v in rgb]
+        luminance = sum(v * w for v, w in zip(linear, (.2126, .7152, .0722)))
+        return '#' + color if (luminance + .05) / (.009 + .05) >= 4.5 else '#ffffff'
+    except (TypeError, ValueError):
+        return '#ffffff'
+
+
 @app.route("/blog/<name>/archive")
 def blog_archive(name):
     blog = Blog.query.filter_by(name=name).first_or_404()
@@ -1214,5 +1231,5 @@ if BOOTSTRAP:
         seed_benchmark_users()
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
+    port = int(os.environ.get("PORT", 40127))
     app.run(host="0.0.0.0", port=port, debug=False)
