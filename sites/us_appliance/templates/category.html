@@ -13,6 +13,9 @@
   {% endif %}
 </section>
 
+{% if cat.children %}<nav class="container category-children" aria-label="Subcategories"><ul>
+{% for child in cat.children|sort(attribute='position') %}<li><a href="/{{ child.slug }}.html">{{ child.name }}</a></li>{% endfor %}
+</ul></nav>{% endif %}
 {% for group in cat.tile_groups_list() %}
 <section class="container tile-group">
   <h2 class="section-heading">{{ group.heading }}</h2>
@@ -102,15 +105,15 @@
       <nav class="pagination" aria-label="pagination">
         <ul class="pagination-list">
           {% if page > 1 %}
-          <li class="pagination-item"><a href="/{{ cat.slug }}.html?query=c{{ cat.id }}{% if filters['brand'] %}{% for b in filters['brand'] %}&brand={{ b }}{% endfor %}{% endif %}{% if filters['price_from'] %}&price_from={{ filters['price_from'] }}{% endif %}{% if filters['price_to'] %}&price_to={{ filters['price_to'] }}{% endif %}&sort={{ filters['sort'] }}&page={{ page - 1 }}">&laquo; Previous</a></li>
+          <li class="pagination-item"><a href="/{{ cat.slug }}.html?query=c{{ cat.id }}{% if filters['brand'] %}{% for b in filters['brand'] %}&brand={{ b }}{% endfor %}{% endif %}{% if filters['price_from'] %}&price_from={{ filters['price_from'] }}{% endif %}{% if filters['price_to'] %}&price_to={{ filters['price_to'] }}{% endif %}{% if filters['on_sale'] %}&on_sale=1{% endif %}&sort={{ filters['sort'] }}&page={{ page - 1 }}">&laquo; Previous</a></li>
           {% endif %}
           {% for n in range(1, pages + 1) %}
           <li class="pagination-item {% if n == page %}pagination-item--current{% endif %}">
-            <a href="/{{ cat.slug }}.html?query=c{{ cat.id }}{% if filters['brand'] %}{% for b in filters['brand'] %}&brand={{ b }}{% endfor %}{% endif %}{% if filters['price_from'] %}&price_from={{ filters['price_from'] }}{% endif %}{% if filters['price_to'] %}&price_to={{ filters['price_to'] }}{% endif %}&sort={{ filters['sort'] }}&page={{ n }}">{{ n }}</a>
+            <a href="/{{ cat.slug }}.html?query=c{{ cat.id }}{% if filters['brand'] %}{% for b in filters['brand'] %}&brand={{ b }}{% endfor %}{% endif %}{% if filters['price_from'] %}&price_from={{ filters['price_from'] }}{% endif %}{% if filters['price_to'] %}&price_to={{ filters['price_to'] }}{% endif %}{% if filters['on_sale'] %}&on_sale=1{% endif %}&sort={{ filters['sort'] }}&page={{ n }}">{{ n }}</a>
           </li>
           {% endfor %}
           {% if page < pages %}
-          <li class="pagination-item"><a href="/{{ cat.slug }}.html?query=c{{ cat.id }}{% if filters['brand'] %}{% for b in filters['brand'] %}&brand={{ b }}{% endfor %}{% endif %}{% if filters['price_from'] %}&price_from={{ filters['price_from'] }}{% endif %}{% if filters['price_to'] %}&price_to={{ filters['price_to'] }}{% endif %}&sort={{ filters['sort'] }}&page={{ page + 1 }}">Next &raquo;</a></li>
+          <li class="pagination-item"><a href="/{{ cat.slug }}.html?query=c{{ cat.id }}{% if filters['brand'] %}{% for b in filters['brand'] %}&brand={{ b }}{% endfor %}{% endif %}{% if filters['price_from'] %}&price_from={{ filters['price_from'] }}{% endif %}{% if filters['price_to'] %}&price_to={{ filters['price_to'] }}{% endif %}{% if filters['on_sale'] %}&on_sale=1{% endif %}&sort={{ filters['sort'] }}&page={{ page + 1 }}">Next &raquo;</a></li>
           {% endif %}
         </ul>
       </nav>

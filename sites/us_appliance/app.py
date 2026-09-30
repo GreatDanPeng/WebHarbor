@@ -668,8 +668,15 @@ def brand_page(slug):
     products = Product.query.filter(Product.brand == brand.name,
                                     Product.availability == "Available") \
         .order_by(Product.position).all()
-    return render_template("brand_detail.html", brand=brand,
-                           products=products, pages=1, page=1)
+    sort = request.args.get("sort", "featured")
+    if sort == "priceasc":
+        products.sort(key=lambda p: (p.price is None, p.price or 0, p.id))
+    total = len(products)
+    pages = max(1, math.ceil(total / PAGE_SIZE))
+    page = min(pages, max(1, request.args.get("page", 1, type=int)))
+    products = products[(page - 1) * PAGE_SIZE:page * PAGE_SIZE]
+    return render_template("brand_detail.html", brand=brand, sort=sort,
+                           products=products, total=total, pages=pages, page=page)
 
 
 # --------------------------------------------------------------------------- #
@@ -755,7 +762,10 @@ def cart():
         action = request.args.get("action", "")
         if action == "add":
             pid = request.form.get("product_id", type=int)
-            qty = max(1, request.form.get("qty", 1, type=int))
+            qty = request.form.get("qty", type=int) if "qty" in request.form else 1
+            if qty is None or not 1 <= qty <= 20:
+                flash("Choose a quantity from 1 to 20.")
+                return redirect(url_for("cart")), 400
             product = db.session.get(Product, pid) if pid else None
             if product and product.is_available:
                 user = current_user()
@@ -763,7 +773,7 @@ def cart():
                     cart_token=cart_token(), user_id=user.id if user else None,
                     product_id=pid).first()
                 if row:
-                    row.qty += qty
+                    row.qty = min(20, row.qty + qty)
                 else:
                     db.session.add(CartItem(cart_token=cart_token(),
                                             user_id=user.id if user else None,
@@ -820,6 +830,10 @@ def checkout():
         shipping_method = request.form.get("shipping_method", "standard")
         financing = request.form.get("financing", "")
         errors = {}
+        if shipping_method not in {"standard", "in_home"}:
+            errors["shipping_method"] = "Choose a delivery method"
+        if financing not in {"", "15 Months Special Financing", "6 Months Storewide Financing"}:
+            errors["financing"] = "Choose an available payment option"
         if not form["name"]:
             errors["name"] = "Name is required"
         if not form["address"]:
@@ -871,6 +885,7 @@ def checkout():
             for row in items:
                 db.session.delete(row)
             db.session.commit()
+            session["confirmed_order"] = order.number
             return redirect(url_for("order_confirmation",
                                     number=order.number))
     return render_template("checkout.html", summary=summary, form=form,
@@ -881,6 +896,9 @@ def checkout():
 @app.route("/order-confirmation/<number>")
 def order_confirmation(number):
     order = Order.query.filter_by(number=number).first_or_404()
+    user = current_user()
+    if session.get("confirmed_order") != order.number and not (user and order.user_id == user.id):
+        abort(404)
     return render_template("order_confirmation.html", order=order)
 
 
@@ -995,8 +1013,7 @@ def availability():
                         "message": "This item is discontinued. "
                                     "Contact us for a great deal on a "
                                     "comparable model."})
-    region = int(zip_code[0])
-    if region in (9, 8) and int(zip_code[:2]) >= 96:
+    if zip_code.startswith(("967", "968", "995", "996", "997", "998", "999", "006", "007", "008", "009")):
         return jsonify({"ok": False, "message": "We offer delivery to the "
                         "continental United States only."})
     msg = ("Good news — this item is available for delivery to your area. "
