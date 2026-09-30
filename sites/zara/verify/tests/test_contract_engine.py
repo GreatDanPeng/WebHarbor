@@ -44,3 +44,9 @@ def test_tag_order_is_not_an_artificial_requirement():
 
 def test_false_statement_crime_is_not_answer_negation():
     m.check_claims('The indictment alleges a false statement in a naturalization proceeding.', [('charge',r'false statement')])
+
+
+@pytest.mark.parametrize('answer', ["Ground Advantage does not cost $17.65.", "Ground Advantage doesn't cost $17.65.", "Ground Advantage is not $17.65."])
+def test_negated_entity_price_fails(answer):
+    with pytest.raises(ValueError):
+        m.check_claims(answer, [('price', r'ground advantage.{0,35}17\.65')])
