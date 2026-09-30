@@ -484,6 +484,10 @@
       "bytes": 12183876,
       "sha256": "093656316188dd7960177c9a187262de860e50c9f27a3b6658407f86d16f5cb3"
     },
+    "virginia_dmv.tar.gz": {
+      "bytes": 235095377,
+      "sha256": "d72fff80090f7fdc3d5c3453b48e53d961ef995c95ddda2bc653b0bb6621324b"
+    },
     "walmart_careers.tar.gz": {
       "bytes": 11458196,
       "sha256": "b84a0072c603225f29e21edfd8f8038fe02a0261a38a60f8e70ed871ea7ce77a"
@@ -525,7 +529,7 @@
       "sha256": "71f5a4148217673718772afef903b23a4026642203f88dee1a4f482d7a20ace9"
     }
   },
-  "managed_tree_sha256": "a9933ba2035e2857bffbceaa12e33f99a8da90fcb60d6dee902841f44f68d35c",
+  "managed_tree_sha256": "eb00e70c08cf5936c3c06198c9b0ac5b9f1ff5ff028dee9a5e55dae3e80cdd0a",
   "repo": "ChilleD/WebHarbor",
   "revision": "1a37ae1ae732584228a0a36ddde17d6c12e3ca86",
   "version": 1

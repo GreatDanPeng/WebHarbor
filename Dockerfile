@@ -438,8 +438,11 @@ RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/usps && \
 RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/wanderlog && \
     (cd /opt/WebSyn/wanderlog && rm -rf instance instance_seed && PYTHONHASHSEED=0 python3 seed_data.py && mkdir -p instance_seed && cp instance/wanderlog.db instance_seed/wanderlog.db && rm -rf instance __pycache__)
 
+RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/virginia_dmv && \
+    (cd /opt/WebSyn/virginia_dmv && rm -rf instance instance_seed && PYTHONHASHSEED=0 python3 seed_data.py && mkdir -p instance_seed && cp instance/virginia_dmv.db instance_seed/virginia_dmv.db && rm -rf instance __pycache__)
+
 RUN python3 /opt/check_seed_databases.py /opt/WebSyn
 
-EXPOSE 8101 40000-40130
+EXPOSE 8101 40000-40131
 
 CMD ["/opt/websyn_start.sh"]
