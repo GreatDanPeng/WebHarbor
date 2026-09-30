@@ -104,7 +104,9 @@
       "cart_items": {
         "added": [
           {
-            "id": 1,
+            "id": {
+              "regex": "[1-9]\\d*"
+            },
             "cart_token": {
               "regex": "[a-f0-9]{16,64}"
             },
@@ -715,36 +717,633 @@
     "task": "Find the cheapest available Cafe item in the brand's full product listing. Check what the item actually is, one feature from its description, and delivery availability to ZIP 48083. Report its model and price, the brand's product count, and whether the item would serve as a complete appliance or an accessory.",
     "initial_digest": "ae07c284f9712ffa8b0b0f395e136387d386b7b79e43caf074477ff68bf1f29b",
     "paths": [
-      "/brand/cafe",
-      "/cxadth1pmbt"
+      "/brand/cafe"
     ],
     "claims": [
       [
-        "claim 1",
-        "cxadth1pmbt.{0,20}\\$?219"
+        "accessory",
+        "accessory|kit|knobs"
       ],
       [
-        "claim 2",
-        "brushed black"
-      ],
-      [
-        "claim 3",
-        "handle kit"
-      ],
-      [
-        "claim 4",
-        "accessory"
-      ],
-      [
-        "claim 5",
+        "catalog size",
         "337.{0,25}products"
       ],
       [
-        "claim 6",
+        "delivery ZIP",
         "48083"
       ]
     ],
-    "state": {}
+    "state": {},
+    "alternatives": [
+      {
+        "paths": [
+          "/cxadth1pmbt\\.html"
+        ],
+        "claims": [
+          [
+            "tied minimum price",
+            "cxadth1pmbt.{0,35}\\$?219"
+          ],
+          [
+            "item function",
+            "(?:dishwasher.{0,20}handle|handle.{0,20}dishwasher)"
+          ],
+          [
+            "finish feature",
+            "brushed\\ black"
+          ]
+        ]
+      },
+      {
+        "paths": [
+          "/cxadth1pmbz\\.html"
+        ],
+        "claims": [
+          [
+            "tied minimum price",
+            "cxadth1pmbz.{0,35}\\$?219"
+          ],
+          [
+            "item function",
+            "(?:dishwasher.{0,20}handle|handle.{0,20}dishwasher)"
+          ],
+          [
+            "finish feature",
+            "brushed\\ bronze"
+          ]
+        ]
+      },
+      {
+        "paths": [
+          "/cxadth1pmcu\\.html"
+        ],
+        "claims": [
+          [
+            "tied minimum price",
+            "cxadth1pmcu.{0,35}\\$?219"
+          ],
+          [
+            "item function",
+            "(?:dishwasher.{0,20}handle|handle.{0,20}dishwasher)"
+          ],
+          [
+            "finish feature",
+            "brushed\\ copper"
+          ]
+        ]
+      },
+      {
+        "paths": [
+          "/cxce1hkpmbt\\.html"
+        ],
+        "claims": [
+          [
+            "tied minimum price",
+            "cxce1hkpmbt.{0,35}\\$?219"
+          ],
+          [
+            "item function",
+            "(?:cooktop.{0,20}knobs|knobs.{0,20}cooktop)"
+          ],
+          [
+            "finish feature",
+            "brushed\\ black"
+          ]
+        ]
+      },
+      {
+        "paths": [
+          "/cxce1hkpmss\\.html"
+        ],
+        "claims": [
+          [
+            "tied minimum price",
+            "cxce1hkpmss.{0,35}\\$?219"
+          ],
+          [
+            "item function",
+            "(?:cooktop.{0,20}knobs|knobs.{0,20}cooktop)"
+          ],
+          [
+            "finish feature",
+            "stainless\\ steel"
+          ]
+        ]
+      },
+      {
+        "paths": [
+          "/cxcg1k0pmbt\\.html"
+        ],
+        "claims": [
+          [
+            "tied minimum price",
+            "cxcg1k0pmbt.{0,35}\\$?219"
+          ],
+          [
+            "item function",
+            "(?:cooktop.{0,20}knobs|knobs.{0,20}cooktop)"
+          ],
+          [
+            "finish feature",
+            "brushed\\ black"
+          ]
+        ]
+      },
+      {
+        "paths": [
+          "/cxcg1k0pmbz\\.html"
+        ],
+        "claims": [
+          [
+            "tied minimum price",
+            "cxcg1k0pmbz.{0,35}\\$?219"
+          ],
+          [
+            "item function",
+            "(?:cooktop.{0,20}knobs|knobs.{0,20}cooktop)"
+          ],
+          [
+            "finish feature",
+            "brushed\\ bronze"
+          ]
+        ]
+      },
+      {
+        "paths": [
+          "/cxcg1k0pmcu\\.html"
+        ],
+        "claims": [
+          [
+            "tied minimum price",
+            "cxcg1k0pmcu.{0,35}\\$?219"
+          ],
+          [
+            "item function",
+            "(?:cooktop.{0,20}knobs|knobs.{0,20}cooktop)"
+          ],
+          [
+            "finish feature",
+            "brushed\\ copper"
+          ]
+        ]
+      },
+      {
+        "paths": [
+          "/cxcg1k0pmss\\.html"
+        ],
+        "claims": [
+          [
+            "tied minimum price",
+            "cxcg1k0pmss.{0,35}\\$?219"
+          ],
+          [
+            "item function",
+            "(?:cooktop.{0,20}knobs|knobs.{0,20}cooktop)"
+          ],
+          [
+            "finish feature",
+            "stainless\\ steel"
+          ]
+        ]
+      },
+      {
+        "paths": [
+          "/cxotrhkpmbt\\.html"
+        ],
+        "claims": [
+          [
+            "tied minimum price",
+            "cxotrhkpmbt.{0,35}\\$?219"
+          ],
+          [
+            "item function",
+            "accessory kit"
+          ],
+          [
+            "finish feature",
+            "brushed\\ black"
+          ]
+        ]
+      },
+      {
+        "paths": [
+          "/cxotrhkpmbz\\.html"
+        ],
+        "claims": [
+          [
+            "tied minimum price",
+            "cxotrhkpmbz.{0,35}\\$?219"
+          ],
+          [
+            "item function",
+            "accessory kit"
+          ],
+          [
+            "finish feature",
+            "brushed\\ bronze"
+          ]
+        ]
+      },
+      {
+        "paths": [
+          "/cxotrhkpmcu\\.html"
+        ],
+        "claims": [
+          [
+            "tied minimum price",
+            "cxotrhkpmcu.{0,35}\\$?219"
+          ],
+          [
+            "item function",
+            "accessory kit"
+          ],
+          [
+            "finish feature",
+            "brushed\\ copper"
+          ]
+        ]
+      },
+      {
+        "paths": [
+          "/cxotrhkpmss\\.html"
+        ],
+        "claims": [
+          [
+            "tied minimum price",
+            "cxotrhkpmss.{0,35}\\$?219"
+          ],
+          [
+            "item function",
+            "accessory kit"
+          ],
+          [
+            "finish feature",
+            "stainless\\ steel"
+          ]
+        ]
+      },
+      {
+        "paths": [
+          "/cx152p3mds\\-27\\-optional\\-built\\-in\\-trim\\-kit\\-black\\.html"
+        ],
+        "claims": [
+          [
+            "tied minimum price",
+            "cx152p3mds.{0,35}\\$?219"
+          ],
+          [
+            "item function",
+            "trim kit"
+          ],
+          [
+            "finish feature",
+            "black"
+          ]
+        ]
+      },
+      {
+        "paths": [
+          "/cx153p3mds\\-30\\-optional\\-built\\-in\\-trim\\-kit\\-black\\.html"
+        ],
+        "claims": [
+          [
+            "tied minimum price",
+            "cx153p3mds.{0,35}\\$?219"
+          ],
+          [
+            "item function",
+            "trim kit"
+          ],
+          [
+            "finish feature",
+            "black"
+          ]
+        ]
+      },
+      {
+        "paths": [
+          "/cx152p2mss\\-27\\-optional\\-built\\-in\\-trim\\-kit\\-stainless\\-steel\\.html"
+        ],
+        "claims": [
+          [
+            "tied minimum price",
+            "cx152p2mss.{0,35}\\$?219"
+          ],
+          [
+            "item function",
+            "trim kit"
+          ],
+          [
+            "finish feature",
+            "stainless\\ steel"
+          ]
+        ]
+      },
+      {
+        "paths": [
+          "/cx153p2mss\\-30\\-optional\\-built\\-in\\-trim\\-kit\\-stainless\\-steel\\.html"
+        ],
+        "claims": [
+          [
+            "tied minimum price",
+            "cx153p2mss.{0,35}\\$?219"
+          ],
+          [
+            "item function",
+            "trim kit"
+          ],
+          [
+            "finish feature",
+            "stainless\\ steel"
+          ]
+        ]
+      },
+      {
+        "paths": [
+          "/cx152p4mwm\\-cafe\\-27\\-optional\\-built\\-in\\-trim\\-kit\\-matte\\-white\\.html"
+        ],
+        "claims": [
+          [
+            "tied minimum price",
+            "cx152p4mwm.{0,35}\\$?219"
+          ],
+          [
+            "item function",
+            "trim kit"
+          ],
+          [
+            "finish feature",
+            "matte\\ white"
+          ]
+        ]
+      },
+      {
+        "paths": [
+          "/cx153p4mwm\\-cafe\\-27\\-optional\\-built\\-in\\-trim\\-kit\\-matte\\-white\\.html"
+        ],
+        "claims": [
+          [
+            "tied minimum price",
+            "cx153p4mwm.{0,35}\\$?219"
+          ],
+          [
+            "item function",
+            "trim kit"
+          ],
+          [
+            "finish feature",
+            "matte\\ white"
+          ]
+        ]
+      },
+      {
+        "paths": [
+          "/cxcg1k0pmcg\\-cafe\\-5\\-gas\\-cooktop\\-knobs\\-brushed\\-brass\\-brushed\\-brass\\.html"
+        ],
+        "claims": [
+          [
+            "tied minimum price",
+            "cxcg1k0pmcg.{0,35}\\$?219"
+          ],
+          [
+            "item function",
+            "(?:cooktop.{0,20}knobs|knobs.{0,20}cooktop)"
+          ],
+          [
+            "finish feature",
+            "brushed\\ brass"
+          ]
+        ]
+      },
+      {
+        "paths": [
+          "/cxcg1k0pmfb\\-cafe\\-5\\-gas\\-cooktop\\-knobs\\-flat\\-black\\-flat\\-black\\.html"
+        ],
+        "claims": [
+          [
+            "tied minimum price",
+            "cxcg1k0pmfb.{0,35}\\$?219"
+          ],
+          [
+            "item function",
+            "(?:cooktop.{0,20}knobs|knobs.{0,20}cooktop)"
+          ],
+          [
+            "finish feature",
+            "flat\\ black"
+          ]
+        ]
+      },
+      {
+        "paths": [
+          "/cxadth1pmcg\\-cafe\\-dishwasher\\-handle\\-kit\\-brushed\\-brass\\-brushed\\-brass\\.html"
+        ],
+        "claims": [
+          [
+            "tied minimum price",
+            "cxadth1pmcg.{0,35}\\$?219"
+          ],
+          [
+            "item function",
+            "(?:dishwasher.{0,20}handle|handle.{0,20}dishwasher)"
+          ],
+          [
+            "finish feature",
+            "brushed\\ brass"
+          ]
+        ]
+      },
+      {
+        "paths": [
+          "/cxadth1pmfb\\-cafe\\-dishwasher\\-handle\\-kit\\-flat\\-black\\-flat\\-black\\.html"
+        ],
+        "claims": [
+          [
+            "tied minimum price",
+            "cxadth1pmfb.{0,35}\\$?219"
+          ],
+          [
+            "item function",
+            "(?:dishwasher.{0,20}handle|handle.{0,20}dishwasher)"
+          ],
+          [
+            "finish feature",
+            "flat\\ black"
+          ]
+        ]
+      },
+      {
+        "paths": [
+          "/cxadth1pmss\\-cafe\\-dishwasher\\-handle\\-kit\\-brushed\\-stainless\\-brushed\\-stainless\\.html"
+        ],
+        "claims": [
+          [
+            "tied minimum price",
+            "cxadth1pmss.{0,35}\\$?219"
+          ],
+          [
+            "item function",
+            "(?:dishwasher.{0,20}handle|handle.{0,20}dishwasher)"
+          ],
+          [
+            "finish feature",
+            "brushed\\ stainless"
+          ]
+        ]
+      },
+      {
+        "paths": [
+          "/cxadth1pvbt\\-cafe\\-dishwasher\\-handle\\-kit\\-brushed\\-black\\-brushed\\-black\\.html"
+        ],
+        "claims": [
+          [
+            "tied minimum price",
+            "cxadth1pvbt.{0,35}\\$?219"
+          ],
+          [
+            "item function",
+            "(?:dishwasher.{0,20}handle|handle.{0,20}dishwasher)"
+          ],
+          [
+            "finish feature",
+            "brushed\\ black"
+          ]
+        ]
+      },
+      {
+        "paths": [
+          "/cxadth1pvbz\\-cafe\\-dishwasher\\-handle\\-kit\\-brushed\\-bronze\\-brushed\\-bronze\\.html"
+        ],
+        "claims": [
+          [
+            "tied minimum price",
+            "cxadth1pvbz.{0,35}\\$?219"
+          ],
+          [
+            "item function",
+            "(?:dishwasher.{0,20}handle|handle.{0,20}dishwasher)"
+          ],
+          [
+            "finish feature",
+            "brushed\\ bronze"
+          ]
+        ]
+      },
+      {
+        "paths": [
+          "/cxadth1pvcg\\-cafe\\-dishwasher\\-handle\\-kit\\-brushed\\-brass\\-brushed\\-brass\\.html"
+        ],
+        "claims": [
+          [
+            "tied minimum price",
+            "cxadth1pvcg.{0,35}\\$?219"
+          ],
+          [
+            "item function",
+            "(?:dishwasher.{0,20}handle|handle.{0,20}dishwasher)"
+          ],
+          [
+            "finish feature",
+            "brushed\\ brass"
+          ]
+        ]
+      },
+      {
+        "paths": [
+          "/cxadth1pvcu\\-cafe\\-dishwasher\\-handle\\-kit\\-brushed\\-copper\\-brushed\\-copper\\.html"
+        ],
+        "claims": [
+          [
+            "tied minimum price",
+            "cxadth1pvcu.{0,35}\\$?219"
+          ],
+          [
+            "item function",
+            "(?:dishwasher.{0,20}handle|handle.{0,20}dishwasher)"
+          ],
+          [
+            "finish feature",
+            "brushed\\ copper"
+          ]
+        ]
+      },
+      {
+        "paths": [
+          "/cxadth1pvfb\\-cafe\\-dishwasher\\-handle\\-kit\\-flat\\-black\\-flat\\-black\\.html"
+        ],
+        "claims": [
+          [
+            "tied minimum price",
+            "cxadth1pvfb.{0,35}\\$?219"
+          ],
+          [
+            "item function",
+            "(?:dishwasher.{0,20}handle|handle.{0,20}dishwasher)"
+          ],
+          [
+            "finish feature",
+            "flat\\ black"
+          ]
+        ]
+      },
+      {
+        "paths": [
+          "/cxadth1pvss\\-cafe\\-dishwasher\\-handle\\-kit\\-brushed\\-stainless\\-brushed\\-stainless\\.html"
+        ],
+        "claims": [
+          [
+            "tied minimum price",
+            "cxadth1pvss.{0,35}\\$?219"
+          ],
+          [
+            "item function",
+            "(?:dishwasher.{0,20}handle|handle.{0,20}dishwasher)"
+          ],
+          [
+            "finish feature",
+            "brushed\\ stainless"
+          ]
+        ]
+      },
+      {
+        "paths": [
+          "/cxotrhkpmcg\\-cafe\\-accessory\\-kit\\-brushed\\-brass\\-brushed\\-brass\\.html"
+        ],
+        "claims": [
+          [
+            "tied minimum price",
+            "cxotrhkpmcg.{0,35}\\$?219"
+          ],
+          [
+            "item function",
+            "accessory kit"
+          ],
+          [
+            "finish feature",
+            "brushed\\ brass"
+          ]
+        ]
+      },
+      {
+        "paths": [
+          "/cxotrhkpmfb\\-cafe\\-accessory\\-kit\\-flat\\-black\\-flat\\-black\\.html"
+        ],
+        "claims": [
+          [
+            "tied minimum price",
+            "cxotrhkpmfb.{0,35}\\$?219"
+          ],
+          [
+            "item function",
+            "accessory kit"
+          ],
+          [
+            "finish feature",
+            "flat\\ black"
+          ]
+        ]
+      }
+    ]
   },
   "USAppliance--15": {
     "task": "I need two matching GE JGBS66 gas ranges and am choosing between Stainless Steel, Black, and Slate. Compare their model codes and prices, then leave two units of the Black variant in my cart. Report the three prices and the final cart subtotal and shipping charge.",
@@ -785,7 +1384,9 @@
       "cart_items": {
         "added": [
           {
-            "id": 1,
+            "id": {
+              "regex": "[1-9]\\d*"
+            },
             "cart_token": {
               "regex": "[a-f0-9]{16,64}"
             },
@@ -955,7 +1556,9 @@
       "cart_items": {
         "added": [
           {
-            "id": 1,
+            "id": {
+              "regex": "[1-9]\\d*"
+            },
             "cart_token": {
               "regex": "[a-f0-9]{16,64}"
             },
@@ -965,7 +1568,9 @@
             "added": 0
           },
           {
-            "id": 2,
+            "id": {
+              "regex": "[1-9]\\d*"
+            },
             "cart_token": {
               "regex": "[a-f0-9]{16,64}"
             },
