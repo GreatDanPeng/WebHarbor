@@ -480,6 +480,10 @@
       "bytes": 19659362,
       "sha256": "d81c9873fbc1de01630def7182f05cb2adf496954bb8643932b9e6a47b4c10fd"
     },
+    "verizon.tar.gz": {
+      "bytes": 4336678,
+      "sha256": "0f17bf4399208927ec9f212b9ec24e662012bc6597b5438f713bf1d782cb3a8f"
+    },
     "versus.tar.gz": {
       "bytes": 12183876,
       "sha256": "093656316188dd7960177c9a187262de860e50c9f27a3b6658407f86d16f5cb3"
@@ -529,7 +533,7 @@
       "sha256": "71f5a4148217673718772afef903b23a4026642203f88dee1a4f482d7a20ace9"
     }
   },
-  "managed_tree_sha256": "eb00e70c08cf5936c3c06198c9b0ac5b9f1ff5ff028dee9a5e55dae3e80cdd0a",
+  "managed_tree_sha256": "aa47cce8b2ad7a55dfeda959ef2a53211bb53e19cb654a4c49ce45f337788c07",
   "repo": "ChilleD/WebHarbor",
   "revision": "1a37ae1ae732584228a0a36ddde17d6c12e3ca86",
   "version": 1
