@@ -159,6 +159,30 @@ def test_homepage():
     assert '/event/' in html
 
 
+def test_homepage_discovery_selection():
+    """Featured shelves should offer different acts and honest weekend dates."""
+    from flask import template_rendered
+    captured = []
+
+    def record(sender, template, context, **extra):
+        captured.append(context)
+
+    with template_rendered.connected_to(record, app):
+        assert client.get('/').status_code == 200
+    ctx = captured[0]
+    events = [ctx['hero'], *ctx['highlights'], *ctx['weekend']]
+    assert len(events) >= 12
+    assert len({e.artist_id for e in events}) == len(events)
+    assert len({e.category for e in ctx['highlights']}) == 4
+    assert all(e.image and not e.is_add_on for e in events)
+    assert all(e.date >= MIRROR_TODAY.date().isoformat() for e in events)
+    assert ctx['weekend']
+    from datetime import date
+    assert all(date.fromisoformat(e.date).weekday() in (5, 6) for e in ctx['weekend'])
+    for category in ctx['popular'].values():
+        assert len({e.artist_id for e in category}) == len(category)
+
+
 def test_discover_filters():
     r = client.get('/discover/sports?sub=Basketball')
     assert r.status_code == 200
