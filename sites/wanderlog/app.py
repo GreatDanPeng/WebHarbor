@@ -26,6 +26,8 @@ materialized deterministically at image build time (PYTHONHASHSEED=0).
 """
 import hashlib
 import json
+import secrets
+from decimal import Decimal, InvalidOperation
 import math
 import os
 import re
@@ -806,7 +808,7 @@ def can_edit(trip, user):
         return True
     c = TripCollaborator.query.filter_by(trip_id=trip.id, user_id=user.id,
                                          status='accepted').first()
-    return c is not None
+    return c is not None and c.role == 'editor'
 
 
 def can_view(trip, user):
@@ -1256,14 +1258,13 @@ def plan_new():
             flash('Pick a destination.', 'error')
         else:
             s, e = parse_date(start), parse_date(end)
-            if (s is None) != (e is None):
+            if (s is None) != (e is None) or (start and not s) or (end and not e):
                 flash('Enter both a start and an end date, or leave both blank.', 'error')
             elif s and e and e < s:
                 flash('The end date cannot be before the start date.', 'error')
             else:
-                edit_key = hashlib.sha1(
-                    f"{current_user.id}:{title}:{geo.id}:{start}:{MIRROR_TS}".encode()).hexdigest()[:10]
-                view_key = hashlib.sha1(edit_key.encode()).hexdigest()[:10]
+                edit_key = secrets.token_hex(8)
+                view_key = secrets.token_hex(8)
                 trip = Trip(edit_key=edit_key, view_key=view_key,
                             title=title, owner_id=current_user.id,
                             geo_id=geo.id, start_date=start, end_date=end,
@@ -1333,10 +1334,18 @@ def plan_add_place(edit_key):
     results = []
     if q:
         results = (Place.query.filter(Place.name.ilike(f'%{q}%'))
-                   .order_by(Place.geo_id == (trip.geo_id or -1), Place.id)
+                   .order_by((Place.geo_id == (trip.geo_id or -1)).desc(), Place.id)
                    .limit(24).all())
     return render_template('add_place.html', trip=trip, q=q, sections=sections,
                            results=results, **_base_ctx())
+
+
+def valid_stop_time():
+    time = request.form.get('start_time', '').strip()
+    raw_duration = request.form.get('duration', '').strip()
+    duration = request.form.get('duration', type=int)
+    return ((not time or re.fullmatch(r'(?:[01]\d|2[0-3]):[0-5]\d', time))
+            and (not raw_duration or (duration is not None and 0 < duration <= 1440)))
 
 
 @app.route('/plan/<edit_key>/entry', methods=['POST'])
@@ -1349,6 +1358,8 @@ def plan_entry_add(edit_key):
     place = Place.query.get(request.form.get('place_id', type=int) or 0)
     if not section or section.trip_id != trip.id or not place:
         abort(400)
+    if not valid_stop_time():
+        abort(400, 'Enter a valid start time and a positive duration up to one day.')
     pos = (TripEntry.query.filter_by(section_id=section.id).count() + 1)
     db.session.add(TripEntry(section_id=section.id, place_id=place.id,
                              note=request.form.get('note', '').strip() or None,
@@ -1407,6 +1418,8 @@ def plan_entry_update(eid):
     trip = Trip.query.get_or_404(section.trip_id)
     if not can_edit(trip, current_user):
         abort(403)
+    if not valid_stop_time():
+        abort(400, 'Enter a valid start time and a positive duration up to one day.')
     entry.note = request.form.get('note', '').strip() or None
     entry.start_time = request.form.get('start_time', '').strip() or None
     entry.duration_minutes = request.form.get('duration', type=int)
@@ -1502,16 +1515,19 @@ def plan_budget(edit_key):
         amount = request.form.get('amount', '').strip()
         paid_by = request.form.get('paid_by', type=int)
         category = request.form.get('category', 'Other')
+        split = request.form.getlist('split_among', type=int) or [m.id for m in members]
         try:
-            cents = int(round(float(amount) * 100))
-        except ValueError:
+            value = Decimal(amount)
+            cents = int(value * 100) if value.is_finite() and value == value.quantize(Decimal('0.01')) else -1
+        except (InvalidOperation, ValueError, OverflowError):
             cents = -1
-        if not description or cents < 0 or paid_by not in [m.id for m in members]:
-            flash('Enter a description, a non-negative amount and who paid.', 'error')
+        expense_date = request.form.get('date', '').strip()
+        if (not description or cents < 0 or cents > 10**12 or paid_by not in [m.id for m in members]
+                or category not in BUDGET_CATEGORIES or len(split) != len(set(split))
+                or not set(split).issubset({m.id for m in members})
+                or (expense_date and parse_date(expense_date) is None)):
+            flash('Enter a valid amount with at most two decimal places, date, category and trip members.', 'error')
         else:
-            split = request.form.getlist('split_among', type=int)
-            if not split:
-                split = [m.id for m in members]
             db.session.add(Expense(trip_id=trip.id, description=description,
                                   amount_cents=cents, category=category,
                                   paid_by=paid_by,
@@ -1631,12 +1647,18 @@ def plan_settings(edit_key):
         end = request.form.get('end_date', '').strip() or None
         privacy = request.form.get('privacy', trip.privacy)
         travelers = max(1, request.form.get('travelers', trip.travelers, type=int))
+        s, e = parse_date(start), parse_date(end)
+        if ((s is None) != (e is None) or (start and not s) or (end and not e)
+                or (s and e and e < s)):
+            flash('Enter valid dates with the end on or after the start.', 'error')
+            return redirect(url_for('plan_settings', edit_key=edit_key))
+
         if title:
             trip.title = title
         trip.privacy = privacy if privacy in ('private', 'link', 'public') else trip.privacy
         trip.travelers = travelers
         s, e = parse_date(start), parse_date(end)
-        if (s is None) != (e is None):
+        if (s is None) != (e is None) or (start and not s) or (end and not e):
             flash('Enter both dates or neither.', 'error')
         elif s and e and e < s:
             flash('The end date cannot be before the start date.', 'error')

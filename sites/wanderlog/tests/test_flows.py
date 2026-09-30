@@ -150,7 +150,7 @@ def test_budget_rejects_bad_amount(alice):
         'category': 'Food', 'paid_by': '1'})
     assert r.status_code == 302
     body = alice.get('/plan/parisinspring/budget').get_data(as_text=True)
-    assert 'Enter a description, a non-negative amount and who paid.' in body
+    assert 'Enter a valid amount with at most two decimal places, date, category and trip members.' in body
 
 
 # ------------------------------------------------------------ collaboration --
