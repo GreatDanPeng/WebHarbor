@@ -340,3 +340,21 @@ h2.section-heading { font-size: 1.5rem; margin: 2.2rem 0 1rem; text-align: cente
   .hub-grid, .contact-grid, .brand-grid, .guide-tiles, .carrier-grid, .finance-cards, .usa-footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .hero-content { position: static; margin: 1rem; }
 }
+
+/* Keep the cart heading above both columns and its table scrollable on phones. */
+.cart-page > h1 { grid-column: 1 / -1; }
+.cart-form, .checkout-form, .checkout-summary { min-width: 0; }
+.cart-table-wrap { max-width: 100%; overflow-x: auto; }
+.checkout-items li { grid-template-columns: minmax(0, 1fr) auto auto; }
+.checkout-item-name { overflow-wrap: anywhere; }
+.category-children ul { display: flex; flex-wrap: wrap; gap: .7rem 1.5rem; list-style: none; padding: 1rem 0; }
+@media (max-width: 900px) {
+  .cart-page, .checkout-layout { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Keep delivery guidance and checkout controls usable on narrow screens. */
+.checkout-form .form-select { max-width: 100%; }
+.checkout-item-name { overflow-wrap: anywhere; }
+@media (max-width: 600px) {
+  .how-grid, .ship-options { grid-template-columns: minmax(0, 1fr); }
+}

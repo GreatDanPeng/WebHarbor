@@ -126,7 +126,7 @@
       <button class="usaButton freeshipp-toggle" type="button">Free Shipping</button>
     </p>
     <div id="modal-freeshipp" class="modal-plain" hidden>
-      <p>Order This Item Today And Get Free Standard Shipping. If one major appliance item on your order qualifies for free shipping we will ship the entire order for free no matter how many appliances you order.</p>
+      {% if p.free_shipping or (p.price is not none and p.price >= 999) %}<p>Order This Item Today And Get Free Standard Shipping. If one major appliance item on your order qualifies for free shipping we will ship the entire order for free no matter how many appliances you order.</p>{% else %}<p>Standard delivery is $99 for orders under $999. Orders of $999 or more, or orders containing an item with a free-shipping offer, qualify for free standard delivery.</p>{% endif %}
       <p>In Home Delivery option upgrade - $199. Major appliance items on your order will be brought into your home into an accessible room of choice. Select In-Home delivery during checkout.</p>
     </div>
   </div>
