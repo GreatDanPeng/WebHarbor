@@ -576,7 +576,7 @@
       ],
       [
         "claim 12",
-        "huang.{0,50}false statement.{0,45}firearm"
+        "huang.{0,50}false statement.{0,90}firearm"
       ],
       [
         "claim 13",
@@ -588,7 +588,7 @@
       ],
       [
         "claim 15",
-        "fbi.{0,60}air force office of special investigations.{0,15}uscis"
+        "fbi.{0,110}air force office of special investigations.{0,15}uscis"
       ]
     ],
     "state": {}
