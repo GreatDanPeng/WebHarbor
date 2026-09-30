@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Help Center - Airbnb{% endblock %}
+{% block searchbar %}{% endblock %}
+{% block content %}
+<div class="help-hero">
+  <div class="container">
+    <h1>Hi{% if current_user.is_authenticated %} {{ current_user.display_name }}{% endif %}, how can we help?</h1>
+    <form class="help-search" method="get" action="{{ url_for('help_search') }}" role="search">
+      <label class="visually-hidden" for="help-q">Search how-tos and more</label>
+      <input id="help-q" name="q" placeholder="Search how-tos and more">
+      <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+  </div>
+</div>
+<div class="container">
+  <nav class="tabs" aria-label="Audience">
+    <a href="{{ url_for('help_home', audience='guest') }}" class="{{ 'active' if audience == 'guest' }}">Guest</a>
+    <a href="{{ url_for('help_home', audience='host') }}" class="{{ 'active' if audience == 'host' }}">Host</a>
+  </nav>
+  {% for category, articles in groups.items() %}
+  <section class="help-group">
+    <h2>{{ category }}</h2>
+    <div class="help-grid">
+      {% for a in articles %}
+      <a class="help-card" href="{{ url_for('help_article', article_id=a.id) }}">
+        <b>{{ a.title }}</b>
+        {% if a.summary %}<span class="muted small clamp">{{ a.summary }}</span>{% endif %}
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+  {% else %}
+  <p class="muted">No articles available.</p>
+  {% endfor %}
+</div>
+{% endblock %}

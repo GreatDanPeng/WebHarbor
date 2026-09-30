@@ -1,0 +1,302 @@
+{% extends 'base.html' %}
+{% import '_macros.html' as mc with context %}
+{% import '_icons.html' as ic %}
+{% block title %}{{ listing.name }} - {{ listing.title }} - Airbnb{% endblock %}
+{% block header_width %}container-narrow{% endblock %}
+{% block footer_width %}container-narrow{% endblock %}
+{% block content %}
+{% set photos = listing.photos %}
+{% set host = listing.host %}
+{% set guest_q = {'adults': state.adults if state.adults > 1 else None, 'children': state.children or None, 'infants': state.infants or None, 'pets': state.pets or None} %}
+<div class="container-narrow">
+  <div class="room-title">
+    <h1>{{ listing.name }}</h1>
+    <div class="actions">
+      {% if current_user.is_authenticated and listing.id in saved_ids %}
+      <form method="post" action="{{ url_for('wishlist_unsave') }}" class="inline-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="listing_id" value="{{ listing.id }}">
+        <input type="hidden" name="next" value="{{ request.full_path }}">
+        <button type="submit"><span class="heart saved" style="display:inline-flex">{{ ic.heart() }}</span> Saved</button>
+      </form>
+      {% else %}
+      <a href="{{ url_for('wishlist_save', listing_id=listing.id, next=request.full_path) }}"><span class="heart" style="display:inline-flex">{{ ic.heart() }}</span> Save</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="gallery">
+    {% for p in photos[:5] %}
+    <a href="{{ url_for('room_photos', listing_id=listing.id) }}#photo-{{ loop.index }}"><img src="{{ url_for('static', filename='images/' ~ p.path) }}" alt="{{ p.caption or listing.name }}"></a>
+    {% endfor %}
+    <a class="show-all" href="{{ url_for('room_photos', listing_id=listing.id) }}">{{ ic.grid() }} Show all photos</a>
+  </div>
+
+  <div class="room-body">
+    <div class="room-main">
+      <section class="overview" style="border-bottom:0;padding-bottom:0">
+        <h2>{{ listing.headline }}</h2>
+        <ol>{% for bit in listing.overview %}<li>{{ bit }}</li>{% endfor %}</ol>
+        {% if listing.is_guest_favorite and listing.review_count %}
+        <div class="fav-banner">
+          <div class="laurel">Guest<br>favorite</div>
+          <div class="grow bold" style="font-size:16px">One of the most loved homes on Airbnb, according to guests</div>
+          <div class="score"><b>{{ listing.rating_label }}</b><span class="stars-inline">★★★★★</span></div>
+          <div class="score"><b>{{ '{:,}'.format(listing.review_count) }}</b><a href="#reviews" class="small">Reviews</a></div>
+        </div>
+        {% else %}
+        <div style="margin-top:8px;font-size:16px" class="bold">{{ mc.rating_inline(listing) }}{% if listing.review_count %} · <a href="#reviews">{{ '{:,}'.format(listing.review_count) }} review{{ 's' if listing.review_count != 1 }}</a>{% endif %}</div>
+        {% endif %}
+      </section>
+
+      <section>
+        <a class="host-mini" href="{{ url_for('host_profile', host_id=host.id) }}" style="text-decoration:none">
+          {{ mc.host_avatar(host, 'sm') }}
+          <div>
+            <div class="t">Hosted by {{ host.first_name }}</div>
+            <div class="muted">{% if host.is_superhost %}Superhost · {% endif %}{{ host.tenure }}</div>
+          </div>
+        </a>
+      </section>
+
+      {% if highlights %}
+      <section class="highlights">
+        {% for hl in highlights %}
+        <div class="hl"><div class="ico">✓</div><div><b>{{ hl.title }}</b><span class="muted">{{ hl.subtitle or '' }}</span></div></div>
+        {% endfor %}
+      </section>
+      {% endif %}
+
+      <section>
+        <div class="description">{{ listing.description }}</div>
+        {% if listing.space %}
+        <h3 style="margin:24px 0 8px">The space</h3>
+        <div class="description">{{ listing.space }}</div>
+        {% endif %}
+      </section>
+
+      {% if sleeping %}
+      <section>
+        <h2 style="margin-bottom:24px">Where you'll sleep</h2>
+        <div class="sleep-grid">
+          {% for s in sleeping %}
+          <div class="sleep-card"><span aria-hidden="true">🛏</span><b>{{ s.room }}</b><span>{{ s.beds }}</span></div>
+          {% endfor %}
+        </div>
+      </section>
+      {% endif %}
+
+      <section>
+        <h2 style="margin-bottom:24px">What this place offers</h2>
+        {% set avail = amenities|selectattr('available')|list %}
+        <div class="amenity-list">
+          {% for a in avail[:10] %}<div>{{ a.amenity.name }}</div>{% endfor %}
+          {% if avail|length < 10 %}{% for a in amenities|rejectattr('available')|list %}{% if loop.index <= 10 - avail|length %}<div class="na">{{ a.amenity.name }}</div>{% endif %}{% endfor %}{% endif %}
+        </div>
+        <a class="btn" style="margin-top:32px" href="{{ url_for('room_amenities', listing_id=listing.id) }}">Show all {{ amenities|length }} amenities</a>
+      </section>
+
+      <section id="calendar">
+        <div class="cal-head">
+          <div>
+            {% if state.checkin and state.checkout and state.checkout > state.checkin %}
+            <h2>{{ (state.checkout - state.checkin).days }} night{{ 's' if (state.checkout - state.checkin).days != 1 }} in {{ listing.city.name }}</h2>
+            <div class="muted">{{ state.checkin.strftime('%b') }} {{ state.checkin.day }}, {{ state.checkin.year }} - {{ state.checkout.strftime('%b') }} {{ state.checkout.day }}, {{ state.checkout.year }}</div>
+            {% elif state.checkin %}
+            <h2>Select checkout date</h2>
+            <div class="muted">Minimum stay: {{ listing.min_nights }} night{{ 's' if listing.min_nights != 1 }}</div>
+            {% else %}
+            <h2>Select check-in date</h2>
+            <div class="muted">Add your travel dates for exact pricing{% if listing.min_nights > 1 %} · Minimum stay: {{ listing.min_nights }} nights{% endif %}</div>
+            {% endif %}
+          </div>
+          <div class="row">
+            {% if prev_month %}<a class="icon-btn" aria-label="Previous month" href="{{ url_for('room', listing_id=listing.id, check_in=state.checkin.isoformat() if state.checkin else None, check_out=state.checkout.isoformat() if state.checkout else None, cal_year=prev_month.year, cal_month=prev_month.month, **guest_q) }}#calendar">{{ ic.chevron_left() }}</a>{% endif %}
+            <a class="icon-btn" aria-label="Next month" href="{{ url_for('room', listing_id=listing.id, check_in=state.checkin.isoformat() if state.checkin else None, check_out=state.checkout.isoformat() if state.checkout else None, cal_year=next_month.year, cal_month=next_month.month, **guest_q) }}#calendar">{{ ic.chevron_right() }}</a>
+          </div>
+        </div>
+        <div class="cal-months">
+          {% for m in months %}
+          <table class="cal" aria-label="{{ m.label }}">
+            <caption>{{ m.label }}</caption>
+            <thead><tr>{% for d in ('Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa') %}<th scope="col">{{ d }}</th>{% endfor %}</tr></thead>
+            <tbody>
+            {% for week in m.weeks %}
+              <tr>
+              {% for cell in week %}
+                {% if cell is none %}<td></td>
+                {% else %}
+                  {% set d = cell.date %}
+                  {% set is_sel = (state.checkin and d == state.checkin) or (state.checkout and d == state.checkout) %}
+                  {% set in_range = state.checkin and state.checkout and state.checkin < d < state.checkout %}
+                  {% set choosing_out = state.checkin and not state.checkout and d > state.checkin %}
+                  <td class="{% if cell.past %}past{% elif not cell.available and not choosing_out %}na{% endif %}{% if is_sel %} sel{% endif %}{% if in_range %} inrange{% endif %}">
+                  {% if cell.past or (not cell.available and not choosing_out) %}
+                    <span aria-label="{{ d.strftime('%A, %B') }} {{ d.day }}, {{ d.year }}. Unavailable">{{ d.day }}</span>
+                  {% elif choosing_out %}
+                    <a href="{{ url_for('room', listing_id=listing.id, check_in=state.checkin.isoformat(), check_out=d.isoformat(), cal_year=months[0].year, cal_month=months[0].month, **guest_q) }}#calendar" style="text-decoration:none"><span aria-label="Choose {{ d.strftime('%A, %B') }} {{ d.day }}, {{ d.year }} as your checkout date">{{ d.day }}</span></a>
+                  {% else %}
+                    <a href="{{ url_for('room', listing_id=listing.id, check_in=d.isoformat(), cal_year=months[0].year, cal_month=months[0].month, **guest_q) }}#calendar" style="text-decoration:none"><span aria-label="Choose {{ d.strftime('%A, %B') }} {{ d.day }}, {{ d.year }} as your check-in date">{{ d.day }}</span></a>
+                  {% endif %}
+                  </td>
+                {% endif %}
+              {% endfor %}
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+          {% endfor %}
+        </div>
+        {% if state.checkin %}<div style="text-align:right;margin-top:12px"><a class="btn-link" href="{{ url_for('room', listing_id=listing.id, **guest_q) }}#calendar">Clear dates</a></div>{% endif %}
+      </section>
+
+      <section id="reviews">
+        {% if listing.review_count %}
+          {% if listing.is_guest_favorite %}
+          <div class="rating-hero">
+            <div class="big">{{ listing.rating_label }}</div>
+            <h2 style="margin-top:8px">Guest favorite</h2>
+            <div class="muted" style="max-width:340px;margin:8px auto 0">One of the most loved homes on Airbnb based on ratings, reviews, and reliability</div>
+          </div>
+          {% else %}
+          <h2 style="margin-bottom:24px">{{ ic.star('star') }} {{ listing.rating_label }} · {{ '{:,}'.format(listing.review_count) }} review{{ 's' if listing.review_count != 1 }}</h2>
+          {% endif %}
+          {% if listing.r_cleanliness %}
+          <div class="cat-ratings">
+            {% for label, value in listing.category_ratings %}
+            <div><span>{{ label }}</span><b>{{ '%.1f'|format(value) if value else '–' }}</b></div>
+            {% endfor %}
+          </div>
+          {% endif %}
+          <div class="review-grid">
+            {% for r in reviews %}{{ mc.review_block(r) }}{% endfor %}
+          </div>
+          {% if review_total %}
+          <a class="btn" style="margin-top:32px" href="{{ url_for('room_reviews', listing_id=listing.id) }}">Show all reviews</a>
+          {% endif %}
+        {% else %}
+          <h2>No reviews (yet)</h2>
+          {% if host.review_count is not none %}<p class="muted">This host has {{ '{:,}'.format(host.review_count) }} reviews for other places to stay.</p>{% endif %}
+        {% endif %}
+      </section>
+
+      <section id="location">
+        <h2 style="margin-bottom:16px">Where you'll be</h2>
+        <div class="bold" style="font-size:16px">{{ listing.neighborhood + ', ' if listing.neighborhood else '' }}{{ listing.city.name }}{{ ', ' + listing.city.region if listing.city.region else '' }}, {{ listing.city.country }}</div>
+        {% if listing.location_blurb %}<div class="description" style="margin-top:12px">{{ listing.location_blurb }}</div>{% endif %}
+        <p class="muted small">Exact location is provided after booking.</p>
+      </section>
+
+      <section id="host">
+        <h2 style="margin-bottom:24px">Meet your host</h2>
+        <div class="host-card">
+          <div>
+            <a class="card" href="{{ url_for('host_profile', host_id=host.id) }}">
+              <div class="id">
+                {{ mc.host_avatar(host, 'lg') }}
+                <b>{{ host.first_name }}</b>
+                <span class="small bold">{% if host.is_superhost %}Superhost{% else %}Host{% endif %}</span>
+              </div>
+              <div class="stats">
+                {% if host.review_count is not none %}
+                <div><b>{{ '{:,}'.format(host.review_count) }}</b><span class="small">Reviews</span></div>
+                <div><b>{{ '%.2f'|format(host.rating) if host.rating else '–' }}{% if host.rating %}★{% endif %}</b><span class="small">Rating</span></div>
+                {% endif %}
+                {% set stat = host.tenure_stat %}
+                {% if stat %}<div><b>{{ stat[0] }}</b><span class="small">{{ stat[1] }}</span></div>{% endif %}
+              </div>
+            </a>
+            <ul class="facts" style="list-style:none;padding:0;margin:24px 0 0;font-size:16px">
+              {% if host.work %}<li style="margin-bottom:10px">💼 My work: {{ host.work }}</li>{% endif %}
+              {% if host.lives_in %}<li style="margin-bottom:10px">📍 Lives in {{ host.lives_in }}</li>{% endif %}
+              {% if host.languages %}<li style="margin-bottom:10px">💬 Speaks {{ host.languages }}</li>{% endif %}
+            </ul>
+          </div>
+          <div>
+            {% if host.is_superhost %}
+            <h3>{{ host.first_name }} is a Superhost</h3>
+            <p style="font-size:16px">Superhosts are experienced, highly rated hosts who are committed to providing great stays for guests.</p>
+            {% endif %}
+            <h3 style="margin-top:24px">Host details</h3>
+            {% if host.response_rate is not none %}<p style="font-size:16px;margin:8px 0">Response rate: {{ host.response_rate }}%</p>{% endif %}
+            {% if host.response_time %}<p style="font-size:16px;margin:8px 0">Responds {{ host.response_time }}</p>{% endif %}
+            {% if host.about %}<p style="font-size:16px">{{ host.about }}</p>{% endif %}
+            <a class="btn btn-dark" style="margin-top:16px" href="{{ url_for('contact_host', listing_id=listing.id) }}">Message host</a>
+            <p class="small muted" style="margin-top:16px">To help protect your payment, always use Airbnb to send money and communicate with hosts.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="policies" style="border-bottom:0">
+        <h2 style="margin-bottom:24px">Things to know</h2>
+        <div class="rules-grid">
+          <div>
+            <h3>House rules</h3>
+            <ul>
+              <li>{{ listing.checkin_time }}</li>
+              <li>{{ listing.checkout_time }}</li>
+              <li>{{ listing.guests }} guest{{ 's' if listing.guests != 1 }} maximum</li>
+              <li>{% if listing.pets_allowed %}Pets allowed{% else %}No pets{% endif %}</li>
+              {% if listing.quiet_hours %}<li>Quiet hours {{ listing.quiet_hours }}</li>{% endif %}
+              <li>{% if listing.events_allowed %}Events allowed{% else %}No parties or events{% endif %}</li>
+              <li>{% if listing.smoking_allowed %}Smoking allowed{% else %}No smoking{% endif %}</li>
+              {% if listing.self_checkin %}<li>Self check-in</li>{% endif %}
+            </ul>
+          </div>
+          <div>
+            <h3>Safety &amp; property</h3>
+            <ul>
+              {% set safety = amenities|selectattr('amenity.category', 'equalto', 'Home safety')|list %}
+              {% for a in safety %}<li>{% if not a.available %}No {{ a.amenity.name|lower }}{% if a.detail %} — {{ a.detail }}{% endif %}{% else %}{{ a.amenity.name }}{% endif %}</li>{% else %}<li class="muted">No safety details provided</li>{% endfor %}
+            </ul>
+          </div>
+          <div>
+            <h3>Cancellation policy</h3>
+            <p style="margin:0 0 8px"><b>{{ listing.cancellation_policy }}</b></p>
+            <p style="margin:0 0 8px">{{ POLICY_TEXT[listing.cancellation_policy] }}</p>
+            {% if deadline and state.checkin %}
+              {% if deadline >= MIRROR_TODAY %}<p class="bold" style="margin:0">Free cancellation before {{ deadline.strftime('%b') }} {{ deadline.day }}.</p>
+              {% else %}<p class="bold" style="margin:0">Free cancellation is no longer available for these dates.</p>{% endif %}
+            {% elif state.checkin %}<p class="bold" style="margin:0">This reservation is not eligible for free cancellation.</p>
+            {% else %}<p class="muted" style="margin:0">Add your trip dates to get the cancellation details for this stay.</p>{% endif %}
+            <a class="btn-link" style="display:inline-block;margin-top:8px" href="{{ url_for('help_search', q='cancellation policy') }}">Learn more</a>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <aside>
+      <div class="book-card" id="book">
+        {% if quote %}
+        <div class="price">{{ quote.total_before_taxes|money }} <small>for {{ quote.nights }} night{{ 's' if quote.nights != 1 }}</small></div>
+        {% else %}
+        <div class="price">{{ listing.nightly_price|money }} <small>night</small></div>
+        {% endif %}
+        <form method="get" action="{{ url_for('room', listing_id=listing.id) }}">
+          <div class="book-grid">
+            <label>Check-in<input type="date" name="check_in" value="{{ state.checkin.isoformat() if state.checkin else '' }}" min="{{ MIRROR_TODAY.isoformat() }}"></label>
+            <label>Checkout<input type="date" name="check_out" value="{{ state.checkout.isoformat() if state.checkout else '' }}" min="{{ MIRROR_TODAY.isoformat() }}"></label>
+            <label class="guests">Guests
+              <div class="guest-fields">
+                <span>Adults<input type="number" name="adults" min="1" max="16" value="{{ state.adults }}"></span>
+                <span>Children<input type="number" name="children" min="0" max="15" value="{{ state.children }}"></span>
+                <span>Infants<input type="number" name="infants" min="0" max="5" value="{{ state.infants }}"></span>
+                <span>Pets<input type="number" name="pets" min="0" max="5" value="{{ state.pets }}"></span>
+              </div>
+              <span style="margin-top:6px">This place has a maximum of {{ listing.guests }} guest{{ 's' if listing.guests != 1 }}, not including infants.{% if not listing.pets_allowed %} Pets aren't allowed.{% endif %}</span>
+            </label>
+          </div>
+          {% if problem %}<div class="alert alert-error">{{ problem }}</div>{% endif %}
+          {% if quote and not problem %}
+            <a class="btn btn-primary btn-block" href="{{ book_url(listing, state) }}">Reserve</a>
+            <p class="note-center">You won't be charged yet</p>
+          {% else %}
+            <button class="btn btn-primary btn-block" type="submit">Check availability</button>
+          {% endif %}
+        </form>
+        {% if quote and not problem %}{{ mc.breakdown(quote, listing) }}{% endif %}
+      </div>
+    </aside>
+  </div>
+</div>
+{% endblock %}

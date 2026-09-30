@@ -1,0 +1,2247 @@
+{
+ "amenity_catalog": [
+  {
+   "title": "Bay view",
+   "group": "Scenic views"
+  },
+  {
+   "title": "City skyline view",
+   "group": "Scenic views"
+  },
+  {
+   "title": "Courtyard view",
+   "group": "Scenic views"
+  },
+  {
+   "title": "Garden view",
+   "group": "Scenic views"
+  },
+  {
+   "title": "Harbor view",
+   "group": "Scenic views"
+  },
+  {
+   "title": "Mountain view",
+   "group": "Scenic views"
+  },
+  {
+   "title": "Park view",
+   "group": "Scenic views"
+  },
+  {
+   "title": "Resort view",
+   "group": "Scenic views"
+  },
+  {
+   "title": "River view",
+   "group": "Scenic views"
+  },
+  {
+   "title": "Sea view",
+   "group": "Scenic views"
+  },
+  {
+   "title": "Alba Botanical Tea Tree shampoo",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Alba Botanicals Tea Tree conditioner",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Aroma de Portugal body soap",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Aroma de Portugal shampoo",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Artesanal body soap",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Artesanal conditioner",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Artesanal shampoo",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Bathtub",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Bidet",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Body soap",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Castelbel body soap",
+   "group": "Bathroom"
+  },
+  {
+   "title": "CastelBel shampoo",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Castelbel shampoo",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Cleaning products",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Conditioner",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Dr Bronners organic peeper mint sugar Castile soap body soap",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Duo Shampoo +Bath gel Aroma de Portugal  shampoo",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Faith in Nature body soap",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Faith in Nature conditioner",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Faith in Nature shampoo",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Fresh body soap",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Garnier, Dop Shampoing Doux ou equivalent shampoo",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Geneva body soap",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Geneva shampoo",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Hair dryer",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Hot water",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Jo Malone body soap",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Kirkland conditioner",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Laguna Cyprien body soap",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Laguna Cyprien conditioner",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Laguna Cyprien shampoo",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Le Labo conditioner",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Le Labo shampoo",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Lousani conditioner",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Lousani shampoo",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Malin + Goetz body soap",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Malin + Goetz conditioner",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Malin + Goetz shampoo",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Neutrogena body wash body soap",
+   "group": "Bathroom"
+  },
+  {
+   "title": "NUXE conditioner",
+   "group": "Bathroom"
+  },
+  {
+   "title": "NUXE shampoo",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Olay body soap",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Outdoor shower",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Pantene conditioner",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Pantene shampoo",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Rituals body soap",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Rituals conditioner",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Rituals shampoo",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Sanex, Dove ou equivalent body soap",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Savon de Marseille body soap",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Shampoo",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Shower gel",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Trader Joe's  body soap",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Ultra Doux conditioner",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Will rotate body soap",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Will rotate conditioner",
+   "group": "Bathroom"
+  },
+  {
+   "title": "Bed linens",
+   "group": "Bedroom and laundry"
+  },
+  {
+   "title": "Clothing storage",
+   "group": "Bedroom and laundry"
+  },
+  {
+   "title": "Clothing storage: closet",
+   "group": "Bedroom and laundry"
+  },
+  {
+   "title": "Clothing storage: closet and dresser",
+   "group": "Bedroom and laundry"
+  },
+  {
+   "title": "Clothing storage: closet and wardrobe",
+   "group": "Bedroom and laundry"
+  },
+  {
+   "title": "Clothing storage: closet, wardrobe, and dresser",
+   "group": "Bedroom and laundry"
+  },
+  {
+   "title": "Clothing storage: dresser",
+   "group": "Bedroom and laundry"
+  },
+  {
+   "title": "Clothing storage: walk-in closet",
+   "group": "Bedroom and laundry"
+  },
+  {
+   "title": "Clothing storage: walk-in closet and closet",
+   "group": "Bedroom and laundry"
+  },
+  {
+   "title": "Clothing storage: walk-in closet, closet, and dresser",
+   "group": "Bedroom and laundry"
+  },
+  {
+   "title": "Clothing storage: wardrobe",
+   "group": "Bedroom and laundry"
+  },
+  {
+   "title": "Clothing storage: wardrobe and dresser",
+   "group": "Bedroom and laundry"
+  },
+  {
+   "title": "Dryer",
+   "group": "Bedroom and laundry"
+  },
+  {
+   "title": "Dryer – In unit",
+   "group": "Bedroom and laundry"
+  },
+  {
+   "title": "Drying rack for clothing",
+   "group": "Bedroom and laundry"
+  },
+  {
+   "title": "Essentials",
+   "group": "Bedroom and laundry"
+  },
+  {
+   "title": "Extra pillows and blankets",
+   "group": "Bedroom and laundry"
+  },
+  {
+   "title": "Free dryer",
+   "group": "Bedroom and laundry"
+  },
+  {
+   "title": "Free dryer – In building",
+   "group": "Bedroom and laundry"
+  },
+  {
+   "title": "Free dryer – In unit",
+   "group": "Bedroom and laundry"
+  },
+  {
+   "title": "Free washer",
+   "group": "Bedroom and laundry"
+  },
+  {
+   "title": "Free washer – In building",
+   "group": "Bedroom and laundry"
+  },
+  {
+   "title": "Free washer – In unit",
+   "group": "Bedroom and laundry"
+  },
+  {
+   "title": "Hangers",
+   "group": "Bedroom and laundry"
+  },
+  {
+   "title": "Iron",
+   "group": "Bedroom and laundry"
+  },
+  {
+   "title": "Mosquito net",
+   "group": "Bedroom and laundry"
+  },
+  {
+   "title": "Room-darkening shades",
+   "group": "Bedroom and laundry"
+  },
+  {
+   "title": "Safe",
+   "group": "Bedroom and laundry"
+  },
+  {
+   "title": "Washer",
+   "group": "Bedroom and laundry"
+  },
+  {
+   "title": "Washer – In unit",
+   "group": "Bedroom and laundry"
+  },
+  {
+   "title": "109 inch HDTV with standard cable",
+   "group": "Entertainment"
+  },
+  {
+   "title": "193 inch HDTV with Apple TV, Disney+, Amazon Prime Video, Netflix, HBO Max",
+   "group": "Entertainment"
+  },
+  {
+   "title": "30 inch HDTV with Netflix, Roku, standard cable",
+   "group": "Entertainment"
+  },
+  {
+   "title": "32 inch HDTV",
+   "group": "Entertainment"
+  },
+  {
+   "title": "32 inch HDTV with Netflix, standard cable, Amazon Prime Video, Disney+",
+   "group": "Entertainment"
+  },
+  {
+   "title": "32 inch TV with standard cable",
+   "group": "Entertainment"
+  },
+  {
+   "title": "40 inch HDTV with Amazon Prime Video, Chromecast, Fire TV, Netflix",
+   "group": "Entertainment"
+  },
+  {
+   "title": "40 inch HDTV with Netflix",
+   "group": "Entertainment"
+  },
+  {
+   "title": "42 inch HDTV",
+   "group": "Entertainment"
+  },
+  {
+   "title": "42 inch HDTV with Roku",
+   "group": "Entertainment"
+  },
+  {
+   "title": "42 inch HDTV with standard cable",
+   "group": "Entertainment"
+  },
+  {
+   "title": "43 inch HDTV with Amazon Prime Video, Apple TV, Chromecast, Netflix",
+   "group": "Entertainment"
+  },
+  {
+   "title": "43 inch HDTV with Amazon Prime Video, Netflix, standard cable",
+   "group": "Entertainment"
+  },
+  {
+   "title": "43 inch HDTV with Amazon Prime Video, Roku",
+   "group": "Entertainment"
+  },
+  {
+   "title": "43 inch HDTV with Chromecast, Netflix, standard cable",
+   "group": "Entertainment"
+  },
+  {
+   "title": "43 inch HDTV with Disney+, Netflix",
+   "group": "Entertainment"
+  },
+  {
+   "title": "43 inch HDTV with HBO Max, Roku, Netflix, Disney+, Apple TV",
+   "group": "Entertainment"
+  },
+  {
+   "title": "43 inch HDTV with Netflix",
+   "group": "Entertainment"
+  },
+  {
+   "title": "43 inch HDTV with Netflix, premium cable, standard cable",
+   "group": "Entertainment"
+  },
+  {
+   "title": "43 inch HDTV with Netflix, standard cable",
+   "group": "Entertainment"
+  },
+  {
+   "title": "43 inch HDTV with premium cable, standard cable",
+   "group": "Entertainment"
+  },
+  {
+   "title": "43 inch HDTV with standard cable",
+   "group": "Entertainment"
+  },
+  {
+   "title": "48 inch HDTV with Roku",
+   "group": "Entertainment"
+  },
+  {
+   "title": "49 inch HDTV",
+   "group": "Entertainment"
+  },
+  {
+   "title": "49 inch HDTV with standard cable, Netflix",
+   "group": "Entertainment"
+  },
+  {
+   "title": "50 inch HDTV",
+   "group": "Entertainment"
+  },
+  {
+   "title": "52 inch HDTV",
+   "group": "Entertainment"
+  },
+  {
+   "title": "52 inch TV with Roku",
+   "group": "Entertainment"
+  },
+  {
+   "title": "55 inch HDTV",
+   "group": "Entertainment"
+  },
+  {
+   "title": "55 inch HDTV with Amazon Prime Video, Apple TV, Disney+, HBO Max, Hulu, Netflix, Roku",
+   "group": "Entertainment"
+  },
+  {
+   "title": "55 inch TV with Roku",
+   "group": "Entertainment"
+  },
+  {
+   "title": "65 inch TV with Netflix",
+   "group": "Entertainment"
+  },
+  {
+   "title": "80 inch TV with Roku",
+   "group": "Entertainment"
+  },
+  {
+   "title": "Amazon Alexa Bluetooth sound system",
+   "group": "Entertainment"
+  },
+  {
+   "title": "Blue tooth portable speaker Bluetooth sound system",
+   "group": "Entertainment"
+  },
+  {
+   "title": "Bluetooth sound system",
+   "group": "Entertainment"
+  },
+  {
+   "title": "Books and reading material",
+   "group": "Entertainment"
+  },
+  {
+   "title": "Bose Bluetooth sound system",
+   "group": "Entertainment"
+  },
+  {
+   "title": "Ethernet connection",
+   "group": "Entertainment"
+  },
+  {
+   "title": "Exercise equipment",
+   "group": "Entertainment"
+  },
+  {
+   "title": "Exercise equipment: elliptical, free weights, stationary bike, treadmill",
+   "group": "Entertainment"
+  },
+  {
+   "title": "Exercise equipment: free weights",
+   "group": "Entertainment"
+  },
+  {
+   "title": "Exercise equipment: yoga mat",
+   "group": "Entertainment"
+  },
+  {
+   "title": "HDTV",
+   "group": "Entertainment"
+  },
+  {
+   "title": "HDTV with Amazon Prime Video, Apple TV, Chromecast, Disney+, HBO Max, Hulu, Netflix",
+   "group": "Entertainment"
+  },
+  {
+   "title": "HDTV with Amazon Prime Video, Netflix, Roku",
+   "group": "Entertainment"
+  },
+  {
+   "title": "HDTV with Disney+, Netflix, Fire TV",
+   "group": "Entertainment"
+  },
+  {
+   "title": "HDTV with Netflix, Amazon Prime Video, Disney+",
+   "group": "Entertainment"
+  },
+  {
+   "title": "HDTV with Netflix, standard cable",
+   "group": "Entertainment"
+  },
+  {
+   "title": "HDTV with premium cable",
+   "group": "Entertainment"
+  },
+  {
+   "title": "HDTV with Roku",
+   "group": "Entertainment"
+  },
+  {
+   "title": "HDTV with standard cable",
+   "group": "Entertainment"
+  },
+  {
+   "title": "HDTV with standard cable, Netflix",
+   "group": "Entertainment"
+  },
+  {
+   "title": "JBL Bluetooth sound system",
+   "group": "Entertainment"
+  },
+  {
+   "title": "Lg sound system with Bluetooth and aux",
+   "group": "Entertainment"
+  },
+  {
+   "title": "Marshall  Bluetooth sound system",
+   "group": "Entertainment"
+  },
+  {
+   "title": "Marshall Bluetooth sound system",
+   "group": "Entertainment"
+  },
+  {
+   "title": "Movie theater",
+   "group": "Entertainment"
+  },
+  {
+   "title": "Piano",
+   "group": "Entertainment"
+  },
+  {
+   "title": "Record player",
+   "group": "Entertainment"
+  },
+  {
+   "title": "Sonos sound system",
+   "group": "Entertainment"
+  },
+  {
+   "title": "Sound system",
+   "group": "Entertainment"
+  },
+  {
+   "title": "Theme room",
+   "group": "Entertainment"
+  },
+  {
+   "title": "TV",
+   "group": "Entertainment"
+  },
+  {
+   "title": "TV with Netflix, premium cable, standard cable",
+   "group": "Entertainment"
+  },
+  {
+   "title": "TV with Netflix, standard cable",
+   "group": "Entertainment"
+  },
+  {
+   "title": "TV with Roku",
+   "group": "Entertainment"
+  },
+  {
+   "title": "TV with standard cable",
+   "group": "Entertainment"
+  },
+  {
+   "title": "Ultimate Ears Megaboom 3 portable speaker Bluetooth sound system",
+   "group": "Entertainment"
+  },
+  {
+   "title": "Vizio sound system with Bluetooth and aux",
+   "group": "Entertainment"
+  },
+  {
+   "title": "Zikmu by Philippe Stark  sound system with Bluetooth and aux",
+   "group": "Entertainment"
+  },
+  {
+   "title": "Baby bath",
+   "group": "Family"
+  },
+  {
+   "title": "Baby bath - available upon request",
+   "group": "Family"
+  },
+  {
+   "title": "Baby safety gates",
+   "group": "Family"
+  },
+  {
+   "title": "Babysitter recommendations",
+   "group": "Family"
+  },
+  {
+   "title": "Board games",
+   "group": "Family"
+  },
+  {
+   "title": "Children’s books and toys",
+   "group": "Family"
+  },
+  {
+   "title": "Children’s books and toys for ages 0-2 years old and 2-5 years old",
+   "group": "Family"
+  },
+  {
+   "title": "Children’s books and toys for ages 0-2 years old, 2-5 years old, 5-10 years old, and 10+ years old",
+   "group": "Family"
+  },
+  {
+   "title": "Children’s books and toys for ages 2-5 years old and 5-10 years old",
+   "group": "Family"
+  },
+  {
+   "title": "Children’s dinnerware",
+   "group": "Family"
+  },
+  {
+   "title": "Crib",
+   "group": "Family"
+  },
+  {
+   "title": "Crib - always at the listing",
+   "group": "Family"
+  },
+  {
+   "title": "Crib - available upon request",
+   "group": "Family"
+  },
+  {
+   "title": "Folding or convertible high chair - always at the listing",
+   "group": "Family"
+  },
+  {
+   "title": "Folding or convertible high chair - available upon request",
+   "group": "Family"
+  },
+  {
+   "title": "High chair",
+   "group": "Family"
+  },
+  {
+   "title": "High chair - available upon request",
+   "group": "Family"
+  },
+  {
+   "title": "Outlet covers",
+   "group": "Family"
+  },
+  {
+   "title": "Pack ’n play/Travel crib",
+   "group": "Family"
+  },
+  {
+   "title": "Pack ’n play/Travel crib - always at the listing",
+   "group": "Family"
+  },
+  {
+   "title": "Pack ’n play/Travel crib - available upon request",
+   "group": "Family"
+  },
+  {
+   "title": "Paid crib - available upon request",
+   "group": "Family"
+  },
+  {
+   "title": "Paid folding or convertible high chair - available upon request",
+   "group": "Family"
+  },
+  {
+   "title": "Paid pack ’n play/travel crib - available upon request",
+   "group": "Family"
+  },
+  {
+   "title": "Paid standalone high chair - available upon request",
+   "group": "Family"
+  },
+  {
+   "title": "Standalone high chair",
+   "group": "Family"
+  },
+  {
+   "title": "Standalone high chair - available upon request",
+   "group": "Family"
+  },
+  {
+   "title": "Table corner guards",
+   "group": "Family"
+  },
+  {
+   "title": "Window guards",
+   "group": "Family"
+  },
+  {
+   "title": "AC - split type ductless system",
+   "group": "Heating and cooling"
+  },
+  {
+   "title": "Air conditioning",
+   "group": "Heating and cooling"
+  },
+  {
+   "title": "Ceiling fan",
+   "group": "Heating and cooling"
+  },
+  {
+   "title": "Central air conditioning",
+   "group": "Heating and cooling"
+  },
+  {
+   "title": "Central heating",
+   "group": "Heating and cooling"
+  },
+  {
+   "title": "Heating",
+   "group": "Heating and cooling"
+  },
+  {
+   "title": "Heating - split type ductless system",
+   "group": "Heating and cooling"
+  },
+  {
+   "title": "Indoor fireplace",
+   "group": "Heating and cooling"
+  },
+  {
+   "title": "Indoor fireplace: ethanol",
+   "group": "Heating and cooling"
+  },
+  {
+   "title": "Portable air conditioning",
+   "group": "Heating and cooling"
+  },
+  {
+   "title": "Portable fans",
+   "group": "Heating and cooling"
+  },
+  {
+   "title": "Portable heater",
+   "group": "Heating and cooling"
+  },
+  {
+   "title": "Radiant heating",
+   "group": "Heating and cooling"
+  },
+  {
+   "title": "Smart thermostat",
+   "group": "Heating and cooling"
+  },
+  {
+   "title": "Window AC unit",
+   "group": "Heating and cooling"
+  },
+  {
+   "title": "Carbon monoxide alarm",
+   "group": "Home safety"
+  },
+  {
+   "title": "Exterior or entryway security camera present",
+   "group": "Home safety"
+  },
+  {
+   "title": "Exterior security cameras on property",
+   "group": "Home safety"
+  },
+  {
+   "title": "Fire extinguisher",
+   "group": "Home safety"
+  },
+  {
+   "title": "First aid kit",
+   "group": "Home safety"
+  },
+  {
+   "title": "Noise decibel monitors on property",
+   "group": "Home safety"
+  },
+  {
+   "title": "Smoke alarm",
+   "group": "Home safety"
+  },
+  {
+   "title": "Dedicated workspace",
+   "group": "Internet and office"
+  },
+  {
+   "title": "Fast wifi – 111 Mbps",
+   "group": "Internet and office"
+  },
+  {
+   "title": "Fast wifi – 113 Mbps",
+   "group": "Internet and office"
+  },
+  {
+   "title": "Fast wifi – 186 Mbps",
+   "group": "Internet and office"
+  },
+  {
+   "title": "Fast wifi – 192 Mbps",
+   "group": "Internet and office"
+  },
+  {
+   "title": "Fast wifi – 220 Mbps",
+   "group": "Internet and office"
+  },
+  {
+   "title": "Fast wifi – 223 Mbps",
+   "group": "Internet and office"
+  },
+  {
+   "title": "Fast wifi – 300 Mbps",
+   "group": "Internet and office"
+  },
+  {
+   "title": "Fast wifi – 323 Mbps",
+   "group": "Internet and office"
+  },
+  {
+   "title": "Fast wifi – 373 Mbps",
+   "group": "Internet and office"
+  },
+  {
+   "title": "Fast wifi – 386 Mbps",
+   "group": "Internet and office"
+  },
+  {
+   "title": "Fast wifi – 404 Mbps",
+   "group": "Internet and office"
+  },
+  {
+   "title": "Fast wifi – 460 Mbps",
+   "group": "Internet and office"
+  },
+  {
+   "title": "Fast wifi – 501 Mbps",
+   "group": "Internet and office"
+  },
+  {
+   "title": "Fast wifi – 549 Mbps",
+   "group": "Internet and office"
+  },
+  {
+   "title": "Fast wifi – 560 Mbps",
+   "group": "Internet and office"
+  },
+  {
+   "title": "Fast wifi – 622 Mbps",
+   "group": "Internet and office"
+  },
+  {
+   "title": "Fast wifi – 637 Mbps",
+   "group": "Internet and office"
+  },
+  {
+   "title": "Fast wifi – 75 Mbps",
+   "group": "Internet and office"
+  },
+  {
+   "title": "Fast wifi – 76 Mbps",
+   "group": "Internet and office"
+  },
+  {
+   "title": "Fast wifi – 796 Mbps",
+   "group": "Internet and office"
+  },
+  {
+   "title": "Fast wifi – 903 Mbps",
+   "group": "Internet and office"
+  },
+  {
+   "title": "Fast wifi – 97 Mbps",
+   "group": "Internet and office"
+  },
+  {
+   "title": "Pocket wifi",
+   "group": "Internet and office"
+  },
+  {
+   "title": "Wifi",
+   "group": "Internet and office"
+  },
+  {
+   "title": "Wifi – 27 Mbps",
+   "group": "Internet and office"
+  },
+  {
+   "title": "Wifi – 41 Mbps",
+   "group": "Internet and office"
+  },
+  {
+   "title": "Wifi – 42 Mbps",
+   "group": "Internet and office"
+  },
+  {
+   "title": "Wifi – 47 Mbps",
+   "group": "Internet and office"
+  },
+  {
+   "title": "3/4 size refrigerator/freezer refrigerator",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Ariette single oven",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Baking sheet",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Barbecue utensils",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "BEKO refrigerator",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Blender",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Coffee",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Coffee maker",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Coffee maker: drip coffee maker",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Coffee maker: drip coffee maker, espresso machine, french press",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Coffee maker: drip coffee maker, espresso machine, Nespresso",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Coffee maker: drip coffee maker, french press",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Coffee maker: drip coffee maker, french press, Keurig coffee machine",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Coffee maker: drip coffee maker, french press, Keurig coffee machine, pour-over coffee",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Coffee maker: drip coffee maker, french press, Nespresso",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Coffee maker: drip coffee maker, Keurig coffee machine",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Coffee maker: drip coffee maker, Nespresso",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Coffee maker: drip coffee maker, pour-over coffee",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Coffee maker: espresso machine",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Coffee maker: espresso machine, Nespresso",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Coffee maker: espresso machine, Nespresso, pour-over coffee",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Coffee maker: espresso machine, pour-over coffee",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Coffee maker: french press",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Coffee maker: french press, Nespresso",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Coffee maker: Keurig coffee machine",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Coffee maker: Nespresso",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Coffee maker: pour-over coffee",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Convection oven stainless steel oven",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Convection single oven",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Cooking basics",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "De 3 discos e forno elétricos electric stove",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Dining table",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Dishes and silverware",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Dishwasher",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Electric stove",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Electrolux electric stove",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Electrolux stainless steel gas stove",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Franke  single oven",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Franke refrigerator",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Freezer",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Gallant refrigerator",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Gas stove",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "GE refrigerator",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "GE stainless steel electric stove",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "GE stainless steel gas stove",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Haier refrigerator",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Hot water kettle",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "IKEA refrigerator",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Induction hot-plate induction stove",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Induction stove",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "IRIS OHYAMA induction stove",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Jenn-air electric stove",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Jenn-air single oven",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Kitchen",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Kitchenette",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Leão (antigo) oven",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "LG induction stove",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "LG refrigerator",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Mabe gas stove",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Mabe oven",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Mabe refrigerator",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Mabe stainless steel gas stove",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Microwave",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Miele refrigerator",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Miele stainless steel oven",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Miele stainless steel stove",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Mini fridge",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Novo refrigerator",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Other electric stove",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Other gas stove",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Other induction stove",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Other stainless steel gas stove",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Other stainless steel induction stove",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Other stove",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Otro stainless steel gas stove",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Outro induction stove",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Oven",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Refrigerator",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Rice maker",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Rosière  stainless steel stove",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Rosière stainless steel oven",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Samsung gas stove",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Samsung stainless steel single oven",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "SIEMENS induction stove",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Single oven",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Smeg refrigerator",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Stainless steel electric stove",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Stainless steel gas stove",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Stainless steel induction stove",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Stainless steel oven",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Stainless steel single oven",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Stove",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "TEKA induction stove",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "TEKA refrigerator",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Teka stainless steel electric stove",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "TEKA stainless steel oven",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Toaster",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Toaster oven stainless steel oven",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Trash compactor",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Verona stainless steel gas stove",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Whirlpool stainless steel electric stove",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Wine glasses",
+   "group": "Kitchen and dining"
+  },
+  {
+   "title": "Lake access",
+   "group": "Location features"
+  },
+  {
+   "title": "Laundromat nearby",
+   "group": "Location features"
+  },
+  {
+   "title": "Private entrance",
+   "group": "Location features"
+  },
+  {
+   "title": "Resort access",
+   "group": "Location features"
+  },
+  {
+   "title": "Shared beach access",
+   "group": "Location features"
+  },
+  {
+   "title": "Waterfront",
+   "group": "Location features"
+  },
+  {
+   "title": "Backyard",
+   "group": "Outdoor"
+  },
+  {
+   "title": "BBQ grill",
+   "group": "Outdoor"
+  },
+  {
+   "title": "BBQ grill: charcoal",
+   "group": "Outdoor"
+  },
+  {
+   "title": "BBQ grill: gas",
+   "group": "Outdoor"
+  },
+  {
+   "title": "Beach essentials",
+   "group": "Outdoor"
+  },
+  {
+   "title": "Fire pit",
+   "group": "Outdoor"
+  },
+  {
+   "title": "Hammock",
+   "group": "Outdoor"
+  },
+  {
+   "title": "Outdoor dining area",
+   "group": "Outdoor"
+  },
+  {
+   "title": "Outdoor furniture",
+   "group": "Outdoor"
+  },
+  {
+   "title": "Outdoor kitchen with sink",
+   "group": "Outdoor"
+  },
+  {
+   "title": "Patio or balcony",
+   "group": "Outdoor"
+  },
+  {
+   "title": "Private backyard",
+   "group": "Outdoor"
+  },
+  {
+   "title": "Private backyard – Fully fenced",
+   "group": "Outdoor"
+  },
+  {
+   "title": "Private backyard – Not fully fenced",
+   "group": "Outdoor"
+  },
+  {
+   "title": "Private BBQ grill: charcoal",
+   "group": "Outdoor"
+  },
+  {
+   "title": "Private patio or balcony",
+   "group": "Outdoor"
+  },
+  {
+   "title": "Shared backyard",
+   "group": "Outdoor"
+  },
+  {
+   "title": "Shared backyard – Fully fenced",
+   "group": "Outdoor"
+  },
+  {
+   "title": "Shared backyard – Not fully fenced",
+   "group": "Outdoor"
+  },
+  {
+   "title": "Shared BBQ grill: gas",
+   "group": "Outdoor"
+  },
+  {
+   "title": "Shared patio or balcony",
+   "group": "Outdoor"
+  },
+  {
+   "title": "Sun loungers",
+   "group": "Outdoor"
+  },
+  {
+   "title": "Doorman",
+   "group": "Parking and facilities"
+  },
+  {
+   "title": "Elevator",
+   "group": "Parking and facilities"
+  },
+  {
+   "title": "EV charger",
+   "group": "Parking and facilities"
+  },
+  {
+   "title": "EV charger - level 2",
+   "group": "Parking and facilities"
+  },
+  {
+   "title": "Free driveway parking on premises",
+   "group": "Parking and facilities"
+  },
+  {
+   "title": "Free driveway parking on premises – 1 space",
+   "group": "Parking and facilities"
+  },
+  {
+   "title": "Free driveway parking on premises – 2 spaces",
+   "group": "Parking and facilities"
+  },
+  {
+   "title": "Free parking on premises",
+   "group": "Parking and facilities"
+  },
+  {
+   "title": "Free residential garage on premises – 1 space",
+   "group": "Parking and facilities"
+  },
+  {
+   "title": "Free street parking",
+   "group": "Parking and facilities"
+  },
+  {
+   "title": "Gym nearby",
+   "group": "Parking and facilities"
+  },
+  {
+   "title": "Hot tub",
+   "group": "Parking and facilities"
+  },
+  {
+   "title": "Paid parking garage off premises",
+   "group": "Parking and facilities"
+  },
+  {
+   "title": "Paid parking lot off premises",
+   "group": "Parking and facilities"
+  },
+  {
+   "title": "Paid parking lot on premises",
+   "group": "Parking and facilities"
+  },
+  {
+   "title": "Paid parking off premises",
+   "group": "Parking and facilities"
+  },
+  {
+   "title": "Paid parking on premises – 1 space",
+   "group": "Parking and facilities"
+  },
+  {
+   "title": "Paid street parking off premises",
+   "group": "Parking and facilities"
+  },
+  {
+   "title": "Private hot tub - available all year, open 24 hours",
+   "group": "Parking and facilities"
+  },
+  {
+   "title": "Private living room",
+   "group": "Parking and facilities"
+  },
+  {
+   "title": "Recycling",
+   "group": "Parking and facilities"
+  },
+  {
+   "title": "Shared gym in building",
+   "group": "Parking and facilities"
+  },
+  {
+   "title": "Shared hot tub - available all year, open specific hours",
+   "group": "Parking and facilities"
+  },
+  {
+   "title": "Single level home",
+   "group": "Parking and facilities"
+  },
+  {
+   "title": "Breakfast",
+   "group": "Services"
+  },
+  {
+   "title": "Building staff",
+   "group": "Services"
+  },
+  {
+   "title": "Cleaning available during stay",
+   "group": "Services"
+  },
+  {
+   "title": "Host greets you",
+   "group": "Services"
+  },
+  {
+   "title": "Housekeeping - available at extra cost",
+   "group": "Services"
+  },
+  {
+   "title": "Housekeeping available from 10:00 AM to 3:00 AM, 5 days a week - available at extra cost",
+   "group": "Services"
+  },
+  {
+   "title": "Housekeeping available from 10:00 AM to 4:00 PM, every day",
+   "group": "Services"
+  },
+  {
+   "title": "Housekeeping available from 11:00 AM to 4:00 PM, every day - available at extra cost",
+   "group": "Services"
+  },
+  {
+   "title": "Housekeeping available from 11:00 AM to 5:00 PM, every day - available at extra cost",
+   "group": "Services"
+  },
+  {
+   "title": "Housekeeping available from 9:00 AM to 1:00 PM, every day - available at extra cost",
+   "group": "Services"
+  },
+  {
+   "title": "Housekeeping available from 9:00 AM to 3:00 PM, Monday to Friday - available at extra cost",
+   "group": "Services"
+  },
+  {
+   "title": "Housekeeping available from 9:00 AM to 4:00 AM, every day - available at extra cost",
+   "group": "Services"
+  },
+  {
+   "title": "Housekeeping available from 9:00 AM to 4:00 PM, every day - available at extra cost",
+   "group": "Services"
+  },
+  {
+   "title": "Keypad",
+   "group": "Services"
+  },
+  {
+   "title": "Lockbox",
+   "group": "Services"
+  },
+  {
+   "title": "Long term stays allowed",
+   "group": "Services"
+  },
+  {
+   "title": "Luggage dropoff allowed",
+   "group": "Services"
+  },
+  {
+   "title": "Pets allowed",
+   "group": "Services"
+  },
+  {
+   "title": "Self check-in",
+   "group": "Services"
+  },
+  {
+   "title": "Smart lock",
+   "group": "Services"
+  },
+  {
+   "title": "Smoking allowed",
+   "group": "Services"
+  },
+  {
+   "title": "Dryer – In building",
+   "group": "Not included"
+  },
+  {
+   "title": "Paid washer – In building",
+   "group": "Not included"
+  },
+  {
+   "title": "Washer – In building",
+   "group": "Not included"
+  },
+  {
+   "title": "Bar",
+   "group": "Food and drink"
+  },
+  {
+   "title": "Breakfast for purchase",
+   "group": "Food and drink"
+  },
+  {
+   "title": "Free continental breakfast",
+   "group": "Food and drink"
+  },
+  {
+   "title": "Paid parking on premises",
+   "group": "Parking and transportation"
+  },
+  {
+   "title": "Parking",
+   "group": "Parking and transportation"
+  },
+  {
+   "title": "Lock on bedroom door",
+   "group": "Privacy and safety"
+  },
+  {
+   "title": "Toiletries",
+   "group": "Room amenities"
+  },
+  {
+   "title": "Gym",
+   "group": "Wellness and recreation"
+  },
+  {
+   "title": "Pool",
+   "group": "Wellness and recreation"
+  }
+ ],
+ "help_articles": [
+  {
+   "id": 101,
+   "audience": "guest",
+   "category": "Cancellations",
+   "title": "Cancellation policies for your stay",
+   "summary": "Every listing uses one of four cancellation policies. The policy is shown on the listing page, on the Confirm and pay page and in your trip details.",
+   "blocks": [
+    {
+     "type": "heading",
+     "text": "Flexible"
+    },
+    {
+     "type": "paragraph",
+     "text": "Free cancellation until 1 day before check-in. After that, the first night, the service fee and taxes are non-refundable; the remaining nights and the cleaning fee are refunded."
+    },
+    {
+     "type": "heading",
+     "text": "Moderate"
+    },
+    {
+     "type": "paragraph",
+     "text": "Free cancellation until 5 days before check-in. After that, the first night, the service fee and taxes are non-refundable; you get 50% of the remaining nights back, plus the full cleaning fee."
+    },
+    {
+     "type": "heading",
+     "text": "Firm"
+    },
+    {
+     "type": "paragraph",
+     "text": "Free cancellation until 30 days before check-in. Cancel at least 7 days before check-in to get 50% of the nightly rate back, plus the full cleaning fee. No refund after that."
+    },
+    {
+     "type": "heading",
+     "text": "Strict"
+    },
+    {
+     "type": "paragraph",
+     "text": "Free cancellation for 48 hours after booking, if check-in is at least 14 days away. Cancel at least 7 days before check-in to get 50% of the nightly rate back, plus the full cleaning fee. No refund after that."
+    },
+    {
+     "type": "heading",
+     "text": "How refunds are calculated"
+    },
+    {
+     "type": "paragraph",
+     "text": "Refunds are based on the number of days left before check-in on the day you cancel. Inside the free-cancellation window you get everything back, including the service fee and taxes. Outside it, the service fee and taxes are not refunded."
+    },
+    {
+     "type": "paragraph",
+     "text": "“Nightly rate” means the nightly price multiplied by the number of nights, after any weekly or monthly stay discount. The cleaning fee is refunded in full whenever part of the nightly rate is refunded."
+    },
+    {
+     "type": "paragraph",
+     "text": "The exact refund for your reservation is shown before you confirm a cancellation."
+    }
+   ]
+  },
+  {
+   "id": 102,
+   "audience": "guest",
+   "category": "Cancellations",
+   "title": "How to cancel your reservation as a guest",
+   "summary": "You can cancel an upcoming reservation or an unanswered request from Trips.",
+   "blocks": [
+    {
+     "type": "list",
+     "items": [
+      "Go to Trips and select the reservation you want to cancel.",
+      "Select Cancel reservation (or Cancel request for a request the Host hasn’t accepted).",
+      "Review the refund you’ll get and choose the reason you’re cancelling.",
+      "Select Confirm cancellation."
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Your refund goes back to the payment method you used to book and appears in Payments & payouts. The reservation stays in Trips with the status Canceled."
+    },
+    {
+     "type": "heading",
+     "text": "Cancelling a request"
+    },
+    {
+     "type": "paragraph",
+     "text": "If the Host hasn’t accepted your request yet, you haven’t been charged, so cancelling a request is always free."
+    },
+    {
+     "type": "heading",
+     "text": "Cancellation options"
+    },
+    {
+     "type": "paragraph",
+     "text": "To see how much you would get back before you book, check the cancellation policy on the listing page. You can also turn on the Free cancellation filter in search to only see listings with a Flexible or Moderate policy."
+    }
+   ]
+  },
+  {
+   "id": 103,
+   "audience": "guest",
+   "category": "Safety & AirCover",
+   "title": "AirCover for guests",
+   "summary": "Every booking includes AirCover: protection from the moment you book until you check out.",
+   "blocks": [
+    {
+     "type": "list",
+     "items": [
+      "Booking Protection Guarantee: if a Host cancels your reservation shortly before check-in, we’ll help you find a similar or better home, or refund you.",
+      "Check-In Guarantee: if you can’t check into your home and the Host can’t resolve the issue, we’ll help you find a similar or better home for the length of your original stay, or refund you.",
+      "Get-What-You-Booked Guarantee: if at any time during your stay your listing isn’t as advertised, you’ll have three days to report it.",
+      "24-hour Safety Line: if you ever feel unsafe, you get priority access to specially-trained safety agents, day or night."
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "AirCover is included with every reservation at no extra cost. It doesn’t change the cancellation policy of your booking; see Cancellation policies for your stay."
+    }
+   ]
+  },
+  {
+   "id": 104,
+   "audience": "guest",
+   "category": "Payments & pricing",
+   "title": "Airbnb service fees for guests",
+   "summary": "Guests pay a service fee that helps Airbnb run smoothly. It’s shown in the price breakdown before you book.",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "The guest service fee is 14.2% of the booking subtotal. The subtotal is the nightly price multiplied by the number of nights, minus any weekly or monthly stay discount, plus the cleaning fee."
+    },
+    {
+     "type": "heading",
+     "text": "Taxes"
+    },
+    {
+     "type": "paragraph",
+     "text": "Occupancy taxes are calculated on the same subtotal. The tax rate depends on where the listing is located, and some places don’t charge occupancy taxes on short stays. Taxes appear as a separate line in the price breakdown."
+    },
+    {
+     "type": "heading",
+     "text": "Rounding"
+    },
+    {
+     "type": "paragraph",
+     "text": "Prices are charged in US dollars and every line of the price breakdown is rounded to the nearest whole dollar."
+    },
+    {
+     "type": "paragraph",
+     "text": "Search results and listing cards show the total before taxes for your dates."
+    }
+   ]
+  },
+  {
+   "id": 105,
+   "audience": "guest",
+   "category": "Payments & pricing",
+   "title": "Weekly and monthly stay discounts",
+   "summary": "Some Hosts offer a discount for longer stays.",
+   "blocks": [
+    {
+     "type": "list",
+     "items": [
+      "Weekly discount: applies to stays of 7 nights or more.",
+      "Monthly discount: applies to stays of 28 nights or more and replaces the weekly discount."
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "The discount is taken off the nightly subtotal before the cleaning fee, service fee and taxes are added. When your dates qualify, the discount appears as its own line in the price breakdown on the listing page and on the Confirm and pay page."
+    },
+    {
+     "type": "paragraph",
+     "text": "Stays can be booked for up to 90 nights."
+    }
+   ]
+  },
+  {
+   "id": 106,
+   "audience": "guest",
+   "category": "Booking",
+   "title": "Instant Book and reservation requests",
+   "summary": "Some homes can be booked instantly. For others, you send a request to the Host.",
+   "blocks": [
+    {
+     "type": "heading",
+     "text": "Instant Book"
+    },
+    {
+     "type": "paragraph",
+     "text": "Listings with Instant Book are confirmed as soon as you confirm and pay. Use the Instant Book filter under Booking options to only see these listings."
+    },
+    {
+     "type": "heading",
+     "text": "Request to book"
+    },
+    {
+     "type": "paragraph",
+     "text": "For other listings, send a request with a message to the Host explaining your trip. A message is required. The Host has 24 hours to respond, and you won’t be charged unless the request is accepted. Pending requests appear in Trips."
+    }
+   ]
+  },
+  {
+   "id": 107,
+   "audience": "guest",
+   "category": "Payments & pricing",
+   "title": "Adding and removing payment methods",
+   "summary": "Manage your cards in Account > Payments & payouts.",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "We accept Visa, Mastercard, American Express and Discover credit and debit cards."
+    },
+    {
+     "type": "list",
+     "items": [
+      "To add a card, go to Payments & payouts and select Add payment method. You can also add a card on the Confirm and pay page.",
+      "To choose which card is selected first at checkout, select Set default.",
+      "To remove a card, select Remove. A card used for an upcoming reservation can’t be removed."
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Your payment history, including refunds, is listed on the same page."
+    }
+   ]
+  },
+  {
+   "id": 108,
+   "audience": "guest",
+   "category": "Payments & pricing",
+   "title": "Where to find your receipt",
+   "summary": "Every reservation has a receipt with the full price breakdown.",
+   "blocks": [
+    {
+     "type": "list",
+     "items": [
+      "Go to Trips and select the reservation.",
+      "Select Get receipt."
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "The receipt shows the confirmation code, the nights and nightly price, the cleaning fee, the service fee, taxes, the card that was charged and any refund."
+    }
+   ]
+  },
+  {
+   "id": 109,
+   "audience": "guest",
+   "category": "Reviews",
+   "title": "Writing a review after your stay",
+   "summary": "You have 14 days after checkout to review your stay.",
+   "blocks": [
+    {
+     "type": "list",
+     "items": [
+      "Go to Trips and select the completed stay.",
+      "Select Write a review.",
+      "Give an overall star rating and rate cleanliness, accuracy, check-in, communication, location and value.",
+      "Describe your stay. You can also leave a private note that only the Host sees."
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Reviews can be submitted within 14 days after checkout and can’t be edited after they’re submitted. Reviews for canceled reservations aren’t possible."
+    }
+   ]
+  },
+  {
+   "id": 110,
+   "audience": "all",
+   "category": "Reviews",
+   "title": "How star ratings work",
+   "summary": "Listings show an overall rating and six category ratings.",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "The overall rating is the average of the star ratings guests have given. Listings without reviews yet are shown as New."
+    },
+    {
+     "type": "paragraph",
+     "text": "Category ratings cover cleanliness, accuracy, check-in, communication, location and value."
+    },
+    {
+     "type": "heading",
+     "text": "Guest favorites"
+    },
+    {
+     "type": "paragraph",
+     "text": "Guest favorites are the most loved homes on Airbnb, based on ratings, reviews and reliability. Use the Guest favorite filter under Standout stays to find them."
+    }
+   ]
+  },
+  {
+   "id": 111,
+   "audience": "guest",
+   "category": "Your trip",
+   "title": "Messaging your Host",
+   "summary": "Contact a Host before you book or during your trip.",
+   "blocks": [
+    {
+     "type": "list",
+     "items": [
+      "Before booking: select Message host on the listing page.",
+      "After booking: select Message (followed by your Host’s name) in your trip details.",
+      "All conversations are in Messages. Unread conversations are marked."
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Keep all communication in Messages so there’s a record of what was agreed."
+    }
+   ]
+  },
+  {
+   "id": 112,
+   "audience": "guest",
+   "category": "Your trip",
+   "title": "Saving homes to a wishlist",
+   "summary": "Wishlists help you keep track of places you like.",
+   "blocks": [
+    {
+     "type": "list",
+     "items": [
+      "Select the heart on a listing to save it. Choose an existing wishlist or create a new one.",
+      "Open Wishlists from the account menu to see everything you’ve saved.",
+      "To rename or delete a wishlist, open it and select Settings. Wishlist names can be up to 50 characters."
+     ]
+    }
+   ]
+  },
+  {
+   "id": 113,
+   "audience": "guest",
+   "category": "Getting started",
+   "title": "Searching for a place to stay",
+   "summary": "Search by destination and dates, then narrow results with filters.",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Enter a destination, your dates and the number of guests. Results are shown in order of relevance."
+    },
+    {
+     "type": "heading",
+     "text": "Filters"
+    },
+    {
+     "type": "list",
+     "items": [
+      "Type of place: entire home, private room, shared room or hotel room.",
+      "Price range: the nightly price before fees and taxes.",
+      "Rooms and beds: minimum bedrooms, beds and bathrooms.",
+      "Amenities, such as Wifi, kitchen, washer or a dedicated workspace.",
+      "Booking options: Instant Book, Self check-in, Free cancellation and Allows pets.",
+      "Standout stays: Guest favorite and Superhost.",
+      "Property type: house, apartment, guesthouse or hotel."
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Some destination names match more than one place, like Portland. Include the state or country to make sure you’re searching the right one."
+    }
+   ]
+  },
+  {
+   "id": 114,
+   "audience": "all",
+   "category": "Your account",
+   "title": "Editing your personal info",
+   "summary": "Update your name, contact details, address and emergency contact.",
+   "blocks": [
+    {
+     "type": "list",
+     "items": [
+      "Open the account menu and select Account.",
+      "Select Personal info.",
+      "Edit the details you want to change and select Save."
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Your legal name should match your government ID. Hosts see your preferred first name if you add one."
+    }
+   ]
+  },
+  {
+   "id": 115,
+   "audience": "all",
+   "category": "Your account",
+   "title": "Changing your password",
+   "summary": "Update your password from Login & security.",
+   "blocks": [
+    {
+     "type": "list",
+     "items": [
+      "Go to Account > Login & security.",
+      "Enter your current password and your new password twice.",
+      "Select Update password."
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Passwords must be at least 8 characters long."
+    }
+   ]
+  },
+  {
+   "id": 116,
+   "audience": "all",
+   "category": "Your account",
+   "title": "Deactivating your account",
+   "summary": "Account deactivation is handled by our support team.",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Accounts can’t be deactivated online. Before you ask our support team to deactivate your account, cancel any upcoming reservations and save the receipts you need; deactivated accounts lose access to Trips, Messages and Wishlists."
+    },
+    {
+     "type": "paragraph",
+     "text": "If you only want to stop getting booked as a Host or change how you’re contacted, you don’t need to deactivate your account."
+    }
+   ]
+  },
+  {
+   "id": 117,
+   "audience": "host",
+   "category": "Getting started as a Host",
+   "title": "How we estimate what you could earn",
+   "summary": "The Airbnb it page gives an estimate based on similar homes near you.",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "The estimate uses the median nightly price of entire-home listings in your city with the same number of bedrooms as your place. If there are none, it uses all entire-home listings in the city."
+    },
+    {
+     "type": "paragraph",
+     "text": "The median nightly price is multiplied by the number of nights you plan to host each month. The estimate doesn’t subtract Host fees, cleaning costs or taxes."
+    }
+   ]
+  },
+  {
+   "id": 118,
+   "audience": "host",
+   "category": "Hosting",
+   "title": "How to become a Superhost",
+   "summary": "Superhosts are experienced Hosts who provide great stays.",
+   "blocks": [
+    {
+     "type": "list",
+     "items": [
+      "An overall rating of 4.8 or higher.",
+      "At least 10 completed stays, or 3 stays that total at least 100 nights.",
+      "A cancellation rate below 1%.",
+      "A response rate of 90% or higher."
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Superhost status is reviewed every three months. Guests can filter for Superhosts under Standout stays."
+    }
+   ]
+  },
+  {
+   "id": 119,
+   "audience": "host",
+   "category": "Hosting",
+   "title": "Choosing a cancellation policy for your listing",
+   "summary": "Pick the policy guests will see when they book.",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Hosts choose one of four standard policies. Guests always see the policy before booking."
+    },
+    {
+     "type": "heading",
+     "text": "Flexible"
+    },
+    {
+     "type": "paragraph",
+     "text": "Free cancellation until 1 day before check-in. After that, the first night, the service fee and taxes are non-refundable; the remaining nights and the cleaning fee are refunded."
+    },
+    {
+     "type": "heading",
+     "text": "Moderate"
+    },
+    {
+     "type": "paragraph",
+     "text": "Free cancellation until 5 days before check-in. After that, the first night, the service fee and taxes are non-refundable; you get 50% of the remaining nights back, plus the full cleaning fee."
+    },
+    {
+     "type": "heading",
+     "text": "Firm"
+    },
+    {
+     "type": "paragraph",
+     "text": "Free cancellation until 30 days before check-in. Cancel at least 7 days before check-in to get 50% of the nightly rate back, plus the full cleaning fee. No refund after that."
+    },
+    {
+     "type": "heading",
+     "text": "Strict"
+    },
+    {
+     "type": "paragraph",
+     "text": "Free cancellation for 48 hours after booking, if check-in is at least 14 days away. Cancel at least 7 days before check-in to get 50% of the nightly rate back, plus the full cleaning fee. No refund after that."
+    }
+   ]
+  }
+ ]
+}

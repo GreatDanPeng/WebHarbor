@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% import '_macros.html' as mc with context %}
+{% block title %}Trips - Airbnb{% endblock %}
+{% block searchbar %}{% endblock %}
+{% macro trip_card(res) -%}
+{% set l = res.listing %}
+<a class="trip-card" href="{{ url_for('trip_detail', code=res.code) }}">
+  {% set cover = l.cover %}
+  {% if cover %}<img src="{{ url_for('static', filename='images/' ~ cover.path) }}" alt="">{% endif %}
+  <div class="body">
+    <div class="row between"><b>{{ l.city.name }}</b>{{ mc.status_badge(res) }}</div>
+    <div>{{ l.name }}</div>
+    <div class="muted small">Hosted by {{ l.host.first_name }}</div>
+    <div class="small">{{ fmt_range(res.checkin, res.checkout) }}{% if res.checkin.year != MIRROR_TODAY.year and res.checkin.year == res.checkout.year %}, {{ res.checkin.year }}{% endif %} · {{ res.guests_label }}</div>
+    <div class="muted small">Confirmation code {{ res.code }}</div>
+  </div>
+</a>
+{%- endmacro %}
+{% block content %}
+<div class="container">
+  <h1 class="page-title">Trips</h1>
+  <nav class="tabs" aria-label="Trip tabs">
+    <a href="{{ url_for('trips', tab='upcoming') }}" {% if tab == 'upcoming' %}class="active" aria-current="page"{% endif %}>Upcoming ({{ upcoming|length }})</a>
+    <a href="{{ url_for('trips', tab='past') }}" {% if tab == 'past' %}class="active" aria-current="page"{% endif %}>Where you've been ({{ past|length }})</a>
+    <a href="{{ url_for('trips', tab='cancelled') }}" {% if tab == 'cancelled' %}class="active" aria-current="page"{% endif %}>Canceled ({{ cancelled|length }})</a>
+  </nav>
+  {% set rows = upcoming if tab == 'upcoming' else (past if tab == 'past' else cancelled) %}
+  {% if rows %}
+  <div class="trip-list">
+    {% for res in rows %}{{ trip_card(res) }}{% endfor %}
+  </div>
+  {% else %}
+  <div class="empty">
+    {% if tab == 'upcoming' %}
+    <h2>No trips booked...yet!</h2>
+    <p class="muted">Time to dust off your bags and start planning your next adventure.</p>
+    <a class="btn btn-dark" href="{{ url_for('index') }}">Start searching</a>
+    {% elif tab == 'past' %}
+    <h2>No past trips</h2>
+    <p class="muted">Stays you've completed will show up here.</p>
+    {% else %}
+    <h2>No canceled trips</h2>
+    {% endif %}
+  </div>
+  {% endif %}
+  <p class="muted small" style="margin-top:32px">Can't find your reservation here? <a href="{{ url_for('help_home') }}">Visit the Help Center</a></p>
+</div>
+{% endblock %}

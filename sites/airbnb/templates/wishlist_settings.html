@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% import '_icons.html' as ic %}
+{% block title %}Settings · {{ wl.name }} - Airbnb{% endblock %}
+{% block searchbar %}{% endblock %}
+{% block content %}
+<div class="container" style="max-width:680px">
+  <div class="subpage-head">
+    <a class="back-link" href="{{ url_for('wishlist_detail', wishlist_id=wl.id) }}">{{ ic.chevron_left() }} {{ wl.name }}</a>
+  </div>
+  <h1>Settings</h1>
+  <form method="post" action="{{ url_for('wishlist_settings', wishlist_id=wl.id) }}" class="panel">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label class="field">Name<input name="name" value="{{ wl.name }}" maxlength="50" required></label>
+    <p class="muted small">50 characters maximum</p>
+    <button class="btn btn-dark" type="submit">Save</button>
+  </form>
+  <form method="post" action="{{ url_for('wishlist_settings', wishlist_id=wl.id) }}" class="panel">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <input type="hidden" name="action" value="delete">
+    <h2>Delete this wishlist?</h2>
+    <p class="muted">“{{ wl.name }}” and its {{ wl.items|length }} saved place{{ 's' if wl.items|length != 1 }} will be permanently deleted.</p>
+    <button class="btn" type="submit">Delete wishlist</button>
+  </form>
+</div>
+{% endblock %}

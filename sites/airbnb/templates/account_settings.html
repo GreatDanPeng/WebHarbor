@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Account - Airbnb{% endblock %}
+{% block searchbar %}{% endblock %}
+{% block content %}
+<div class="container">
+  <h1 class="page-title" style="margin-bottom:4px">Account</h1>
+  <p style="font-size:18px;margin:0 0 40px"><b>{{ current_user.full_name }}</b>, {{ current_user.email }} · <a href="{{ url_for('my_profile') }}">Go to profile</a></p>
+  <div class="acct-grid">
+    <a class="acct-card" href="{{ url_for('personal_info') }}">
+      <span class="ico" aria-hidden="true">🪪</span>
+      <b>Personal info</b>
+      <span class="muted">Provide personal details and how we can reach you</span>
+    </a>
+    <a class="acct-card" href="{{ url_for('login_security') }}">
+      <span class="ico" aria-hidden="true">🛡</span>
+      <b>Login &amp; security</b>
+      <span class="muted">Update your password and secure your account</span>
+    </a>
+    <a class="acct-card" href="{{ url_for('payments') }}">
+      <span class="ico" aria-hidden="true">💳</span>
+      <b>Payments &amp; payouts</b>
+      <span class="muted">Review payments, payment methods and past charges</span>
+    </a>
+    <a class="acct-card" href="{{ url_for('trips') }}">
+      <span class="ico" aria-hidden="true">🧳</span>
+      <b>Trips</b>
+      <span class="muted">Upcoming reservations, past stays and cancellations</span>
+    </a>
+    <a class="acct-card" href="{{ url_for('wishlists') }}">
+      <span class="ico" aria-hidden="true">♡</span>
+      <b>Wishlists</b>
+      <span class="muted">Places you've saved for later</span>
+    </a>
+    <a class="acct-card" href="{{ url_for('inbox') }}">
+      <span class="ico" aria-hidden="true">💬</span>
+      <b>Messages</b>
+      <span class="muted">Conversations with hosts</span>
+    </a>
+  </div>
+  <p class="note-center" style="margin-top:48px">Need to deactivate your account? <a href="{{ url_for('help_search', q='deactivate account') }}">Visit the Help Center</a></p>
+</div>
+{% endblock %}

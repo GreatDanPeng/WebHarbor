@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% import '_macros.html' as mc with context %}
+{% import '_icons.html' as ic %}
+{% block title %}{% if listing.instant_book %}Confirm and pay{% else %}Request to book{% endif %} · Airbnb{% endblock %}
+{% block searchbar %}{% endblock %}
+{% block content %}
+{% set back = room_url(listing, {'checkin': state.checkin, 'checkout': state.checkout, 'adults': state.adults, 'children': state.children, 'infants': state.infants, 'pets': state.pets}) %}
+{% set chosen = form.get('payment_method') if form else (cards[0].id|string if cards else 'new') %}
+<div class="container">
+  <div class="subpage-head">
+    <a class="back-link" href="{{ back }}">{{ ic.chevron_left() }} Back</a>
+  </div>
+  <h1 class="page-title">{% if listing.instant_book %}Confirm and pay{% else %}Request to book{% endif %}</h1>
+  <div class="book-layout">
+    <form method="post" action="{{ url_for('book', listing_id=listing.id) }}" class="book-main" novalidate>
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <input type="hidden" name="checkin" value="{{ state.checkin.isoformat() }}">
+      <input type="hidden" name="checkout" value="{{ state.checkout.isoformat() }}">
+      <input type="hidden" name="numberOfAdults" value="{{ state.adults }}">
+      <input type="hidden" name="numberOfChildren" value="{{ state.children }}">
+      <input type="hidden" name="numberOfInfants" value="{{ state.infants }}">
+      <input type="hidden" name="numberOfPets" value="{{ state.pets }}">
+
+      {% if error %}<div class="alert alert-error" role="alert">{{ error }}</div>{% endif %}
+
+      <section class="book-step">
+        <h2>Your trip</h2>
+        <div class="info-row">
+          <div><b>Dates</b><div>{{ fmt_range(state.checkin, state.checkout) }}</div></div>
+          <a class="btn-link" href="{{ back }}#calendar">Edit</a>
+        </div>
+        <div class="info-row">
+          <div><b>Guests</b><div>{{ guests_label(state.adults, state.children, state.infants, state.pets) }}</div></div>
+          <a class="btn-link" href="{{ back }}#book">Edit</a>
+        </div>
+      </section>
+
+      <section class="book-step">
+        <h2>Pay with</h2>
+        {% for card in cards %}
+        <label class="radio-card">
+          <input type="radio" name="payment_method" value="{{ card.id }}" {% if chosen == card.id|string %}checked{% endif %}>
+          <span class="brand">{{ card.brand }}</span>
+          <span class="grow">•••• {{ card.last4 }}<span class="muted small" style="display:block">Expires {{ card.expiry }}{% if card.is_default %} · Default{% endif %}</span></span>
+        </label>
+        {% endfor %}
+        <label class="radio-card">
+          <input type="radio" name="payment_method" value="new" {% if chosen == 'new' %}checked{% endif %}>
+          <span class="grow"><b>Add a new card</b><span class="muted small" style="display:block">Credit or debit card</span></span>
+        </label>
+        <fieldset class="new-card">
+          <legend class="visually-hidden">New card details</legend>
+          <label class="field">Card number<input name="card_number" inputmode="numeric" autocomplete="cc-number" value="{{ form.get('card_number', '') }}"></label>
+          <div class="field-row">
+            <label class="field">Expiration<input name="expiration" placeholder="MM/YY" autocomplete="cc-exp" value="{{ form.get('expiration', '') }}"></label>
+            <label class="field">CVV<input name="cvv" inputmode="numeric" autocomplete="cc-csc" value=""></label>
+          </div>
+          <label class="field">Name on card<input name="holder_name" autocomplete="cc-name" value="{{ form.get('holder_name', current_user.full_name) }}"></label>
+          <div class="field-row">
+            <label class="field">ZIP code<input name="postal_code" autocomplete="postal-code" value="{{ form.get('postal_code', '') }}"></label>
+            <label class="field">Country/region
+              <select name="country">
+                {% for c in ('United States', 'Canada', 'United Kingdom', 'Portugal', 'France', 'Spain', 'Italy', 'Japan', 'Mexico', 'Germany') %}
+                <option {% if form.get('country', 'United States') == c %}selected{% endif %}>{{ c }}</option>
+                {% endfor %}
+              </select>
+            </label>
+          </div>
+        </fieldset>
+      </section>
+
+      <section class="book-step">
+        <h2>Required for your trip</h2>
+        <label class="field">
+          <b>Message the host</b>
+          <span class="muted small">{% if listing.instant_book %}Optional. {% endif %}Let {{ listing.host.first_name }} know a little about yourself and why you're coming.</span>
+          <textarea name="message" rows="5" {% if not listing.instant_book %}required{% endif %}>{{ form.get('message', '') }}</textarea>
+        </label>
+        <label class="field">
+          <b>Are you traveling for work?</b>
+          <select name="trip_purpose">
+            <option value="">Select one</option>
+            {% for p in ('Leisure', 'Work', 'Visiting family or friends', 'Event or celebration') %}
+            <option {% if form.get('trip_purpose') == p %}selected{% endif %}>{{ p }}</option>
+            {% endfor %}
+          </select>
+        </label>
+      </section>
+
+      <section class="book-step">
+        <h2>Cancellation policy</h2>
+        <p><b>{{ listing.cancellation_policy }}.</b> {{ POLICY_TEXT[listing.cancellation_policy] }}</p>
+        {% if deadline and deadline >= MIRROR_TODAY %}
+        <p><b>Free cancellation before {{ deadline|long_date }}.</b> Cancel before check-in on {{ state.checkin|long_date }} for a partial refund.</p>
+        {% else %}
+        <p><b>This reservation is non-refundable before check-in except as described above.</b></p>
+        {% endif %}
+        <a class="btn-link" href="{{ url_for('help_search', q='cancellation policy') }}">Learn more</a>
+      </section>
+
+      <section class="book-step">
+        <h2>Ground rules</h2>
+        <p>We ask every guest to remember a few simple things about what makes a great guest.</p>
+        <ul>
+          <li>Follow the house rules</li>
+          <li>Treat your Host's home like your own</li>
+        </ul>
+      </section>
+
+      <section class="book-step" style="border-bottom:0">
+        {% if not listing.instant_book %}
+        <div class="notice-row">
+          <span aria-hidden="true">📅</span>
+          <p style="margin:0"><b>Your reservation won't be confirmed until the Host accepts your request (within 24 hours).</b> You won't be charged until then.</p>
+        </div>
+        {% endif %}
+        <p class="small muted">By selecting the button below, I agree to the Host's House Rules, Ground rules for guests, and that Airbnb can charge my payment method if I'm responsible for damage.</p>
+        <button class="btn btn-primary btn-lg" type="submit">{% if listing.instant_book %}Confirm and pay{% else %}Request to book{% endif %}</button>
+      </section>
+    </form>
+
+    <aside>
+      <div class="book-summary">
+        <div class="head">
+          {% set cover = listing.cover %}
+          {% if cover %}<img src="{{ url_for('static', filename='images/' ~ cover.path) }}" alt="">{% endif %}
+          <div>
+            <b>{{ listing.name }}</b>
+            <div class="small muted">{{ listing.title }}</div>
+            <div class="small">{{ mc.rating_inline(listing) }}{% if listing.host.is_superhost %} · Superhost{% endif %}</div>
+          </div>
+        </div>
+        <hr>
+        <div class="small"><b>{{ listing.cancellation_policy }} cancellation</b>{% if deadline and deadline >= MIRROR_TODAY %} · Free cancellation before {{ deadline|long_date }}{% endif %}</div>
+        <hr>
+        <h3>Price details</h3>
+        {{ mc.breakdown(quote, listing) }}
+      </div>
+    </aside>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% import '_icons.html' as ic %}
+{% block title %}Photo tour · {{ listing.name }} - Airbnb{% endblock %}
+{% block header_width %}container-narrow{% endblock %}
+{% block footer_width %}container-narrow{% endblock %}
+{% block searchbar %}{% endblock %}
+{% block content %}
+<div class="container-narrow">
+  <div class="subpage-head">
+    <a class="back-link" href="{{ url_for('room', listing_id=listing.id) }}">{{ ic.chevron_left() }} Back to listing</a>
+  </div>
+  <h1>Photo tour</h1>
+  <p class="muted">{{ listing.name }} · {{ photos|length }} photo{{ 's' if photos|length != 1 }}</p>
+  <div class="photo-tour">
+    {% for p in photos %}
+    <figure id="photo-{{ loop.index }}">
+      <img src="{{ url_for('static', filename='images/' ~ p.path) }}" alt="{{ p.caption or listing.name }}" loading="lazy">
+      {% if p.caption %}<figcaption>{{ p.caption }}</figcaption>{% endif %}
+    </figure>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

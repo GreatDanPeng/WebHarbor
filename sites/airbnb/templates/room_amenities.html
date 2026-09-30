@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% import '_icons.html' as ic %}
+{% block title %}Amenities · {{ listing.name }} - Airbnb{% endblock %}
+{% block header_width %}container-narrow{% endblock %}
+{% block footer_width %}container-narrow{% endblock %}
+{% block searchbar %}{% endblock %}
+{% block content %}
+<div class="container-narrow" style="max-width:760px">
+  <div class="subpage-head">
+    <a class="back-link" href="{{ url_for('room', listing_id=listing.id) }}">{{ ic.chevron_left() }} Back to listing</a>
+  </div>
+  <h1>What this place offers</h1>
+  <p class="muted">{{ listing.name }}</p>
+  {% for category, rows in groups.items() %}
+  <section class="amen-group">
+    <h2>{{ category }}</h2>
+    {% for row in rows %}
+    <div class="it"><b>{{ row.amenity.name }}</b>{% if row.detail %}<span class="muted">{{ row.detail }}</span>{% endif %}</div>
+    {% endfor %}
+  </section>
+  {% endfor %}
+  {% if missing %}
+  <section class="amen-group">
+    <h2>Not included</h2>
+    {% for row in missing %}
+    <div class="it na"><b><s>{{ row.amenity.name }}</s></b>{% if row.detail %}<span class="muted">{{ row.detail }}</span>{% endif %}</div>
+    {% endfor %}
+  </section>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% import '_macros.html' as mc with context %}
+{% block title %}Payments - Account - Airbnb{% endblock %}
+{% block searchbar %}{% endblock %}
+{% block content %}
+<div class="container">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="{{ url_for('account_settings') }}">Account</a> › Payments &amp; payouts</nav>
+  <h1 class="page-title">Payments</h1>
+  <div class="acct-layout">
+    <div>
+      <section>
+        <h2>Payment methods</h2>
+        <p class="muted">Add and manage your payment methods using our secure payment system.</p>
+        <div class="card-list">
+          {% for card in cards %}
+          <div class="cardrow">
+            <span class="brand">{{ card.brand }}</span>
+            <div class="grow"><b>•••• {{ card.last4 }}</b>{% if card.is_default %} <span class="badge">Default</span>{% endif %}<div class="muted small">Expiration: {{ card.expiry }} · {{ card.holder_name }}</div></div>
+            {% if not card.is_default %}
+            <form method="post" action="{{ url_for('payments') }}" class="inline-form">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <input type="hidden" name="action" value="default">
+              <input type="hidden" name="card_id" value="{{ card.id }}">
+              <button class="btn-link" type="submit">Set default</button>
+            </form>
+            {% endif %}
+            <form method="post" action="{{ url_for('payments') }}" class="inline-form">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <input type="hidden" name="action" value="remove">
+              <input type="hidden" name="card_id" value="{{ card.id }}">
+              <button class="btn-link" type="submit">Remove</button>
+            </form>
+          </div>
+          {% else %}
+          <p class="muted">No payment methods saved.</p>
+          {% endfor %}
+        </div>
+        <details class="panel" style="margin-top:16px">
+          <summary class="bold">Add payment method</summary>
+          <form method="post" action="{{ url_for('payments') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="action" value="add">
+            <label class="field">Card number<input name="card_number" inputmode="numeric" autocomplete="cc-number" required></label>
+            <div class="field-row">
+              <label class="field">Expiration<input name="expiration" placeholder="MM/YY" required></label>
+              <label class="field">CVV<input name="cvv" inputmode="numeric" required></label>
+            </div>
+            <label class="field">Name on card<input name="holder_name" value="{{ current_user.full_name }}"></label>
+            <div class="field-row">
+              <label class="field">ZIP code<input name="postal_code" required></label>
+              <label class="field">Country/region<input name="country" value="United States"></label>
+            </div>
+            <label class="checks"><input type="checkbox" name="make_default" value="on"> Make this my default payment method</label>
+            <button class="btn btn-dark" type="submit" style="margin-top:12px">Done</button>
+          </form>
+        </details>
+      </section>
+      <section style="margin-top:40px">
+        <h2>Your payments</h2>
+        <p class="muted">Keep track of all your payments and refunds.</p>
+        {% if history %}
+        <table class="plain">
+          <thead><tr><th>Date</th><th>Reservation</th><th>Payment method</th><th>Status</th><th style="text-align:right">Amount</th></tr></thead>
+          <tbody>
+          {% for res in history %}
+          <tr>
+            <td>{{ res.created_at.strftime('%b') }} {{ res.created_at.day }}, {{ res.created_at.year }}</td>
+            <td><a href="{{ url_for('trip_detail', code=res.code) }}">{{ res.code }}</a><div class="muted small">{{ res.listing.city.name }} · {{ fmt_range(res.checkin, res.checkout) }}</div></td>
+            <td>{{ res.payment_label or '—' }}</td>
+            <td>{{ res.status_label }}</td>
+            <td style="text-align:right">
+              {% if res.status == 'pending' %}<span class="muted">Not charged</span> {{ res.total|money }}
+              {% elif res.status == 'declined' %}<span class="muted">Not charged</span>
+              {% elif res.status == 'cancelled' %}{{ res.total|money }}<div class="small">Refund -{{ (res.refund_amount or 0)|money }}</div>
+              {% else %}{{ res.total|money }}{% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <p class="muted">No payments yet.</p>
+        {% endif %}
+      </section>
+    </div>
+    <aside class="side-note">
+      <h3>Make all payments through Airbnb</h3>
+      <p class="muted">Always pay and communicate through Airbnb to ensure you're protected under our Terms of Service, Payments Terms of Service, cancellation, and other safeguards.</p>
+    </aside>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Login &amp; security - Account - Airbnb{% endblock %}
+{% block searchbar %}{% endblock %}
+{% block content %}
+<div class="container">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="{{ url_for('account_settings') }}">Account</a> › Login &amp; security</nav>
+  <h1 class="page-title">Login &amp; security</h1>
+  <div class="acct-layout">
+    <div>
+      <h2>Login</h2>
+      <form method="post" action="{{ url_for('login_security') }}" class="panel">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <b>Password</b>
+        <label class="field">Current password<input type="password" name="current_password" autocomplete="current-password" required></label>
+        <label class="field">New password<input type="password" name="new_password" autocomplete="new-password" minlength="8" required></label>
+        <label class="field">Confirm password<input type="password" name="confirm_password" autocomplete="new-password" minlength="8" required></label>
+        <button class="btn btn-dark" type="submit">Update password</button>
+      </form>
+      <h2 style="margin-top:40px">Account</h2>
+      <div class="info-row"><div><b>Email</b><div class="muted">{{ current_user.email }}</div></div></div>
+      <div class="info-row"><div><b>Member since</b><div class="muted">{{ current_user.joined.strftime('%B %Y') }}</div></div></div>
+    </div>
+    <aside class="side-note">
+      <h3>Keeping your account secure</h3>
+      <p class="muted">We regularly review accounts to make sure they're secure as possible. We'll also let you know if there's more we can do to increase the security of your account.</p>
+    </aside>
+  </div>
+</div>
+{% endblock %}

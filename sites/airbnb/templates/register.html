@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Sign up - Airbnb{% endblock %}
+{% block searchbar %}{% endblock %}
+{% block content %}
+<div class="container-narrow">
+  <div class="auth-card">
+    <div class="auth-head">Finish signing up</div>
+    <div class="auth-body">
+      <form method="post" action="{{ url_for('register') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <b>Legal name</b>
+        <label class="field">First name on ID<input name="first_name" value="{{ form.get('first_name', '') }}" autocomplete="given-name" required></label>
+        <label class="field">Last name on ID<input name="last_name" value="{{ form.get('last_name', '') }}" autocomplete="family-name" required></label>
+        <p class="small muted">Make sure this matches the name on your government ID.</p>
+        <b>Contact info</b>
+        <label class="field">Email<input type="email" name="email" value="{{ form.get('email', '') }}" autocomplete="email" required></label>
+        <p class="small muted">We'll email you trip confirmations and receipts.</p>
+        <b>Password</b>
+        <label class="field">Password<input type="password" name="password" minlength="8" autocomplete="new-password" required></label>
+        <label class="field">Confirm password<input type="password" name="confirm_password" minlength="8" autocomplete="new-password" required></label>
+        <p class="small muted">By selecting Agree and continue, I agree to Airbnb's Terms of Service, Payments Terms of Service, and Nondiscrimination Policy and acknowledge the Privacy Policy.</p>
+        <button class="btn btn-primary btn-block btn-lg" type="submit">Agree and continue</button>
+      </form>
+      <p class="note-center">Already have an account? <a href="{{ url_for('login') }}">Log in</a></p>
+    </div>
+  </div>
+</div>
+{% endblock %}

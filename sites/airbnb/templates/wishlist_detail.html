@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% import '_macros.html' as mc with context %}
+{% import '_icons.html' as ic %}
+{% block title %}{{ wl.name }} - Wishlists - Airbnb{% endblock %}
+{% block searchbar %}{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="subpage-head row between">
+    <a class="back-link" href="{{ url_for('wishlists') }}">{{ ic.chevron_left() }} Wishlists</a>
+    <a class="btn-link" href="{{ url_for('wishlist_settings', wishlist_id=wl.id) }}">Settings</a>
+  </div>
+  <h1 class="page-title">{{ wl.name }}</h1>
+  <p class="muted">{{ wl.items|length }} saved</p>
+  {% if wl.items %}
+  <div class="card-grid">
+    {% for item in wl.items %}
+    {% set l = item.listing %}
+    <div class="wl-item">
+      {{ mc.listing_card(l, None, None, request.full_path) }}
+      <div class="wl-note">
+        {% if item.note %}<p class="small" style="margin:6px 0"><b>Note:</b> {{ item.note }}</p>{% endif %}
+        <details>
+          <summary class="btn-link small">{% if item.note %}Edit note{% else %}Add note{% endif %}</summary>
+          <form method="post" action="{{ url_for('wishlist_note', wishlist_id=wl.id) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="listing_id" value="{{ l.id }}">
+            <textarea name="note" rows="2" maxlength="250" aria-label="Note for {{ l.title }}">{{ item.note or '' }}</textarea>
+            <button class="btn" type="submit">Save</button>
+          </form>
+        </details>
+        <form method="post" action="{{ url_for('wishlist_remove', wishlist_id=wl.id) }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <input type="hidden" name="listing_id" value="{{ l.id }}">
+          <button class="btn-link small" type="submit">Remove from {{ wl.name }}</button>
+        </form>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty">
+    <h2>No saves yet</h2>
+    <p class="muted">As you search, tap the heart icon to save your favorite places to stay.</p>
+    <a class="btn btn-dark" href="{{ url_for('index') }}">Start exploring</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

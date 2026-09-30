@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% import '_macros.html' as mc with context %}
+{% block title %}{{ host.first_name }} - Airbnb{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="profile">
+    <aside>
+      <div class="idcard">
+        <div class="id">
+          {{ mc.host_avatar(host, 'lg') }}
+          <h1 style="margin:8px 0 0;font-size:32px">{{ host.first_name }}</h1>
+          <span class="small bold">{% if host.is_superhost %}Superhost{% else %}Host{% endif %}</span>
+        </div>
+        <div class="stats">
+          {% if host.review_count is not none %}
+          <div><b>{{ '{:,}'.format(host.review_count) }}</b><span class="small">Reviews</span></div>
+          <div><b>{{ '%.2f'|format(host.rating) if host.rating else '–' }}{% if host.rating %}★{% endif %}</b><span class="small">Rating</span></div>
+          {% endif %}
+          {% set stat = host.tenure_stat %}
+          {% if stat %}<div><b>{{ stat[0] }}</b><span class="small">{{ stat[1] }}</span></div>{% endif %}
+        </div>
+      </div>
+      {% if host.identity_verified is not none %}
+      <div class="panel" style="margin-top:24px">
+        <h3 style="margin-top:0">{{ host.first_name }}'s confirmed information</h3>
+        <p style="margin:0">{% if host.identity_verified %}✓ Identity{% else %}Identity not verified{% endif %}</p>
+      </div>
+      {% endif %}
+    </aside>
+    <div>
+      <h2 style="font-size:32px;margin-top:0">About {{ host.first_name }}</h2>
+      <ul class="facts">
+        {% if host.work %}<li>💼 My work: {{ host.work }}</li>{% endif %}
+        {% if host.lives_in %}<li>📍 Lives in {{ host.lives_in }}</li>{% endif %}
+        {% if host.languages %}<li>💬 Speaks {{ host.languages }}</li>{% endif %}
+        {% if host.response_rate is not none %}<li>Response rate: {{ host.response_rate }}%</li>{% endif %}
+        {% if host.response_time %}<li>Responds {{ host.response_time }}</li>{% endif %}
+      </ul>
+      {% if host.about %}<p style="font-size:16px;white-space:pre-line">{{ host.about }}</p>{% endif %}
+
+      <section style="border-top:1px solid var(--line);margin-top:32px;padding-top:32px">
+        <h2>{{ host.first_name }}'s listings</h2>
+        <div class="card-grid compact">
+          {% for listing in listings %}{{ mc.listing_card(listing, None, None, request.full_path) }}{% endfor %}
+        </div>
+      </section>
+
+      {% if reviews %}
+      <section style="border-top:1px solid var(--line);margin-top:32px;padding-top:32px">
+        <h2>{{ host.first_name }}'s reviews</h2>
+        <div class="review-grid">
+          {% for r in reviews %}
+          <div>
+            <div class="small muted" style="margin-bottom:6px"><a href="{{ url_for('room', listing_id=r.listing.id) }}">{{ r.listing.title }}</a></div>
+            {{ mc.review_block(r) }}
+          </div>
+          {% endfor %}
+        </div>
+      </section>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

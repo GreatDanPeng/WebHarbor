@@ -16,6 +16,10 @@
       "bytes": 2422612,
       "sha256": "e337aee58818a0e3128d157afcdf83cfbdf2bca1044ad647ca32ddc85bed4682"
     },
+    "airbnb.tar.gz": {
+      "bytes": 90691459,
+      "sha256": "19efcb4b374de4b12ae611ec1e26a6593dc72098660538d4442f96eb7ea48ddd"
+    },
     "akc.tar.gz": {
       "bytes": 1703760,
       "sha256": "a9a5f04d6bdc243b2714c5a056b31d3b134bdf8fed93a74db761f40feb301b36"
@@ -397,7 +401,7 @@
       "sha256": "986c51d2fe6c557b3b2c784c4bc198e53065af7da65946a99b782a90fde3b7db"
     }
   },
-  "managed_tree_sha256": "f62e99366499afe9aaa0f03dd304f5e38874a6b1f731eba4684ee7a1042c7c5a",
+  "managed_tree_sha256": "f97089d27da120aa4161b20ed60a6c1deb66f6402cdaec8eb29fc71a54b763bc",
   "repo": "ChilleD/WebHarbor",
   "revision": "5d2b17fa21067990370f8e7fc27123a1c24d7802",
   "version": 1

@@ -1,0 +1,85 @@
+{% import '_icons.html' as ic %}
+
+{% macro host_avatar(host, size='sm') -%}
+<span class="avatar {{ size }}" style="background:hsl({{ host.avatar_hue }},45%,38%)" aria-hidden="true">{{ host.initial }}</span>
+{%- endmacro %}
+
+{% macro user_avatar(user, size='xs') -%}
+<span class="avatar {{ size }}" aria-hidden="true">{{ user.initial }}</span>
+{%- endmacro %}
+
+{% macro rating_inline(listing) -%}
+{% if listing.review_count %}{{ ic.star() }} {{ listing.rating_label }} ({{ '{:,}'.format(listing.review_count) }}){% else %}{{ ic.star() }} New{% endif %}
+{%- endmacro %}
+
+{% macro heart_button(listing, next_url) -%}
+{% if current_user.is_authenticated and listing.id in saved_ids %}
+<form class="heart-form" method="post" action="{{ url_for('wishlist_unsave') }}">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <input type="hidden" name="listing_id" value="{{ listing.id }}">
+  <input type="hidden" name="next" value="{{ next_url }}">
+  <button class="heart saved" type="submit" aria-label="Remove from wishlist" title="Remove from wishlist">{{ ic.heart() }}</button>
+</form>
+{% else %}
+<form class="heart-form" method="get" action="{{ url_for('wishlist_save') }}">
+  <input type="hidden" name="listing_id" value="{{ listing.id }}">
+  <input type="hidden" name="next" value="{{ next_url }}">
+  <button class="heart" type="submit" aria-label="Add to wishlist" title="Add to wishlist">{{ ic.heart() }}</button>
+</form>
+{% endif %}
+{%- endmacro %}
+
+{% macro listing_card(listing, state=None, quote=None, next_url='/') -%}
+<div class="lcard" data-listing-id="{{ listing.id }}">
+  <a href="{{ room_url(listing, state) }}" class="photo-link" aria-label="{{ listing.title }}">
+    <div class="photo">
+      {% set cover = listing.cover %}
+      {% if cover %}<img src="{{ url_for('static', filename='images/' ~ cover.path) }}" alt="{{ cover.caption or listing.name }}" loading="lazy">{% endif %}
+      {% if listing.is_guest_favorite %}<span class="fav-badge badge-fav">Guest favorite</span>{% endif %}
+    </div>
+  </a>
+  {{ heart_button(listing, next_url) }}
+  <a href="{{ room_url(listing, state) }}" class="meta" style="display:block;text-decoration:none">
+    <div class="top"><span class="ttl">{{ listing.title }}</span><span class="rating">{{ rating_inline(listing) }}</span></div>
+    <div class="line">{{ listing.name }}</div>
+    <div class="line">{% if listing.is_studio %}Studio{% else %}{{ listing.bedrooms }} bedroom{{ 's' if listing.bedrooms != 1 }}{% endif %} · {{ listing.beds }} bed{{ 's' if listing.beds != 1 }}</div>
+    {% if quote %}
+    <div class="price"><b>{{ quote.total_before_taxes|money }}</b> for {{ quote.nights }} night{{ 's' if quote.nights != 1 }}{% if quote.discount %} <span class="muted">· {{ quote.discount_label }}</span>{% endif %}</div>
+    {% else %}
+    <div class="price"><b>{{ listing.nightly_price|money }}</b> night</div>
+    {% endif %}
+  </a>
+</div>
+{%- endmacro %}
+
+{% macro stars_text(n) -%}
+<span class="stars-inline" aria-label="Rating, {{ n }} stars">{% for i in range(n) %}★{% endfor %}</span>
+{%- endmacro %}
+
+{% macro review_block(r) -%}
+<div class="review">
+  <div class="who">
+    <span class="avatar sm" style="background:hsl({{ r.avatar_hue }},40%,40%)" aria-hidden="true">{{ r.initial }}</span>
+    <div><b>{{ r.author_name }}</b><span class="muted">{{ r.author_location or '' }}</span></div>
+  </div>
+  <div class="when">{{ stars_text(r.rating) }} · <b>{{ r.created.strftime('%B %Y') }}</b>{% if r.stay_note %} · <span class="muted">{{ r.stay_note }}</span>{% endif %}</div>
+  <div class="body">{{ r.body }}</div>
+  {% if r.host_response %}<div class="reply"><b>Response from host</b><br>{{ r.host_response }}</div>{% endif %}
+</div>
+{%- endmacro %}
+
+{% macro status_badge(res) -%}
+{% set label = res.status_label %}
+<span class="badge {% if res.status == 'cancelled' or res.status == 'declined' %}badge-warn{% elif res.status == 'pending' %}badge-pending{% elif label == 'Completed' %}{% else %}badge-ok{% endif %}">{{ label }}</span>
+{%- endmacro %}
+
+{% macro breakdown(q, listing=None) -%}
+<div class="breakdown">
+  <div class="li"><span class="u">{{ q.nightly_price|money }} x {{ q.nights }} night{{ 's' if q.nights != 1 }}</span><span>{{ q.subtotal|money }}</span></div>
+  {% if q.discount %}<div class="li discount"><span class="u">{{ q.discount_label }}</span><span>-{{ q.discount|money }}</span></div>{% endif %}
+  {% if q.cleaning_fee %}<div class="li"><span class="u">Cleaning fee</span><span>{{ q.cleaning_fee|money }}</span></div>{% endif %}
+  <div class="li"><span class="u">Airbnb service fee</span><span>{{ q.service_fee|money }}</span></div>
+  <div class="li"><span class="u">Taxes</span><span>{{ q.taxes|money }}</span></div>
+  <div class="li total"><span>Total (USD)</span><span>{{ q.total|money }}</span></div>
+</div>
+{%- endmacro %}

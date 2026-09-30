@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% import '_icons.html' as ic %}
+{% block title %}Cancel your reservation - Airbnb{% endblock %}
+{% block searchbar %}{% endblock %}
+{% block content %}
+{% set l = res.listing %}
+<div class="container" style="max-width:760px">
+  <div class="subpage-head">
+    <a class="back-link" href="{{ url_for('trip_detail', code=res.code) }}">{{ ic.chevron_left() }} Back to trip</a>
+  </div>
+  <h1>{% if res.status == 'pending' %}Cancel your request{% else %}Cancel your reservation{% endif %}</h1>
+  <p class="muted">{{ l.name }} · {{ fmt_range(res.checkin, res.checkout) }} · {{ res.code }}</p>
+
+  <section class="panel">
+    <h2>Refund details</h2>
+    <p>{{ quote.rule }}</p>
+    <div class="breakdown">
+      <div class="li"><span>You paid</span><span>{{ res.total|money }}</span></div>
+      {% if not quote.full %}<div class="li"><span>Non-refundable</span><span>-{{ quote.kept|money }}</span></div>{% endif %}
+      <div class="li total"><span>Your refund</span><span>{{ quote.refund|money }}</span></div>
+    </div>
+    <p class="small muted">Cancellation policy: <b>{{ res.cancellation_policy }}</b>. {{ POLICY_TEXT[res.cancellation_policy] }}</p>
+    <p class="small muted">Refund calculated for cancellation today, {{ MIRROR_TODAY|long_date }} ({{ (res.checkin - MIRROR_TODAY).days }} days before check-in).</p>
+  </section>
+
+  <form method="post" action="{{ url_for('trip_cancel', code=res.code) }}" class="panel">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <h2>Why do you need to cancel?</h2>
+    {% for r in reasons %}
+    <label class="radio-card"><input type="radio" name="reason" value="{{ r }}" required> <span>{{ r }}</span></label>
+    {% endfor %}
+    <button class="btn btn-primary" type="submit" style="margin-top:16px">{% if res.status == 'pending' %}Cancel request{% else %}Confirm cancellation{% endif %}</button>
+    <a class="btn-link" style="margin-left:16px" href="{{ url_for('trip_detail', code=res.code) }}">Keep reservation</a>
+  </form>
+</div>
+{% endblock %}

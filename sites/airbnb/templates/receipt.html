@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% import '_macros.html' as mc with context %}
+{% import '_icons.html' as ic %}
+{% block title %}Receipt {{ res.code }} - Airbnb{% endblock %}
+{% block searchbar %}{% endblock %}
+{% block content %}
+{% set l = res.listing %}
+<div class="container" style="max-width:860px">
+  <div class="subpage-head">
+    <a class="back-link" href="{{ url_for('trip_detail', code=res.code) }}">{{ ic.chevron_left() }} Back to trip</a>
+  </div>
+  <h1>Your receipt from Airbnb</h1>
+  <p class="muted">Receipt ID: RC{{ res.code[2:] }} · {{ res.created_at.date()|long_date }}</p>
+  <div class="receipt">
+    <section class="panel">
+      <h2>{{ l.city.name }}</h2>
+      <p style="margin:0 0 4px">{{ res.nights }} night{{ 's' if res.nights != 1 }} in {{ l.name }}</p>
+      <p class="muted" style="margin:0 0 16px">{{ l.headline }} · Hosted by {{ l.host.first_name }}</p>
+      <div class="kv-grid">
+        <div><span class="muted small">Check-in</span><b>{{ res.checkin|long_date }}</b></div>
+        <div><span class="muted small">Checkout</span><b>{{ res.checkout|long_date }}</b></div>
+        <div><span class="muted small">Guests</span><b>{{ res.guests_label }}</b></div>
+        <div><span class="muted small">Confirmation code</span><b>{{ res.code }}</b></div>
+      </div>
+      <p class="small"><b>Cancellation policy:</b> {{ res.cancellation_policy }}. {{ POLICY_TEXT[res.cancellation_policy] }}</p>
+    </section>
+    <section class="panel">
+      <h2>Price breakdown</h2>
+      {{ mc.breakdown(res) }}
+    </section>
+    <section class="panel">
+      <h2>Payment</h2>
+      {% if res.status == 'pending' %}
+      <p>Not charged yet. {{ res.payment_label }} will be charged {{ res.total|money }} if {{ l.host.first_name }} accepts your request.</p>
+      {% elif res.status == 'declined' %}
+      <p>This request was declined, so no payment was taken.</p>
+      {% else %}
+      <div class="info-row"><div><b>{{ res.payment_label }}</b><div class="muted small">{{ res.created_at.date()|long_date }}</div></div><b>{{ res.total|money }}</b></div>
+      {% if res.status == 'cancelled' %}
+      <div class="info-row"><div><b>Refund</b><div class="muted small">{{ res.cancelled_at.date()|long_date }}</div></div><b>-{{ (res.refund_amount or 0)|money }}</b></div>
+      <div class="info-row"><div><b>Amount paid (USD)</b></div><b>{{ (res.total - (res.refund_amount or 0))|money }}</b></div>
+      {% else %}
+      <div class="info-row"><div><b>Amount paid (USD)</b></div><b>{{ res.total|money }}</b></div>
+      {% endif %}
+      {% endif %}
+    </section>
+    <p class="small muted">Airbnb Payments, Inc. is a limited payment collection agent of your Host. Questions about this receipt? Visit the <a href="{{ url_for('help_home') }}">Help Center</a>.</p>
+  </div>
+</div>
+{% endblock %}

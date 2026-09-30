@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% import '_macros.html' as mc with context %}
+{% block title %}{% if q %}“{{ q }}” - {% endif %}Search - Airbnb{% endblock %}
+{% block content %}
+<div class="container">
+  <form class="help-search" method="get" action="{{ url_for('site_search') }}" role="search">
+    <label class="visually-hidden" for="site-q">Search Airbnb</label>
+    <input id="site-q" name="q" value="{{ q }}" placeholder="Search stays, hosts and help articles">
+    <button class="btn btn-primary" type="submit">Search</button>
+  </form>
+  {% if q %}
+  <h1 class="page-title">Results for “{{ q }}”</h1>
+  <section>
+    <h2>Stays <span class="muted">({{ listing_total }})</span></h2>
+    {% if listings %}
+    <div class="card-grid compact">
+      {% for l in listings %}{{ mc.listing_card(l, None, None, request.full_path) }}{% endfor %}
+    </div>
+    {% if listing_total > listings|length %}<p class="muted small">Showing the {{ listings|length }} best matches. <a href="{{ search_url(query=q) }}">See all {{ listing_total }} stays</a></p>{% endif %}
+    {% else %}
+    <p class="muted">No stays match “{{ q }}”.</p>
+    {% endif %}
+  </section>
+  {% if hosts %}
+  <section style="margin-top:32px">
+    <h2>Hosts</h2>
+    <div class="host-list">
+      {% for h in hosts %}
+      <a class="host-mini" href="{{ url_for('host_profile', host_id=h.id) }}">{{ mc.host_avatar(h, 'sm') }}<span><b>{{ h.first_name }}</b>{% if h.is_superhost %} · Superhost{% endif %}<br><span class="muted small">{{ h.tenure }}</span></span></a>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+  <section style="margin-top:32px">
+    <h2>Help articles</h2>
+    {% for a in articles %}
+    <div class="search-hit"><a href="{{ url_for('help_article', article_id=a.id) }}"><b>{{ a.title }}</b></a><div class="muted small">{{ a.category }}</div></div>
+    {% else %}
+    <p class="muted">No help articles match.</p>
+    {% endfor %}
+  </section>
+  {% else %}
+  <p class="muted">Search stays, hosts and Help Center articles.</p>
+  {% endif %}
+</div>
+{% endblock %}

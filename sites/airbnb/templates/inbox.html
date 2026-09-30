@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% import '_macros.html' as mc with context %}
+{% block title %}Messages - Airbnb{% endblock %}
+{% block searchbar %}{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="inbox">
+    <aside class="list">
+      <h1 style="font-size:26px;margin:0 0 16px">Messages</h1>
+      <nav class="tabs small" aria-label="Message filters">
+        <a href="{{ url_for('inbox') }}" {% if view == 'all' %}class="active"{% endif %}>All</a>
+        <a href="{{ url_for('inbox', filter='unread') }}" {% if view == 'unread' %}class="active"{% endif %}>Unread</a>
+        <a href="{{ url_for('inbox', filter='archived') }}" {% if view == 'archived' %}class="active"{% endif %}>Archived</a>
+      </nav>
+      {% for th in threads %}
+      <a class="thread-link {% if active and active.id == th.id %}active{% endif %}" href="{{ url_for('thread', thread_id=th.id) }}">
+        {{ mc.host_avatar(th.host, 'md') }}
+        <div class="grow">
+          <div class="row between"><b>{{ th.host.first_name }}</b><span class="muted small">{{ th.updated_at.strftime('%b') }} {{ th.updated_at.day }}</span></div>
+          {% if th.last_message %}<div class="small clamp">{% if th.last_message.sender == 'guest' %}You: {% endif %}{{ th.last_message.body }}</div>{% endif %}
+          <div class="muted small">{% if th.reservation %}{{ th.reservation.status_label }} · {{ fmt_range(th.reservation.checkin, th.reservation.checkout) }} · {% endif %}{{ th.listing.city.name }}</div>
+        </div>
+        {% if th.unread %}<span class="unread-dot" aria-label="Unread"></span>{% endif %}
+      </a>
+      {% else %}
+      <div class="empty" style="padding:32px 0">
+        <h2 style="font-size:18px">{% if view == 'unread' %}No unread messages{% elif view == 'archived' %}No archived messages{% else %}You don't have any messages{% endif %}</h2>
+        <p class="muted small">When you contact a host or send a reservation request, you'll see your messages here.</p>
+      </div>
+      {% endfor %}
+    </aside>
+    <section class="conv">
+      {% if active %}
+      {% set l = active.listing %}
+      <div class="row between conv-head">
+        <div>
+          <h2 style="margin:0">{{ active.host.first_name }}</h2>
+          <div class="muted small"><a href="{{ url_for('room', listing_id=l.id) }}">{{ l.name }}</a>{% if active.reservation %} · <a href="{{ url_for('trip_detail', code=active.reservation.code) }}">{{ active.reservation.status_label }} · {{ active.reservation.code }}</a>{% endif %}</div>
+        </div>
+        <form method="post" action="{{ url_for('thread', thread_id=active.id) }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <input type="hidden" name="action" value="archive">
+          <button class="btn" type="submit">{% if active.archived %}Unarchive{% else %}Archive{% endif %}</button>
+        </form>
+      </div>
+      <div class="msgs">
+        {% for m in active.messages %}
+        <div class="msg {% if m.sender == 'guest' %}mine{% elif m.sender == 'airbnb' %}system{% endif %}">
+          <div class="meta small muted">{% if m.sender == 'guest' %}You{% elif m.sender == 'airbnb' %}Airbnb{% else %}{{ active.host.first_name }}{% endif %} · {{ m.sent_at.strftime('%b') }} {{ m.sent_at.day }}, {{ m.sent_at.strftime('%-I:%M %p') }}</div>
+          <div class="bubble">{{ m.body }}</div>
+        </div>
+        {% endfor %}
+      </div>
+      <form class="composer" method="post" action="{{ url_for('thread', thread_id=active.id) }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <label class="grow"><span class="visually-hidden">Write a message</span><textarea name="body" rows="2" placeholder="Write a message..."></textarea></label>
+        <button class="btn btn-dark" type="submit">Send</button>
+      </form>
+      {% else %}
+      <div class="empty">
+        <h2>Select a conversation</h2>
+        <p class="muted">Choose a message thread on the left to read it.</p>
+      </div>
+      {% endif %}
+    </section>
+  </div>
+</div>
+{% endblock %}

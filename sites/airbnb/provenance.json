@@ -1,0 +1,61 @@
+{
+ "schema_version": 1,
+ "snapshot_date": "2026-09-28",
+ "records": [
+  {
+   "path": "app.py",
+   "classification": "mirror-code",
+   "scope": "Flask application implementing the www.airbnb.com (en-US, USD) mirror: home page with destination categories and the search bar, scored destination search (with Portland, Oregon / Portland, Maine disambiguation), result cards with total-before-taxes prices, the filter panel (type of place, price range, rooms and beds, amenities, Instant Book, Self check-in, Free cancellation, Allows pets, Guest favorite, Superhost, property type), listing pages (photo tour, highlights, sleeping arrangements, amenities, reviews with category ratings, location, house rules, safety, cancellation policy, host card), availability calendar, reservation flow with Instant Book and request-to-book, saved and new cards, receipts, trips with policy-based cancellation refunds and the 14-day review window, wishlists with notes, messages with hosts, account settings, the \"Airbnb your home\" earnings estimate and a help centre with scored search."
+  },
+  {
+   "path": "seed_catalog.py (seed_database / seed_benchmark_users)",
+   "classification": "mirror-code",
+   "scope": "Deterministic build-time seeder, gated as a whole. Catalog rows come from the tracked source_data_listings.json / source_data_content.json snapshots; cleaning fees, stay discounts, minimum stays, Instant Book flags, the 14 missing cancellation policies and mirror-authored guest reviews are derived from a SHA-256 of the upstream room id. Benchmark users use a frozen bcrypt hash; PYTHONHASHSEED=0 and the explicit index statements keep the SQLite seed byte-reproducible."
+  },
+  {
+   "path": "seed_data.py",
+   "classification": "mirror-code",
+   "scope": "Build-time entry point run by the Dockerfile (PYTHONHASHSEED=0 python3 seed_data.py); materializes instance/airbnb.db through app.main, which the Dockerfile copies into instance_seed/."
+  },
+  {
+   "path": "source_data_listings.json",
+   "classification": "captured-upstream-content",
+   "scope": "192 listings (16 per destination for 12 destinations) and their 185 hosts captured on 2026-09-28 from public www.airbnb.com search results for November 12-16, 2026, 2 adults, and the linked room pages: names, titles, descriptions, room and property types, capacity, bedrooms, beds, baths, nightly price for the captured dates, rating, review count, category ratings, Guest favorite badge, highlights, amenities, sleeping arrangements, house rules, cancellation terms, neighbourhood and approximate coordinates. Hosts keep only first name and public hosting statistics (Superhost, the room page's hosting-tenure label, rating, review count, response rate and time, languages, identity verification); 46 hosts were exposed only through the room page's compact host block, so their rating, review count and verification are stored as unknown and not shown. No host about/work/home-town text or photos."
+  },
+  {
+   "path": "source_data_content.json (amenity_catalog)",
+   "classification": "captured-upstream-content",
+   "scope": "The 434 distinct amenity titles seen on the captured listing pages, each with the upstream amenity group it most often appears under."
+  },
+  {
+   "path": "source_data_content.json (help_articles)",
+   "classification": "mirror-authored",
+   "scope": "19 help-centre articles written for the mirror that document the mirror's own rules (service fee, taxes, the four cancellation policies and refunds, the review window, payment methods, search filters, hosting and the earnings estimate)."
+  },
+  {
+   "path": "static/images/listings/**",
+   "classification": "captured-upstream-media",
+   "scope": "1920 listing photos (10 per listing), fetched on 2026-09-28 from the a0.muscache.com URLs referenced by the captured listing pages at im_w=720; four originals served as PNG were re-encoded to JPEG. Every file's source URL, bytes and SHA-256 are in asset_inventory.json. No host profile photos."
+  },
+  {
+   "path": "static/icons/**",
+   "classification": "captured-upstream-media",
+   "scope": "Airbnb logo (inline header SVG, fill set to #FF385C) and the 240px platform favicon PNG from a0.muscache.com."
+  },
+  {
+   "path": "templates/**, static/css/**, static/js/**",
+   "classification": "mirror-code",
+   "scope": "Jinja templates, stylesheet and script written for the mirror to approximate the upstream layout; no upstream CSS, JavaScript or fonts are copied (a system font stack replaces Airbnb Cereal)."
+  },
+  {
+   "path": "benchmark fixtures (users, cards, reservations, conversations, wishlists, reviews)",
+   "classification": "mirror-authored",
+   "scope": "alice.j@test.com, bob.c@test.com, carol.d@test.com and david.k@test.com with test card numbers, trips, host conversations, wishlists and a past-stay review, created by seed_benchmark_users."
+  },
+  {
+   "path": "tests/test_mirror.py",
+   "classification": "mirror-code",
+   "scope": "Regression tests for search, filters, pricing, availability, booking, cancellation refunds, reviews, wishlists, account settings, benchmark fixtures and the seed determinism the tasks depend on."
+  }
+ ]
+}

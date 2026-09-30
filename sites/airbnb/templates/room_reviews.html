@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% import '_macros.html' as mc with context %}
+{% import '_icons.html' as ic %}
+{% block title %}Reviews · {{ listing.name }} - Airbnb{% endblock %}
+{% block header_width %}container-narrow{% endblock %}
+{% block footer_width %}container-narrow{% endblock %}
+{% block searchbar %}{% endblock %}
+{% block content %}
+<div class="container-narrow">
+  <div class="subpage-head">
+    <a class="back-link" href="{{ url_for('room', listing_id=listing.id) }}">{{ ic.chevron_left() }} Back to listing</a>
+  </div>
+  <div class="reviews-layout">
+    <aside class="reviews-side">
+      <h1 style="font-size:32px;margin:0">{{ ic.star('star') }} {{ listing.rating_label }}</h1>
+      <p class="muted" style="margin:4px 0 24px">{{ '{:,}'.format(listing.review_count) }} review{{ 's' if listing.review_count != 1 }} on Airbnb</p>
+      {% if listing.r_cleanliness %}
+      <div class="cat-ratings stacked">
+        {% for label, value in listing.category_ratings %}
+        <div><span>{{ label }}</span><b>{{ '%.1f'|format(value) if value else '–' }}</b></div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </aside>
+    <div class="reviews-main">
+      <form method="get" action="{{ url_for('room_reviews', listing_id=listing.id) }}" class="review-tools">
+        <label class="grow">
+          <span class="visually-hidden">Search reviews</span>
+          <input type="search" name="q" value="{{ q }}" placeholder="Search reviews">
+        </label>
+        <label>
+          <span class="visually-hidden">Sort reviews</span>
+          <select name="sort">
+            <option value="recent" {% if sort == 'recent' %}selected{% endif %}>Most recent</option>
+            <option value="highest" {% if sort == 'highest' %}selected{% endif %}>Highest rated</option>
+            <option value="lowest" {% if sort == 'lowest' %}selected{% endif %}>Lowest rated</option>
+          </select>
+        </label>
+        <button class="btn" type="submit">Apply</button>
+      </form>
+      <p class="muted small">
+        {% if q %}{{ matched }} review{{ 's' if matched != 1 }} mention “{{ q }}”.{% else %}Showing the {{ matched }} most recent reviews written on this mirror.{% endif %}
+        {% if q %} <a class="btn-link" href="{{ url_for('room_reviews', listing_id=listing.id, sort=sort if sort != 'recent' else None) }}">Clear search</a>{% endif %}
+      </p>
+      {% for r in reviews %}
+        <div class="review-row">{{ mc.review_block(r) }}</div>
+      {% else %}
+        <div class="empty"><h2>No reviews found</h2><p class="muted">Try a different word.</p></div>
+      {% endfor %}
+      {% if pages > 1 %}
+      <nav class="pager" aria-label="Reviews pagination">
+        {% for n in range(1, pages + 1) %}
+          {% if n == page %}<span class="current" aria-current="page">{{ n }}</span>
+          {% else %}<a href="{{ url_for('room_reviews', listing_id=listing.id, q=q or None, sort=sort if sort != 'recent' else None, page=n) }}">{{ n }}</a>{% endif %}
+        {% endfor %}
+      </nav>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

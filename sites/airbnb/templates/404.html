@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}404 Page Not Found - Airbnb{% endblock %}
+{% block content %}
+<div class="container" style="padding:64px 0 96px">
+  <h1 style="font-size:96px;margin:0">Oops!</h1>
+  <h2 style="font-weight:400">We can't seem to find the page you're looking for.</h2>
+  <p class="muted">Error code: 404</p>
+  <p>Here are some helpful links instead:</p>
+  <ul class="plain-links">
+    <li><a href="{{ url_for('index') }}">Home</a></li>
+    <li><a href="{{ url_for('help_home') }}">Help</a></li>
+    <li><a href="{{ url_for('trips') }}">Trips</a></li>
+    <li><a href="{{ url_for('host_homes') }}">Airbnb your home</a></li>
+  </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %}Personal info - Account - Airbnb{% endblock %}
+{% block searchbar %}{% endblock %}
+{% block content %}
+{% set u = current_user %}
+{% macro val(name) -%}{{ form.get(name, '') if form else (u[name] or '') }}{%- endmacro %}
+<div class="container">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="{{ url_for('account_settings') }}">Account</a> › Personal info</nav>
+  <h1 class="page-title">Personal info</h1>
+  <div class="acct-layout">
+    <form method="post" action="{{ url_for('personal_info') }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <div class="info-row block">
+        <b>Legal name</b>
+        <span class="muted small">Make sure this matches the name on your government ID.</span>
+        <div class="field-row">
+          <label class="field">First name on ID<input name="first_name" value="{{ val('first_name') }}" required></label>
+          <label class="field">Last name on ID<input name="last_name" value="{{ val('last_name') }}" required></label>
+        </div>
+      </div>
+      <div class="info-row block">
+        <b>Preferred first name</b>
+        <span class="muted small">This is how your first name will appear to hosts and guests.</span>
+        <label class="field"><span class="visually-hidden">Preferred first name</span><input name="preferred_name" value="{{ val('preferred_name') }}"></label>
+      </div>
+      <div class="info-row block">
+        <b>Email address</b>
+        <span class="muted small">Use an address you'll always have access to.</span>
+        <label class="field"><span class="visually-hidden">Email</span><input type="email" name="email" value="{{ val('email') }}" required></label>
+      </div>
+      <div class="info-row block">
+        <b>Phone number</b>
+        <span class="muted small">Contact number for confirmed guests and Airbnb to get in touch.</span>
+        <label class="field"><span class="visually-hidden">Phone number</span><input type="tel" name="phone" value="{{ val('phone') }}"></label>
+      </div>
+      <div class="info-row block">
+        <b>Address</b>
+        <span class="muted small">Use a permanent address where you can receive mail.</span>
+        <label class="field">Street address<input name="street" value="{{ val('street') }}"></label>
+        <label class="field">Apt, suite (optional)<input name="apt" value="{{ val('apt') }}"></label>
+        <div class="field-row3">
+          <label class="field">City<input name="city" value="{{ val('city') }}"></label>
+          <label class="field">State / Province<input name="state" value="{{ val('state') }}"></label>
+          <label class="field">ZIP code<input name="postal_code" value="{{ val('postal_code') }}"></label>
+        </div>
+        <label class="field">Country/region<input name="country" value="{{ val('country') }}"></label>
+      </div>
+      <div class="info-row block">
+        <b>Emergency contact</b>
+        <span class="muted small">Name, relationship and phone number.</span>
+        <label class="field"><span class="visually-hidden">Emergency contact</span><input name="emergency_contact" value="{{ val('emergency_contact') }}"></label>
+      </div>
+      <button class="btn btn-dark" type="submit" style="margin-top:24px">Save</button>
+    </form>
+    <aside class="side-note">
+      <h3>Why isn't my info shown here?</h3>
+      <p class="muted">We're hiding some account details to protect your identity.</p>
+      <h3>Which details can be edited?</h3>
+      <p class="muted">Contact info and personal details can be edited. If this info was used to verify your identity, you'll need to get verified again the next time you book.</p>
+      <h3>What info is shared with others?</h3>
+      <p class="muted">Airbnb only releases contact information for hosts and guests after a reservation is confirmed.</p>
+    </aside>
+  </div>
+</div>
+{% endblock %}

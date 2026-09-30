@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}{{ article.title }} - Airbnb Help Center{% endblock %}
+{% block searchbar %}{% endblock %}
+{% block content %}
+<div class="container">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="{{ url_for('help_home', audience='host' if article.audience == 'host' else 'guest') }}">Help Center</a> › {{ article.category }}</nav>
+  <div class="acct-layout">
+    <article class="help-article">
+      <span class="muted small">{{ 'Host' if article.audience == 'host' else ('Guest' if article.audience == 'guest' else 'Guest · Host') }}</span>
+      <h1>{{ article.title }}</h1>
+      {% if article.summary %}<p class="lead">{{ article.summary }}</p>{% endif %}
+      {% for b in article.blocks %}
+        {% if b.type == 'heading' %}<h2>{{ b.text }}</h2>
+        {% elif b.type == 'list' %}
+          <ul>{% for item in (b['items'] if b['items'] is defined else b.text.split('\n')) %}{% if item %}<li>{{ item }}</li>{% endif %}{% endfor %}</ul>
+        {% else %}<p>{{ b.text }}</p>
+        {% endif %}
+      {% endfor %}
+      <form class="help-search" method="get" action="{{ url_for('help_search') }}" role="search" style="margin-top:40px">
+        <label class="visually-hidden" for="help-q2">Search the Help Center</label>
+        <input id="help-q2" name="q" placeholder="Search how-tos and more">
+        <button class="btn btn-dark" type="submit">Search</button>
+      </form>
+    </article>
+    <aside class="side-note">
+      <h3>Related articles</h3>
+      {% for a in related %}
+      <p><a href="{{ url_for('help_article', article_id=a.id) }}">{{ a.title }}</a></p>
+      {% else %}
+      <p class="muted">No related articles.</p>
+      {% endfor %}
+      {% if current_user.is_authenticated %}
+      <h3>Your trips</h3>
+      <p><a href="{{ url_for('trips') }}">Go to Trips</a> to change or cancel a reservation.</p>
+      {% endif %}
+    </aside>
+  </div>
+</div>
+{% endblock %}

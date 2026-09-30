@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% import '_macros.html' as mc with context %}
+{% block content %}
+<div class="container">
+  {% for row in rows %}
+  <section class="home-row" aria-labelledby="row-{{ row.city.id }}">
+    <div class="section-head">
+      <h2 id="row-{{ row.city.id }}"><a href="{{ search_url(row.city.slug) }}" style="text-decoration:none">{{ row.heading }} ›</a></h2>
+    </div>
+    <div class="card-row">
+      {% for listing in row.listings %}
+        {{ mc.listing_card(listing, None, None, '/') }}
+      {% endfor %}
+    </div>
+  </section>
+  {% endfor %}
+</div>
+{% endblock %}
+{% block inspiration %}
+<section class="inspire" aria-labelledby="inspire-h">
+  <h2 id="inspire-h">Inspiration for future getaways</h2>
+  <div class="grid">
+    {% for c in nav_cities %}
+    <a href="{{ search_url(c.slug) }}"><b>{{ c.name }}</b><span class="muted">{{ c.region + ', ' if c.region else '' }}{{ c.country }}</span></a>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

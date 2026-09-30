@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% import '_macros.html' as mc with context %}
+{% import '_icons.html' as ic %}
+{% block title %}Your trip to {{ res.listing.city.name }} - Airbnb{% endblock %}
+{% block searchbar %}{% endblock %}
+{% block content %}
+{% set l = res.listing %}
+<div class="container">
+  <div class="subpage-head">
+    <a class="back-link" href="{{ url_for('trips', tab='upcoming' if res.is_upcoming else ('past' if res.status == 'confirmed' else 'cancelled')) }}">{{ ic.chevron_left() }} Trips</a>
+  </div>
+  <div class="trip-detail">
+    <div>
+      <div class="row between" style="align-items:flex-start">
+        <div>
+          <h1 style="margin:0 0 4px">{{ l.name }}</h1>
+          <div class="muted">{{ l.headline }}</div>
+        </div>
+        {{ mc.status_badge(res) }}
+      </div>
+      {% set cover = l.cover %}
+      {% if cover %}<img class="hero" src="{{ url_for('static', filename='images/' ~ cover.path) }}" alt="">{% endif %}
+
+      {% if res.status == 'pending' %}
+      <div class="alert alert-info">Your request was sent to {{ l.host.first_name }}. You won't be charged unless the request is accepted.</div>
+      {% elif res.status == 'cancelled' %}
+      <div class="alert alert-warn">This reservation was canceled on {{ res.cancelled_at.date()|long_date }}{% if res.cancel_reason %} ({{ res.cancel_reason }}){% endif %}. Refund: {{ (res.refund_amount or 0)|money }}.</div>
+      {% elif res.status == 'declined' %}
+      <div class="alert alert-warn">{{ l.host.first_name }} declined this request. You were not charged.</div>
+      {% endif %}
+
+      <div class="kv-grid">
+        <div><span class="muted small">Check-in</span><b>{{ res.checkin|long_date }}</b><span class="small">{{ l.checkin_time }}</span></div>
+        <div><span class="muted small">Checkout</span><b>{{ res.checkout|long_date }}</b><span class="small">{{ l.checkout_time }}</span></div>
+        <div><span class="muted small">Guests</span><b>{{ res.guests_label }}</b></div>
+        <div><span class="muted small">Confirmation code</span><b>{{ res.code }}</b></div>
+      </div>
+
+      <section class="panel">
+        <h2>Reservation details</h2>
+        <div class="info-row"><div><b>Nights</b><div>{{ res.nights }}</div></div></div>
+        <div class="info-row"><div><b>Payment method</b><div>{{ res.payment_label or '—' }}</div></div></div>
+        {% if res.trip_purpose %}<div class="info-row"><div><b>Trip purpose</b><div>{{ res.trip_purpose }}</div></div></div>{% endif %}
+        <div class="info-row"><div><b>Total cost</b><div>{{ res.total|money }} USD</div></div><a class="btn-link" href="{{ url_for('trip_receipt', code=res.code) }}">Get receipt</a></div>
+        {% if res.message_to_host %}<div class="info-row"><div><b>Your message to {{ l.host.first_name }}</b><div style="white-space:pre-line">{{ res.message_to_host }}</div></div></div>{% endif %}
+      </section>
+
+      <section class="panel">
+        <h2>Cancellation policy</h2>
+        <p><b>{{ res.cancellation_policy }}.</b> {{ POLICY_TEXT[res.cancellation_policy] }}</p>
+        {% if res.is_upcoming %}
+          {% if deadline and deadline >= MIRROR_TODAY %}<p>Free cancellation before {{ deadline|long_date }}.</p>{% endif %}
+          <a class="btn" href="{{ url_for('trip_cancel', code=res.code) }}">{% if res.status == 'pending' %}Cancel request{% else %}Cancel reservation{% endif %}</a>
+        {% endif %}
+      </section>
+
+      <section class="panel">
+        <h2>Getting there</h2>
+        <p>{{ l.neighborhood + ', ' if l.neighborhood else '' }}{{ l.city.name }}{{ ', ' + l.city.region if l.city.region else '' }}, {{ l.city.country }}</p>
+        {% if res.status == 'confirmed' %}<p class="muted small">Your host will share the exact address and check-in instructions in your messages before your trip.</p>{% endif %}
+        <a class="btn-link" href="{{ url_for('room', listing_id=l.id) }}">Show listing</a>
+      </section>
+
+      {% if res.review %}
+      <section class="panel">
+        <h2>Your review</h2>
+        {{ mc.review_block(res.review) }}
+      </section>
+      {% elif res.can_review %}
+      <section class="panel">
+        <h2>How was your stay?</h2>
+        <p>You have until {{ review_deadline|long_date }} to write a review.</p>
+        <a class="btn btn-dark" href="{{ url_for('trip_review', code=res.code) }}">Write a review</a>
+      </section>
+      {% endif %}
+    </div>
+
+    <aside>
+      <div class="panel host-panel">
+        <div class="row" style="gap:12px">
+          {{ mc.host_avatar(l.host, 'md') }}
+          <div><b>Your host, {{ l.host.first_name }}</b><div class="muted small">{% if l.host.is_superhost %}Superhost · {% endif %}{{ l.host.tenure }}</div></div>
+        </div>
+        {% if thread %}
+        <a class="btn btn-block" style="margin-top:16px" href="{{ url_for('thread', thread_id=thread.id) }}">Message {{ l.host.first_name }}</a>
+        {% else %}
+        <a class="btn btn-block" style="margin-top:16px" href="{{ url_for('contact_host', listing_id=l.id) }}">Message {{ l.host.first_name }}</a>
+        {% endif %}
+        <a class="btn btn-block" style="margin-top:8px" href="{{ url_for('host_profile', host_id=l.host.id) }}">Show profile</a>
+      </div>
+    </aside>
+  </div>
+</div>
+{% endblock %}

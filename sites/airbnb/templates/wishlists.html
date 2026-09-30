@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Wishlists - Airbnb{% endblock %}
+{% block searchbar %}{% endblock %}
+{% block content %}
+<div class="container">
+  <h1 class="page-title">Wishlists</h1>
+  {% if lists %}
+  <div class="wl-grid">
+    {% for wl in lists %}
+    <a class="wl-card" href="{{ url_for('wishlist_detail', wishlist_id=wl.id) }}">
+      <div class="mosaic">
+        {% for item in wl.items[:3] %}
+          {% set cover = item.listing.cover %}
+          {% if cover %}<img src="{{ url_for('static', filename='images/' ~ cover.path) }}" alt="">{% endif %}
+        {% else %}
+          <div class="empty-mosaic" aria-hidden="true"></div>
+        {% endfor %}
+      </div>
+      <b>{{ wl.name }}</b>
+      <span class="muted small">{{ wl.items|length }} saved</span>
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty">
+    <h2>Create your first wishlist</h2>
+    <p class="muted">As you search, tap the heart icon to save your favorite places to stay to a wishlist.</p>
+    <a class="btn btn-dark" href="{{ url_for('index') }}">Start exploring</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

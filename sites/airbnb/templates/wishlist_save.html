@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% import '_icons.html' as ic %}
+{% block title %}Save to wishlist - Airbnb{% endblock %}
+{% block searchbar %}{% endblock %}
+{% block content %}
+<div class="container" style="max-width:680px">
+  <div class="subpage-head">
+    <a class="back-link" href="{{ back }}">{{ ic.chevron_left() }} Back</a>
+  </div>
+  <h1>Save to wishlist</h1>
+  <div class="row" style="gap:16px;margin-bottom:24px">
+    {% set cover = listing.cover %}
+    {% if cover %}<img src="{{ url_for('static', filename='images/' ~ cover.path) }}" alt="" style="width:96px;height:72px;object-fit:cover;border-radius:8px">{% endif %}
+    <div><b>{{ listing.title }}</b><div class="muted small">{{ listing.name }}</div></div>
+  </div>
+  {% if lists %}
+  <form method="post" action="{{ url_for('wishlist_save') }}" class="panel">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <input type="hidden" name="listing_id" value="{{ listing.id }}">
+    <input type="hidden" name="next" value="{{ back }}">
+    <h2>Your wishlists</h2>
+    {% for wl in lists %}
+    <label class="radio-card">
+      <input type="radio" name="wishlist_id" value="{{ wl.id }}" {% if loop.first %}checked{% endif %}>
+      <span class="grow"><b>{{ wl.name }}</b><span class="muted small" style="display:block">{{ wl.items|length }} saved</span></span>
+    </label>
+    {% endfor %}
+    <button class="btn btn-dark" type="submit" style="margin-top:12px">Save</button>
+  </form>
+  {% endif %}
+  <form method="post" action="{{ url_for('wishlist_save') }}" class="panel">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <input type="hidden" name="listing_id" value="{{ listing.id }}">
+    <input type="hidden" name="next" value="{{ back }}">
+    <h2>Create new wishlist</h2>
+    <label class="field">Name<input name="new_name" maxlength="50" required></label>
+    <p class="muted small">50 characters maximum</p>
+    <button class="btn btn-dark" type="submit">Create</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% import '_macros.html' as mc with context %}
+{% import '_icons.html' as ic %}
+{% block title %}{{ place }} · Stays · Airbnb{% endblock %}
+{% block content %}
+{% set here = request.full_path %}
+<div class="container">
+  <div class="results-toolbar">
+    <div>
+      <h1>{% if total == 1 %}1 home{% else %}{{ '{:,}'.format(total) }} homes{% endif %} in {{ place }}</h1>
+      {% if stay %}<div class="muted">{{ fmt_range(state.checkin, state.checkout) }} · Prices include all fees before taxes</div>{% endif %}
+    </div>
+  </div>
+
+  {% if cities|length > 1 %}
+  <div class="chips" aria-label="Matching destinations">
+    <span class="muted" style="align-self:center">Showing stays in {{ cities|length }} destinations:</span>
+    {% for c in cities %}
+    <a class="pill" href="{{ search_url(c.slug, **{'checkin': state.checkin.isoformat() if state.checkin else None, 'checkout': state.checkout.isoformat() if state.checkout else None, 'adults': state.adults, 'children': state.children, 'infants': state.infants, 'pets': state.pets}) }}">{{ c.name }}, {{ c.region + ', ' if c.region else '' }}{{ c.country }}</a>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <details class="filters" {% if request.args.get('filters') == 'open' %}open{% endif %}>
+    <summary>{{ ic.filters() }} Filters{% if filter_count %} <span class="badge">{{ filter_count }}</span>{% endif %}</summary>
+    <form method="get" action="{{ request.path }}">
+      {% if state.query %}<input type="hidden" name="query" value="{{ state.query }}">{% endif %}
+      {% if state.checkin %}<input type="hidden" name="checkin" value="{{ state.checkin.isoformat() }}">{% endif %}
+      {% if state.checkout %}<input type="hidden" name="checkout" value="{{ state.checkout.isoformat() }}">{% endif %}
+      {% for k in ('adults', 'children', 'infants') %}{% if state[k] %}<input type="hidden" name="{{ k }}" value="{{ state[k] }}">{% endif %}{% endfor %}
+      <div class="body">
+        <fieldset>
+          <legend>Type of place</legend>
+          <div class="checks">
+            {% for rt in ('Entire home', 'Private room', 'Shared room', 'Hotel room') %}
+            <label><input type="checkbox" name="room_types[]" value="{{ rt }}" {% if rt in state.room_types %}checked{% endif %}> {{ rt }}</label>
+            {% endfor %}
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Price range</legend>
+          <div class="muted" style="margin:-6px 0 12px">Nightly prices before fees and taxes</div>
+          <div class="price-row">
+            <label>Minimum<input type="number" name="price_min" min="0" step="1" value="{{ state.price_min or '' }}" placeholder="$10"></label>
+            <span>–</span>
+            <label>Maximum<input type="number" name="price_max" min="0" step="1" value="{{ state.price_max or '' }}" placeholder="$1,000+"></label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Rooms and beds</legend>
+          <div class="counters">
+            {% for key, label in (('min_bedrooms', 'Bedrooms'), ('min_beds', 'Beds'), ('min_bathrooms', 'Bathrooms')) %}
+            <label>{{ label }}
+              <select name="{{ key }}">
+                <option value="0">Any</option>
+                {% for n in range(1, 9) %}<option value="{{ n }}" {% if state[key] == n %}selected{% endif %}>{{ n }}+</option>{% endfor %}
+              </select>
+            </label>
+            {% endfor %}
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Amenities</legend>
+          <div class="checks">
+            {% for key, label in AMENITY_FILTERS %}
+            <label><input type="checkbox" name="amenities[]" value="{{ key }}" {% if key in state.amenities %}checked{% endif %}> {{ label }}</label>
+            {% endfor %}
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Booking options</legend>
+          <div class="checks">
+            <label><input type="checkbox" name="ib" value="true" {% if state.instant_book %}checked{% endif %}> Instant Book</label>
+            <label><input type="checkbox" name="self_check_in" value="true" {% if state.self_checkin %}checked{% endif %}> Self check-in</label>
+            <label><input type="checkbox" name="flexible_cancellation" value="true" {% if state.free_cancellation %}checked{% endif %}> Free cancellation</label>
+            <label><input type="checkbox" name="pets" value="{{ state.pets or 1 }}" {% if state.pets %}checked{% endif %}> Allows pets</label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Standout stays</legend>
+          <div class="checks">
+            <label><input type="checkbox" name="guest_favorite" value="true" {% if state.guest_favorite %}checked{% endif %}> Guest favorite</label>
+            <label><input type="checkbox" name="superhost" value="true" {% if state.superhost %}checked{% endif %}> Superhost</label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Property type</legend>
+          <div class="checks">
+            {% for pg in PROPERTY_GROUPS %}
+            <label><input type="checkbox" name="property_type[]" value="{{ pg }}" {% if pg in state.property_types %}checked{% endif %}> {{ pg }}</label>
+            {% endfor %}
+          </div>
+        </fieldset>
+      </div>
+      <div class="foot">
+        <a class="btn-link" href="{{ clear_url }}">Clear all</a>
+        <button class="btn btn-dark" type="submit">Show results</button>
+      </div>
+    </form>
+  </details>
+
+  {% if results %}
+  <div class="card-grid">
+    {% for listing in results %}
+      {{ mc.listing_card(listing, state, quotes.get(listing.id), here) }}
+    {% endfor %}
+  </div>
+  {% if pages > 1 %}
+  <nav class="pager" aria-label="Search results pagination">
+    {% if page > 1 %}<a href="{{ page_url(page - 1) }}" aria-label="Previous">{{ ic.chevron_left() }}</a>{% else %}<span class="disabled">{{ ic.chevron_left() }}</span>{% endif %}
+    {% for n in range(1, pages + 1) %}
+      {% if n == page %}<span class="current" aria-current="page">{{ n }}</span>{% else %}<a href="{{ page_url(n) }}">{{ n }}</a>{% endif %}
+    {% endfor %}
+    {% if page < pages %}<a href="{{ page_url(page + 1) }}" aria-label="Next">{{ ic.chevron_right() }}</a>{% else %}<span class="disabled">{{ ic.chevron_right() }}</span>{% endif %}
+  </nav>
+  <p class="note-center small">Showing {{ (page - 1) * 18 + 1 }}–{{ (page - 1) * 18 + results|length }} of {{ total }} places to stay</p>
+  {% endif %}
+  {% else %}
+  <div class="empty">
+    <h2>No exact matches</h2>
+    <p class="muted">Try changing or removing some of your filters or adjusting your search area.</p>
+    {% if filter_count %}<a class="btn" href="{{ clear_url }}">Remove all filters</a>{% endif %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

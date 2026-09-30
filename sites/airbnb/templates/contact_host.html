@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% import '_macros.html' as mc with context %}
+{% import '_icons.html' as ic %}
+{% block title %}Contact {{ listing.host.first_name }} - Airbnb{% endblock %}
+{% block searchbar %}{% endblock %}
+{% block content %}
+{% set host = listing.host %}
+<div class="container" style="max-width:760px">
+  <div class="subpage-head">
+    <a class="back-link" href="{{ url_for('room', listing_id=listing.id) }}">{{ ic.chevron_left() }} Back to listing</a>
+  </div>
+  <div class="row" style="gap:16px">
+    {{ mc.host_avatar(host, 'md') }}
+    <div>
+      <h1 style="margin:0">Contact {{ host.first_name }}</h1>
+      <div class="muted">{% if host.response_time %}Typically responds {{ host.response_time }}{% else %}Usually responds within a day{% endif %}</div>
+    </div>
+  </div>
+  <section class="panel">
+    <h2>Most travelers ask about</h2>
+    <ul>
+      <li><b>Getting there:</b> {{ listing.checkin_time }}. {% if listing.self_checkin %}Self check-in is available.{% endif %}</li>
+      <li><b>House rules:</b> {% if listing.pets_allowed %}Pets allowed{% else %}No pets{% endif %} · {% if listing.smoking_allowed %}Smoking allowed{% else %}No smoking{% endif %} · {% if listing.events_allowed %}Events allowed{% else %}No parties or events{% endif %}</li>
+      <li><b>Price and availability:</b> {{ listing.nightly_price|money }} per night, {{ listing.min_nights }}-night minimum. Cleaning fee {{ listing.cleaning_fee|money }}.</li>
+    </ul>
+  </section>
+  {% if existing %}
+  <p class="muted">You already have a conversation with {{ host.first_name }} about this place. <a href="{{ url_for('thread', thread_id=existing.id) }}">Open conversation</a></p>
+  {% endif %}
+  <form method="post" action="{{ url_for('contact_host', listing_id=listing.id) }}" class="panel">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label class="field"><b>Still have questions? Message the host</b>
+      <textarea name="body" rows="6" required></textarea>
+    </label>
+    <button class="btn btn-primary" type="submit">Send message</button>
+  </form>
+</div>
+{% endblock %}

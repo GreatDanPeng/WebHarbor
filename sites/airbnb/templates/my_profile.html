@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% import '_macros.html' as mc with context %}
+{% block title %}Profile - Airbnb{% endblock %}
+{% block searchbar %}{% endblock %}
+{% block content %}
+{% set u = current_user %}
+<div class="container">
+  <div class="profile">
+    <aside>
+      <div class="idcard">
+        <div class="id">
+          {{ mc.user_avatar(u, 'lg') }}
+          <h1 style="margin:8px 0 0;font-size:32px">{{ u.display_name }}</h1>
+          <span class="small">Guest</span>
+        </div>
+        <div class="stats">
+          <div><b>{{ trips_done }}</b><span class="small">Trip{{ 's' if trips_done != 1 }}</span></div>
+          <div><b>{{ my_reviews|length }}</b><span class="small">Review{{ 's' if my_reviews|length != 1 }}</span></div>
+          <div><b>{{ MIRROR_TODAY.year - u.joined.year if MIRROR_TODAY.year > u.joined.year else '<1' }}</b><span class="small">Years on Airbnb</span></div>
+        </div>
+      </div>
+      <div class="panel" style="margin-top:24px">
+        <h3 style="margin-top:0">{{ u.display_name }}'s confirmed information</h3>
+        <p style="margin:0 0 6px">✓ Email address</p>
+        {% if u.phone %}<p style="margin:0 0 6px">✓ Phone number</p>{% endif %}
+        {% if u.identity_verified %}<p style="margin:0">✓ Identity</p>{% endif %}
+      </div>
+    </aside>
+    <div>
+      <h2 style="font-size:32px;margin-top:0">About {{ u.display_name }}</h2>
+      <ul class="facts">
+        {% if u.work %}<li>💼 My work: {{ u.work }}</li>{% endif %}
+        {% if u.lives_in %}<li>📍 Lives in {{ u.lives_in }}</li>{% endif %}
+        {% if u.languages %}<li>💬 Speaks {{ u.languages }}</li>{% endif %}
+      </ul>
+      {% if u.about %}<p style="font-size:16px;white-space:pre-line">{{ u.about }}</p>{% endif %}
+      <details class="panel">
+        <summary class="bold">Edit profile</summary>
+        <form method="post" action="{{ url_for('my_profile') }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <label class="field">About you<textarea name="about" rows="4" maxlength="1000">{{ u.about or '' }}</textarea></label>
+          <label class="field">Where I live<input name="lives_in" value="{{ u.lives_in or '' }}" maxlength="120"></label>
+          <label class="field">My work<input name="work" value="{{ u.work or '' }}" maxlength="120"></label>
+          <label class="field">Languages I speak<input name="languages" value="{{ u.languages or '' }}" maxlength="160"></label>
+          <button class="btn btn-dark" type="submit">Save</button>
+        </form>
+      </details>
+      <section style="border-top:1px solid var(--line);margin-top:32px;padding-top:32px">
+        <h2>Reviews I've written</h2>
+        {% for r in my_reviews %}
+        <div class="review-row">
+          <div class="small muted" style="margin-bottom:6px"><a href="{{ url_for('room', listing_id=r.listing.id) }}">{{ r.listing.title }} · {{ r.listing.name }}</a></div>
+          {{ mc.review_block(r) }}
+        </div>
+        {% else %}
+        <p class="muted">You haven't written any reviews yet.</p>
+        {% endfor %}
+      </section>
+    </div>
+  </div>
+</div>
+{% endblock %}

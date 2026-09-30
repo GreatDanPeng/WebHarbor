@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Log in - Airbnb{% endblock %}
+{% block searchbar %}{% endblock %}
+{% block content %}
+<div class="container-narrow">
+  <div class="auth-card">
+    <div class="auth-head">Log in</div>
+    <div class="auth-body">
+      <h1>Welcome to Airbnb</h1>
+      <form method="post" action="{{ url_for('login', next=request.args.get('next')) }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <label class="field">Email<input type="email" name="email" autocomplete="username" value="{{ request.form.get('email', '') }}" required autofocus></label>
+        <label class="field">Password<input type="password" name="password" autocomplete="current-password" required></label>
+        <label class="checks"><input type="checkbox" name="remember" value="on"> Keep me logged in</label>
+        <button class="btn btn-primary btn-block btn-lg" type="submit">Continue</button>
+      </form>
+      <p class="note-center">Don't have an account? <a href="{{ url_for('register') }}">Sign up</a></p>
+      <div class="demo-hint">
+        <b>Demo accounts</b>
+        <p class="small muted">This is an offline mirror. Log in with a benchmark account, for example <code>alice.j@test.com</code> / <code>TestPass123!</code>.</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
