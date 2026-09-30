@@ -36,12 +36,12 @@ fixture, not an official Ticketmaster product.
 
 ## Media and data provenance
 
-All 778 images under `static/images/` are real media downloaded from
+The original 778 images under `static/images/` were downloaded from
 Ticketmaster's CDNs (s1.ticketm.net, prismic-images.tmol.io) on 2026-09-27;
 their source URLs, byte sizes and SHA-256 digests are recorded in
 `asset_inventory.json`, and the data provenance for every tracked file is
-recorded in `provenance.json`. The Ticketmaster wordmark is the inline SVG
-served by the upstream pages. Event, artist, venue and content data come from
+recorded in `provenance.json`. The incomplete captured wordmark SVG was replaced with a readable typographic
+wordmark in the header and footer. Event, artist, venue and content data come from
 the tracked `source_data_*.json` snapshots captured from the rendered pages.
 
 The catalog includes the real near-name events captured from the rendered
@@ -63,3 +63,21 @@ owners (Ticketmaster/Live Nation and the event promoters, teams, artists and
 venues). They are reproduced here only to describe the benchmark fixture.
 This mirror is not affiliated with, endorsed by, or connected to Ticketmaster
 or Live Nation.
+
+## Homepage visual refinement (2026-09-29)
+
+The homepage now uses a featured-event panel, distinct performer selections across
+Highlights and the weekend shelf, category rotation, and thumbnails in the popular
+event lists. Each shelf selects events deterministically from the existing SQLite
+catalog. Weekend dates mean Saturday/Sunday relative to the frozen mirror date;
+event research, ticketing tasks, rubrics and verifiers are unchanged. This is an
+editorial adaptation of the captured mirror, not a fresh reproduction of today's
+Ticketmaster homepage: live Ticketmaster US and Canada pages returned HTTP 403.
+
+A visual check found two incorrectly associated images in the original bundle.
+The Columbus Crew's official crest (columbuscrew.com, MLS CDN) replaces FC
+Cincinnati's crest in its event and artist images. Official Mystère artwork from
+cirquedusoleil.com replaces a generic concert photo in that show's 20 event images
+and artist image. The 23 replacements keep their existing paths; source pages,
+URLs, retrieval date, transformations and hashes are in `asset_inventory.json`.
+No video, audio or unrelated attachments were added. The total remains 778 images.

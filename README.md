@@ -42,10 +42,10 @@ Build this checkout to run its registered web environments (published image tags
 
 ```bash
 ./scripts/build.sh webharbor:dev
-docker run -e WEBSYN_CONTROL_TOKEN -p 8101:8101 -p 40000-40093:40000-40093 webharbor:dev
+docker run -e WEBSYN_CONTROL_TOKEN -p 8101:8101 -p 40000-40125:40000-40125 webharbor:dev
 ```
 
-Then point your agent at `http://localhost:40000` through `http://localhost:40164` to explore 113 local mirrors. The table below lists every site in port order.
+Then point your agent at `http://localhost:40000` through `http://localhost:40093` to explore 94 local mirrors. The table below lists every site in port order.
 
 For sub-second reset between rollouts, expose the control plane and call `/reset/<site>`:
 
@@ -105,7 +105,11 @@ All registered websites and their default ports, in registration order from left
 | SoundCloud | 40102 | Speedo | 40103 | SourceForge | 40104 |
 | StubHub | 40105 | SpotHero | 40106 | Student.com | 40107 |
 | Statista | 40108 | Thumbtack | 40109 | Ticketmaster | 40110 |
-| Trip.com | 40111 | US Appliance | 40164 | | |  |
+| Trip.com | 40111 | The Weather Network | 40112 | Super Lawyers | 40113 |
+| TourRadar | 40114 | Apartments.com | 40115 | Eventbrite | 40116 |
+| Fandom | 40117 | Mayo Clinic | 40118 | SmartAsset | 40119 |
+| U.S. DOJ | 40120 | CVS | 40121 | CBP.gov | 40122 |
+| UPS | 40123 | United Airlines | 40124 | US Appliance | 40125 |
 
 ## 🤝 Contribute
 

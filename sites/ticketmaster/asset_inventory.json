@@ -54,9 +54,13 @@
   },
   {
    "path": "static/images/artists/artist_1486228.jpg",
-   "bytes": 37749,
-   "sha256": "5174786217eb22ec7ab9f446f63666cdbf37c339d02d9eb09fd006cb8ae32d9d",
-   "source_url": "https://s1.ticketm.net/dam/c/2db/d6726400-e873-433e-abbf-4d43eb78d2db_105941_RETINA_PORTRAIT_3_2.jpg"
+   "bytes": 78574,
+   "sha256": "d65888bebc96d2905aa85e83c6e9640775be3126d342d19651969b0b77272226",
+   "source_url": "https://www.cirquedusoleil.com/-/media/cds/images/shows/mystere/revamp_2024/data/shared_fb/mystere-share-1200x630.jpg?db=web&vs=1&hash=7FC2E23A13E7D9AA9AB3D2272C859D1B",
+   "source_page": "https://www.cirquedusoleil.com/mystere",
+   "retrieved": "2026-09-29",
+   "note": "Official Myst\u00e8re show artwork; replaces generic concert stock image.",
+   "transformation": "JPEG quality 84; max 1000px; aspect ratio preserved."
   },
   {
    "path": "static/images/artists/artist_1496632.jpg",
@@ -546,9 +550,13 @@
   },
   {
    "path": "static/images/artists/artist_805928.jpg",
-   "bytes": 18959,
-   "sha256": "a8d914d5798ef805d1b4822e39b4db420f163e42caf3d4148cef8b70845677b5",
-   "source_url": "https://s1.ticketm.net/dam/a/a64/e28dd9d2-c610-4598-baec-1600553f3a64_ARTIST_PAGE_3_2.jpg"
+   "bytes": 22240,
+   "sha256": "8c681cbda2385c3a46c6765952b0d89295b784a4636af60d7160059c7be0f515",
+   "source_url": "https://images.mlssoccer.com/image/upload/v1623700105/assets/clb/logos/Crew_Crest_White_etrj73.png",
+   "source_page": "https://www.columbuscrew.com/",
+   "retrieved": "2026-09-29",
+   "note": "Official Columbus Crew crest; replaces incorrectly assigned FC Cincinnati artwork.",
+   "transformation": "JPEG quality 84; max 1000px; transparent crest centered on dark 1000x667 canvas."
   },
   {
    "path": "static/images/artists/artist_805932.jpg",
@@ -1146,9 +1154,13 @@
   },
   {
    "path": "static/images/events/event_0500636E95BC9459.jpg",
-   "bytes": 18959,
-   "sha256": "a8d914d5798ef805d1b4822e39b4db420f163e42caf3d4148cef8b70845677b5",
-   "source_url": "https://s1.ticketm.net/dam/a/a64/e28dd9d2-c610-4598-baec-1600553f3a64_ARTIST_PAGE_3_2.jpg"
+   "bytes": 22240,
+   "sha256": "8c681cbda2385c3a46c6765952b0d89295b784a4636af60d7160059c7be0f515",
+   "source_url": "https://images.mlssoccer.com/image/upload/v1623700105/assets/clb/logos/Crew_Crest_White_etrj73.png",
+   "source_page": "https://www.columbuscrew.com/",
+   "retrieved": "2026-09-29",
+   "note": "Official Columbus Crew crest; replaces incorrectly assigned FC Cincinnati artwork.",
+   "transformation": "JPEG quality 84; max 1000px; transparent crest centered on dark 1000x667 canvas."
   },
   {
    "path": "static/images/events/event_0500646EAA439B5C.jpg",
@@ -4296,123 +4308,203 @@
   },
   {
    "path": "static/images/events/event_Z7r9jZ1A7Os8A.jpg",
-   "bytes": 37749,
-   "sha256": "5174786217eb22ec7ab9f446f63666cdbf37c339d02d9eb09fd006cb8ae32d9d",
-   "source_url": "https://s1.ticketm.net/dam/c/2db/d6726400-e873-433e-abbf-4d43eb78d2db_105941_RETINA_PORTRAIT_3_2.jpg"
+   "bytes": 78574,
+   "sha256": "d65888bebc96d2905aa85e83c6e9640775be3126d342d19651969b0b77272226",
+   "source_url": "https://www.cirquedusoleil.com/-/media/cds/images/shows/mystere/revamp_2024/data/shared_fb/mystere-share-1200x630.jpg?db=web&vs=1&hash=7FC2E23A13E7D9AA9AB3D2272C859D1B",
+   "source_page": "https://www.cirquedusoleil.com/mystere",
+   "retrieved": "2026-09-29",
+   "note": "Official Myst\u00e8re show artwork; replaces generic concert stock image.",
+   "transformation": "JPEG quality 84; max 1000px; aspect ratio preserved."
   },
   {
    "path": "static/images/events/event_Z7r9jZ1A7Os8I.jpg",
-   "bytes": 37749,
-   "sha256": "5174786217eb22ec7ab9f446f63666cdbf37c339d02d9eb09fd006cb8ae32d9d",
-   "source_url": "https://s1.ticketm.net/dam/c/2db/d6726400-e873-433e-abbf-4d43eb78d2db_105941_RETINA_PORTRAIT_3_2.jpg"
+   "bytes": 78574,
+   "sha256": "d65888bebc96d2905aa85e83c6e9640775be3126d342d19651969b0b77272226",
+   "source_url": "https://www.cirquedusoleil.com/-/media/cds/images/shows/mystere/revamp_2024/data/shared_fb/mystere-share-1200x630.jpg?db=web&vs=1&hash=7FC2E23A13E7D9AA9AB3D2272C859D1B",
+   "source_page": "https://www.cirquedusoleil.com/mystere",
+   "retrieved": "2026-09-29",
+   "note": "Official Myst\u00e8re show artwork; replaces generic concert stock image.",
+   "transformation": "JPEG quality 84; max 1000px; aspect ratio preserved."
   },
   {
    "path": "static/images/events/event_Z7r9jZ1A7Os8K.jpg",
-   "bytes": 37749,
-   "sha256": "5174786217eb22ec7ab9f446f63666cdbf37c339d02d9eb09fd006cb8ae32d9d",
-   "source_url": "https://s1.ticketm.net/dam/c/2db/d6726400-e873-433e-abbf-4d43eb78d2db_105941_RETINA_PORTRAIT_3_2.jpg"
+   "bytes": 78574,
+   "sha256": "d65888bebc96d2905aa85e83c6e9640775be3126d342d19651969b0b77272226",
+   "source_url": "https://www.cirquedusoleil.com/-/media/cds/images/shows/mystere/revamp_2024/data/shared_fb/mystere-share-1200x630.jpg?db=web&vs=1&hash=7FC2E23A13E7D9AA9AB3D2272C859D1B",
+   "source_page": "https://www.cirquedusoleil.com/mystere",
+   "retrieved": "2026-09-29",
+   "note": "Official Myst\u00e8re show artwork; replaces generic concert stock image.",
+   "transformation": "JPEG quality 84; max 1000px; aspect ratio preserved."
   },
   {
    "path": "static/images/events/event_Z7r9jZ1A7Os8O.jpg",
-   "bytes": 37749,
-   "sha256": "5174786217eb22ec7ab9f446f63666cdbf37c339d02d9eb09fd006cb8ae32d9d",
-   "source_url": "https://s1.ticketm.net/dam/c/2db/d6726400-e873-433e-abbf-4d43eb78d2db_105941_RETINA_PORTRAIT_3_2.jpg"
+   "bytes": 78574,
+   "sha256": "d65888bebc96d2905aa85e83c6e9640775be3126d342d19651969b0b77272226",
+   "source_url": "https://www.cirquedusoleil.com/-/media/cds/images/shows/mystere/revamp_2024/data/shared_fb/mystere-share-1200x630.jpg?db=web&vs=1&hash=7FC2E23A13E7D9AA9AB3D2272C859D1B",
+   "source_page": "https://www.cirquedusoleil.com/mystere",
+   "retrieved": "2026-09-29",
+   "note": "Official Myst\u00e8re show artwork; replaces generic concert stock image.",
+   "transformation": "JPEG quality 84; max 1000px; aspect ratio preserved."
   },
   {
    "path": "static/images/events/event_Z7r9jZ1A7Os8a.jpg",
-   "bytes": 37749,
-   "sha256": "5174786217eb22ec7ab9f446f63666cdbf37c339d02d9eb09fd006cb8ae32d9d",
-   "source_url": "https://s1.ticketm.net/dam/c/2db/d6726400-e873-433e-abbf-4d43eb78d2db_105941_RETINA_PORTRAIT_3_2.jpg"
+   "bytes": 78574,
+   "sha256": "d65888bebc96d2905aa85e83c6e9640775be3126d342d19651969b0b77272226",
+   "source_url": "https://www.cirquedusoleil.com/-/media/cds/images/shows/mystere/revamp_2024/data/shared_fb/mystere-share-1200x630.jpg?db=web&vs=1&hash=7FC2E23A13E7D9AA9AB3D2272C859D1B",
+   "source_page": "https://www.cirquedusoleil.com/mystere",
+   "retrieved": "2026-09-29",
+   "note": "Official Myst\u00e8re show artwork; replaces generic concert stock image.",
+   "transformation": "JPEG quality 84; max 1000px; aspect ratio preserved."
   },
   {
    "path": "static/images/events/event_Z7r9jZ1A7Os8b.jpg",
-   "bytes": 37749,
-   "sha256": "5174786217eb22ec7ab9f446f63666cdbf37c339d02d9eb09fd006cb8ae32d9d",
-   "source_url": "https://s1.ticketm.net/dam/c/2db/d6726400-e873-433e-abbf-4d43eb78d2db_105941_RETINA_PORTRAIT_3_2.jpg"
+   "bytes": 78574,
+   "sha256": "d65888bebc96d2905aa85e83c6e9640775be3126d342d19651969b0b77272226",
+   "source_url": "https://www.cirquedusoleil.com/-/media/cds/images/shows/mystere/revamp_2024/data/shared_fb/mystere-share-1200x630.jpg?db=web&vs=1&hash=7FC2E23A13E7D9AA9AB3D2272C859D1B",
+   "source_page": "https://www.cirquedusoleil.com/mystere",
+   "retrieved": "2026-09-29",
+   "note": "Official Myst\u00e8re show artwork; replaces generic concert stock image.",
+   "transformation": "JPEG quality 84; max 1000px; aspect ratio preserved."
   },
   {
    "path": "static/images/events/event_Z7r9jZ1A7Os8f.jpg",
-   "bytes": 37749,
-   "sha256": "5174786217eb22ec7ab9f446f63666cdbf37c339d02d9eb09fd006cb8ae32d9d",
-   "source_url": "https://s1.ticketm.net/dam/c/2db/d6726400-e873-433e-abbf-4d43eb78d2db_105941_RETINA_PORTRAIT_3_2.jpg"
+   "bytes": 78574,
+   "sha256": "d65888bebc96d2905aa85e83c6e9640775be3126d342d19651969b0b77272226",
+   "source_url": "https://www.cirquedusoleil.com/-/media/cds/images/shows/mystere/revamp_2024/data/shared_fb/mystere-share-1200x630.jpg?db=web&vs=1&hash=7FC2E23A13E7D9AA9AB3D2272C859D1B",
+   "source_page": "https://www.cirquedusoleil.com/mystere",
+   "retrieved": "2026-09-29",
+   "note": "Official Myst\u00e8re show artwork; replaces generic concert stock image.",
+   "transformation": "JPEG quality 84; max 1000px; aspect ratio preserved."
   },
   {
    "path": "static/images/events/event_Z7r9jZ1A7Os8s.jpg",
-   "bytes": 37749,
-   "sha256": "5174786217eb22ec7ab9f446f63666cdbf37c339d02d9eb09fd006cb8ae32d9d",
-   "source_url": "https://s1.ticketm.net/dam/c/2db/d6726400-e873-433e-abbf-4d43eb78d2db_105941_RETINA_PORTRAIT_3_2.jpg"
+   "bytes": 78574,
+   "sha256": "d65888bebc96d2905aa85e83c6e9640775be3126d342d19651969b0b77272226",
+   "source_url": "https://www.cirquedusoleil.com/-/media/cds/images/shows/mystere/revamp_2024/data/shared_fb/mystere-share-1200x630.jpg?db=web&vs=1&hash=7FC2E23A13E7D9AA9AB3D2272C859D1B",
+   "source_page": "https://www.cirquedusoleil.com/mystere",
+   "retrieved": "2026-09-29",
+   "note": "Official Myst\u00e8re show artwork; replaces generic concert stock image.",
+   "transformation": "JPEG quality 84; max 1000px; aspect ratio preserved."
   },
   {
    "path": "static/images/events/event_Z7r9jZ1A7Ow73.jpg",
-   "bytes": 37749,
-   "sha256": "5174786217eb22ec7ab9f446f63666cdbf37c339d02d9eb09fd006cb8ae32d9d",
-   "source_url": "https://s1.ticketm.net/dam/c/2db/d6726400-e873-433e-abbf-4d43eb78d2db_105941_RETINA_PORTRAIT_3_2.jpg"
+   "bytes": 78574,
+   "sha256": "d65888bebc96d2905aa85e83c6e9640775be3126d342d19651969b0b77272226",
+   "source_url": "https://www.cirquedusoleil.com/-/media/cds/images/shows/mystere/revamp_2024/data/shared_fb/mystere-share-1200x630.jpg?db=web&vs=1&hash=7FC2E23A13E7D9AA9AB3D2272C859D1B",
+   "source_page": "https://www.cirquedusoleil.com/mystere",
+   "retrieved": "2026-09-29",
+   "note": "Official Myst\u00e8re show artwork; replaces generic concert stock image.",
+   "transformation": "JPEG quality 84; max 1000px; aspect ratio preserved."
   },
   {
    "path": "static/images/events/event_Z7r9jZ1A7Ow74.jpg",
-   "bytes": 37749,
-   "sha256": "5174786217eb22ec7ab9f446f63666cdbf37c339d02d9eb09fd006cb8ae32d9d",
-   "source_url": "https://s1.ticketm.net/dam/c/2db/d6726400-e873-433e-abbf-4d43eb78d2db_105941_RETINA_PORTRAIT_3_2.jpg"
+   "bytes": 78574,
+   "sha256": "d65888bebc96d2905aa85e83c6e9640775be3126d342d19651969b0b77272226",
+   "source_url": "https://www.cirquedusoleil.com/-/media/cds/images/shows/mystere/revamp_2024/data/shared_fb/mystere-share-1200x630.jpg?db=web&vs=1&hash=7FC2E23A13E7D9AA9AB3D2272C859D1B",
+   "source_page": "https://www.cirquedusoleil.com/mystere",
+   "retrieved": "2026-09-29",
+   "note": "Official Myst\u00e8re show artwork; replaces generic concert stock image.",
+   "transformation": "JPEG quality 84; max 1000px; aspect ratio preserved."
   },
   {
    "path": "static/images/events/event_Z7r9jZ1A7Ow7M.jpg",
-   "bytes": 37749,
-   "sha256": "5174786217eb22ec7ab9f446f63666cdbf37c339d02d9eb09fd006cb8ae32d9d",
-   "source_url": "https://s1.ticketm.net/dam/c/2db/d6726400-e873-433e-abbf-4d43eb78d2db_105941_RETINA_PORTRAIT_3_2.jpg"
+   "bytes": 78574,
+   "sha256": "d65888bebc96d2905aa85e83c6e9640775be3126d342d19651969b0b77272226",
+   "source_url": "https://www.cirquedusoleil.com/-/media/cds/images/shows/mystere/revamp_2024/data/shared_fb/mystere-share-1200x630.jpg?db=web&vs=1&hash=7FC2E23A13E7D9AA9AB3D2272C859D1B",
+   "source_page": "https://www.cirquedusoleil.com/mystere",
+   "retrieved": "2026-09-29",
+   "note": "Official Myst\u00e8re show artwork; replaces generic concert stock image.",
+   "transformation": "JPEG quality 84; max 1000px; aspect ratio preserved."
   },
   {
    "path": "static/images/events/event_Z7r9jZ1A7Ow7f.jpg",
-   "bytes": 37749,
-   "sha256": "5174786217eb22ec7ab9f446f63666cdbf37c339d02d9eb09fd006cb8ae32d9d",
-   "source_url": "https://s1.ticketm.net/dam/c/2db/d6726400-e873-433e-abbf-4d43eb78d2db_105941_RETINA_PORTRAIT_3_2.jpg"
+   "bytes": 78574,
+   "sha256": "d65888bebc96d2905aa85e83c6e9640775be3126d342d19651969b0b77272226",
+   "source_url": "https://www.cirquedusoleil.com/-/media/cds/images/shows/mystere/revamp_2024/data/shared_fb/mystere-share-1200x630.jpg?db=web&vs=1&hash=7FC2E23A13E7D9AA9AB3D2272C859D1B",
+   "source_page": "https://www.cirquedusoleil.com/mystere",
+   "retrieved": "2026-09-29",
+   "note": "Official Myst\u00e8re show artwork; replaces generic concert stock image.",
+   "transformation": "JPEG quality 84; max 1000px; aspect ratio preserved."
   },
   {
    "path": "static/images/events/event_Z7r9jZ1A7Ow7v.jpg",
-   "bytes": 37749,
-   "sha256": "5174786217eb22ec7ab9f446f63666cdbf37c339d02d9eb09fd006cb8ae32d9d",
-   "source_url": "https://s1.ticketm.net/dam/c/2db/d6726400-e873-433e-abbf-4d43eb78d2db_105941_RETINA_PORTRAIT_3_2.jpg"
+   "bytes": 78574,
+   "sha256": "d65888bebc96d2905aa85e83c6e9640775be3126d342d19651969b0b77272226",
+   "source_url": "https://www.cirquedusoleil.com/-/media/cds/images/shows/mystere/revamp_2024/data/shared_fb/mystere-share-1200x630.jpg?db=web&vs=1&hash=7FC2E23A13E7D9AA9AB3D2272C859D1B",
+   "source_page": "https://www.cirquedusoleil.com/mystere",
+   "retrieved": "2026-09-29",
+   "note": "Official Myst\u00e8re show artwork; replaces generic concert stock image.",
+   "transformation": "JPEG quality 84; max 1000px; aspect ratio preserved."
   },
   {
    "path": "static/images/events/event_Z7r9jZ1A7OwA6.jpg",
-   "bytes": 37749,
-   "sha256": "5174786217eb22ec7ab9f446f63666cdbf37c339d02d9eb09fd006cb8ae32d9d",
-   "source_url": "https://s1.ticketm.net/dam/c/2db/d6726400-e873-433e-abbf-4d43eb78d2db_105941_RETINA_PORTRAIT_3_2.jpg"
+   "bytes": 78574,
+   "sha256": "d65888bebc96d2905aa85e83c6e9640775be3126d342d19651969b0b77272226",
+   "source_url": "https://www.cirquedusoleil.com/-/media/cds/images/shows/mystere/revamp_2024/data/shared_fb/mystere-share-1200x630.jpg?db=web&vs=1&hash=7FC2E23A13E7D9AA9AB3D2272C859D1B",
+   "source_page": "https://www.cirquedusoleil.com/mystere",
+   "retrieved": "2026-09-29",
+   "note": "Official Myst\u00e8re show artwork; replaces generic concert stock image.",
+   "transformation": "JPEG quality 84; max 1000px; aspect ratio preserved."
   },
   {
    "path": "static/images/events/event_Z7r9jZ1A7OwAA.jpg",
-   "bytes": 37749,
-   "sha256": "5174786217eb22ec7ab9f446f63666cdbf37c339d02d9eb09fd006cb8ae32d9d",
-   "source_url": "https://s1.ticketm.net/dam/c/2db/d6726400-e873-433e-abbf-4d43eb78d2db_105941_RETINA_PORTRAIT_3_2.jpg"
+   "bytes": 78574,
+   "sha256": "d65888bebc96d2905aa85e83c6e9640775be3126d342d19651969b0b77272226",
+   "source_url": "https://www.cirquedusoleil.com/-/media/cds/images/shows/mystere/revamp_2024/data/shared_fb/mystere-share-1200x630.jpg?db=web&vs=1&hash=7FC2E23A13E7D9AA9AB3D2272C859D1B",
+   "source_page": "https://www.cirquedusoleil.com/mystere",
+   "retrieved": "2026-09-29",
+   "note": "Official Myst\u00e8re show artwork; replaces generic concert stock image.",
+   "transformation": "JPEG quality 84; max 1000px; aspect ratio preserved."
   },
   {
    "path": "static/images/events/event_Z7r9jZ1A7OwAN.jpg",
-   "bytes": 37749,
-   "sha256": "5174786217eb22ec7ab9f446f63666cdbf37c339d02d9eb09fd006cb8ae32d9d",
-   "source_url": "https://s1.ticketm.net/dam/c/2db/d6726400-e873-433e-abbf-4d43eb78d2db_105941_RETINA_PORTRAIT_3_2.jpg"
+   "bytes": 78574,
+   "sha256": "d65888bebc96d2905aa85e83c6e9640775be3126d342d19651969b0b77272226",
+   "source_url": "https://www.cirquedusoleil.com/-/media/cds/images/shows/mystere/revamp_2024/data/shared_fb/mystere-share-1200x630.jpg?db=web&vs=1&hash=7FC2E23A13E7D9AA9AB3D2272C859D1B",
+   "source_page": "https://www.cirquedusoleil.com/mystere",
+   "retrieved": "2026-09-29",
+   "note": "Official Myst\u00e8re show artwork; replaces generic concert stock image.",
+   "transformation": "JPEG quality 84; max 1000px; aspect ratio preserved."
   },
   {
    "path": "static/images/events/event_Z7r9jZ1A7OwAY.jpg",
-   "bytes": 37749,
-   "sha256": "5174786217eb22ec7ab9f446f63666cdbf37c339d02d9eb09fd006cb8ae32d9d",
-   "source_url": "https://s1.ticketm.net/dam/c/2db/d6726400-e873-433e-abbf-4d43eb78d2db_105941_RETINA_PORTRAIT_3_2.jpg"
+   "bytes": 78574,
+   "sha256": "d65888bebc96d2905aa85e83c6e9640775be3126d342d19651969b0b77272226",
+   "source_url": "https://www.cirquedusoleil.com/-/media/cds/images/shows/mystere/revamp_2024/data/shared_fb/mystere-share-1200x630.jpg?db=web&vs=1&hash=7FC2E23A13E7D9AA9AB3D2272C859D1B",
+   "source_page": "https://www.cirquedusoleil.com/mystere",
+   "retrieved": "2026-09-29",
+   "note": "Official Myst\u00e8re show artwork; replaces generic concert stock image.",
+   "transformation": "JPEG quality 84; max 1000px; aspect ratio preserved."
   },
   {
    "path": "static/images/events/event_Z7r9jZ1A7OwAt.jpg",
-   "bytes": 37749,
-   "sha256": "5174786217eb22ec7ab9f446f63666cdbf37c339d02d9eb09fd006cb8ae32d9d",
-   "source_url": "https://s1.ticketm.net/dam/c/2db/d6726400-e873-433e-abbf-4d43eb78d2db_105941_RETINA_PORTRAIT_3_2.jpg"
+   "bytes": 78574,
+   "sha256": "d65888bebc96d2905aa85e83c6e9640775be3126d342d19651969b0b77272226",
+   "source_url": "https://www.cirquedusoleil.com/-/media/cds/images/shows/mystere/revamp_2024/data/shared_fb/mystere-share-1200x630.jpg?db=web&vs=1&hash=7FC2E23A13E7D9AA9AB3D2272C859D1B",
+   "source_page": "https://www.cirquedusoleil.com/mystere",
+   "retrieved": "2026-09-29",
+   "note": "Official Myst\u00e8re show artwork; replaces generic concert stock image.",
+   "transformation": "JPEG quality 84; max 1000px; aspect ratio preserved."
   },
   {
    "path": "static/images/events/event_Z7r9jZ1A7Owk7.jpg",
-   "bytes": 37749,
-   "sha256": "5174786217eb22ec7ab9f446f63666cdbf37c339d02d9eb09fd006cb8ae32d9d",
-   "source_url": "https://s1.ticketm.net/dam/c/2db/d6726400-e873-433e-abbf-4d43eb78d2db_105941_RETINA_PORTRAIT_3_2.jpg"
+   "bytes": 78574,
+   "sha256": "d65888bebc96d2905aa85e83c6e9640775be3126d342d19651969b0b77272226",
+   "source_url": "https://www.cirquedusoleil.com/-/media/cds/images/shows/mystere/revamp_2024/data/shared_fb/mystere-share-1200x630.jpg?db=web&vs=1&hash=7FC2E23A13E7D9AA9AB3D2272C859D1B",
+   "source_page": "https://www.cirquedusoleil.com/mystere",
+   "retrieved": "2026-09-29",
+   "note": "Official Myst\u00e8re show artwork; replaces generic concert stock image.",
+   "transformation": "JPEG quality 84; max 1000px; aspect ratio preserved."
   },
   {
    "path": "static/images/events/event_Z7r9jZ1A7Owk9.jpg",
-   "bytes": 37749,
-   "sha256": "5174786217eb22ec7ab9f446f63666cdbf37c339d02d9eb09fd006cb8ae32d9d",
-   "source_url": "https://s1.ticketm.net/dam/c/2db/d6726400-e873-433e-abbf-4d43eb78d2db_105941_RETINA_PORTRAIT_3_2.jpg"
+   "bytes": 78574,
+   "sha256": "d65888bebc96d2905aa85e83c6e9640775be3126d342d19651969b0b77272226",
+   "source_url": "https://www.cirquedusoleil.com/-/media/cds/images/shows/mystere/revamp_2024/data/shared_fb/mystere-share-1200x630.jpg?db=web&vs=1&hash=7FC2E23A13E7D9AA9AB3D2272C859D1B",
+   "source_page": "https://www.cirquedusoleil.com/mystere",
+   "retrieved": "2026-09-29",
+   "note": "Official Myst\u00e8re show artwork; replaces generic concert stock image.",
+   "transformation": "JPEG quality 84; max 1000px; aspect ratio preserved."
   },
   {
    "path": "static/images/events/event_Z7r9jZ1A7Q8qs.jpg",
