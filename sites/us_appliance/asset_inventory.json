@@ -1,6 +1,6 @@
 {
  "schema_version": 1,
- "asset_count": 21582,
+ "asset_count": 21590,
  "assets": [
   {
    "path": "static/images/category_tiles/electroluxappliances_0.jpg",
@@ -129493,6 +129493,54 @@
    "bytes": 17880,
    "sha256": "4b10d5e6bab3f401c162fec3e23c05008fd080269999559babcff2fa47d63795",
    "source_url": "https://cdn11.bigcommerce.com/s-ad6dymslsc/images/stencil/295x60/us_appliance_logo492tr_1775129438__08136.original.png"
+  },
+  {
+   "path": "static/external_cache/support/284099f8686a9b78.css",
+   "bytes": 84954,
+   "sha256": "2a63bac78f5a05a03698a83d7526cf3f44e646864bddc7113d28d430a32bebfb",
+   "source_url": "https://media.zenobuilder.com/upload/ad6dymslsc/6236e668-6a79-4a48-889a-0aaeb36812a6.css?v=93115276"
+  },
+  {
+   "path": "static/external_cache/support/eca558dcdd4ecb38.jpeg",
+   "bytes": 215925,
+   "sha256": "606dd829249262402bbaeded09f0a292f636564fc257edc1fd527f086ee36df1",
+   "source_url": "https://media.zenobuilder.com/upload/ad6dymslsc/5b645b95-9edb-474f-b938-5131bda3edcc-61656936.jpeg"
+  },
+  {
+   "path": "static/external_cache/support/ca2460418312f2e1.png",
+   "bytes": 5019,
+   "sha256": "9b4e4a8c3eca5b3d736d175a323fc9e473208b68d01f561ed02b454ad8012bf0",
+   "source_url": "https://media.zenobuilder.com/upload/ad6dymslsc/78625a9f-9e1a-4547-9651-02561dd12a4e-90349071.png"
+  },
+  {
+   "path": "static/external_cache/support/de8dfda9622b82d2.gif",
+   "bytes": 7154,
+   "sha256": "e959930ede3dcdbb0a466b187a562f3827ead40117e17883b735c4f98fc59b3d",
+   "source_url": "https://media.zenobuilder.com/upload/ad6dymslsc/14cf08a5-b90b-4ce0-b433-583e05f11e9e-66740138.gif"
+  },
+  {
+   "path": "static/external_cache/support/fc09b0a8e53ffc8e.png",
+   "bytes": 6829,
+   "sha256": "b5bd3afc8c2cc3a2cf8fcdd6c1a8a7fb5272159d3770eb31fc201615798c96d8",
+   "source_url": "https://media.zenobuilder.com/upload/ad6dymslsc/sitejabber-53498674.png"
+  },
+  {
+   "path": "static/external_cache/support/6e343c766ee031f2.css",
+   "bytes": 83078,
+   "sha256": "4aa11e7ce3f7e8e6744535d1e558361f4474d526e70751c02787c65a0b2dc870",
+   "source_url": "https://media.zenobuilder.com/upload/ad6dymslsc/c48efdb9-5fd9-4afe-9c16-a1a2885f9d74.css?v=91307137"
+  },
+  {
+   "path": "static/external_cache/support/20ca2c6ef61b39f6.png",
+   "bytes": 470014,
+   "sha256": "00026d7432747ec3e0314e52811320c0348f34f9b03d5cffecbb050b958e509d",
+   "source_url": "https://media.zenobuilder.com/upload/ad6dymslsc/ChatGPT-Image-Apr-24-2026-11-47-22-AM-11553763.png"
+  },
+  {
+   "path": "static/external_cache/support/2a24aa512f150230.jpg",
+   "bytes": 18657,
+   "sha256": "0bf11804d4555098e03fddf8d1ac444f8efcae20b9b9fd016cade870d71240a3",
+   "source_url": "https://cdn11.bigcommerce.com/s-ad6dymslsc/content/files/lib/after-sales-help-banner.jpg"
   }
  ]
 }
