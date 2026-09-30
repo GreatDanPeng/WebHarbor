@@ -193,6 +193,11 @@ class SurgeonSearch(db.Model):
         return json.loads(self.results)
 
 
+def _duration_days(bound):
+    units = {'days': 1, 'weeks': 7, 'months': 30.4375, 'years': 365.25}
+    return float(bound['value']) * units.get(bound.get('unit_en', 'Months').lower(), 1)
+
+
 class ProcessingTime(db.Model):
     """Real archived processing-times API record (form x office)."""
     __tablename__ = 'processing_times'
@@ -210,6 +215,7 @@ class ProcessingTime(db.Model):
         rng = json.loads(self.range_json)
         if not rng:
             return ""
+        rng = sorted(rng, key=_duration_days)
         parts = [f"{r.get('value')} {r.get('unit_en', 'Months')}" for r in rng]
         return parts[0] if len(parts) == 1 else f"{parts[0]} to {parts[1]}"
 
@@ -220,6 +226,7 @@ class ProcessingTime(db.Model):
             if not rng:
                 display = ""
             else:
+                rng = sorted(rng, key=_duration_days)
                 parts = [f"{r.get('value')} {r.get('unit_en', 'Months')}" for r in rng]
                 display = parts[0] if len(parts) == 1 else f"{parts[0]} to {parts[1]}"
             out.append({"form_type": st.get("form_type"), "range_display": display,
@@ -279,6 +286,7 @@ class Appointment(db.Model):
     appt_time = db.Column(db.String(20), nullable=False)
     confirmation = db.Column(db.String(16), unique=True, nullable=False)
     status = db.Column(db.String(20), nullable=False, default='Scheduled')
+    booking_zip = db.Column(db.String(5))
 
 
 # ------------------------------------------------------------------ helpers --
@@ -445,7 +453,7 @@ def processing_times():
 def forms_catalog():
     q = (request.args.get('q') or '').strip().lower()
     online_only = request.args.get('online') == '1'
-    page_no = max(1, int(request.args.get('page', 1) or 1))
+    page_no = max(1, request.args.get('page', 1, type=int))
     per_page = 25
     query = FormEntry.query.order_by(FormEntry.sort)
     if q:
@@ -483,25 +491,26 @@ def civil_surgeon():
     zip_q = (request.args.get('zip') or '').strip()
     language = request.args.get('language', '')
     gender = request.args.get('gender', '')
-    page_no = max(1, int(request.args.get('page', 1) or 1))
+    page_no = max(1, request.args.get('page', 1, type=int))
     search = None
     rows = []
     if zip_q:
         search = SurgeonSearch.query.filter_by(zip=zip_q).first()
         if search is not None:
             rows = search.rows()
-            if language:
-                rows = [r for r in rows
-                        if any(language.lower() in (c.get('languages') or '').lower()
-                               for c in r.get('contacts_list', []))]
-            if gender:
-                rows = [r for r in rows
-                        if all((c.get('gender') or '').lower() == gender.lower()
-                               for c in r.get('contacts_list', []))]
+            if language or gender:
+                matches = []
+                for row in rows:
+                    contacts = [c for c in row.get('contacts_list', [])
+                                if (not language or language.lower() in (c.get('languages') or '').lower())
+                                and (not gender or (c.get('gender') or '').lower() == gender.lower())]
+                    if contacts:
+                        matches.append(dict(row, contacts_list=contacts))
+                rows = matches
     per_page = 10
     start = (page_no - 1) * per_page
     page_rows = rows[start:start + per_page]
-    index = _load('surgeons.json')
+    index = Page.query.filter_by(slug='appointment-settings').one().data()['surgeon_filters']
     return render_template('civil_surgeon.html', zip_q=zip_q, language=language,
                            gender=gender, search=search, rows=page_rows,
                            total=len(rows), page_no=page_no,
@@ -607,7 +616,7 @@ def news_list(kind):
         abort(404)
     kinds = {'alerts': ['alert'], 'news-releases': ['release'],
              'all-news': ['alert', 'release']}[kind]
-    page_no = max(1, int(request.args.get('page', 1) or 1))
+    page_no = max(1, request.args.get('page', 1, type=int))
     per_page = 15
     query = NewsItem.query.filter(NewsItem.kind.in_(kinds)).order_by(NewsItem.id.desc())
     total = query.count()
@@ -631,7 +640,7 @@ def news_detail(kind, slug):
 
 @app.route('/appointment')
 def appointment_landing():
-    index = _load('appointment.json')
+    index = Page.query.filter_by(slug='appointment-settings').one().data()
     return render_template('appointment.html', content=index, nav=NAV, tools=TOOL_LINKS)
 
 
@@ -644,7 +653,7 @@ def appointment_view():
         zip_q = (request.form.get('zip') or '').strip()
         appt = Appointment.query.filter_by(confirmation=confirmation).first()
         owner = db.session.get(User, appt.user_id) if appt else None
-        if appt is None or owner is None or owner.zip != zip_q:
+        if appt is None or owner is None or (appt.booking_zip or owner.zip) != zip_q:
             appt = None
             error = ("We could not find an appointment with that confirmation number and "
                      "ZIP code. Please check the information on your appointment notice and "
@@ -677,6 +686,9 @@ def appointment_new():
     slots = []
     if request.method == 'POST':
         action = request.form.get('action', '')
+        reasons = Page.query.filter_by(slug='appointment-settings').one().data()['reasons']
+        if reason not in reasons:
+            abort(400)
         if action == 'pick_reason' and reason:
             step = 2
         elif action == 'find_office' and zip_q:
@@ -695,20 +707,28 @@ def appointment_new():
             office = FieldOffice.query.filter_by(designation=designation).first()
             if office is None:
                 abort(404)
+            row = ZipOffice.query.filter_by(zip=zip_q).first()
+            if row is None or row.office_designation != designation:
+                abort(400)
+            if not any(x['date'] == appt_date and x['time'] == appt_time for x in _slots_for(designation)):
+                flash('That appointment time is no longer available. Please choose another.', 'error')
+                return redirect(url_for('appointment_new'))
             date_digits = re.sub(r'\D', '', appt_date)          # 20261005
             time_digits = re.sub(r'\D', '', appt_time)            # 0900 from '09:00 AM'
             confirmation = f"USC{designation}{date_digits[2:8]}{time_digits}"
+            if Appointment.query.filter_by(confirmation=confirmation).first():
+                confirmation += f"-{current_user.id}-{Appointment.query.count()+1}"
             appt = Appointment(user_id=current_user.id, reason=reason,
                                 reason_detail=reason_detail,
                                 office_designation=office.designation,
-                                office_name=office.name, appt_date=appt_date,
+                                office_name=office.name, booking_zip=zip_q, appt_date=appt_date,
                                 appt_time=appt_time, confirmation=confirmation)
             db.session.add(appt)
             db.session.commit()
             return redirect(url_for('appointment_confirmed', confirmation=appt.confirmation))
     if office is not None:
         slots = _slots_for(office.designation)
-    reasons = _load('appointment.json').get('reasons', [])
+    reasons = Page.query.filter_by(slug='appointment-settings').one().data()['reasons']
     return render_template('appointment_new.html', step=step, reason=reason,
                            reason_detail=reason_detail, zip_q=zip_q, office=office,
                            slots=slots, reasons=reasons, nav=NAV, tools=TOOL_LINKS)
@@ -734,7 +754,8 @@ def _slots_for(designation):
                 continue  # slot unavailable
             slots.append({"date": d.isoformat(), "time": t,
                           "day": d.strftime("%A, %B %d, %Y")})
-    return slots
+    occupied = {(a.appt_date, a.appt_time) for a in Appointment.query.filter_by(office_designation=designation, status='Scheduled').all()}
+    return [slot for slot in slots if (slot['date'], slot['time']) not in occupied]
 
 
 @app.route('/appointment/confirmed')
@@ -846,6 +867,17 @@ def content_page(page_path):
     page = _page_or_404(page_path)
     if not page:
         abort(404)
+    if page_path == '/forms/filing-fees/poverty-guidelines':
+        # The upstream snapshot includes an orphan hidden 200%-column table.
+        # Display the three region-labelled 400%-column tables reachable in
+        # the upstream accordion, keeping each table beside its region.
+        data = page['data']
+        tables = [table for table in data['tables'] if '400%' in ' '.join(table['headers'])]
+        for section, table in zip(data['sections'], tables):
+            table['caption'] = section['heading']
+            table['rows'] = [row for row in table['rows'] if row != table['headers']]
+        data['tables'] = tables
+        data['sections'] = []
     template = 'content_page.html'
     if page_path.startswith('/i-') or page_path.startswith('/n-') or \
        page_path.startswith('/g-') or page_path.startswith('/ar-'):
@@ -878,6 +910,7 @@ def content_page(page_path):
 def seed_pages():
     if Page.query.count() > 0:
         return
+    db.session.add(Page(slug='appointment-settings', path='/appointment-settings', title='Appointment service configuration', body=json.dumps(dict(_load('appointment.json'), surgeon_filters={k: _load('surgeons.json').get(k, []) for k in ('languages', 'genders', 'doctor_count')}))))
     rows = _load('pages.json')
     for r in rows:
         db.session.add(Page(slug=r['slug'], path=r['path'], title=r['title'],

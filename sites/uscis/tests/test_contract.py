@@ -101,7 +101,7 @@ def test_processing_times(client):
     assert 'I-485' in html and 'N-400' in html
     html = _get(client, '/processing-times?form=N-400&office=SEA')
     assert 'Application for Naturalization' in html
-    assert '21 Months to 15.5 Months' in html
+    assert '15.5 Months to 21 Months' in html
     assert 'August 03, 2017' in html
 
 
@@ -119,7 +119,7 @@ def test_civil_surgeon(client):
     assert 'Find a Civil Surgeon' in html
     html = _get(client, '/tools/find-a-civil-surgeon?zip=22202')
     assert 'VAN DORN PEDIATRICS' in html
-    assert 'of 6815' in html  # the real global doctor count
+    assert 'of 6815' not in html  # only the ZIP-matched fixture is displayed
 
 
 def test_glossary(client):

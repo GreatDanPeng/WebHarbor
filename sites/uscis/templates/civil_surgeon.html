@@ -41,7 +41,7 @@
 
   {% if search %}
   <section class="locator-results">
-    <p class="result-count">{{ total }} result{{ 's' if total != 1 else '' }} {% if total %}&middot; showing {{ (page_no-1)*10 + 1 }} - {{ (page_no-1)*10 + (rows|length) }} of {{ doctor_count[0].count if doctor_count else total }}{% endif %}{% if language %} &middot; language: {{ language }}{% endif %}{% if gender %} &middot; doctor sex: {{ gender }}{% endif %}</p>
+    <p class="result-count">{{ total }} result{{ 's' if total != 1 else '' }} {% if total %}&middot; showing {{ (page_no-1)*10 + 1 }} - {{ (page_no-1)*10 + (rows|length) }} of {{ total }}{% endif %}{% if language %} &middot; language: {{ language }}{% endif %}{% if gender %} &middot; doctor sex: {{ gender }}{% endif %}</p>
     <ol class="surgeon-list">
       {% for r in rows %}
       <li class="surgeon">

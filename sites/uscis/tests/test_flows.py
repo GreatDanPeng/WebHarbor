@@ -78,7 +78,7 @@ def test_civil_surgeon_filters(client):
     assert 'Arabic' in arabic
     assert arabic.count('class="surgeon"') == 5  # five Arabic-speaking rows in the frozen set
     female = client.get('/tools/find-a-civil-surgeon?zip=60601&gender=Female').get_data(as_text=True)
-    assert female.count('class="surgeon"') == 4
+    assert female.count('class="surgeon"') == 5
 
 
 def test_fee_calculator_n400(client):
@@ -92,7 +92,7 @@ def test_fee_calculator_n400(client):
 
 def test_processing_times_inquiry_guidance(client):
     html = client.get('/processing-times?form=I-485&office=CHI').get_data(as_text=True)
-    assert '35.5 Months to 13.5 Months' in html
+    assert '13.5 Months to 35.5 Months' in html
     assert 'January 10, 2017' in html
     assert 'submit an inquiry' in html
 
