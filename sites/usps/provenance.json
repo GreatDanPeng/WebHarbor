@@ -57,10 +57,16 @@
   },
   "fixtures": {
     "benchmark_users": [
-      "alice.j@test.com", "bob.c@test.com", "carol.d@test.com",
+      "alice.j@test.com",
+      "bob.c@test.com",
+      "carol.d@test.com",
       "dana.k@test.com"
     ],
     "password": "TestPass123! (frozen bcrypt hash; documented in tasks that require sign-in)",
     "policy": "interactive flows (tracking timelines, Click-N-Ship labels, pickups, Hold Mail, Change of Address, PO Box reservations, store cart/checkout, claims, Informed Delivery) are original mirror code seeded with deterministic fixtures; facility street addresses, phone numbers and hours in the location directory are deterministic mirror fixtures layered on the real Postmaster Finder roster"
+  },
+  "reviewed_corrections": {
+    "po_box_fees": "Re-extracted all five size columns for each fee group from Notice 123. Previous parser mislabeled fee-group rows as sizes. Mirrored offices use benchmark fee group 2, not a claim about real local pricing.",
+    "tracking": "Authored fixture final delivery scans now agree with the delivery timestamp."
   }
 }

@@ -57,7 +57,7 @@ def test_csrf_tokens_in_clicknship_forms(alice):
         "/clicknship/create?step=1")
     alice.post("/clicknship/create?step=1", follow_redirects=True,
                data=with_csrf(alice, "/clicknship/create?step=1",
-                              {"next_step": "2"}))
+                              {"next_step": "2", "sender_name": "Alice Johnson", "sender_street": "123 Pine St", "sender_city": "Seattle", "sender_state": "WA", "sender_zip": "98101", "recipient_name": "Marcus Johnson", "recipient_street": "500 SW Pine St", "recipient_city": "Portland", "recipient_state": "OR", "recipient_zip": "97204"}))
     assert _assert_post_forms_tokenized(
         alice.get("/clicknship/create?step=2").data.decode(),
         "/clicknship/create?step=2")
@@ -259,7 +259,7 @@ def test_locations_state_search_shows_every_match(client):
 def test_po_box_fees_and_reserve(client):
     r = client.get("/po-boxes/")
     body = r.data.decode()
-    assert "$65.00" in body
+    assert "$98.00" in body
     assert "Size 5" in body
     r = client.get("/locations/", query_string={"q": "02205"})
     key = re.search(r'href="/locations/([a-z0-9-]+)"', r.data.decode())

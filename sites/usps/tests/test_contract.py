@@ -121,8 +121,8 @@ def test_extra_services_real_fees():
 def test_po_box_fees():
     with app.app_context():
         fee = PoBoxFee.query.filter_by(schedule="market_dominant_6mo",
-                                       size_label="2").first()
-        assert fee.fee == 65.00
+                                       size_label="2", fee_group="2").first()
+        assert fee.fee == 98.00
 
 
 def test_news_seeded():
