@@ -391,18 +391,30 @@ RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/student_com && \
     python3 /opt/check_asset_inventory.py /opt/WebSyn/ticketmaster && \
     (cd /opt/WebSyn/ticketmaster && rm -rf instance instance_seed && PYTHONHASHSEED=0 python3 seed_data.py && mkdir -p instance_seed && cp instance/ticketmaster.db instance_seed/ticketmaster.db && rm -rf instance __pycache__) && \
     python3 /opt/check_asset_inventory.py /opt/WebSyn/trip_com && \
-    (cd /opt/WebSyn/trip_com && rm -rf instance instance_seed && PYTHONHASHSEED=0 python3 seed_data.py && mkdir -p instance_seed && cp instance/trip_com.db instance_seed/trip_com.db && rm -rf instance __pycache__)
+    (cd /opt/WebSyn/trip_com && rm -rf instance instance_seed && PYTHONHASHSEED=0 python3 seed_data.py && mkdir -p instance_seed && cp instance/trip_com.db instance_seed/trip_com.db && rm -rf instance __pycache__) && \
+    python3 /opt/check_asset_inventory.py /opt/WebSyn/the_weather_network && \
+    (cd /opt/WebSyn/the_weather_network && rm -rf instance instance_seed && PYTHONHASHSEED=0 python3 seed_data.py && mkdir -p instance_seed && cp instance/the_weather_network.db instance_seed/the_weather_network.db && rm -rf instance __pycache__) && \
+    python3 /opt/check_asset_inventory.py /opt/WebSyn/super_lawyers && \
+    (cd /opt/WebSyn/super_lawyers && rm -rf instance instance_seed && PYTHONHASHSEED=0 python3 -c 'import app' && mkdir -p instance_seed && cp instance/super_lawyers.db instance_seed/super_lawyers.db && rm -rf instance __pycache__) && \
+    python3 /opt/check_asset_inventory.py /opt/WebSyn/tourradar && \
+    (cd /opt/WebSyn/tourradar && rm -rf instance instance_seed && PYTHONHASHSEED=0 python3 seed_data.py && mkdir -p instance_seed && cp instance/tourradar.db instance_seed/tourradar.db && rm -rf instance __pycache__)
 
-# ups validates its tracked media inventory and rebuilds its deterministic SQLite
-# seed from the captured source_data snapshots (see .build-generated-seed).
-RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/ups
-RUN cd /opt/WebSyn/ups && rm -rf instance instance_seed && \
-    PYTHONHASHSEED=0 python3 seed_data.py && \
-    mkdir -p instance_seed && cp instance/ups.db instance_seed/ups.db && \
-    rm -rf instance __pycache__
+
+
+RUN python3 /opt/WebSyn/smartasset/migrate_seed.py
+
+RUN python3 /opt/WebSyn/fandom/migrate_seed.py
+
+
+
+RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/us_doj
+
+RUN python3 /opt/check_asset_inventory.py /opt/WebSyn/cvs
+
+
 
 RUN python3 /opt/check_seed_databases.py /opt/WebSyn
 
-EXPOSE 8101 40000-40163
+EXPOSE 8101 40000-40122
 
 CMD ["/opt/websyn_start.sh"]
