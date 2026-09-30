@@ -444,9 +444,21 @@
       "bytes": 89982594,
       "sha256": "0f91ccbfaf752d3a19585151efc76c6b727bdfef404347917b9f9c43c94cb8eb"
     },
+    "u_s_customs.tar.gz": {
+      "bytes": 122320183,
+      "sha256": "0dd857786ab7e67c468f2ccd9fe2a6de596f550414dc6a6b6139e92e96fb659f"
+    },
     "uniqlo.tar.gz": {
       "bytes": 131544567,
       "sha256": "0e81fd745d3dc2955b113ab428ed1cb689a5677c652a25ebc206263b402e7c00"
+    },
+    "united_airlines.tar.gz": {
+      "bytes": 22952615,
+      "sha256": "1e48d3b8aa616e077afde3c51908f3021f4548fedc092f21f64feae9c78db93a"
+    },
+    "ups.tar.gz": {
+      "bytes": 6084703,
+      "sha256": "c60b904536e9b8d710bc4bf9f262bdf3d8adb54b083dbc96cbc5d969c06e1865"
     },
     "us_doj.tar.gz": {
       "bytes": 162049197,
@@ -489,8 +501,8 @@
       "sha256": "986c51d2fe6c557b3b2c784c4bc198e53065af7da65946a99b782a90fde3b7db"
     }
   },
-  "managed_tree_sha256": "83cd1e7295ff650af9d07cce18d48685aac8e2ece60d155fd1dd4b5514411dd0",
+  "managed_tree_sha256": "26cb3472590d6871fe96ec59cf19b76598e9ff6653952c12cd2006959f135b30",
   "repo": "ChilleD/WebHarbor",
-  "revision": "4e89acc80e8f6c92b9316056ee59053ca9331583",
+  "revision": "acc18daed29ff71a61c3bcdc4e299b5d4f43360a",
   "version": 1
 }
