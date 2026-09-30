@@ -54,10 +54,11 @@
       <input type="hidden" name="color" value="{{ color.id }}">
       <div class="sizes">
         {% for s in color.sizes %}
-          <button class="size-pill {{ '' if s.availability == 'in_stock' else 'back' }}"
-                  name="size" value="{{ s.id }}"
-                  {{ '' if s.availability == 'in_stock' else 'disabled' }}>
-            {{ s.name }}</button>
+          <label class="size-pill {{ '' if s.availability in ('in_stock', 'low_on_stock') else 'back' }}">
+            <input type="radio" name="size" value="{{ s.id }}" required
+                   {{ '' if s.availability in ('in_stock', 'low_on_stock') else 'disabled' }}>
+            {{ s.name }}
+          </label>
         {% endfor %}
       </div>
       <div class="pdp-actions">

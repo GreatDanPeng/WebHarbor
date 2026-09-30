@@ -45,11 +45,13 @@
 {% else %}
 <p class="center-note">Your bag is empty</p>
 <div class="grid" style="padding: 10px 28px 60px">
-  {% for cat, _ in categories_nav()[:4] %}
+  {% for section, entries in categories_nav() %}
+    {% for cat, count in entries %}
     <a class="product-card" href="{{ cat.path }}">
       <div class="pname">{{ cat.section }} — {{ cat.name }}</div>
       <div class="pprice">{{ cat.upstream_grid_count }} upstream products</div>
     </a>
+    {% endfor %}
   {% endfor %}
 </div>
 {% endif %}
