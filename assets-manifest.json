@@ -488,6 +488,10 @@
       "bytes": 11458196,
       "sha256": "b84a0072c603225f29e21edfd8f8038fe02a0261a38a60f8e70ed871ea7ce77a"
     },
+    "wanderlog.tar.gz": {
+      "bytes": 57061317,
+      "sha256": "bb49b208feaa8c4583489c2491a274df631a814e65dfc4676f76aa62c488e932"
+    },
     "weather.tar.gz": {
       "bytes": 21778836,
       "sha256": "ee5951f513eab958a66cbe43bb91290ec64aab19f0e9d818c05a0642833649d8"
@@ -521,8 +525,8 @@
       "sha256": "71f5a4148217673718772afef903b23a4026642203f88dee1a4f482d7a20ace9"
     }
   },
-  "managed_tree_sha256": "e04a35a8387a1a88c18581070ef153193f1419ff3a8ceb239e9ae850846d63dc",
+  "managed_tree_sha256": "a9933ba2035e2857bffbceaa12e33f99a8da90fcb60d6dee902841f44f68d35c",
   "repo": "ChilleD/WebHarbor",
-  "revision": "621fa3cbefb443ae3af153c51e0e2fa96d6f0266",
+  "revision": "1a37ae1ae732584228a0a36ddde17d6c12e3ca86",
   "version": 1
 }
