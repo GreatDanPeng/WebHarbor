@@ -82,3 +82,8 @@ if (dateStart && dateEnd) {
   dateEnd.addEventListener("change", validateDates);
   validateDates();
 }
+
+// Keyboard users can scroll wide source tables without moving the whole page.
+document.querySelectorAll('.rich-content table').forEach((table) => {
+  table.tabIndex = 0;
+});
