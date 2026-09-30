@@ -88,7 +88,7 @@ def check_claims(answer,claims):
             if re.search(r'\b(?:not|never|incorrect|false)\s*$',text[max(0,m.start()-18):m.start()]):
                 raise ValueError('Negated '+label)
             # An inserted negation must not turn an expected positive claim into a pass.
-            if re.search(r'\b(?:not|never)\s+(?:\$?\d|free|panasonic|approved)',claim) and not re.search(r'not|never',pattern):
+            if re.search(r"\b(?:not|never|isn't|aren't|doesn't|don't|cannot)\b",claim) and not re.search(r'not|never|ineligible|unavailable|prohibit',pattern):
                 raise ValueError('Contradicted '+label)
 
 
