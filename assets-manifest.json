@@ -148,6 +148,10 @@
       "bytes": 16967864,
       "sha256": "741ef266077cc56c082e5b7dd2df0e43ffa81f7a1c297bb55ac232aabe9e5f5d"
     },
+    "cvs.tar.gz": {
+      "bytes": 7712024,
+      "sha256": "d87bb802e90158970c9b7e1e1ae9192e05c42aaa72b1e043657969ea5e0d1198"
+    },
     "dillards.tar.gz": {
       "bytes": 96283276,
       "sha256": "5b93312d1c3e8b6fb59dcdb4eba2e4ef87b49004aef2257a8bb8f5547d7d7383"
@@ -485,8 +489,8 @@
       "sha256": "986c51d2fe6c557b3b2c784c4bc198e53065af7da65946a99b782a90fde3b7db"
     }
   },
-  "managed_tree_sha256": "40e4bd376389a618f7c65ad0f5e8e178a0b07c843b99d34cb533a09c1a498294",
+  "managed_tree_sha256": "83cd1e7295ff650af9d07cce18d48685aac8e2ece60d155fd1dd4b5514411dd0",
   "repo": "ChilleD/WebHarbor",
-  "revision": "40929693c64414af3853b2a4b3c6b46900af6ce4",
+  "revision": "4e89acc80e8f6c92b9316056ee59053ca9331583",
   "version": 1
 }
