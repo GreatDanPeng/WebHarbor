@@ -51,6 +51,11 @@
    "path": "tests/test_mirror.py",
    "classification": "mirror-code",
    "scope": "Pytest suite covering seed idempotence, scored search, discovery filters, event listing filters and sorts, the price breakdown math (face value + 37.6% service fee), the full guest and signed-in checkout chain through confirmation, auth, member area (orders, profile, payment methods, favorites), gift cards and the help centre."
+  },
+  {
+   "path": "templates/index.html, templates/base.html, static/css/main.css, app.py (homepage), static/images (23 replacements)",
+   "classification": "reviewer-refinement",
+   "scope": "2026-09-29: deterministic distinct-performer homepage shelves, featured-event presentation, real Saturday/Sunday range, popular-list thumbnails and readable typographic wordmark. Live Ticketmaster homepage was HTTP 403; layout is an editorial adaptation of the prior capture. Official Columbus Crew and Myst\u00e8re replacement images and provenance are recorded individually in asset_inventory.json."
   }
  ]
 }
