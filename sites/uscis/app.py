@@ -1077,6 +1077,11 @@ def seed_benchmark_users():
 def main():
     with app.app_context():
         db.create_all()
+        populated = (Page, FormEntry, FormFee, FormPage, NewsItem, GlossaryTerm,
+                     FieldOffice, ZipOffice, SurgeonSearch, ProcessingTime,
+                     WizardState, User)
+        if all(model.query.count() > 0 for model in populated):
+            return
         seed_pages()
         seed_forms()
         seed_form_fees()
@@ -1092,23 +1097,8 @@ def main():
         db.session.commit()
 
 
-with app.app_context():
-    db.create_all()
-    # Import-time seeding keeps `flask run`, the image boot and /reset uniform:
-    # every gate above makes this a no-op on a populated database.
-    seed_pages()
-    seed_forms()
-    seed_form_fees()
-    seed_form_pages()
-    seed_news()
-    seed_glossary()
-    seed_field_offices()
-    seed_zip_offices()
-    seed_surgeons()
-    seed_processing_times()
-    seed_wizard()
-    seed_benchmark_users()
-    db.session.commit()
+# The same fully gated initializer serves imports, seeding and reset.
+main()
 
 
 if __name__ == '__main__':
