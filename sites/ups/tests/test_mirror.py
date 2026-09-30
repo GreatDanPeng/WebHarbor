@@ -57,7 +57,7 @@ class UPSSeededTests(unittest.TestCase):
                       b'calculate shipping cost', b'schedule a pickup',
                       b'find closest ups location', b'service alert'):
             self.assertIn(label, low)
-        self.assertIn(b'<img src="/static/images/ups-package-ontime.png"', r.data)
+        self.assertIn(b'<img src="/static/images/pickup-dropoff-packages-b-1166486-q421.jpg"', r.data)
 
     def test_no_task_answers_leak_on_home(self) -> None:
         r = self.client.get('/')
