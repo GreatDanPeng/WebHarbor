@@ -18,6 +18,8 @@ the upstream sites on 2026-09-28 (see scripts_dev/); the SQLite seed is
 materialized deterministically at image build time (PYTHONHASHSEED=0).
 """
 import hashlib
+import math
+from urllib.parse import urlsplit
 import json
 import os
 import re
@@ -162,6 +164,7 @@ class PoBoxFee(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     schedule = db.Column(db.String(30))  # competitive_6mo ...
     size_label = db.Column(db.String(60))
+    fee_group = db.Column(db.String(20), nullable=False)
     fee = db.Column(db.Float)
 
 
@@ -599,11 +602,8 @@ def seed_pricing():
             db.session.add(ExtraService(scope='intl', category=category,
                                         label=row['label'],
                                         price=row.get('price')))
-    for schedule, rows in data.get('po_box_fees', {}).items():
-        for row in rows:
-            db.session.add(PoBoxFee(schedule=schedule,
-                                   size_label=row['label'],
-                                   fee=row['price']))
+    for row in _load('po_box_fee_matrix.json')['rows']:
+        db.session.add(PoBoxFee(**row))
     db.session.commit()
 
 
@@ -775,7 +775,7 @@ def seed_post_offices():
             phone=f"800-ASK-USPS",
             hours=json.dumps(_post_office_hours(seed_key)),
             services=json.dumps(_post_office_services(seed_key)),
-            fee_group='market_dominant_6mo',
+            fee_group='2',
             has_po_boxes=True, postmaster=postmaster,
             postmaster_since=postmaster_since))
 
@@ -918,6 +918,8 @@ def seed_shipments():
                 ts = (base + timedelta(hours=12 * i)).strftime('%Y-%m-%d %H:%M')
                 fac = facilities[min(i // 2, 2)]
                 events.append(_event(ts, key, f"{fac[0]}, {fac[1]}", i))
+        if delivered:
+            events[-1].ts = datetime.strptime(delivered, '%Y-%m-%d %I:%M %p').strftime('%Y-%m-%d %H:%M')
         for e in events:
             e.shipment_id = ship.id
             db.session.add(e)
@@ -1239,6 +1241,8 @@ def _mirrored_target(href):
 def _sanitize_html(value):
     """Recursively clean HTML fragments out of scraped text trees."""
     if isinstance(value, str):
+        # The source scraper retained a truncated image alt/src suffix here.
+        value = re.sub(r' Priority Mail Express .*?boxes sitting on a couch.*$', '', value)
         if '<' not in value:
             return value
 
@@ -1297,6 +1301,44 @@ def _clean_article(article):
 
 
 # ------------------------------------------------------------------ helpers --
+
+def positive_number(value, maximum=70):
+    try:
+        number = float(value)
+    except (ValueError, TypeError):
+        abort(400, description='Enter a valid weight or amount.')
+    if not math.isfinite(number) or not 0 < number <= maximum:
+        abort(400, description='Weight or amount is out of range.')
+    return number
+
+
+def valid_zone(value):
+    if str(value) not in {str(n) for n in range(1, 10)}:
+        abort(400, description='Choose a valid zone.')
+    return int(value)
+
+
+def _cns_options(data):
+    weight = positive_number(data.get('weight_lbs'))
+    zone = valid_zone(data.get('zone'))
+    box = data.get('box_type', 'own')
+    if box != 'own':
+        names = {'fr-envelope': 'Flat Rate Envelope', 'fr-medium': 'Medium Flat Rate Boxes', 'fr-large': 'Large Flat Rate Box'}
+        if box not in names:
+            abort(400, description='Choose valid packaging.')
+        item = FlatRateItem.query.filter_by(scope='domestic', service='Priority Mail', label=names[box]).first()
+        if not item:
+            abort(400, description='This packaging is unavailable.')
+        return [('pm', 'Priority Mail', item.price)]
+    return [(code, label, price) for code, label in [('pme', 'Priority Mail Express'), ('pm', 'Priority Mail'), ('ga', 'USPS Ground Advantage')]
+            if (price := _price_for(code, weight, zone)) is not None]
+
+
+def _validate_cns_address(data):
+    for prefix in ('sender', 'recipient'):
+        if any(not data.get(prefix + '_' + field, '').strip() for field in ('name', 'street', 'city', 'state', 'zip')) or not re.fullmatch(r'\d{5}', data.get(prefix + '_zip', '')):
+            abort(400, description='Enter complete sender and recipient addresses with five-digit ZIP codes.')
+
 
 def _price_for(table_code, weight, col):
     """Retail price for a weight/zone cell (first grid row at or above weight)."""
@@ -1592,10 +1634,9 @@ def postcalc_letters():
     if request.method == 'POST':
         shape = request.form.get('shape', 'stamped')
         ounces = request.form.get('ounces', '1')
-        try:
-            oz = float(ounces)
-        except ValueError:
-            oz = 1.0
+        oz = positive_number(ounces, 13)
+        if shape not in ('stamped', 'metered', 'flats', 'postcards'):
+            abort(400, description='Choose a valid mail shape.')
         form = {'shape': shape, 'ounces': ounces}
         if oz <= 0 or oz > 13:
             result = {'error': 'Enter a weight between 0 and 13 oz.'}
@@ -1629,11 +1670,8 @@ def postcalc_packages():
     result = None
     form = {}
     if request.method == 'POST':
-        try:
-            weight = float(request.form.get('weight', '1'))
-        except ValueError:
-            weight = 1.0
-        zone = int(request.form.get('zone', '4'))
+        weight = positive_number(request.form.get('weight', '1'))
+        zone = valid_zone(request.form.get('zone', '4'))
         form = {'weight': request.form.get('weight', '1'), 'zone': zone}
         if weight <= 0 or weight > 70:
             result = {'error': 'Enter a weight between 0 and 70 lbs.'}
@@ -1677,10 +1715,7 @@ def postcalc_intl():
     form = {}
     if request.method == 'POST':
         country_name = request.form.get('country', '')
-        try:
-            weight = float(request.form.get('weight', '1'))
-        except ValueError:
-            weight = 1.0
+        weight = positive_number(request.form.get('weight', '1'))
         form = {'country': country_name, 'weight': request.form.get('weight', '1')}
         country = CountryInfo.query.filter_by(name=country_name).first()
         if not country:
@@ -1689,11 +1724,11 @@ def postcalc_intl():
             rows = []
             pmi_group = int(country.pmi_group) if country.pmi_group.isdigit() else None
             pmei_group = int(country.pmei_group) if country.pmei_group.isdigit() else None
-            if pmi_group and weight <= 66:
+            if pmi_group and country.pmi_max_lbs.replace('.', '', 1).isdigit() and weight <= float(country.pmi_max_lbs):
                 price = _price_for('pmi', weight, pmi_group)
                 if price:
                     rows.append(('Priority Mail International', price))
-            if pmei_group and weight <= 70:
+            if pmei_group and country.pmei_max_lbs.replace('.', '', 1).isdigit() and weight <= float(country.pmei_max_lbs):
                 price = _price_for('pmei', weight, pmei_group)
                 if price:
                     rows.append(('Priority Mail Express International', price))
@@ -1727,6 +1762,10 @@ def postcalc_extras():
     domestic = {}
     for svc in ExtraService.query.filter_by(scope='domestic') \
             .order_by(ExtraService.category, ExtraService.id):
+        # Legacy scraped PO Box rows collapsed fee groups into size columns.
+        # The complete sourced fee matrix is rendered on /po-boxes/ instead.
+        if svc.category.startswith('PO Box Service'):
+            continue
         domestic.setdefault(svc.category, []).append(svc)
     intl = {}
     for svc in ExtraService.query.filter_by(scope='intl') \
@@ -1765,7 +1804,10 @@ def _cns_from_form():
 @app.route('/clicknship/create', methods=['GET', 'POST'])
 @login_required
 def clicknship_create():
-    step = int(request.args.get('step', 1))
+    step = request.args.get('step', '1')
+    if step not in ('1', '2', '3'):
+        abort(400, description='Choose a valid label step.')
+    step = int(step)
     data = session.get('cns') or {}
     if request.method == 'POST':
         data.update(_cns_from_form())
@@ -1773,23 +1815,16 @@ def clicknship_create():
                       'signature', 'certified'):
             if extra in request.form:
                 data[extra] = request.form.get(extra)
+        _validate_cns_address(data)
+        if step >= 2:
+            _cns_options(data)
         session['cns'] = data
-        step = int(request.form.get('next_step', step + 1))
+        step = min(step + 1, 3)
         return redirect(url_for('clicknship_create', step=step))
-    if step == 3 and data.get('weight_lbs'):
-        try:
-            weight = float(data['weight_lbs'])
-        except ValueError:
-            weight = 1.0
-        zone = int(data.get('zone') or 4)
-        options = []
-        for code, label in (('pme', 'Priority Mail Express'),
-                            ('pm', 'Priority Mail'),
-                            ('ga', 'USPS Ground Advantage')):
-            price = _price_for(code, weight, zone)
-            if price:
-                options.append((code, label, price))
-        data['options'] = options
+    if step >= 2:
+        _validate_cns_address(data)
+    if step == 3:
+        data['options'] = _cns_options(data)
     return render_template(f'clicknship_step{step}.html', data=data,
                            steps=['Addresses', 'Package', 'Service & Pay'],
                            step=step, **_ctx())
@@ -1799,23 +1834,19 @@ def clicknship_create():
 @login_required
 def clicknship_label():
     data = session.get('cns') or {}
-    try:
-        weight = float(data.get('weight_lbs') or 1)
-    except ValueError:
-        weight = 1.0
-    zone = int(data.get('zone') or 4)
-    service = request.form.get('service', 'pm')
-    label = dict(pm='Priority Mail', pme='Priority Mail Express',
-                 ga='USPS Ground Advantage').get(service, 'Priority Mail')
-    base = _price_for(service, weight, zone)
+    _validate_cns_address(data)
+    weight = positive_number(data.get('weight_lbs'))
+    zone = valid_zone(data.get('zone'))
+    service = request.form.get('service', '')
+    options = {code: (label, price) for code, label, price in _cns_options(data)}
+    if service not in options or request.form.get('certified'):
+        abort(400, description='Choose an available package service.')
+    label, base = options[service]
     extras = []
     total = base or 0.0
     insured = 0.0
     if request.form.get('insurance'):
-        try:
-            insured = float(request.form.get('insured_value') or 100)
-        except ValueError:
-            insured = 100.0
+        insured = positive_number(request.form.get('insured_value'), 5000)
         fee = _band_fee('Insurance', insured)
         if fee:
             extras.append(f'Insurance (${insured:,.0f})')
@@ -1849,7 +1880,7 @@ def clicknship_label():
         expected_date=(MIRROR_TODAY + timedelta(days=3)).isoformat(),
         insured_value=insured or None, extras=json.dumps(extras),
         signature_required=bool(request.form.get('signature')),
-        is_cns=True, price_paid=total, created_at=MIRROR_TODAY.isoformat())
+        is_cns=True, price_paid=round(total, 2), created_at=MIRROR_TODAY.isoformat())
     db.session.add(shipment)
     db.session.flush()
     db.session.add(ScanEvent(
@@ -1881,8 +1912,24 @@ def pickup_home():
         if not request.form.get('street') or not request.form.get('city') \
                 or not request.form.get('state') or not request.form.get('zip'):
             errors.append('Enter a complete pickup address.')
-        if not date_val:
-            errors.append('Choose a pickup date.')
+        try:
+            scheduled = date.fromisoformat(date_val)
+            if scheduled < MIRROR_TODAY or scheduled.weekday() == 6:
+                errors.append('Choose a future pickup date other than Sunday.')
+        except ValueError:
+            errors.append('Choose a valid pickup date.')
+        if not count.isdigit() or not 1 <= int(count) <= 99:
+            errors.append('Enter a positive package count.')
+        try:
+            weight = float(request.form.get('weight', ''))
+            if not math.isfinite(weight) or weight <= 0:
+                errors.append('Enter a positive package weight.')
+        except ValueError:
+            errors.append('Enter a valid package weight.')
+        if not re.fullmatch(r'\d{5}', request.form.get('zip', '')):
+            errors.append('Enter a five-digit ZIP code.')
+        if not request.form.getlist('services'):
+            errors.append('Select the package services.')
         if errors:
             result = {'errors': errors}
         else:
@@ -1890,7 +1937,7 @@ def pickup_home():
                          'est_weight': request.form.get('weight', ''),
                          'services': request.form.getlist('services')}]
             confirmation = _number_for('PKG-',
-                                       address + date_val + str(count))
+                                       json.dumps(dict(request.form), sort_keys=True).replace(request.form.get('csrf_token', ''), '') + str(current_user.id if current_user.is_authenticated else None))
             # Idempotent on identical requests (reviewer F-11): the
             # confirmation number is a pure function of the form inputs,
             # so re-submitting the same pickup returns the existing
@@ -1976,7 +2023,7 @@ def location_detail(po_key):
 @app.route('/po-boxes/')
 def po_boxes():
     fees = {}
-    for row in PoBoxFee.query.order_by(PoBoxFee.schedule, PoBoxFee.fee):
+    for row in PoBoxFee.query.filter_by(fee_group='2').order_by(PoBoxFee.schedule, PoBoxFee.size_label):
         # audit F-E: the scraper captured the upstream fee-schedule header
         # ("Fee Group") as a data row — skip non-size labels at render time
         if not row.size_label.strip().isdigit():
@@ -1998,20 +2045,20 @@ def po_box_reserve(po_key):
         schedule = 'market_dominant_6mo' if period == '6 months' \
             else 'market_dominant_3mo'
         fee_row = PoBoxFee.query.filter_by(schedule=schedule,
-                                           size_label=size).first()
+                                           size_label=size, fee_group=po.fee_group).first()
         fee = fee_row.fee if fee_row else None
-        if fee is None:
+        if fee is None or size not in sizes or period not in ('3 months', '6 months') or not po.has_po_boxes:
             result = {'errors': ['That box size is not available at this '
                                  'Post Office.']}
         else:
             digest = hashlib.sha256(
-                f"{po_key}|{size}|{period}".encode()).hexdigest()
+                f"{po_key}|{size}|{period}|{PoBoxRental.query.count()}".encode()).hexdigest()
             box_number = f"{int(digest[:4], 16) % 9000 + 1000}"
             rental = PoBoxRental(
                 user_id=current_user.id if current_user.is_authenticated else None,
                 po_id=po.id, box_number=box_number, size_label=size,
                 fee_paid=fee, pay_period=period, status='Reserved',
-                expires_on=(MIRROR_TODAY + timedelta(days=183)).isoformat(),
+                expires_on=(MIRROR_TODAY + timedelta(days=183 if period == '6 months' else 92)).isoformat(),
                 created_at=MIRROR_TODAY.isoformat())
             db.session.add(rental)
             db.session.commit()
@@ -2109,7 +2156,10 @@ def store_cart():
 def store_cart_add():
     product = StoreProduct.query.filter_by(
         sku=request.form.get('sku', '')).first()
-    qty = max(1, min(99, int(request.form.get('qty', '1') or 1)))
+    qty = positive_number(request.form.get('qty', '1'), 99)
+    if not qty.is_integer():
+        abort(400, description='Quantity must be a whole number.')
+    qty = int(qty)
     if product:
         key = _cart_key()
         row = CartItem.query.filter_by(cart_key=key,
@@ -2121,14 +2171,14 @@ def store_cart_add():
                                     qty=qty))
         db.session.commit()
         flash(f'Added {qty} × {product.name} to your cart.')
-    return redirect(request.referrer or url_for('store_cart'))
+    return redirect(url_for('store_cart'))
 
 
 @app.route('/store/cart/remove', methods=['POST'])
 def store_cart_remove():
     key = _cart_key()
     row = CartItem.query.filter_by(cart_key=key,
-                                   id=int(request.form.get('row', 0))).first()
+                                   id=request.form.get('row', type=int)).first()
     if row:
         db.session.delete(row)
         db.session.commit()
@@ -2195,13 +2245,13 @@ def hold_mail_request():
             e = datetime.strptime(end, '%Y-%m-%d').date()
             if s < MIRROR_TODAY:
                 errors.append('The hold start date cannot be in the past.')
-            if (e - s).days > 30:
-                errors.append('USPS can hold mail for at most 30 days.')
+            if not 3 <= (e - s).days + 1 <= 30:
+                errors.append('USPS can hold mail for at least 3 and at most 30 days, including both dates.')
             if e < s:
                 errors.append('The end date must be after the start date.')
         except ValueError:
             errors.append('Enter valid start and end dates.')
-        if not option:
+        if option not in ('Hold all mail, deliver on end date', 'Hold all mail, deliver on first business day after request', 'Hold all mail, pick up at Post Office'):
             errors.append('Choose how you want your mail delivered after the hold.')
         if errors:
             result = {'errors': errors}
@@ -2244,6 +2294,8 @@ def coa_request():
     result = None
     if request.method == 'POST':
         move_type = request.form.get('move_type', 'Individual')
+        if move_type == 'Family':
+            move_type = 'Family (everyone with the same last name)'
         forward_type = request.form.get('forward_type', 'Regular')
         start = request.form.get('start_date', '')
         old_address = ', '.join(filter(None, [
@@ -2254,6 +2306,11 @@ def coa_request():
             request.form.get('new_state', ''), request.form.get('new_zip', '')]))
         email = request.form.get('email', '')
         errors = []
+        if move_type not in ('Individual', 'Family (everyone with the same last name)', 'Business') or forward_type != 'Regular':
+            errors.append('Choose a supported move and forwarding type.')
+        for prefix in ('old', 'new'):
+            if not request.form.get(prefix + '_city', '').strip() or not request.form.get(prefix + '_state', '').strip() or not re.fullmatch(r'\d{5}', request.form.get(prefix + '_zip', '')):
+                errors.append('Enter complete addresses with five-digit ZIP codes.')
         if not request.form.get('old_street') or not request.form.get('old_zip'):
             errors.append('Enter your old address.')
         if not request.form.get('new_street') or not request.form.get('new_zip'):
@@ -2270,7 +2327,7 @@ def coa_request():
             result = {'errors': errors}
         else:
             confirmation = _number_for(
-                'COA-', f"{move_type}{forward_type}{start}{new_address}")
+                'COA-', f"{current_user.id if current_user.is_authenticated else None}|{email}|{old_address}|{move_type}|{forward_type}|{start}|{new_address}")
             # Idempotent on identical requests (reviewer F-11)
             coa = ChangeOfAddress.query.filter_by(
                 confirmation=confirmation).first()
@@ -2351,10 +2408,10 @@ def claim_file():
             kind = request.form.get('kind', 'damage')
             note = request.form.get('note', '')[:400]
             docs = request.form.getlist('docs')
-            if not docs:
+            if not docs or not set(docs) <= {'Proof of insurance (Click-N-Ship receipt)', 'Photos of damaged packaging and item', 'Purchase receipt'}:
                 errors.append('Select the supporting documents you will provide.')
-            if not note:
-                errors.append('Describe the damage or loss.')
+            if not note.strip() or not request.form.get('article', '').strip() or kind not in ('damage', 'loss'):
+                errors.append('Describe the article and choose damage or loss.')
             if errors:
                 result = {'errors': errors}
             else:
@@ -2380,16 +2437,19 @@ def claim_file():
                 result = {'claim_number': claim_number,
                           'tracking': tracking,
                           'amount': shipment.insured_value}
+    if request.method == 'POST' and errors:
+        result = {'errors': errors}
     return render_template('claim_file.html', result=result,
                            shipments=shipments, **_ctx())
 
 
 @app.route('/claims/status', methods=['GET', 'POST'])
+@login_required
 def claim_status():
     result = None
     if request.method == 'POST':
         number = request.form.get('claim_number', '').strip().upper()
-        claim = Claim.query.filter_by(claim_number=number).first()
+        claim = Claim.query.filter_by(claim_number=number, user_id=current_user.id).first()
         if claim:
             return redirect(url_for('claim_detail', number=number))
         result = {'error': f'No claim found for {number}.'}
@@ -2397,8 +2457,9 @@ def claim_status():
 
 
 @app.route('/claims/<number>')
+@login_required
 def claim_detail(number):
-    claim = Claim.query.filter_by(claim_number=number.upper()).first_or_404()
+    claim = Claim.query.filter_by(claim_number=number.upper(), user_id=current_user.id).first_or_404()
     docs = json.loads(claim.docs or '[]')
     events = json.loads(claim.events or '[]')
     return render_template('claim_detail.html', claim=claim, docs=docs,
@@ -2416,7 +2477,7 @@ def newsroom():
 @app.route('/newsroom/<slug>')
 def news_article(slug):
     article = NewsArticle.query.filter_by(slug=slug).first_or_404()
-    paragraphs = _sanitize_html(_fix_mojibake(json.loads(article.body or '[]')))
+    paragraphs = [p for p in _sanitize_html(_fix_mojibake(json.loads(article.body or '[]'))) if not re.fullmatch(r'%[\w-]+%', str(p).strip())]
     images = _fix_mojibake(json.loads(article.images or '[]'))
     return render_template('news_article.html', article=_clean_article(article),
                            paragraphs=paragraphs, images=images, **_ctx())
@@ -2438,7 +2499,9 @@ def login():
         user = User.query.filter_by(email=email).first()
         if user and bcrypt.check_password_hash(user.password_hash, password):
             login_user(user)
-            return redirect(request.args.get('next') or url_for('account'))
+            target = request.args.get('next', '')
+            parsed = urlsplit(target)
+            return redirect(target if target.startswith('/') and not target.startswith('//') and not parsed.netloc and not parsed.scheme and '\\' not in target else url_for('account'))
         flash('Invalid email or password.')
     return render_template('login.html', **_ctx())
 
@@ -2540,5 +2603,5 @@ with app.app_context():
 
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 40099))
+    port = int(os.environ.get('PORT', 40129))
     app.run(host='0.0.0.0', port=port, debug=False)
