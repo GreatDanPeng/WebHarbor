@@ -1,6 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container">
+<div class="container homepage">
+  {% if hero %}
+  <section class="featured-event" aria-labelledby="featured-title">
+    <a class="featured-art" href="/event/{{ hero.id }}" aria-label="{{ hero.name }} tickets">
+      <img src="{{ url_for('static', filename=hero.image.replace('static/','')) }}" alt="{{ hero.name }}" fetchpriority="high">
+    </a>
+    <div class="featured-copy">
+      <p class="featured-label">Featured Event · {{ hero.category }}</p>
+      <h1 id="featured-title">{{ hero.name }}</h1>
+      <p>{{ hero.venue.name if hero.venue }} · {{ hero.city_state }}</p>
+      <p>{{ hero.date_pretty }}{% if hero.time %} · {{ hero.time }}{% endif %}</p>
+      <a class="btn btn-primary" href="/event/{{ hero.id }}">Find Tickets</a>
+    </div>
+  </section>
+  {% endif %}
   <section class="hero-section">
     <div class="section-head">
       <h2>Highlights</h2>
@@ -67,6 +81,7 @@
       <ul>
         {% for e in popular[key] %}
         <li class="event-row">
+          {% if e.image %}<img class="popular-image" src="{{ url_for('static', filename=e.image.replace('static/','')) }}" alt="" loading="lazy" width="112" height="75">{% endif %}
           <div class="date-block"><div class="mon">{{ e.month }}</div><div class="day">{{ e.day }}</div></div>
           <div class="er-main">
             <div class="er-name"><a href="/event/{{ e.id }}">{{ e.name }}</a></div>
